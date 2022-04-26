@@ -26,8 +26,8 @@ description: >- # this means to ignore newlines until "baseurl:"
   procesamiento de lenguaje natural (NLP), machine learning, ingeniería de
   software, desarrollo backend, frontend, microservicios, y otras temáticas
   en las que tenga experiencia.
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: "/website" # the subpath of your site, e.g. /blog
+url: "dpalmasan.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: dpalmasan
 github_username:  dpalmasan
 
