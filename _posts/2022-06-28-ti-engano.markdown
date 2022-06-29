@@ -1,0 +1,37 @@
+---
+layout: post
+title:  "El engaño en el mundo TI"
+date:   2022-06-28 16:03:03 -0400
+categories: python algorithms ti
+---
+El título suena un poco polémico, pero es sólo para llamar la atención. Si vienes sólo por el problema de código, puedes saltar hasta el final de esta entrada jeje. En esta entrada sólo escribiré una opinión personal sobre la parte técnica del mundo TI, mi experiencia en algunas empresas e interactuando en redes sociales. 
+
+Es cierto que el boom tecnológico ha estado fuerte esta última década, esto se debe al avance de muchas disciplinas, como por ejemplo reducción en los costos de manufactura de chips (tenemos chips con mayor capacidad de cómputo y mejores características de rendimiento que hace 20 años), nuevos paradigmas como desarrollo en la nube, desarrollo de arquitecturas y herramientas para facilitar procesamiento distribuído, y un gran flujo de datos (dispositivos, uso de aplicaciones, etc.).
+
+Para no perder el propósito del foro, en este primer post dejo un pequeño problema a resolver, digamos en `python` (aunque el lenguaje debiese ser irrelevante). El problema es el que sigue: _Invierta la representación de bits de un número `n` dado._. Ejemplos:
+
+Si la entrada es `n = 43261596 (00000010100101000001111010011100)`, la salida debiese ser `964176192 (00111001011110000010100101000000)`. Un caso un poco más simple de seguir, si la entrada es (en binario) `11111111111111111111111111111101`, la salida debiese ser `10111111111111111111111111111111`. Para que quede claro, la llamada `invertir_bits(43261596)` debiese retornar `964176192`.
+
+Una posible solución es el siguiente algoritmo:
+
+1. Inicializar `delta = 31` (32 bits)
+2. Tomar el dígito menos significativo (LSB)
+3. Desplazar dicho dígito en delta
+4. Actualizar delta con `delta <- delta - 1`
+5. Dividir `n` en 2 (desplazar un bit a la derecha)
+6. Repetir 2 hasta que `n` sea `0`
+
+Una implementación tentativa en `python`:
+
+{% highlight python %}
+def invertir_bits(n: int) -> int:
+    result = 0
+    delta = 31
+    while n:
+        result |= ((n & 1) << delta)
+        delta -= 1
+        n >>= 1
+    return result
+{% endhighlight %}
+
+Con esto termina mi primer post, espero que haya sido de su agrado.
