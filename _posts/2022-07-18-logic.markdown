@@ -1,0 +1,28 @@
+---
+layout: post
+title:  "¿Inteligencia Artificial, Machine Learning, Cognición? (Parte 1)"
+date:   2022-07-18 16:03:03 -0400
+categories: entrevistas ti
+---
+
+Si vienes por el problema de código del día, mira el final de esta entrada.
+
+Este no es otro post o tutorial explicándote la diferencia entre el _aprendizaje supervisado_ y el _aprendizaje no supervisado_ (o incluso el _aprendizaje por refuerzo_, _aprendizaje semi-supervisado_, etc.). Sin embargo, por completitud dejo algunos gifs que hice para estar a la moda (códigos los comparto al final del post)
+
+<div align="center">
+
+![KMeans](https://gist.github.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/f7992ee51231cbd3804f6a93b37c7653d8e1d167/animacion-kmeans.gif)
+
+_Fig 1: Prueba de que sabemos clústering con KMeans._
+
+</div>
+
+<div align="center">
+
+![Perceptron](https://gist.github.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/97b53f4923473514c94c2cd1860a23b297b05b43/animacion-perceptron.gif)
+
+_Fig 2: Prueba de que conocemos el perceptrón de Rosenblatt._
+
+</div>
+
+Este post está inspirado en varios temas que he visto en discusión en redes sociales, noticias, etc. Por ejemplo no es novedad que han habido noticias de una exageración inmesurable: [Apagan Inteligencia Artificial que crea su propio lenguaje](https://www.eleconomista.net/tendencias/Facebook-tuvo-que-apagar-inteligencia-artificial-que-desarrollo-su-idioma-20200512-0017.html), [Ingeniero Asegura que un programa de inteligencia artificial ha cobrado conciencia propia y siente](https://www.bbc.com/mundo/noticias-61787944), la competencia de Kaggle sobre [Lecturabilidad](https://www.kaggle.com/c/commonlitreadabilityprize), y ejemplos así hay varios. No sólo noticias, si no que aseveraciones en redes sociales, y uso excesivo del termino cognición al referirse a sistemas o temas relacionados con inteligencia artificial (y a veces Machine Learning). La cognición está ligada a la percepción del entorno y abarca el razonamiento, la memoria, y la resolución de problemas por ejemplo vía razonamiento (generalmente *lógico*).
