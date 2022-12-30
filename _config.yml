@@ -35,6 +35,7 @@ github_username:  dpalmasan
 theme: minima
 plugins:
   - jekyll-feed
+  - jekyll-spaceship
 
 port: 4002
 # Exclude from processing.
