@@ -55,7 +55,7 @@ mergeSort x = merge x1' x2'
 
 Si bien, no es la mejor implemetación (soy nuevo en programación funcional y en **teoría de categorías**), se observa que la implementación no tiene ningún estado, es decir que en ningún momento hice explícito crear un nuevo `array`, o manipular memoria de cualquier forma. También estos lenguajes en general son de tipado fuerte, y es bastante complejo introducir bugs (ya que todo es sin estado). 
 
-Aquí entro en lo personal, me da dolor de estómago cada vez que veo un "roadmap" de *Data Engineering*, y ponen como requisitos X tecnologías, X nubes, etc. Yo creo que es más correcto tener un modelo mental funcional para probar que los "pipelines" de datos estén correctos y poder definir de forma predecible las entradas y salidas. Por algo, se utiliza `Scala` que es de un paradigma funcional. Y revelando más detalles para quienes no leen papers, el modelo de programación *Map-Reduce* está basado en un paradigma funcional. De hecho en computación distribuida (concurrencia) es buena idea utilizar este paradigma de programación (ej. para definir procesos, entradas, salidas, idealmenet correctitud del programa).
+Aquí entro en lo personal, me da dolor de estómago cada vez que veo un "roadmap" de *Data Engineering*, y ponen como requisitos X tecnologías, X nubes, etc. Yo creo que es más correcto tener un modelo mental funcional para probar que los "pipelines" de datos estén correctos y poder definir de forma predecible las entradas y salidas. Por algo, comunmenete se utiliza `Scala` que es de un paradigma funcional. Y revelando más detalles para quienes no leen papers, el modelo de programación *Map-Reduce* está basado en un paradigma funcional. De hecho en computación distribuida (concurrencia) es buena idea utilizar este paradigma de programación (ej. para definir procesos, entradas, salidas, idealmente correctitud del programa).
 
 ## Paradigma Lógico ##
 
@@ -83,9 +83,7 @@ Se observa que Machine Learning es una de entre tantas áreas de la IA, y genera
 * Sólo hay un único wumpus
 * Si en siente una brisa, significa que adjacente a la brisa hay un precipicio, si se siente un olor, se encuentra cerca el Wumpus.
 
-Este mundo, por ejemplo, se puede representar con axiomas lógicos para que el agente razone y tome la mejor decisión. Aquí muestro una simulación (un poco fea la interfaz, pero no quise poner más esfuerzo)
-
-
+Este mundo, por ejemplo, se puede representar con axiomas lógicos ("conocimiento del mundo") para que el agente razone y tome la mejor decisión. Aquí muestro una simulación (un poco fea la interfaz, pero no quise poner más esfuerzo)
 
 <div align="center">
 
