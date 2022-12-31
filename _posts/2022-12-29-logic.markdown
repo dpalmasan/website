@@ -97,7 +97,7 @@ Se puede ver que el agente no tiene conocimiento total del mundo y razon utiliza
 
 $$W_{11} \lor W_{12} \lor \ldots W_{mn}$$
 
-$$(\neg W_{11} \lor W{12}) ... \land (W_{mn-1} \lor W_{mn})$$
+$$(\neg W_{11} \lor \neg  W{12}) ... \land (\neg W_{mn-1} \lor \neg W_{mn})$$
 
 $$B_{x,y} \iff (P_{x,y+1} \lor P_{x,y-1} \lor P_{x+1,y} \lor P_{x-1,y})$$
 
