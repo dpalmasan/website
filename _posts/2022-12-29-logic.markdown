@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Por qué no debes aprender otros lenguajes de programación"
-date:   2022-07-18 16:03:03 -0400
+date:   2022-12-29 16:03:03 -0400
 categories: entrevistas ti
 ---
 
