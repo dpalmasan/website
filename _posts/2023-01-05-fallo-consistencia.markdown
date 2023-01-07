@@ -22,7 +22,7 @@ Aquí hay un tema bastante complejo, no todos los proyectos personales dan exper
 * Tener miles de sitios web, con una arquitectura similar no ayuda más que tener 1.
 * Tener notebooks de Kaggle, haciendo análisis de los sobrevivientes del Titánic tampoco es buen proyecto, es algo para hacer una vez.
 
-En lugar de lo planteado anteriormente, lo que serían projectos interesantes son:
+En lugar de lo planteado anteriormente, lo que serían proyectos interesantes son:
 
 * Sitio web que resolviera algún problema (e.g recomendación de contenido en base a un catálogo, análisis de texto, uno que otro truco con la cámara web). Sitios de e-commerce hay millones y es hasta pega automatizable.
 * Crear un algoritmo nuevo de Machine Learning
@@ -30,7 +30,7 @@ En lugar de lo planteado anteriormente, lo que serían projectos interesantes so
 * Inventar tu propio lenguaje y hacer un compilador
 * Hacer análisis de árboles de derivación (e.g. contar nodos hijos de una frase nominal)
 * Implementar servicios y correrlos en kubernetes (con API gateway)
-* El clásico y trillado [acortador de urls]({% post_url 2022-07-05-acortador-url %}),
+* El clásico y trillado [acortador de urls]({{ site.baseurl }}{% link _posts/2022-07-05-acortador-url.markdown %}),
 * etc.
 
 Los proyectos mencionados al inicio, usan libs y frameworks que ya están hechos. Son habilidades buenas para tener, pero repetir lo mismo mecánicamente no te va a hacer utilizar el cerebro al máximo potencial. El segundo conjunto de proyectos, te hace pensar sobre estructuras de datos, algoritmos, trucos para hacer los algoritmos escalables, etc.
@@ -45,7 +45,7 @@ El proyecto open-source del que estoy más orgulloso es [TRUNAJOD](https://githu
 
 El nuevo proyecto en el que estoy trabajando es [py-logic](https://github.com/dpalmasan/py-logic) que es una biblioteca para implementar programas lógicos (tipo Prolog) en `Python`. Esto no lo hago puramente por capricho, la lógica es uno de mis temas favoritos, y siento que es el eslabón perdido en inteligencia artificial (hubo muchos desarrollos en los inicios). Con razonamiento sobre incertidumbre, han salido enfoques interesantes como __Markov Logic Networks__ e ILP (__Inductive Logic Programming__). Este último es básicamente aplicar ML a una base lógica.
 
-En un [post anterior]({% post_url 2022-12-29-logic %}), hice una introducción a `py-logic`, en el que mencionaba la lógica proposicional. Hace poco añadí soporte a un subconjunto de la lógica de primer orden: Cláusulas de Horn. Que es una cláusula de Horn, es básicamente una implicación con antecedentes (no negados) en conjunción. Por ejemplo, si tenemos las cláusulas:
+En un [post anterior]({{ site.baseurl }}{% link _posts/2022-12-29-logic.markdown %}), hice una introducción a `py-logic`, en el que mencionaba la lógica proposicional. Hace poco añadí soporte a un subconjunto de la lógica de primer orden: Cláusulas de Horn. Que es una cláusula de Horn, es básicamente una implicación con antecedentes (no negados) en conjunción. Por ejemplo, si tenemos las cláusulas:
 
 * Todo hombre es mortal
 * Sócrates es hombre
@@ -202,7 +202,7 @@ _Fig 2: Algunas soluciones del   mapa coloreable._
 
 </div>
 
-Estas soluciones se encontraron utilizand __Backward Chaining__. Lo que hace este algoritmo es razonamiento lógico desde la conclusión hasta los caminos que llevan a esa conclusión. Por ello, retorna todas las posibles asignaciones de variables que permiten satisfacer la base de conocimiento.
+Estas soluciones se encontraron utilizando __Backward Chaining__. Lo que hace este algoritmo es razonamiento lógico desde la conclusión hasta los caminos que llevan a esa conclusión. Por ello, retorna todas las posibles asignaciones de variables que permiten satisfacer la base de conocimiento.
 
 Otro ejemplo es, considerar el siguiente texto:
 
@@ -291,4 +291,4 @@ No pondré la respuesta, pero spoiler: Hice Ace en esa entrevista (aprobé jeje)
 * Lo que en verdad importa es experiencia + capacidad de resolver problemas
 * Algunos dicen que los unicornios no existen, yo he visto ing 10x, y aunque yo no lo soy, he trabajado en distintos roles siempre con desempeño excelente.
 
-Espero que hayan servido mis consejos y algún día escribiré otro blog.
+Espero que hayan servido mis consejos y algún día escribiré otro blog.  
