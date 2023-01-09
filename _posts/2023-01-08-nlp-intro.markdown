@@ -1,0 +1,419 @@
+---
+layout: post
+title:  "Un poco de NLP básico (no un tutorial de pytorch/tensor flow)"
+date:   2023-01-08 17:03:03 -0400
+categories: entrevistas ti
+---
+
+La entrada de hoy no tendrá nada polémico ni ninguna afirmación que pudiera herir los sentimientos/egos de algún lector. Esta entrada es para compartir un poco de lo básico de Procesamiento de Lenguaje Natural (_Natural Language Processing_ o _NLP_). Está un poco relacionado a un [post que hace un tiempo hice en Linkedin](https://www.linkedin.com/pulse/generaci%2525C3%2525B3n-autom%2525C3%2525A1tica-de-oraciones-una-humilde-intro-y-palma-s%2525C3%2525A1nchez%3FtrackingId=jwAk4Po8EYaTMJ9z1BUP8g%253D%253D/?trackingId=jwAk4Po8EYaTMJ9z1BUP8g%3D%3D). La diferencia, esta vez no me las daré de experto en TypeScript (porque estoy muy lejos de serlo :sweat_smile:), sin embargo el código a compartir será en `python` ya que veo que la mayoría de las personas metidas en el mundo de TI, en especial área de datos/inteligencia artificial utilizan este lenguaje.
+
+**Aclaración**: Esto no es un tutorial de modelos de __HuggingFace__ con `pytorch` o `keras` con `tensor flow`. Si vienes buscando contenido así, mejor googlear o leer la documentación/foros de discusión de tales sitios.
+
+## N-Gramas, conocimiento básico de NLP ##
+
+En simple, un `n-grama` es una secuencia de __tokens__, en el caso del lenguaje humano, es una secuencia de palabras. ¿Por qué los `n-gramas` son tan importantes? Los `n-gramas` dan información contextual del contenido del discurso, por ello es que se utilizan en modelos más sofisticados como `Word2Vec`, `GloVe` entre otros.
+
+En el contexto de NLP, los n-gramas sirven para computacionalmente procesar discurso humano, y lograr que la máquina pueda automatizar ciertas tareas, que sería intractable automatizar con un conjunto de reglas pre-definido. Por ejemplo, supongamos que queremos implementar un programa que prediga la palabra siguiente dado un contexto. Sería poco práctico tener un conjunto con todas las reglas y combinaciones posibles:
+
+1. El lenguaje humano es infinito, ya que se pueden generar infinitas oraciones siguiendo la gramática.
+2. El costo computacional sería altísimo, incluso teniendo capacidad de cómputo infinita, el tiempo de búsqueda lo haría impráctico; De hecho es un problema que aunque tenga solución puede que pasen trillones de años en encontrarse.
+
+¿Existe una manera más simple? Por supuesto, podemos utilizar razonamiento con incertidumbre y utilizar la opción que, dado un contexto, sea la más probable. Como intuición, tomemos la siguiente oración: __Iré al supermercado, necesito...__. Una opción de palabra siguiente podría ser comprar o cualquiera de sus variaciones. Aquí es donde entra la probabilidad y los n-gramas.
+
+### Estimando Probabilidades en el Lenguaje ###
+
+Como anécdota, en proyectos de investigación he trabajado con lingüístas, y las veces que hablé de probabilidades en el lenguaje, reaccionaron como si estuviera cometiendo el peor de los delitos. Para estimar la probabilidad de una oración, dentro del lenguaje habría que estimar la probabilidad conjunta de un grupo de palabras, por ejemplo, responder a la pregunta __"De todas las oraciones posibles con 7 palabras, cuál es la probabilidad de tener la oración ¿Mi abuela me cocinó tallarines con salsa?"__. La probabilidad conjunta de una oración se puede calcular utilizando la regla de la cadena de probabilidades:
+
+$$P(a, b, c) = P(a, b)P(c|a, b) = P(a)P(b|a)P(c|a,b)$$
+
+La fórmula anterior se puede generalizar para oraciones de cualquier tamaño. Sin embargo, sigue existiendo un problema, no podemos calcular la probabilidad conjunta de una secuencia, porque necesitaríamos contar la ocurrencia de secuencias de largo $N-1$. Esto se vuelve intratable debido a la variedad del lenguaje.
+
+La intuición de utilizar un modelo de `n-gramas` es, en lugar de tomar todas las palabras previas para calcular la probabilidad de una oración, podemos utilizar como aproximación el contexto en el que la palabra se encuentra, por ejemplo las `n` palabras anteriores (modelos más sofisticados utilizan variaciones, como por ejemplo, predecir una palabra en medio de una ventana de palabras, esto consideraría palabras previas y palabras posteriores). Volviendo a lo básico, y el tema anterior, podemos aproximar la probabilidad condicional considerando sólo una parte del contexto previo, por ejemplo:
+
+$$P(salsa|\text{Mi abuela me cocinó tallarines con}) \approx P(salsa|con)$$
+
+Este supuesto se conoce como **Supuesto de Markov**. Finalmente, para calcular las probabilidades de estos `n-gramas` podemos utilizar una **estimación de Máxima Verosimilitud** contando las palabras de un CORPUS (repositorio de textos) dado:
+
+$$P(w_n|w_{n - 1}) = \displaystyle \frac{C(w_{n-1}{w_n})}{\sum_w C(w_{n-1}w)}$$
+
+La ecuación anterior se puede generalizar para todo tipo de `n-grama`, `bi-grama` ($P(salsa|con)$), `tri-grama` ($P(salsa|\text{tallarines con})$), etc.
+
+#### Generación de Lenguaje con modelo de N-gramas ####
+
+Luego de tener la teoría, implementaremos un simple programa en `python` para crear un modelo generativo de lenguaje. En este ejemplo, utilizaremos como CORPUS el corpus [AnCora](http://clic.ub.edu/corpus/en) que consiste en múltiples textos manualmente anotados por humanos (y en su forma de árbol de derivación). Lo primero que necesitamos es procesar el CORPUS para obtener las oraciones (ya que de momento no estamos interesados ni en las etiquetas léxicas ni en los árboles de derivación).
+
+```python
+class AncoraCorpusReader(SyntaxCorpusReader):
+    """Implementación lectura de CORPUS AnCora."""
+
+    def __init__(self, path: str, files: List[str] = None):
+        """Constructor.
+
+        Si no se provee una lista de archivos, lee el CORPUS completo.
+
+        :param path: Ruta al directorio del CORPUS.
+        :type path: str
+        :param files: Lista de archivos a considerar, defaults to None
+        :type files: List[str], optional
+        """
+        if files is None:
+            files = ".*\.tbf\.xml"
+        self.xmlreader = xmldocs.XMLCorpusReader(path, files)
+
+    @staticmethod
+    def parsed(element):
+        """Procesa corpus.
+
+        Convierte una 'oración' XML element (xml.etree.ElementTree.Element) a
+        un árbol en formato NLTK.
+        element -- the XML sentence element (or a subelement)
+
+        :param element: Oración a procesar.
+        :type element: xml.etree.ElementTree.Element
+        :return: Árbol en formato NLTK
+        :rtype: tree.Tree
+        """
+        if element:
+            subtrees = map(AncoraCorpusReader.parsed, element)
+            subtrees = [t for t in subtrees if t is not None]
+            return tree.Tree(element.tag, subtrees)
+        else:
+            if element.get("elliptic") == "yes" and not element.get("wd"):
+                return None
+            else:
+                return tree.Tree(
+                    element.get("pos") or element.get("ne") or "unk",
+                    [element.get("wd")],
+                )
+
+    @staticmethod
+    def tagged(element: xml.etree.ElementTree.Element) -> List[Tuple[str, str]]:
+        """Convierte elemento de XML a oración etiquetada.
+
+        :param element: Oración a procesar.
+        :type element: xml.etree.ElementTree.Element
+        :return: Lista de tags de la oración.
+        :rtype: List[Tuple[str, str]]
+        """
+        pos = AncoraCorpusReader.parsed(element).pos()
+        # Puede terminar en lista vacía!
+        return list(filter(lambda x: x[0] is not None, pos))
+
+    @staticmethod
+    def untagged(element: xml.etree.ElementTree.Element) -> List[str]:
+        """Obtiene lista de palabras sin etiqueta.
+
+        :param element: Oración a procesar.
+        :type element: xml.etree.ElementTree.Element
+        :return: Lista de palabras de la oración.
+        :rtype: List[str]
+        """
+
+        sent = AncoraCorpusReader.parsed(element).leaves()
+        return list(filter(lambda x: x is not None, sent))
+
+    def parsed_sents(self, fileids=None):
+        """Obteniene oraciones como árboles NLTK."""
+        return LazyMap(AncoraCorpusReader.parsed, self.elements(fileids))
+
+    def tagged_sents(self, fileids=None):
+        """Obtiene oraciones como tuplas de palabras/tag."""
+        return LazyMap(AncoraCorpusReader.tagged, self.elements(fileids))
+
+    def sents(self, fileids=None):
+        """Obtiene oraciones como listas de palabras."""
+        return LazyMap(AncoraCorpusReader.untagged, self.elements(fileids))
+
+    def elements(self, fileids=None):
+        """Obtiene lista de oraciones como elementos XML."""
+        if not fileids:
+            fileids = self.xmlreader.fileids()
+        return LazyConcatenation(self.xmlreader.xml(f) for f in fileids)
+
+    def tagged_words(self, fileids=None):
+        """Obtiene listas de palabras etiquetdas como tuplas palbra/tag."""
+        return LazyConcatenation(self.tagged_sents(fileids))
+
+    def __repr__(self):
+        return "<AncoraCorpusReader>"
+
+
+class SimpleAncoraCorpusReader(AncoraCorpusReader):
+    """Ancora Corpus con conjunto de tags simplificados de Stanford.
+
+    Revisar el siguiente enlace para ver descripción de los tags.
+    https://nlp.stanford.edu/software/spanish-faq.shtml#tagset
+    """
+
+    def __init__(self, path, files=None):
+        super().__init__(path, files)
+
+    @staticmethod
+    def simple_tag(t: str) -> str:
+        """Convierte etiqueta Ancora en Stanford.
+
+        :param t: Etiqueta a convertir.
+        :type t: str
+        :return: Etiqueta en formato Stanford.
+        :rtype: str
+        """
+        if t.startswith("a"):
+            return t[:2] + "0000"
+        if t.startswith("d"):
+            return t[:2] + "0000"
+        if t.startswith("f"):
+            return t
+        if t in ["cc", "cs", "i", "w", "zm", "zu"]:
+            return t
+        if t.startswith("nc"):
+            return "nc0{}000".format(t[3])
+        if t.startswith("np"):
+            return "np00000"
+        if t.startswith("p"):
+            return t[:2] + "000000"
+        if t.startswith("r"):
+            return t
+        if t.startswith("sp"):
+            return "sp000"
+        if t.startswith("v"):
+            return t[:4] + "000"
+        if t.startswith("z"):
+            return "z0"
+        # Probablemente inválido o "unk"
+        return t
+
+    def tagged_sents(self, fileids=None):
+        """Obtener oraciones etiquetadas con tags de Stanford."""
+
+        def f(s):
+            return [(w, SimpleAncoraCorpusReader.simple_tag(t)) for w, t in s]
+
+        return LazyMap(f, super().tagged_sents(fileids))
+
+    def parsed_sents(self, fileids=None):
+        """Obtener arboles NLTK etiquetados con tags de Stanford."""
+
+        def f(t):
+            for p in t.treepositions("leaves"):
+                if len(p) > 1:
+                    tag = t[p[:-1]].label()
+                    t[p[:-1]].set_label(SimpleAncoraCorpusReader.simple_tag(tag))
+            return t
+
+        return LazyMap(f, super().parsed_sents(fileids))
+```
+
+Con ello podemos cargar el CORPUS, y así las oraciones. Las oraciones, serán una lista de lista de palabras, por ejemplo:
+
+```python
+[
+    ["el", "perro", "come", "carne"],
+    ["el", "gato", "me", "mordió"],
+]
+```
+
+Podemos luego crear la clase `HMMGenerator` cuyo constructor recibirá como parámetro el tamaño del `n-grama`. Luego, debemos calcular las probabilidades, y una tabla hash conteniendo el contexto (palabras previas) y una lista posible de palabras siguientes:
+
+```python
+def train(self, sents):
+    for sent in filter(lambda x: len(x) > 0, sents):
+        new_sent = (
+            [HMMGenerator.START_SYMBOL] * (self.ngram_length - 1)
+            + sent
+            + [HMMGenerator.END_SYMBOL]
+        )
+        for i in range(len(new_sent)):
+            if i + self.ngram_length > len(new_sent):
+                break
+            ngram = tuple(word for word in new_sent[i:i + self.ngram_length])
+            word = ngram[-1]
+            self._probs[ngram] += 1
+            context = ngram[:-1]
+            self._context[context].append(word)
+    for ngram, count in self._probs.items():
+        self._probs[ngram] = count / len(self._context[ngram[:-1]])
+
+    self._trained = True
+```
+
+El código anterior, resulta en las probabilidades de los ngramas, y una lista de palabras siguientes dado el contexto:
+
+```python
+probs = {
+    ("el", "perro", "come"): 0.022
+}
+
+context = {
+    "(el, perro)": ["ladra", "come"]],
+}
+```
+
+Luego del entrenamiento, se pueden generar oraciones, basados en la probabilidad de los `n-gramas` eligiendo una palabra aleatoreamente dado el contexto y respetando la distribución generada en el entrenamiento:
+
+```python
+def generate_random_sentence(self) -> str:
+    tokens = []
+    current_token = HMMGenerator.START_SYMBOL
+    ngram_prev = (HMMGenerator.START_SYMBOL,) *(self.ngram_length - 1)
+    while True:
+        candidate_tokens = []
+        for candidate in self._context[ngram_prev]:
+            candidate_tokens.append((candidate, self._probs[(*ngram_prev, candidate)]))
+
+        prob = random.random()
+        cum_prob = 0
+        for candidate in candidate_tokens:
+            cum_prob += candidate[1]
+            if cum_prob >= prob:
+                current_token = candidate[0]
+                break
+
+        if current_token == HMMGenerator.END_SYMBOL:
+            break
+        tokens.append(current_token)
+        ngram_prev = (*ngram_prev[1:], current_token)
+    return " ".join(tokens)
+```
+
+Finalmente, podemos tener un programa que se entrene con distintos tramaños de `n-gramas`, por ejemplo:
+
+```
+===============================================================================
+Oraciones con ngramas n = 2
+===============================================================================
+El secretario general de la investigación militar , y la que los que España , el país , el presidente de la reunión que los palestinos , que se han sido el " , el sistema de la reelección en la ley .
+La angustia .
+El presidente del Gobierno de la mayoría de la formación de la investigación y el proceso de la que la necesidad de los que " .
+El secretario general de la que se ha sido un mercado de su campaña electoral de la mayoría de la situación de la caída del país , la reunión de la necesidad de la compañía .
+El presidente de la presidencia de los salarios de la empresa de las empresas de la que se ha llegado al que se ha sido el ex primer trimestre del mundo en la empresa , la política de los comicios , que los comicios .
+El presidente de la sociedad civil " , que " , que se ha sido suspendida hasta el caso de las elecciones para el proceso de la economía , esta noche .
+El paro entre España , y con el sistema de la ley .
+El presidente de los que se fijen los presidentes de la que se ha sido un soldador .
+El presidente del Gobierno , la operación de la reforma laboral de la legislación a_través_de la que los que se ha sido inmejorable .
+El desempleo en la que se situó en el líder del Estado , uno de los expertos de la que se han sido el presidente de la situación de la urgencia .
+===============================================================================
+Oraciones con ngramas n = 3
+===============================================================================
+El responsable del grupo , la de un estímulo determinado , como el del pasado año .
+El portavoz del PNV , Xabier_Arzalluz , cuestiona la legitimidad en sí .
+Durante la presentación de un PP que están inmersos es un superviviente , por_más_que haya muchísimos rasgos andaluces en el sector productivo .
+La oposición ha visto alterada por la paz " , y en el que se han registrado 2.430.879 contratos indefinidos e incentivados .
+El número de sufragios , la Reina y con 23.000 empleados , opera en el que se ha mantenido una impresionante lucha contra el dictamen pericial por la banda terrorista ETA .
+En el sondeo que publica hoy el conseller de Política_Territorial , Felip_Puig , sellaron ayer en defensa de la segunda vuelta electoral , y el de la petición de la compañía de electricidad .
+Este grupo ha creado un mayor incremento del número de víctimas demuestra que " el esfuerzo de estos dos centrocampistas de marca , repartidas en el mercado laboral " peruano .
+El secretario general de CCOO , José_María_Fidalgo , opinó que las autoridades ambientales de Colombia , que ha sido el objeto de una grave enfermedad .
+El presidente de la Liga , Pauleta insistió ante los ex : ex_bigotudos , ex_ministros , ex_futbolistas , obstinadas secuelas de su partido número 300 en Primera , precisamente en el que se ha creado un " problema inmenso " la última semana , el primero que escribió Tónicos_de_la_voluntad , Charlas_de_Café , Cuentos_de_Vacaciones con los huesos de las dos cualidades de un mes , constará de 49 años , leyó una nota de prensa de Barcelona , inmersos en una conferencia de prensa , a_sabiendas_de que si las circunstancias que todos los españoles " .
+El presidente de la sociedad vasca " , ya_que en la que es muy interesante porque encarna la tolerancia y la construcción de Altamira_2 y , como el riego localizado o por fax .
+===============================================================================
+Oraciones con ngramas n = 5
+===============================================================================
+La Fiscalía_General de este país emitió hoy ordenes de detención contra la directiva de Sov_Invest , sociedad que administró el Fondo_Nacional_de_Inversiones , tras comprobarse un agujero de más_de 500.000 dólares de un total de 170 millones de dólares que este fondo privado había atraído de la población .
+La compañía , una de las más antiguas de Oriente_Próximo , tiene numerosos críticos en su propio país y son muchas e insistentes las voces que reclaman su privatización .
+El secretario general de Empleo , Juan_Chozas , dijo que hay que insistir en las políticas activas de empleo para conseguir que los colectivos con más problemas - parados de larga duración y con los jóvenes " .
+El presidente de la Junta_de_Extremadura pidió " esperanzas " para el País_Vasco , " esperanzas para los demócratas y desesperanza para los que creen que todo lo pueden conseguir con la lucha armada , - yo no estoy de_acuerdo - comentaba uno de ellos - ; después de cinco años en la escudería todavía no lo hablaba y la llegada de Barrichello , que domina la lengua de Dante , le ha hecho cambiar sus costumbres y en la presentación del equipo a finales de enero , pronunció sus primeras palabras en italiano en público .
+La elección de un nuevo presidente por parte del Parlamento israelí se decidió después de que el Ejecutivo se diera_cuenta de que era " insostenible " mantener el acuerdo de Gobierno con EH , pero insistió en que corresponde al lehendakari tomar las decisiones que considere oportunas .
+El presidente de la Comisión_Europea , la griega Anna_Diamantoupoulou , como un respaldo moral a las posiciones de la ACB en este asunto .
+En esa situación , sus recursos legales podrían tramitarse en tribunales de apelación o podrían pasar directamente al Tribunal_Supremo_de_Justicia , una opción que existe para los grandes casos de monopolio .
+El gobernador , que se caracteriza por una tensión de los músculos de cara y cuello , acompañado de dolor de cabeza , náuseas y vahído " .
+El grupo de los complementos ha evolucionado de manera muy positiva en los últimos cinco años , que se saldaron con cinco muertos , más de 15 heridos y al_menos 130 detenidos .
+El mismo jugador yugoslavo dispuso de una inmejorable oportunidad para empatar el partido a los dos minutos de la segunda parte será comunicado oficialmente hoy por la Comisión_de_Control que verifica que el desarrollo de las comunidades que riega , ¿ cómo conciliar los legítimos y comprensibles derechos del Gobierno aragonés con los de las otras autonomías sedientas ? .
+```
+
+En teoría, mientras mayor sea $n$, es cada vez menos probable que ciertas secuencias ocurran repetidamente, por lo que las distribuciones resultantes son dispersas. Si se observa, para $n = 5$, las oraciones son bastante coherentes, pero ¡son oraciones del CORPUS! Una forma de evaluar estos modelos de lenguaje es utilizar una métrica conocida como __perplejidad__. La perplejidad está asociada a qué tan bien la distribución de probabilidades obtenida puede predecir el lenguaje. A menor perplejidad, mejor es el modelo (en esencia la perplejidad representa nivel de entropía):
+
+$$PP(W) = \sqrt[n]{\displaystyle \frac{1}{P(w_1, w_2, \ldots , w_n)}}$$
+
+#### Sistema Pregunta-Respuesta (QA-system) utilizando N-Gramas ####
+
+En el paper [An Analysis of the AskMSR Question-Answering System ](https://aclanthology.org/W02-1033.pdf) se implementó un sistema QA (Question Answering System) minando N-gramas desde la web. La arquitectura del sistema se muestra en la figura 1:
+
+<div align="center">
+
+![AskMSR](https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/13980a4a24ba09c7c5010b285fcf0948fdf486ec/qa-system.png)
+
+_Fig 1: Arquitectura Sistema Pregunta-Respuesta AskMSR._
+
+</div>
+
+En esencia, el sistema necesita:
+
+1. Clasificar el tipo de pregunta (e.g. Dónde, Quién, Cuándo, etc.)
+2. Reformular la pregunta para enviar al motor de búsqueda
+3. Minar `N-gramas`
+4. Darle un puntaje a las respuestas candidatas (e.g. utilizar palabras capitalizadas como aproximación a un sustantivo)
+
+Cabe destacar que el sistema no utiliza ningún tipo de procesamiento, otro más que un lexicon para encontrar los verbos y reformular la pregunta. Este sistema lo implementé a nivel básico y estas fueron las entradas y salidas:
+
+```
+cual es la capital de argentina?
+1 ('Buenos', 'Aires') (207)
+2 ('',) (93)
+3 ('Buenos',) (69)
+4 ('Aires',) (69)
+5 ('de', 'Buenos', 'Aires') (63)
+6 ('Buenos', 'Aires', 'The') (54)
+7 ('Argentina',) (42)
+8 ('de',) (31)
+9 ('the',) (28)
+10 ('Presentday', 'Buenos', 'Aires') (27)
+Donde está el museo de louvre?
+1 ('',) (168)
+2 ('Louvre',) (63)
+3 ('', '') (63)
+4 ('Museo', 'del', 'Louvre') (54)
+5 ('', '', '') (54)
+6 ('del', 'Louvre') (33)
+7 ('The',) (27)
+8 ('', 'Louvre', 'Museum') (27)
+9 ('Louvre', 'Museum', 'Official') (27)
+10 ('Visit', 'Explore', 'Whats') (27)
+Quien es el presidente de Chile?
+1 ('',) (195)
+2 ('Gabriel', 'Boric') (90)
+3 ('de',) (85)
+4 ('', 'Ver') (63)
+5 ('', 'Ver', 'más') (63)
+6 ('de', '') (57)
+7 ('Chile', 'Spanish', 'Presidente') (54)
+8 ('Gabriel', 'Boric', 'Font') (54)
+9 ('Chile', 'Gabriel', 'Boric') (54)
+10 ('', 'de') (48)
+Que idioma se habla en Paraguay?
+1 ('',) (96)
+2 ('', 'de') (42)
+3 ('El',) (39)
+4 ('', 'Wikipedia') (36)
+5 ('', 'Wikipedia', 'la') (36)
+6 ('de',) (34)
+7 ('Paraguay',) (27)
+8 ('Paraguay', '', 'Wikipedia') (27)
+9 ('El', 'Guaraní', 'Es') (27)
+10 ('', 'Idioma', 'Oficial') (27)
+```
+
+Con un poco de ajustes, se puede armar una respuesta en base a los mejores `N-gramas` (e.g. como en el paper combinan `N-Gramas`). Una métrica de desempeño de estos sistemas es el __Mean Reciprocal Rank__, o $MRR$, que es un promedio ponderado de las respuestas y cómo las categorizó el sistema a un conjunto de preguntas.
+
+$$MRR = \displaystyle \frac{1}{|Q|}\sum^{|Q|}_{i=1}\frac{1}{r_i}$$
+
+Se observa que el máximo valor es 1 (el sistema siempre entrega la respuesta en la primera posición), y el mínimo en el límite es 0 (asumiendo que el RR es 0 si el sistema no entrega la respuesta).
+
+## Conclusiones ##
+
+* Es complicado lidiar con discursos computacionalmente (problema intratable)
+* Se puede utilizar aproximaciones para estimar la probabilidad de una secuencia de palabras
+* Se pueden utilizar N-Gramas para tareas básicas de NLP (e.g. generar lenguaje, sistema pregunta respuesta)
+
+Todos los ejemplos de código e implementaciones los pueden encontrar en [este repo en Github](https://github.com/dpalmasan/python-nlp-examples)
+
+## Desafío y pregunta de entrevista ##
+
+Esta fue una pregunta que me hicieron en una empresa top (a mi criterio jeje):
+
+Escriba un programa que dada una palabra, entregue la palabra siguiente más probable.
+
+* ¿Qué supuestos de deben realizar?
+* ¿Cómo testear el algoritmo?
+* ¿Cuál es la complejidad en tiempo y espacio?
+* ¿Qué problemas pueden haber en la implementación que realicen?
+
+Asuman que tienen entre 20 y 30 minutos para resolver el problema :smile:.
