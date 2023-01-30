@@ -113,7 +113,7 @@ q = matrix(np.zeros((3, 1)))
 G = matrix(-y * np.concatenate([np.ones((len(y), 1)), x], axis=1))
 h = matrix(-np.ones(len(y)))
 sol = solvers.qp(P, q, G, h)
-wsol = np.array(sol['x'])
+wsol = np.array(sol["x"])
 ```
 
 Al graficar la solución, se obtiene:
@@ -222,11 +222,20 @@ Por ejemplo en la figura 8, se muestra el límite de decisión derivado utilizan
 
 ![svm-nonsep-kernel](https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/6a3cce4767da7ee9fc6e2050cf4929bf8401feed/svm-kernel-trick.png)
 
-_Fig 8: Límite de decisión utilizando kernel polinomial_
+_Fig 8: Límite de decisión utilizando kernel polinomial._
+
+AGREGAR CODIGOS
 
 </div>
 
 Puede notarse que el límite de decisión encontrado es el límite de decisión manualmente generado, con la diferencia que no tuvimos que aplicar directamente la transformación $\phi$ a $x$. La idea de un kernel es en esencia llevar los datos de un espacio a otro espacio de mayor dimensionalidad, donde las clases sean linealmente separables (idealmente).
+
+No todas las funciones son kernel válidos, para que un kernel sea válido, la matriz generada aplicando kernels a todos los pares $x_i$ y $x_j$ debe ser simétrica y semi-definida positiva. Esto quiere decir:
+
+* $K = K^T$
+* $\forall \lambda_n, \quad \lambda_n \geq 0$
+
+Donde $\lambda_n$ son los valores propios de $K$ y $K$ es la matriz generada al aplicar el kernel a todos los pares en el conjunto de datos (es decir $K \in \mathbb{R}^{n \times n}$).
 
 ### Realizando Predicciones
 
