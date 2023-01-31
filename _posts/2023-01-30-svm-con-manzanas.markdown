@@ -1,16 +1,16 @@
 ---
 layout: post
-title:  "SVM explicado"
-date:   2023-01-28 11:10:03 -0400
+title:  "Explicando las Máquinas de Soporte Vectorial"
+date:   2023-01-30 11:10:03 -0400
 categories: python algorithms classification machine-learning
 ---
 
-Esta entrada nuevamente tendrá un poco de clasificación de textos y también intentaré explicar en términos simples en qué consisten _máquinas de soporte vectorial_ (_Support Vector Machines_ o SVM).
+Esta entrada intentaré explicar en términos simples en qué consisten _máquinas de soporte vectorial_ (_Support Vector Machines_ o SVM), dando detalles y mostrando ejemplos, pros y contras. También, preguntas para reflexionar al final de la entrada.
 
 Aprovechando la introducción, responderé un par de preguntas que me llegan recurrentemente, espero poder ayudar:
 
 * ¿Cómo aprendiste sobre IA y ML?
-* ¿Cómo te has movido en tantos roles (e.g. Data Engineering, Backend)
+* ¿Cómo te has movido en tantos roles (e.g. Data Engineering, Backend)?
 * ¿Seguiste alguna ruta en particular?
 
 Las respuestas están al final de esta entrada.
@@ -57,7 +57,7 @@ Al momento de entrenar, se requiere que los ejemplos de la clase positiva se enc
 
 ### Margen y problema de optimización
 
-Supongamos que el punto $x_a$ es el punto más cercano al hiperplano $\langle w, x_a \rangle + b > 0$ ($w$ es un vector ortogonal al hiperplano). Consideremos tamnién una escala, tal que $\langle w, x_a \rangle + b = 1$, la razón es que si consideramos la escala en la que están los datos (escala de $x_n$), si cambiamos la unidad de medida o valores de $x$ (por ejemplo $10x_n$), la distancia al hiperplano también va a cambiar. Consideremos una escala tal que $\langle w, x_a \rangle + b = 1$.
+Supongamos que el punto $x_a$ es el punto más cercano al hiperplano $\langle w, x_a \rangle + b > 0$ ($w$ es un vector ortogonal al hiperplano). Consideremos también una escala, tal que $\langle w, x_a \rangle + b = 1$, la razón es que si consideramos la escala en la que están los datos (escala de $x_n$), si cambiamos la unidad de medida o valores de $x$ (por ejemplo $10x_n$), la distancia al hiperplano también va a cambiar. Consideremos una escala tal que $\langle w, x_a \rangle + b = 1$.
 
 <div align="center">
 
@@ -146,7 +146,7 @@ El problema de optimización previo, asume que las clases son separables linealm
 
 $$
 \begin{aligned}
-\min_{w,b,\xi} \quad & \frac{1}{2}w^{t}w+C\sum_{n=1}^{N}{\xi_{n}} \\\\
+\min_{w,b,\xi} \quad & \frac{1}{2}w^{T}w+C\sum_{n=1}^{N}{\xi_{n}} \\\\
 \textrm{s.t.} \quad & y_{n}(\langle w, x_{n} \rangle+b)\geq 1 - \xi_{n}\\\\
   &\xi_n\geq0    \\\\
 \end{aligned}
@@ -158,7 +158,7 @@ El problema de optimización original es maximizar el margen tal que ambas clase
 
 $$
 \begin{aligned}
-\min_{w,b,\xi, \alpha, \gamma} \quad & \frac{1}{2}w^{t}w \\\\
+\min_{w,b,\xi, \alpha, \gamma} \quad & \frac{1}{2}w^{T}w \\\\
 & -\sum_{n=1}^{N}\alpha_n(y_{i}(\langle w, x_{n} \rangle+b)+\xi_{i}-1)\\\\
   & -C\sum_{n=1}^{N} \gamma_n\xi_n \\\\
 \end{aligned}
@@ -198,7 +198,7 @@ _Fig 6: Conjunto de datos no separable linealmente_
 
 </div>
 
-En este caso, ya que los datos fueron generados en este ejemplo, conocemos el líimite de decisión, el cual está marcado de color negro. En este caso, conocemos una transformación $\phi$ tal que $\phi (x) = z$. En la figura 7, se muestra el conjunto de datos transformado al nuevo sistema de coordenadas. Y luego podemos encontrar el máximo margen resolviendo el problema de optimización. El hiperplano se muestra en la figura 7.
+En este caso, ya que los datos fueron generados en este ejemplo, conocemos el líimite de decisión, el cual está marcado de color negro. Por otro lado, conocemos una transformación $\phi$ tal que $\phi (x) = z$. En la figura 7, se muestra el conjunto de datos transformado al nuevo sistema de coordenadas. Y luego podemos encontrar el máximo margen resolviendo el problema de optimización. El hiperplano se muestra en la figura 7.
 
 <div align="center">
 
@@ -214,17 +214,20 @@ Supongamos que tenemos un conjunto de datos donde cada registro consiste en dos 
 
 Si observamos la última derivación del problema de optimización, la solución depende de los vectores de soporte (cantidad de registros) y no de la cantidad de características. En el único momento en que utilizamos las características, es cuando calculamos $\langle x_i, x_j\rangle$. Esto quiere decir, si tuvieramos la función $\phi$, sólo nos interesa el producto interior $\langle \phi(x_i), \phi(x_j)\rangle$. En el caso estándar $\langle x_i, x_j\rangle$ es un kernel lineal. Podemos definir por ejemplo un kernel polinomial:
 
-$$K(x_i, x_j) = (1 + x_i^Tx_j)^Q$$
+$$K(x_i, x_j) = (1 + x_i^Tx_j)^D$$
 
-Por ejemplo en la figura 8, se muestra el límite de decisión derivado utilizando un kernel polinomial con $Q=2$.
+Por ejemplo en la figura 8, se muestra el límite de decisión derivado utilizando un kernel polinomial con $D=2$.
+
+```python
+def polynomial_kernel(xi, xj, d):
+    return (1 + xi.dot(xj))**d
+```
 
 <div align="center">
 
-![svm-nonsep-kernel](https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/6a3cce4767da7ee9fc6e2050cf4929bf8401feed/svm-kernel-trick.png)
+![svm-nonsep-kernel](https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/840cea62b06ab73b6a2bcc8310149da13c127fb8/contour-circle.png)
 
 _Fig 8: Límite de decisión utilizando kernel polinomial._
-
-AGREGAR CODIGOS
 
 </div>
 
@@ -237,15 +240,123 @@ No todas las funciones son kernel válidos, para que un kernel sea válido, la m
 
 Donde $\lambda_n$ son los valores propios de $K$ y $K$ es la matriz generada al aplicar el kernel a todos los pares en el conjunto de datos (es decir $K \in \mathbb{R}^{n \times n}$).
 
+Incluso, se pueden encontrar límites de decisión más sofisticados, por ejemplo, consideremos el siguiente conjunto de datos:
+
+<div align="center">
+
+![svm-nonsep-kernel](https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/840cea62b06ab73b6a2bcc8310149da13c127fb8/non-trivial-data.png)
+
+_Fig 9: Conjunto de datos no separable linealmente._
+
+</div>
+
+Podemos utilizar un kernel que utilice una *función de base radial* (radial basis function o RBF).
+
+```python
+def radial_basis_function_kernel(xi, xj, gamma):
+    return np.exp(-gamma * np.linalg.norm(xi - xj))
+```
+
+Por ejemplo si $C = 1$, se obtiene límite de decisión mostrado en la figura 10.
+
+<div align="center">
+
+![svm-rbf-c1](https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/597cf4d346755373d397207774732e4c5a817b50/svm-contour-c1.png)
+
+_Fig 10: Límite de decisión con kernel RBF y $C = 1$._
+
+</div>
+
+Relajando las restricciones (por ejemplo aumentando $C = 100$), encontramos otro límite de decisión (figura 11).
+
+<div align="center">
+
+![svm-rbf-c1](https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/05c12e73a6e761f76adcb4e0ff26d4acb9ddf34a/svm-contour-c100.png)
+
+_Fig 10: Límite de decisión con kernel RBF y $C = 100$._
+
+</div>
+
 ### Realizando Predicciones
 
+Para realizar las predicciones, se debe calcular la proyección en el hiperplano:
 
+$$\langle w, \phi(x)\rangle = \sum_{n=1}^{N}\alpha_n y_n K(x, x_n)$$
+
+Y también se debe considerar el hiperplano:
+
+$$b = y_k - \sum_{n=1}^{n} \alpha_n y_n K(x_k, x_n) \quad \text{Any } k, 0 < \alpha_k < C$$
+
+$$y(x) = sign(\langle w, \phi(x)\rangle + b)$$
+
+A continuación se muestra el código en `python` que implementé hay mucho que optimizar, como por ejemplo: 
+
+* Eliminar los $\alpha = 0$ para reducir la cantidad de calculos. 
+* Calcular $K(x_i, x_j)$ sólo para $\alpha > 0$
+
+Dejo al lector que implemente, como es una implementación de juguete no me preocupé de optimizar.
+
+```python
+class SupportVectorMachine:
+    def __init__(self, C, kernel, *kernel_args):
+        self._kernel = kernel
+        self._kernel_args = kernel_args
+        self.C = C
+    
+    def train(self, x, y):
+        n = len(x)
+        kernel_matrix = np.zeros((n, n))
+        diag_y = np.diag(y.flatten())
+        for i in range(n):
+            for j in range(n):
+                kernel_matrix[i, j] = self._kernel(
+                  x[i, :], x[j, :], *self._kernel_args)
+        P = matrix(diag_y.dot(kernel_matrix).dot(diag_y))
+        q = matrix(-np.ones((len(y), 1)))
+        G = matrix(np.concatenate([
+          y.T, -y.T, -np.eye(len(y)), np.eye(len(y))]))
+        h = matrix(np.concatenate([
+          np.zeros((len(y) + 2, 1)), self.C*np.ones(y.shape)]))
+        sol = solvers.qp(P, q, G, h)
+        alphasol = np.array(sol['x'])
+        self._alpha = alphasol
+        k = alphasol.argmax()
+        xk = x[k, :]
+        kernel_k = np.zeros((len(x), 1))
+        for i in range(len(x)):
+            kernel_k[i] = self._kernel(xk, x[i, :], *self._kernel_args)
+        self._b = y[k] - (alphasol*y).T.dot(kernel_k)
+        self._x = x
+        self._y = y
+        return self
+        
+    def predict(self, x_test):
+        x = self._x
+        y = self._y
+        alpha = self._alpha
+        b = self._b
+        kernel_new = np.zeros((len(x), len(x_test)))
+        for i in range(len(x)):
+            for j in range(len(x_test)):
+                kernel_new[i, j] = self._kernel(
+                  x_test[j, :], x[i, :], *self._kernel_args)
+
+        return np.sign(kernel_new.T.dot(alpha * y) + b)
+```
 
 ## Conclusiones
 
-* En algunos casos se puede clasificar textos dado su contenido, se pueden hacer simples estimaciones como utilizar la frecuencia de ocurrencia de cada término.
+* Explicamos la intuición de las SVM y cómo se pueden derivar dos tipos de parámetros, el vector $w$ o los vectores de soporte $\alpha$
+* Una interpretación del problema que resuelven las máquinas de soporte vectorial es encontrar la separación máxima entre las cáscaras convexas de los conjuntos para cada clase.
+* Un espacio no separable linealmente, se puede separar linealmente en otro espacio dado por una función $\phi$
+* La regularización del parámetro $C$ puede suavizar o endurecer las restricciones de margen
+* El truco del kernel permite calcular el producto interior de dos vectores en cualquier espacio dimensional, sin necesidad de explícitamente transformar el espacio
+* Se pueden diseñar kernels adhoc, siempre que cumplan con las condiciones de Mercer ($K$ es Simetrica y semi-definida positiva)
 
+Para reflexionar:
 
+* Si se puede transformar el espacio dimensional a una dimensión infinita ¿Por qué las máquinas de soporte vectorial no pueden resolver todos los problemas de clasificación?
+* Qué desventajas se observan en las máquinas de soporte vectorial? (e.g. escalabilidad, error fuera de muestra)
 
 ## Respuestas a las preguntas de la introducción
 
@@ -255,5 +366,5 @@ Donde $\lambda_n$ son los valores propios de $K$ y $K$ es la matriz generada al 
 ![meme](https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/6a3cce4767da7ee9fc6e2050cf4929bf8401feed/meme-wey.jpg)
 
 </div>
-Supongo que estudiando, he invertido mucho en libros &nbsp; :smile: &nbsp;, no tengo una respuesta ni una ruta lamentablemente.
+No tengo una respuesta ni una ruta. Siendo honesto son muchas más las veces que me siento inútil que útil. Lo que puedo decir es que he invertido mucho en libros &nbsp; :smile: &nbsp;, y me preocupo de intentar entender lo que estudio a fondo.
 </details>
