@@ -19,7 +19,8 @@
 # in the templates via {{ site.myvariable }}.
 
 title: Mr Dipalma's Pub 🍺
-email: dpalmasan@gmail.com
+author:
+  name: dpalmasan
 description: >- # this means to ignore newlines until "baseurl:"
   Este es un blog donde compartiré un poco sobre mí y mis experiencias
   en el mundo tecnológico.
@@ -78,6 +79,6 @@ minima:
       user_url: "https://stackoverflow.com/users/4051219/dpalma"
       title:  Mis preguntas en SO LOL!
 
-# disqus:
-#   shortname: dpalmasan
-#   url: "https://dpalmasan.github.io/website/"
+disqus:
+  shortname: dpalmasan
+  url: "https://dpalmasan.github.io/website/"
