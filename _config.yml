@@ -78,6 +78,6 @@ minima:
       user_url: "https://stackoverflow.com/users/4051219/dpalma"
       title:  Mis preguntas en SO LOL!
 
-disqus:
-  shortname: dpalmasan
-  url: "https://dpalmasan.github.io/website/"
+# disqus:
+#   shortname: dpalmasan
+#   url: "https://dpalmasan.github.io/website/"
