@@ -32,10 +32,11 @@ twitter_username: dpalmasan
 github_username:  dpalmasan
 
 # Build settings
-theme: minima
+remote_theme: jekyll/minima
 plugins:
   - jekyll-feed
   - jekyll-spaceship
+  - jekyll-remote-theme
 
 port: 4002
 # Exclude from processing.
@@ -62,4 +63,4 @@ commonmark:
   options: ["UNSAFE", "SMART", "FOOTNOTES"]
   extensions: ["strikethrough", "autolink", "table", "tagfilter"]
 
-google_analytics: UA-65387679-1
+google_analytics: G-KHXBX5G1VP
