@@ -22,10 +22,7 @@ title: Mr Dipalma's Pub 🍺
 email: dpalmasan@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   Este es un blog donde compartiré un poco sobre mí y mis experiencias
-  en el mundo tecnológico. En particular hablaré de mis experiencias en
-  procesamiento de lenguaje natural (NLP), machine learning, ingeniería de
-  software, desarrollo backend, frontend, microservicios, y otras temáticas
-  en las que tenga experiencia.
+  en el mundo tecnológico.
 baseurl: "/website" # the subpath of your site, e.g. /blog
 url: "dpalmasan.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: dpalmasan
@@ -37,6 +34,7 @@ plugins:
   - jekyll-feed
   - jekyll-spaceship
   - jekyll-remote-theme
+  - jekyll-feed
 
 port: 4002
 # Exclude from processing.
@@ -64,3 +62,19 @@ commonmark:
   extensions: ["strikethrough", "autolink", "table", "tagfilter"]
 
 google_analytics: G-KHXBX5G1VP
+
+minima:
+  skin: classic
+  social_links:
+    - platform: linkedin
+      user_url: "https://www.linkedin.com/in/dpalmasan/"
+      title:  Mi perfil en Linkedin
+    - platform: github
+      user_url: "https://www.github.com/dpalmasan"
+      title:  Mi Github
+    - platform: google_scholar
+      user_url: "https://scholar.google.com/citations?user=Y5PN_1AAAAAJ&hl=en"
+      title:  Mi Google Scholar
+    - platform: stackoverflow
+      user_url: "https://stackoverflow.com/users/4051219/dpalma"
+      title:  Mis preguntas en SO LOL!
