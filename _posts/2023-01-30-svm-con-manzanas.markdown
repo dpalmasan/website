@@ -289,9 +289,9 @@ $$b = y_k - \sum_{n=1}^{n} \alpha_n y_n K(x_k, x_n) \quad \text{Any } k, 0 < \al
 
 $$y(x) = sign(\langle w, \phi(x)\rangle + b)$$
 
-A continuación se muestra el código en `python` que implementé hay mucho que optimizar, como por ejemplo: 
+A continuación se muestra el código en `python` que implementé hay mucho que optimizar, como por ejemplo:
 
-* Eliminar los $\alpha = 0$ para reducir la cantidad de calculos. 
+* Eliminar los $\alpha = 0$ para reducir la cantidad de calculos.
 * Calcular $K(x_i, x_j)$ sólo para $\alpha > 0$
 
 Dejo al lector que implemente, como es una implementación de juguete no me preocupé de optimizar.
@@ -302,7 +302,7 @@ class SupportVectorMachine:
         self._kernel = kernel
         self._kernel_args = kernel_args
         self.C = C
-    
+
     def train(self, x, y):
         n = len(x)
         kernel_matrix = np.zeros((n, n))
@@ -329,7 +329,7 @@ class SupportVectorMachine:
         self._x = x
         self._y = y
         return self
-        
+
     def predict(self, x_test):
         x = self._x
         y = self._y

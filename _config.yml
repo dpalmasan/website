@@ -34,7 +34,6 @@ plugins:
   - jekyll-feed
   - jekyll-spaceship
   - jekyll-remote-theme
-  - jekyll-feed
 
 port: 4002
 # Exclude from processing.
@@ -78,3 +77,7 @@ minima:
     - platform: stackoverflow
       user_url: "https://stackoverflow.com/users/4051219/dpalma"
       title:  Mis preguntas en SO LOL!
+
+disqus:
+  shortname: dpalmasan
+  url: "https://dpalmasan.github.io/website/"
