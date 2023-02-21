@@ -815,7 +815,9 @@ def to_dot(tree) -> str:
 
         return s
 
-    return f"digraph G {{\n{internal_tree(tree)}}}"
+    # Se puede hacer con f-strings pero no se renderiza bien en el artículo
+    # Si lo hago así
+    return r"digraph G {" + internal_tree(tree) + r"}"
 ```
 
 ## Conclusiones
