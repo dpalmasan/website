@@ -5,7 +5,7 @@ date:   2023-02-18 11:10:03 -0400
 categories: python algorithms classification machine-learning
 ---
 
-Probablemente, si trabajas con _Machine Learning_, has notado que uno de los modelos más usados es _Extreme Gradient Boosting Decision Trees_ o _XGBoost_, o algún modelo similar. La práctica que funciona en general, es tomar los datos, insertarlos en la juguera y probablemente obtener un resultado. Las _API_ y frameworks disponibles hacen que la tarea no sea complicada. Si bien, en general en la práctica, el problema generalmente se resuelve teniendo los datos correctos, existen algunos casos en que incluso teniendo una gran disponibilidad de datos a mano, los modelos no tengan buen desempeño. En este caso, el problema puede deberse a múltiples fuentes, sin embargo cuando hay que _"entrar a picar"_, a veces el problema real está en no entender los modelos ni sus fundamentos.
+Probablemente, si trabajas con _Machine Learning_, haz notado que uno de los modelos más usados es _Extreme Gradient Boosting Decision Trees_ o _XGBoost_, o algún modelo similar. La práctica que funciona en general, es tomar los datos, insertarlos en la juguera y probablemente obtener un resultado. Las _API_ y frameworks disponibles hacen que la tarea no sea complicada. Si bien, en general en la práctica, el problema generalmente se resuelve teniendo los datos correctos, existen algunos casos en que incluso teniendo una gran disponibilidad de datos a mano, los modelos no tengan buen desempeño. En este caso, el problema puede deberse a múltiples fuentes, sin embargo cuando hay que _"entrar a picar"_, a veces el problema real está en no entender los modelos ni sus fundamentos.
 
 En esta entrada, como dice el título, explicaré uno de los modelos de ML más utilizados en la práctica, e incluso, con toda humildad pienso que voy a sorprender al lector promedio y espero aportar mi granito de arena explicando en detalle cómo funciona este modelo y algunas intuiciones.
 
@@ -80,7 +80,7 @@ En el ejemplo de la figura 2, tenemos que el siguiente camino lleva al objetivo 
 
 $$Camino = \left( Patrons=Full \land WaitEstimate=0-10\right)$$
 
-Para una gran gama de problemas, el formato de árbol de decisión lleva a un resultado conciso y fácil de interpretar. Sin embargo, algunas funciones no se pueden representar de forma concisa. Por ejemplo, si tenemos una función que retorne *verdadero* cuando la mitad de los atributos son verdaderos, se requiere un árbol exponencialmente grande. En otras palabras, los árboles de decisión son una buena representación para algunas funciones y mala para otras. El lector puede hacerse la pregunta ¿Existe una representación que sea eficiente para todos los tipos de funciones? Lamentablemente la respuesta es no. Esto se puede demostrar de forma general. Consideremos el conjunto de funciones Booleanas de $n$ atributos. En este conjunto, las funciones son el número de distintas tablas de verdad que podemos escribir. Una tabla de verdad de $n$ atributos tiene $2^n$ filas. Podemos considerar la columna de "respuesta" como un número de $2^n$ bits que define a la función. Esto significa que existen $2^{2^n}$ diferentes funciones (y probablemente hay muchos más árboles, ya que una función se puede describir con múltiples árboles distintos). Esto es un número elevado, por ejemplo en el caso del problema del restorán tenemos 10 atributos, por lo tanto $2^{1024}$ o aproximadamente $10^{308}$ funciones diferentes que escoger. Por lo tanto, para buscar una solución en este espacio de hipótesis, se requieren algoritmos ingenosos.
+Para una gran gamma de problemas, el formato de árbol de decisión lleva a un resultado conciso y fácil de interpretar. Sin embargo, algunas funciones no se pueden representar de forma concisa. Por ejemplo, si tenemos una función que retorne *verdadero* cuando la mitad de los atributos son verdaderos, se requiere un árbol exponencialmente grande. En otras palabras, los árboles de decisión son una buena representación para algunas funciones y mala para otras. El lector puede hacerse la pregunta ¿Existe una representación que sea eficienet para todos los tipos de funciones? Lamentablemente la respuesta es no. Esto se puede demostrar de forma general. Consideremos el conjunto de funciones Booleanas de $n$ atributos. En este conjunto, las funciones son el número de distintas tablas de verdad que podemos escribir. Una tabla de verdad de $n$ atributos tiene $2^n$ filas. Podemos considerar la columna de "respuesta" como un número de $2^n$ bits que define a la función. Esto significa que existen $2^{2^n}$ diferentes funciones (y probablemente hay muchos más árboles, ya que una función se puede describir con múltiples árboles distintos). Esto es un número elevado, por ejemplo en el caso del problema del restorán tenemos 10 atributos, por lo tanto $2^{1024}$ o aproximadamente $10^{308}$ funciones diferentes que escoger. Por lo tanto, para buscar una solución en este espacio de hipótesis, se requieren algoritmos ingenosos.
 
 ### Inducir Árbol de Decisión a partir de ejemplos
 
@@ -99,9 +99,9 @@ Supongamos que recolectamos los ejemplos mostrados en la tabla 1. La pregunta es
 | $x_7$   | No  | Yes | No  | No  | None | $     | Yes  | No  | Burger | 0-10  | No       |
 | $x_8$   | No  | No  | No  | Yes | Some | $$    | Yes  | Yes | Thai   | 0-10  | Yes      |
 | $x_9$   | No  | Yes | Yes | No  | Full | $     | Yes  | No  | Burger | `>60` | No       |
-| $x_10$  | Yes | Yes | Yes | Yes | Full | $$$   | No   | Yes | Italian| 10-30 | No       |
-| $x_11$  | No  | No  | No  | No  | None | $     | No   | No  | Thai   | 0-10  | No       |
-| $x_12$  | Yes | Yes | Yes | Yes | Full | $     | No   | No  | Burger | 30-60 | Yes      |
+| $x_{10}$| Yes | Yes | Yes | Yes | Full | $$$   | No   | Yes | Italian| 10-30 | No       |
+| $x_{11}$| No  | No  | No  | No  | None | $     | No   | No  | Thai   | 0-10  | No       |
+| $x_{12}$| Yes | Yes | Yes | Yes | Full | $     | No   | No  | Burger | 30-60 | Yes      |
 
 
 Sin embargo, con algunas heurísticas simples, podemos encontrar un árbol simple (no el más pequeño) que sea consistente. Para esto se utiliza un _algoritmo voraz_ (_greedy_) y un enfoque "_divide y vencerás_" (_divide and conquer_), de tal forma que dividimos el problema en subproblemas y resolvemos de forma recursiva. El algoritmo sigue los siguientes pasos:
@@ -815,7 +815,9 @@ def to_dot(tree) -> str:
 
         return s
 
-    return f"digraph G {{\n{internal_tree(tree)}}}"
+    # Se puede hacer con f-strings pero no se renderiza bien en el artículo
+    # Si lo hago así
+    return r"digraph G {" + internal_tree(tree) + r"}"
 ```
 
 ## Conclusiones
