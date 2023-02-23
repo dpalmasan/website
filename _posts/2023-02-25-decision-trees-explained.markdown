@@ -690,7 +690,7 @@ def get_train_split_point(train, col):
         lo = float(data[col])
         hi = float(sorted_train[i + 1][col])
         if lo < hi:
-            split_point = round(lo + hi / 2, 2)
+            split_point = round((lo + hi) / 2, 2)
             right_pos = total_pos - pos_running_sum
             right_neg = total_neg - neg_running_sum
             r = (pos_running_sum + neg_running_sum) / len(train) * boolean_entropy(
