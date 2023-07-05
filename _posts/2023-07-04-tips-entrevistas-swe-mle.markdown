@@ -146,7 +146,7 @@ class Solution:
         return total
 ```
 
-Complejidad en tiempo de ejecución $O(n^2)$, complejidad en memoria $O(1)$. Este truco también se puede aplicar en listas enlazadas.
+Complejidad en tiempo de ejecución $O(n \log n)$, complejidad en memoria $O(1)$. Este truco también se puede aplicar en listas enlazadas.
 
 ### Ventana Deslizante (Sliding Window)
 
