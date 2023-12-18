@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Reflexiones, desempeño y MLE"
-date:   2023-12-16 12:10:03 -0400
+date:   2023-12-18 15:10:03 -0400
 categories: python algorithms mle
 ---
 
