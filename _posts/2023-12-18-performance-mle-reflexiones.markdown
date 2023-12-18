@@ -90,7 +90,7 @@ Si vamos a lo "teórico", cada universo puede representarse como un conjunto de 
 
 ![postings](https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/9e08e1f631f9d196ccc496921bb8cc9f6024758c/Screenshot%25202023-12-18%2520at%25202.30.25%25E2%2580%25AFPM.png)
 
-_Fig 5: Ejemplo de simplificación de problema; transformar problema no lineal a uno lineal en un punto de operación cuya vecindad es lineal._
+_Fig 5: Generalización y especialización._
 
 </div>
 
