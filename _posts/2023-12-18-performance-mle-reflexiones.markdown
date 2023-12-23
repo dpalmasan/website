@@ -11,7 +11,7 @@ En esta entrada hago unas reflexiones sobre mi año en Meta como MLE, sobre cóm
 
 A veces digo que algunos SWE (software engineers) resuelven todo con "fulestaahh javaescriihh", el equivalente en ML es "exyiiboohhh y data pailainee". Esta "mofa" no la hago por ser un aguafiestas o pesado, pero la hago porque he visto muchos SWE o desarrolladores que piensan que hacer un backend es una API rest, o generar `JSON` o conectarse a una `DB`. De la misma manera, por lo que he visto en algunas redes sociales, ocurre un fenómeno parecido en ML: Algun pipeline de datos (en su framework favorito, e.g. airflow), crear el conjunto de entrenamiento, tirar los datos a la juguera y entrenar un modelo XGBoost. O calcular distancias entre vectores; después despilfarrar plata en alguna infraestructura cloud sobredimensionando la solución.
 
-Digamos que vi algo parecido en mi más reciente experiencia. El status quo, era tener un conjunto gigantezco de señales (básicamente _features_ en ML) y luego entrenar un modelo del tipo _Gradient Boosting Decision Tree_ (GBDT). Posteriormente, para una muestra nueva, calcular la probabilidad de la clase objetivo y ejecutar una acción dependiendo de esta probabilidad. Esta arquitectura se muestra en la figura 1.
+Digamos que vi algo parecido en mi más reciente experiencia. El status quo, era tener un conjunto gigantesco de señales (básicamente _features_ en ML) y luego entrenar un modelo del tipo _Gradient Boosting Decision Tree_ (GBDT). Posteriormente, para una muestra nueva, calcular la probabilidad de la clase objetivo y ejecutar una acción dependiendo de esta probabilidad. Esta arquitectura se muestra en la figura 1.
 
 <div align="center">
 
