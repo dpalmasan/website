@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Reflexiones y Jugando con Pixeles"
-date:   2024-02-12 18:00:00 -0400
+date:   2024-02-18 10:00:00 -0400
 categories: python algorithms ai
 ---
 
