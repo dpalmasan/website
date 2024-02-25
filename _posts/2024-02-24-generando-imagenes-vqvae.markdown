@@ -40,19 +40,21 @@ Me he dado cuenta que los posts que escribo y que más enganche tienen son los q
 
 Lo que me causa un poco de tristeza, es que los artículos que escribo, donde intento explicar de forma "simple" y aterrizada cómo funcionan ciertos algoritmos y sistemas en el mundo actual (con fines de reducir el sensacionalismo), no tienen tanta recepción. Pero bueno, supongo que tengo que mejorar en "venderme a mi mismo" cosa que nunca he sido bueno, porque soy demasiado realista, objetivo y riguroso. Curiosamente, me he topado con personas similares en la industria y también se les hace difícil "venderse". Sin embargo, hay que aclarar que el tener miles de seguidores, no es sinónimo de conocimiento/veracidad de la información, es sólo publicidad y venderse. No niego que hay _influencers_ que crean muy buen material, sin embargo, en redes como LinkedIn esto no es el caso general.
 
-Finalmente, me gustaría aclarar: **Yo no soy un _influencer_**. La verdad, mis artículos toman tiempo, necesito estar motivado, encontrar un buen tema y además intentar crear material de calidad, demostrando la veracidad de lo expuesto mediante el método científico. Ello toma tiempo y lamentablemente no vivo de esto. Si quisiera monetizar o ser _influencer_, escribiría mis artículos en lugares como **Medium**, y no en una web _chafa_ (me gusta esta palabra) como la que hago yo utilizando Github 🤣.
+Por otro lado, me gustaría aclarar: **Yo no soy un _influencer_**. La verdad, mis artículos toman tiempo, necesito estar motivado, encontrar un buen tema y además intentar crear material de calidad, demostrando la veracidad de lo expuesto mediante el método científico. Ello toma tiempo y lamentablemente no vivo de esto. Si quisiera monetizar o ser _influencer_, escribiría mis artículos en lugares como **Medium**, y no en una web _chafa_ (me gusta esta palabra) como la que hago yo utilizando Github 🤣.
 
-Finalmente, aclarar que soy un Ingeniero de Software/Machine Learning, promedio; He conocido personas mucho más inteligentes/mejores que yo, y personas peores. No obstante, siempre intento hacer las cosas de la mejor calidad que mi inteligencia me hace posible. No me conformo con una evaluación de desempeño de _"Meets All"_, tengo hambre de _"Greatly Exceed Expectations"_.
+Finalmente, aclarar que me considero un Ingeniero de Software/Machine Learning promedio; He conocido personas mucho más inteligentes/mejores que yo, y personas peores. No obstante, siempre intento hacer las cosas de la mejor calidad posible para mi. No me conformo con una evaluación de desempeño de _"Meets All"_, tengo hambre de _"Greatly Exceed Expectations"_.
 
 # Un poco más de IA generativa
 
-Aún voy atrasado en temas de conocimiento de los fundamentos de las tecnologías actuales (recién voy por el 2017 😅), sin embargo de a poco agarro el vuelo. Se me ha hecho bastante difícil entender los papers y ¡luego implementarlos! pero ya vamos de a poco. Como dije anteriormente, no soy inteligente y de verdad me _impresionan los genios de GenAI que apenas sale una nueva tecnología se vuelven expertos_ (ejem... ChatGPT, Sora, DALL-E, LLAMA).
+Aún voy atrasado en temas de conocimiento de los fundamentos de las tecnologías actuales (recién voy por el 2017 😅), sin embargo de a poco agarro el vuelo. Se me ha hecho bastante difícil entender los papers y ¡luego implementarlos! pero ya vamos de a poco.
+
+En estos momentos realmente me _impresionan los genios de GenAI que apenas sale una nueva tecnología se vuelven expertos_ (sarcasmo... ejem... ChatGPT, Sora, DALL-E, LLAMA... `LinkedIn`).
 
 En esta sección explicaré el modelo fundamental utilizado en sistemas como DALL-E, en la parte de generación de imágenes. En particular, explicaré el modelo de Codificador Variacional con Cuantización Vectorial (VQ-VAE _Vector Quantised-Variational Autoencoder_), y una simple implementación. Por otro lado, también intentaremos generar imágenes nuevas utilizando este mismo modelo.
 
 ## Entendiendo el VQ-VAE
 
-Este modelo fue introducido en el paper [_Neural Discrete Representation Learning_](https://arxiv.org/abs/1711.00937) y es una modificación que intenta resolver los problemas del VAE. En este caso, en lugar de tener una distribución continua en el espacio latente (distribuciones apriori y aposteriori se asumen Gausianas en este modelo), se obtiene una distribución discreta que se basa en cuantización vectorial, lo que implica distribuciones categóricas tanto apriori, como aposteriori. En palabras simples, se obtienen reconstrucciones más nítidas.
+Este modelo fue introducido en el paper [_Neural Discrete Representation Learning_](https://arxiv.org/abs/1711.00937) y es una modificación que intenta resolver los problemas del VAE. En este caso, en lugar de tener una distribución continua en el espacio latente (distribuciones apriori y aposteriori se asumen Gausianas en el VAE), se obtiene una distribución discreta que se basa en cuantización vectorial, lo que implica distribuciones categóricas tanto apriori, como aposteriori. En palabras simples, se obtienen reconstrucciones más nítidas.
 
 La arquitectura de la red neuronal para el modelo VQ-VAE se muestra en la figura 2:
 
@@ -186,10 +188,10 @@ En este caso, se aplica cuantización vectorial en la propagación hacia adelant
 Finalmente para la función de costo del VQ-VAE tenemos que considerar 3 ingredientes:
 
 1. La pérdida de reconstrucción $\log p(z|z_q(x))$.
-2. Dado que los embeddings $e_i$ no reciben gradientes por reconstrucción, usamos un simple algoritmo: Cuantización vectorial. En este caso, como mencionamos previamente, el término a monimizar es $||\text{sg}[z_e(x)] - e||_2^2$
+2. Dado que los embeddings $e_i$ no reciben gradientes por reconstrucción, usamos un simple algoritmo: Cuantización vectorial. En este caso, como mencionamos previamente, el término a minimizar es $||\text{sg}[z_e(x)] - e||_2^2$
 3. Finalmente, dado que el espacio de embeddings puede crecer arbitrariamente si los embeddings $e_i$ no se entrenan tan rápido como los parámetros del codificador, agregamos un término de regularización $\beta ||z_e(x) - \text{sg}[e]||_2^2$.
 
-Finalmente, la función de pérdida a minimizar es:
+La función de pérdida a minimizar es:
 
 $$Loss = p(z|z_q(x)) + ||\text{sg}[z_e(x)] - e||_2^2 + \beta ||z_e(x) - \text{sg}[e]||_2^2$$
 
@@ -236,7 +238,7 @@ La definición de este embedding requiere dos parámetros:
 1. $K$ que es la cantidad de categorías o elementos que tendrá el diccionario de embeddings
 2. $D$ que es la dimensionalidad de cada embedding.
 
-Ambos parámetros afectan la reconstrucción, por lo que ajustarlos depende del problema. El método `straight_through` simplemente aplica la estrategia mencionada previamente para actualizar los embeddings vía el gradiente. La permutación de componentes, es debido a que la entrada de los vectores en procesamiento de imágenes es `(B, C, H, W)`, donde `C` es la cantidad de canales (ejemplo `RGB`) y queremos aplicar la misma multiplicación para todos los canales. Finalmente para computar los vectores latentes, estos se re-permutan para volver a las componentes originales. Finalmente, el codificador decodificador queda como:
+Ambos parámetros afectan la reconstrucción, por lo que ajustarlos depende del problema. El método `straight_through` simplemente aplica la estrategia mencionada previamente para actualizar los embeddings vía el gradiente. La permutación de componentes, es debido a que la entrada de los vectores en procesamiento de imágenes es `(B, C, H, W)`, donde `C` es la cantidad de canales (ejemplo `RGB`) y queremos aplicar la misma multiplicación para todos los canales. Finalmente para computar los vectores latentes, estos se re-permutan para volver a las componentes originales. El codificador decodificador queda como:
 
 ```py
 class VectorQuantizedVAE(nn.Module):
@@ -461,6 +463,8 @@ Las imágenes generadas se muestran en la figura 5:
 _Fig 5: Imágenes generadas muestrando desde la distribución $p(z)$ y reconstruyendo con el decodificador._
 
 </div>
+
+Sigo pensando que es mágico que simplemente muestreando índices en un espacio latente, puedan reconstruirse/generarse imágenes. Además en el caso de reconstrucción de imágenes, una imagen de 3 canales y dimensiones `32x32` se comprimió a una imagen de un solo canal de `8x8` y luego el decodificador fue capaz de reconstruirla.
 
 #### ¿Qué pasó con mis Pokémon?
 
