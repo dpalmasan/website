@@ -78,7 +78,7 @@ $$
 \end{array}
 $$
 
-Cabe destacar que matemáticamente, estos axiomas se pueden fórmular con **Lógica de Orden**:
+Cabe destacar que matemáticamente, estos axiomas se pueden fórmular con **Lógica de Primer Orden**:
 
 $$
 \begin{array} {c}
@@ -89,7 +89,7 @@ $$
 \end{array}
 $$
 
-En este caso $\forall$ es un cuantificador _universal_, $x$ es una entidad (u objeto), y $Hombre$ y $Mortal$ son predicados lógicos. Consideremos los siguientes axiomas:
+En este caso $\forall$ es un cuantificador _universal_, $x$ es una entidad (u objeto), y $Hombre$ y $Mortal$ son predicados lógicos. En este caso se lee que cualquier objeto $x$ que tenga el predicado $Hombre(x)$ implica que tendrá también el predicado $Mortal(x)$. Consideremos los siguientes axiomas:
 
 1. Todos los niños aman al Viejo Pascuero
 2. Todos los niños que aman al Viejo Pascuero, aman a cualquier reno
@@ -113,7 +113,7 @@ _Fig 2: ChatGPT y su respuesta a los axiomas de navidad._
 Sin embargo, si transformamos los axiomas a lógica de primer órden:
 
 1. $\forall x \text{ niño}(x) \rightarrow ama(x, vp)$
-2. $\forall x, y (\text{niño}(x) \land reno(y) \rightarrow ama(x, y))$
+2. $\forall x, y (\text{niño}(x) \land reno(y) \land ama(x, vp) \rightarrow ama(x, y))$
 3. $reno(r) \land nariz\ roja(r)$
 4. $\forall x (nariz\ roja(x) \rightarrow \text{extraño}(x) \lor payaso(x))$
 5. $\neg \exists x(reno(x) \land payaso(x))$
@@ -122,7 +122,8 @@ Sin embargo, si transformamos los axiomas a lógica de primer órden:
 
 Supongamos que Juan fuese niño:
 
-* Si Juan fuera un niño, entonces juan amaría al reno Rodolfo, por axioma `2.`
+* Si juan fuera un niño, amaría al Viejo pascuero por axioma `1.`
+* Si Juan fuera un niño, entonces juan amaría al reno Rodolfo, por axioma `2.`, ya que juan ama al Viejo Pascuero
 * Rodolfo tiene la nariz roja, por lo tanto o es extraño o es un payaso, por axioma `4.`
 * Rodolfo no es un payaso ya que no existe una entidad que sea reno y payaso a la vez por axioma `5.`
 * Rodolfo es extraño por axioma `4.`
