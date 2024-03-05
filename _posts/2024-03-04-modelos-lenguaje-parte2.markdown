@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Entendiendo los Modelos del Lenguaje (Parte 2)"
-date:   2024-03-03 15:30:00 -0400
+date:   2024-03-04 20:00:00 -0400
 categories: probability algorithms ai
 ---
 
@@ -9,7 +9,7 @@ categories: probability algorithms ai
 
 Este es el segundo artículo de la serie que estoy escribiendo sobre modelos de lenguaje. En mi artículo previo:
 
-* [_Entendiendo los Modelos del Lenguaje (Parte 1)_]({{ site.baseurl }}{% link _posts/2024-03-23-modelos-lenguaje-parte1.markdown %})
+* [_Entendiendo los Modelos del Lenguaje (Parte 1)_]({{ site.baseurl }}{% link _posts/2024-03-03-modelos-lenguaje-parte1.markdown %})
 
 expliqué en qué consiste un modelo de lenguaje y cómo el problema a resolver es encontrar una distribución conjunta $p(w_1, w_2, \ldots w_N)$ donde $N$ es el largo del contexto a considerar y $w_i$ es la i-ésima palabra de un texto en esta distribución.
 
@@ -104,7 +104,7 @@ Una posible respuesta de ChatGPT:
 
 <div align="center">
 
-![chat-gpt](https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/874f82dc54fdb39bcca26fd04c9a4e6c99702059/logic-gpt.png)
+![logic-on-chatgpt](https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/874f82dc54fdb39bcca26fd04c9a4e6c99702059/logic-gpt.png)
 
 _Fig 2: ChatGPT y su respuesta a los axiomas de navidad._
 
