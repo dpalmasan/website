@@ -46,11 +46,12 @@ Existen diferentes manifestaciones de la maldición de la dimensionalidad, por l
 <div align="center">
 
 ![dim](https://raw.githubusercontent.com/dpalmasan/homepage/master/public/imgs/curse_dim.png)
+
 _Fig 1: Ilustración de la maldición de la dimensionalidad._
 
 </div>
 
-Si quisieramos calcular el largo de los lados del hipercubo que contiene una fración $r$ del volumen del total de datos, entonces el largo sería $e_p(r) = r^{1/p}$. Consideremos una dimensionalidad de 10 atributos ($p = 10$), entonces $e_{10}(0.01) = 0.63$ y $e_{10}(0.1) = 0.80$, cuando el rango total de cada entrada (valor de cada atributo) es sólo 1 (hipercubo unitario). Esto quiere decir, que para calcular el $1\%$ o el $10\%$ de los datos para conformar un promedio local, debemos cubrir el $63\%$ o el $80\%$ del rango de cada variable de entrada. Por lo tanto, dichas vecindades, que en dimensionalidades pequeñas eran locales, dejan de ser locales en dimensionalidades altas. Reducir $r$ no ayudaría, pues tendríamos menos observaciones que promediar y por lo tanto la varianza de nuestro ajuste aumentaría.
+Si quisieramos calcular el largo de los lados del hipercubo que contiene una fración $r$ del volumen del total de datos, entonces el largo sería $e_p(r) = r^{1/p}$. Consideremos una dimensionalidad de 10 atributos ($p = 10$), entonces $e_{10}(0.01) = 0.63$ y $e_{10}(0.1) = 0.80$, cuando el rango total de cada entrada (valor de cada atributo) es sólo 1 (hipercubo unitario). Esto quiere decir, que para calcular el $1\\%$ o el $10\\%$ de los datos para conformar un promedio local, debemos cubrir el $63\\%$ o el $80\\%$ del rango de cada variable de entrada. Por lo tanto, dichas vecindades, que en dimensionalidades pequeñas eran locales, dejan de ser locales en dimensionalidades altas. Reducir $r$ no ayudaría, pues tendríamos menos observaciones que promediar y por lo tanto la varianza de nuestro ajuste aumentaría.
 
 Por otro lado, se puede demostrar cómo las métricas de distancia se ven afectadas dependiendo de la cantidad de muestras y de la dimensionalidad. Sin embargo, para no complicar la matemática, sólo obtendremos la intuición de forma experimental. En el siguiente experimento, podemos observar qué pasaría con las métricas de distancia, a medida que aumenta dimensionalidad:
 
@@ -106,7 +107,8 @@ plt.title("Media de proporción entre distancia máxima y mínima \nvs Dimension
 <div align="center">
 
 ![dim-dist](https://raw.githubusercontent.com/dpalmasan/homepage/master/public/imgs/dim_dist.png)
-_Fig 2: Ilustración de la maldición de la dimensionalidad._
+
+_Fig 2: Proporción de máxima distancia-mínima distancia respecto a la cantidad de dimensiones._
 
 </div>
 
@@ -136,6 +138,7 @@ Existen diferentes métodos de reducción dimensional, pero en este curso veremo
 <div align="center">
 
 ![diff-dim](https://raw.githubusercontent.com/dpalmasan/homepage/master/public/imgs/factor_vs_pca.png)
+
 _Fig 3: Análisis factorial vs PCA._
 
 </div>
@@ -230,7 +233,8 @@ msngo.matrix(trust_df.replace([8, 9], [np.nan, np.nan]))
 <div align="center">
 
 ![cep](https://raw.githubusercontent.com/dpalmasan/homepage/master/public/imgs/missing.png)
-_Fig 4: Ejemplo de factores._
+
+_Fig 5: Visualización de datos incompletos._
 
 </div>
 
@@ -246,7 +250,8 @@ plt.plot(means.values, means.index, "bo")
 <div align="center">
 
 ![cep](https://raw.githubusercontent.com/dpalmasan/homepage/master/public/imgs/means_atributos.png)
-_Fig 5: Media de los atributos del ejemplo._
+
+_Fig 6: Media de los atributos del ejemplo._
 
 </div>
 
@@ -301,7 +306,8 @@ plt.title("Scree plot")
 <div align="center">
 
 ![valprop](https://raw.githubusercontent.com/dpalmasan/homepage/master/public/imgs/scree_plot.png)
-_Fig 6: Valores propios vs número de factores._
+
+_Fig 7: Valores propios vs número de factores._
 
 </div>
 
@@ -427,13 +433,14 @@ plt.axis("equal")
 <div align="center">
 
 ![pca](https://raw.githubusercontent.com/dpalmasan/homepage/master/public/imgs/pca_ex1.png)
-_Fig 7: Ilustración de PCA._
+
+_Fig 8: Ilustración de PCA._
 
 </div>
 
 Como se observa en la figura, el conjunto de datos llevarse a otro sistema de coordenadas considerando estos vectores base (para transformar los datos, basta simplemente con aplicar la transformación lineal descrita). Podemos ver también que cada eje se escoge en la dirección donde haya mayor variabilidad en los datos (varianza).
 
-Un ejemplo de aplicación de las compnentes principales, es en el caso de reducción dimensional. Por ejemplo, podemos eliminar las componentes con menor cantidad de varianza, es decir, que explican menos la variabilidad en los datos, y en consecuencia, estaríamos proyectando el espacio dimensional en un espacio de menos dimensiones. Para ilustrar esto, consideremos el siguiente ejemplo:
+Un ejemplo de aplicación de las componentes principales, es en el caso de reducción dimensional. Por ejemplo, podemos eliminar las componentes con menor cantidad de varianza, es decir, que explican menos la variabilidad en los datos, y en consecuencia, estaríamos proyectando el espacio dimensional en un espacio de menos dimensiones. Para ilustrar esto, consideremos el siguiente ejemplo:
 
 ```py
 from mpl_toolkits.mplot3d import Axes3D
@@ -469,18 +476,21 @@ ax.set_title("Proyección en 2D de la tetera (sombra)")
 <div align="center">
 
 ![pca](https://raw.githubusercontent.com/dpalmasan/homepage/master/public/imgs/intuicion_pca.png)
-_Fig 8: Intuición PCA._
+
+_Fig 9: Intuición PCA._
 
 </div>
 
-En el ejemplo de la tetera, básicamente tenemos un espacio dimensional de 3 dimensiones (`x, y, z`). Cuando aplicamos `PCA` y eliminamos una componente (la de menos variación), básicamente estamos calculando una proyección de este espacio a un espacio de menor dimensión, intentando mantener la variabilidad del espacio original. Intuitivamente, en este caso particular, podría pensarse en cada componente principal como visualizar la "sombra" de la tetera. Claro, que no estamos restringidos sólo a espacios de 3 dimensiones, si no que también podemos reducir espacios de cualquier dimension a uno de menor dimensionalidad, por ejemplo, para visualizar datos. Tomemos de ejemplo la **prueba** de este curso, podemos visualizar si es que existe diferencia entre los registros de interés:
+En el ejemplo de la tetera, básicamente tenemos un espacio dimensional de 3 dimensiones (`x, y, z`). Cuando aplicamos `PCA` y eliminamos una componente (la de menos variación), básicamente estamos calculando una proyección de este espacio a un espacio de menor dimensión, intentando mantener la variabilidad del espacio original. Intuitivamente, en este caso particular, podría pensarse en cada componente principal como visualizar la "sombra" de la tetera. Claro, que no estamos restringidos sólo a espacios de 3 dimensiones, si no que también podemos reducir espacios de cualquier dimension a uno de menor dimensionalidad, por ejemplo, para visualizar datos.
+
+Consideremos los datos de [_World Wealth and Income Database_](https://github.com/datasets/world-wealth-and-income-database).
 
 ```py
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 
 
-df = pd.read_csv("prueba/income-db.csv")
+df = pd.read_csv("income-db.csv")
 scaler = StandardScaler()
 
 X = df.select_dtypes(exclude=["object"])
@@ -504,7 +514,8 @@ plt.title("Proyección datos numéricos con PCA")
 <div align="center">
 
 ![ejpca](https://raw.githubusercontent.com/dpalmasan/homepage/master/public/imgs/prueba_ejemplo.png)
-_Fig 9: Ejemplo PCA._
+
+_Fig 10: Ejemplo PCA._
 
 </div>
 
@@ -562,7 +573,8 @@ plt.title((f"Imagen de {digits.target[1]}"))
 <div align="center">
 
 ![mnistsample](https://raw.githubusercontent.com/dpalmasan/homepage/master/public/imgs/digito.png)
-_Fig 10: Muestra conjunto de datos de dígitos._
+
+_Fig 11: Muestra conjunto de datos de dígitos._
 
 </div>
 
@@ -598,7 +610,8 @@ plt.title("Dígitos proyectados a dos dimensiones")
 <div align="center">
 
 ![proj](https://raw.githubusercontent.com/dpalmasan/homepage/master/public/imgs/pc_digits.png)
-_Fig 11: Imágenes de dígitos manuscritos proyectados en un espacio bi-dimensional._
+
+_Fig 12: Imágenes de dígitos manuscritos proyectados en un espacio bi-dimensional._
 
 </div>
 
@@ -620,7 +633,8 @@ plt.legend()
 <div align="center">
 
 ![mnistsample](https://raw.githubusercontent.com/dpalmasan/homepage/master/public/imgs/cumulative_var.png)
-_Fig 11: Varianza acumulada respecto a la cantidad de dimensiones._
+
+_Fig 13: Varianza acumulada respecto a la cantidad de dimensiones._
 
 </div>
 
@@ -688,10 +702,11 @@ X_pca10 = pca_10.fit_transform(digits.data)
 plot_pca_components(digits.data[6], X_pca10[6], pca_10.mean_, pca_10.components_)
 ```
 
-<div>
+<div align="center">
 
 ![comp](https://raw.githubusercontent.com/dpalmasan/homepage/master/public/imgs/components_digits.png)
-_Fig 12: Ejemplo de diferentes componentes para un dígito._
+
+_Fig 14: Ejemplo de diferentes componentes para un dígito._
 
 </div>
 
@@ -781,7 +796,7 @@ def kmeans_clustering(X, clusters=5, maxit=100):
     return (c, mu, it)
 ```
 
-Probemos con el mítico conjunto de datos [iris](https://archive.ics.uci.edu/ml/datasets/iris. Este conjunto de datos básicamente consiste en muestras de distintas plantas iris, donde los atributos medidos son básicamente longitud y ancho de los sépalos y pétalos:
+Probemos con el mítico conjunto de datos [_Iris_](https://archive.ics.uci.edu/ml/datasets/iris). Este conjunto de datos básicamente consiste en muestras de distintas plantas iris, donde los atributos medidos son básicamente longitud y ancho de los sépalos y pétalos:
 
 ```py
 import matplotlib.pyplot as plt
@@ -801,19 +816,21 @@ plt.xlabel(iris_data.feature_names[0])
 plt.ylabel(iris_data.feature_names[2])
 ```
 
-<div>
+<div align="center">
 
 ![comp](https://raw.githubusercontent.com/dpalmasan/homepage/master/public/imgs/iris_data_unlabeled.png)
-_Fig 14: Muestra de datos para el conjunto de datos Iris._
+
+_Fig 15: Muestra de datos para el conjunto de datos Iris._
 
 </div>
 
 Si aplicaramos el algoritmo descrito con `K = 3`, ocurriría lo siguiente:
 
-<div>
+<div align="center">
 
 ![comp](https://raw.githubusercontent.com/dpalmasan/homepage/master/public/imgs/kmeans.gif)
-_Fig 15: KMeans en acción._
+
+_Fig 16: KMeans en acción._
 
 </div>
 
@@ -861,10 +878,11 @@ plt.xlabel(iris_data.feature_names[0])
 plt.ylabel(iris_data.feature_names[2])
 ```
 
-<div>
+<div align="center">
 
 ![comp](https://raw.githubusercontent.com/dpalmasan/homepage/master/public/imgs/clusters_int.png)
-_Fig 16: Grupos originales vs Clústers encontrados por KMeans._
+
+_Fig 17: Grupos originales vs Clústers encontrados por KMeans._
 
 </div>
 
@@ -890,10 +908,11 @@ plt.title("Elbow graph")
 plt.axvline(3)
 ```
 
-<div>
+<div align="center">
 
 ![elbow](https://raw.githubusercontent.com/dpalmasan/homepage/master/public/imgs/elbow_graph.png)
-_Fig 17: Gráfico de codo._
+
+_Fig 18: Gráfico de codo._
 
 </div>
 
@@ -930,12 +949,13 @@ ax[1].set_title("Imagen comprimida con 30 colores")
 ax[1].axis("off")
 ```
 
-<div>
+<div align="center">
 
 ![oso1](https://raw.githubusercontent.com/dpalmasan/homepage/master/public/imgs/oso_compresion.png)
 ![oso2](https://raw.githubusercontent.com/dpalmasan/homepage/master/public/imgs/oso_compresion2.png)
 ![oso3](https://raw.githubusercontent.com/dpalmasan/homepage/master/public/imgs/oso_compresion3.png)
-_Fig 18: Compresión de imágenes considerando `K = 30` `K = 10` y `K = 5`._
+
+_Fig 19: Compresión de imágenes considerando `K = 30` `K = 10` y `K = 5`._
 
 </div>
 
