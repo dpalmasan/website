@@ -5,7 +5,7 @@ date:   2023-12-18 15:10:03 -0400
 categories: python algorithms mle
 ---
 
-En esta entrada hago unas reflexiones sobre mi año en Meta como MLE, sobre cómo sobreviví otro año de evaluación de desempeño y además ganar buena fama dentro del área. También comentaré sobre algunas cosas prácticas en MLE y mi opinión sobre algunos aspectos de la resolución de problemas; y finalmente cómo rechazé una promoción al siguiente nivel (Staff). Y comentaré por qué me cambié de rol nuevamente&nbsp;:sweat_smile:.
+En esta entrada hago unas reflexiones sobre mi año en Meta como MLE, sobre cómo sobreviví otro año de evaluación de desempeño y además ganar buena fama dentro del área. También comentaré sobre algunas cosas prácticas en MLE y mi opinión sobre algunos aspectos de la resolución de problemas; y finalmente cómo rechazé una promoción al siguiente nivel (Staff). Y comentaré por qué me cambié de rol nuevamente.
 
 ## Machine Learning Engineer y reflexiones
 
