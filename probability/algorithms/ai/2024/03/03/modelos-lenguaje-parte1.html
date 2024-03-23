@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Entendiendo los Modelos del Lenguaje (Parte 1) | Mr Dipalma’s Pub 🍺</title>
+<meta name="generator" content="Jekyll v3.9.2">
+<meta property="og:title" content="Entendiendo los Modelos del Lenguaje (Parte 1)">
+<meta name="author" content="dpalmasan">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Este es un blog donde compartiré un poco sobre mí y mis experiencias en el mundo tecnológico.">
+<meta property="og:description" content="Este es un blog donde compartiré un poco sobre mí y mis experiencias en el mundo tecnológico.">
+<link rel="canonical" href="https://dpalmasan.github.io/website/probability/algorithms/ai/2024/03/03/modelos-lenguaje-parte1.html">
+<meta property="og:url" content="https://dpalmasan.github.io/website/probability/algorithms/ai/2024/03/03/modelos-lenguaje-parte1.html">
+<meta property="og:site_name" content="Mr Dipalma’s Pub 🍺">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2024-03-03T19:30:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Entendiendo los Modelos del Lenguaje (Parte 1)">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"dpalmasan"},"dateModified":"2024-03-03T19:30:00+00:00","datePublished":"2024-03-03T19:30:00+00:00","description":"Este es un blog donde compartiré un poco sobre mí y mis experiencias en el mundo tecnológico.","headline":"Entendiendo los Modelos del Lenguaje (Parte 1)","mainEntityOfPage":{"@type":"WebPage","@id":"https://dpalmasan.github.io/website/probability/algorithms/ai/2024/03/03/modelos-lenguaje-parte1.html"},"url":"https://dpalmasan.github.io/website/probability/algorithms/ai/2024/03/03/modelos-lenguaje-parte1.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/website/assets/css/style.css">
+<link type="application/atom+xml" rel="alternate" href="https://dpalmasan.github.io/website/feed.xml" title="Mr Dipalma's Pub 🍺">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KHXBX5G1VP"></script>
+<script>
+  window['ga-disable-G-KHXBX5G1VP'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KHXBX5G1VP');
+</script>
+
+<script>MathJax={"tex":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]},"svg":{"fontCache":"global"}}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<header class="site-header">
+
+  <div class="wrapper">
+<a class="site-title" rel="author" href="/website/">Mr Dipalma's Pub 🍺</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewbox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/website/about/">About</a></div>
+      </nav>
+</div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Entendiendo los Modelos del Lenguaje (Parte 1)</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2024-03-03T19:30:00+00:00" itemprop="datePublished">
+        Mar 3, 2024
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/78da1f25307f7487f5e6287bcd6640096de80b58/ai.png" alt="ai"></p>
+</div>
+<h1 id="introduccin">Introducción</h1>
+<p>Iniciaré una serie de artículos, corta igual que la última que hice sobre <em>De vuelta a lo Básico</em>, donde expliqué probabilidades y conceptos básicos de modelos probabilísticos. Si quieres revisar dichos artículos, dejo los siguientes enlaces:</p>
+<ul>
+<li><a href="/website/probability/algorithms/ai/2024/02/25/de-vuelta-a-lo-basico.html"><em>De vuelta a lo básico (Parte 1)</em></a></li>
+<li><a href="/website/probability/algorithms/ai/2024/02/26/variables-aleatorias.html"><em>De vuelta a lo básico (Parte 2)</em></a></li>
+<li><a href="/website/probability/algorithms/ai/2024/02/28/hipotesis-correlacion.html"><em>De vuelta a lo básico (Parte 3)</em></a></li>
+</ul>
+<p>Esta nueva serie de artículos intentaré <em>aclarar</em> y desmenuzar los modelos de lenguaje, entendiendo primero qué es un modelo de lenguaje, y algunos temas de lingüística que pueden ser interesantes. Todo esto, con el fin de transferir conocimiento y evitar <em>mal entendimiento</em> de algunos conceptos.</p>
+<h1 id="modelos-de-lenguaje">Modelos de Lenguaje</h1>
+<h2 id="intuicin">Intuición</h2>
+<p>En términos simbólicos, definimos un vocabulario como un conjunto de símbolos, que típicamente representan letras, dígitos, fonemas e incluso palabras. Entonces, este conjunto que al menos tiene un elemento se definiría como:</p>
+<p>$$\Sigma = \left\{w_1, w_2, \ldots w_N\right\}$$</p>
+<p>En el caso de un lenguaje hablado, podría pensarse como que el i-ésimo elemento $w_i$ es una palabra del lenguaje. Para entender mejor esta idea, consideremos el siguiente vocabulario:</p>
+<p>$$\Sigma = \left\{\text{”.”}, \text{“perro”}, \text{“come”}, \text{“El”}\right\}$$</p>
+<p>Por otro lado, supongamos que vivimos en un mundo donde las oraciones tienen únicamente $4$ palabras. En este caso, podríamos representar las oraciones como una secuencia $\left(w_1, w_2, w_3, w_4\right)$. Para este mundo ficticion, tenemos que existen $4^4 = 256$ posibles combinaciones:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>
+
+<span class="n">vocab</span> <span class="o">=</span> <span class="p">(</span><span class="s">"El"</span><span class="p">,</span> <span class="s">"perro"</span><span class="p">,</span> <span class="s">"come"</span><span class="p">,</span> <span class="s">"."</span><span class="p">)</span>
+<span class="n">sample_space</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">(</span><span class="n">vocab</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">vocab</span><span class="p">)))</span>
+
+<span class="k">for</span> <span class="n">perm</span> <span class="ow">in</span> <span class="n">sample_space</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">perm</span><span class="p">)</span>
+</code></pre></div></div>
+<details><summary>Ver posibles combinaciones</summary>
+<pre><code>('El', 'El', 'El', 'El')
+('El', 'El', 'El', 'perro')
+('El', 'El', 'El', 'come')
+('El', 'El', 'El', '.')
+('El', 'El', 'perro', 'El')
+('El', 'El', 'perro', 'perro')
+('El', 'El', 'perro', 'come')
+('El', 'El', 'perro', '.')
+('El', 'El', 'come', 'El')
+('El', 'El', 'come', 'perro')
+('El', 'El', 'come', 'come')
+('El', 'El', 'come', '.')
+('El', 'El', '.', 'El')
+('El', 'El', '.', 'perro')
+('El', 'El', '.', 'come')
+('El', 'El', '.', '.')
+('El', 'perro', 'El', 'El')
+('El', 'perro', 'El', 'perro')
+('El', 'perro', 'El', 'come')
+('El', 'perro', 'El', '.')
+('El', 'perro', 'perro', 'El')
+('El', 'perro', 'perro', 'perro')
+('El', 'perro', 'perro', 'come')
+('El', 'perro', 'perro', '.')
+('El', 'perro', 'come', 'El')
+('El', 'perro', 'come', 'perro')
+('El', 'perro', 'come', 'come')
+('El', 'perro', 'come', '.')
+('El', 'perro', '.', 'El')
+('El', 'perro', '.', 'perro')
+('El', 'perro', '.', 'come')
+('El', 'perro', '.', '.')
+('El', 'come', 'El', 'El')
+('El', 'come', 'El', 'perro')
+('El', 'come', 'El', 'come')
+('El', 'come', 'El', '.')
+('El', 'come', 'perro', 'El')
+('El', 'come', 'perro', 'perro')
+('El', 'come', 'perro', 'come')
+('El', 'come', 'perro', '.')
+('El', 'come', 'come', 'El')
+('El', 'come', 'come', 'perro')
+('El', 'come', 'come', 'come')
+('El', 'come', 'come', '.')
+('El', 'come', '.', 'El')
+('El', 'come', '.', 'perro')
+('El', 'come', '.', 'come')
+('El', 'come', '.', '.')
+('El', '.', 'El', 'El')
+('El', '.', 'El', 'perro')
+('El', '.', 'El', 'come')
+('El', '.', 'El', '.')
+('El', '.', 'perro', 'El')
+('El', '.', 'perro', 'perro')
+('El', '.', 'perro', 'come')
+('El', '.', 'perro', '.')
+('El', '.', 'come', 'El')
+('El', '.', 'come', 'perro')
+('El', '.', 'come', 'come')
+('El', '.', 'come', '.')
+('El', '.', '.', 'El')
+('El', '.', '.', 'perro')
+('El', '.', '.', 'come')
+('El', '.', '.', '.')
+('perro', 'El', 'El', 'El')
+('perro', 'El', 'El', 'perro')
+('perro', 'El', 'El', 'come')
+('perro', 'El', 'El', '.')
+('perro', 'El', 'perro', 'El')
+('perro', 'El', 'perro', 'perro')
+('perro', 'El', 'perro', 'come')
+('perro', 'El', 'perro', '.')
+('perro', 'El', 'come', 'El')
+('perro', 'El', 'come', 'perro')
+('perro', 'El', 'come', 'come')
+('perro', 'El', 'come', '.')
+('perro', 'El', '.', 'El')
+('perro', 'El', '.', 'perro')
+('perro', 'El', '.', 'come')
+('perro', 'El', '.', '.')
+('perro', 'perro', 'El', 'El')
+('perro', 'perro', 'El', 'perro')
+('perro', 'perro', 'El', 'come')
+('perro', 'perro', 'El', '.')
+('perro', 'perro', 'perro', 'El')
+('perro', 'perro', 'perro', 'perro')
+('perro', 'perro', 'perro', 'come')
+('perro', 'perro', 'perro', '.')
+('perro', 'perro', 'come', 'El')
+('perro', 'perro', 'come', 'perro')
+('perro', 'perro', 'come', 'come')
+('perro', 'perro', 'come', '.')
+('perro', 'perro', '.', 'El')
+('perro', 'perro', '.', 'perro')
+('perro', 'perro', '.', 'come')
+('perro', 'perro', '.', '.')
+('perro', 'come', 'El', 'El')
+('perro', 'come', 'El', 'perro')
+('perro', 'come', 'El', 'come')
+('perro', 'come', 'El', '.')
+('perro', 'come', 'perro', 'El')
+('perro', 'come', 'perro', 'perro')
+('perro', 'come', 'perro', 'come')
+('perro', 'come', 'perro', '.')
+('perro', 'come', 'come', 'El')
+('perro', 'come', 'come', 'perro')
+('perro', 'come', 'come', 'come')
+('perro', 'come', 'come', '.')
+('perro', 'come', '.', 'El')
+('perro', 'come', '.', 'perro')
+('perro', 'come', '.', 'come')
+('perro', 'come', '.', '.')
+('perro', '.', 'El', 'El')
+('perro', '.', 'El', 'perro')
+('perro', '.', 'El', 'come')
+('perro', '.', 'El', '.')
+('perro', '.', 'perro', 'El')
+('perro', '.', 'perro', 'perro')
+('perro', '.', 'perro', 'come')
+('perro', '.', 'perro', '.')
+('perro', '.', 'come', 'El')
+('perro', '.', 'come', 'perro')
+('perro', '.', 'come', 'come')
+('perro', '.', 'come', '.')
+('perro', '.', '.', 'El')
+('perro', '.', '.', 'perro')
+('perro', '.', '.', 'come')
+('perro', '.', '.', '.')
+('come', 'El', 'El', 'El')
+('come', 'El', 'El', 'perro')
+('come', 'El', 'El', 'come')
+('come', 'El', 'El', '.')
+('come', 'El', 'perro', 'El')
+('come', 'El', 'perro', 'perro')
+('come', 'El', 'perro', 'come')
+('come', 'El', 'perro', '.')
+('come', 'El', 'come', 'El')
+('come', 'El', 'come', 'perro')
+('come', 'El', 'come', 'come')
+('come', 'El', 'come', '.')
+('come', 'El', '.', 'El')
+('come', 'El', '.', 'perro')
+('come', 'El', '.', 'come')
+('come', 'El', '.', '.')
+('come', 'perro', 'El', 'El')
+('come', 'perro', 'El', 'perro')
+('come', 'perro', 'El', 'come')
+('come', 'perro', 'El', '.')
+('come', 'perro', 'perro', 'El')
+('come', 'perro', 'perro', 'perro')
+('come', 'perro', 'perro', 'come')
+('come', 'perro', 'perro', '.')
+('come', 'perro', 'come', 'El')
+('come', 'perro', 'come', 'perro')
+('come', 'perro', 'come', 'come')
+('come', 'perro', 'come', '.')
+('come', 'perro', '.', 'El')
+('come', 'perro', '.', 'perro')
+('come', 'perro', '.', 'come')
+('come', 'perro', '.', '.')
+('come', 'come', 'El', 'El')
+('come', 'come', 'El', 'perro')
+('come', 'come', 'El', 'come')
+('come', 'come', 'El', '.')
+('come', 'come', 'perro', 'El')
+('come', 'come', 'perro', 'perro')
+('come', 'come', 'perro', 'come')
+('come', 'come', 'perro', '.')
+('come', 'come', 'come', 'El')
+('come', 'come', 'come', 'perro')
+('come', 'come', 'come', 'come')
+('come', 'come', 'come', '.')
+('come', 'come', '.', 'El')
+('come', 'come', '.', 'perro')
+('come', 'come', '.', 'come')
+('come', 'come', '.', '.')
+('come', '.', 'El', 'El')
+('come', '.', 'El', 'perro')
+('come', '.', 'El', 'come')
+('come', '.', 'El', '.')
+('come', '.', 'perro', 'El')
+('come', '.', 'perro', 'perro')
+('come', '.', 'perro', 'come')
+('come', '.', 'perro', '.')
+('come', '.', 'come', 'El')
+('come', '.', 'come', 'perro')
+('come', '.', 'come', 'come')
+('come', '.', 'come', '.')
+('come', '.', '.', 'El')
+('come', '.', '.', 'perro')
+('come', '.', '.', 'come')
+('come', '.', '.', '.')
+('.', 'El', 'El', 'El')
+('.', 'El', 'El', 'perro')
+('.', 'El', 'El', 'come')
+('.', 'El', 'El', '.')
+('.', 'El', 'perro', 'El')
+('.', 'El', 'perro', 'perro')
+('.', 'El', 'perro', 'come')
+('.', 'El', 'perro', '.')
+('.', 'El', 'come', 'El')
+('.', 'El', 'come', 'perro')
+('.', 'El', 'come', 'come')
+('.', 'El', 'come', '.')
+('.', 'El', '.', 'El')
+('.', 'El', '.', 'perro')
+('.', 'El', '.', 'come')
+('.', 'El', '.', '.')
+('.', 'perro', 'El', 'El')
+('.', 'perro', 'El', 'perro')
+('.', 'perro', 'El', 'come')
+('.', 'perro', 'El', '.')
+('.', 'perro', 'perro', 'El')
+('.', 'perro', 'perro', 'perro')
+('.', 'perro', 'perro', 'come')
+('.', 'perro', 'perro', '.')
+('.', 'perro', 'come', 'El')
+('.', 'perro', 'come', 'perro')
+('.', 'perro', 'come', 'come')
+('.', 'perro', 'come', '.')
+('.', 'perro', '.', 'El')
+('.', 'perro', '.', 'perro')
+('.', 'perro', '.', 'come')
+('.', 'perro', '.', '.')
+('.', 'come', 'El', 'El')
+('.', 'come', 'El', 'perro')
+('.', 'come', 'El', 'come')
+('.', 'come', 'El', '.')
+('.', 'come', 'perro', 'El')
+('.', 'come', 'perro', 'perro')
+('.', 'come', 'perro', 'come')
+('.', 'come', 'perro', '.')
+('.', 'come', 'come', 'El')
+('.', 'come', 'come', 'perro')
+('.', 'come', 'come', 'come')
+('.', 'come', 'come', '.')
+('.', 'come', '.', 'El')
+('.', 'come', '.', 'perro')
+('.', 'come', '.', 'come')
+('.', 'come', '.', '.')
+('.', '.', 'El', 'El')
+('.', '.', 'El', 'perro')
+('.', '.', 'El', 'come')
+('.', '.', 'El', '.')
+('.', '.', 'perro', 'El')
+('.', '.', 'perro', 'perro')
+('.', '.', 'perro', 'come')
+('.', '.', 'perro', '.')
+('.', '.', 'come', 'El')
+('.', '.', 'come', 'perro')
+('.', '.', 'come', 'come')
+('.', '.', 'come', '.')
+('.', '.', '.', 'El')
+('.', '.', '.', 'perro')
+('.', '.', '.', 'come')
+('.', '.', '.', '.')
+</code></pre>
+</details>
+<p>En este modelo del mundo, estas combinaciones definirían el <strong>espacio muestral</strong> de las oraciones a poder formar. Supongamos que queremos calcular la probabilidad de la oración $\text{“El perro come.”}$. Tenemos 4 <strong>variables aleatorias</strong> $w_1, w_2, w_3, w_4$, sea $P_1$ tal que:</p>
+<p>$$
+\begin{align}
+P_1 &amp;= P\left(w_1=\text{“El”}, w_2=\text{“perro”}, w_3=\text{“come”}, w_4=\text{”.”}\right) \\
+&amp;= \frac{1}{256} \\
+&amp; \approx 0.004
+\end{align}
+$$</p>
+<p>Supongamos que muestreamos $P_2$ tal que:</p>
+<p>$$
+\begin{align}
+P_2 &amp;= P\left(w_1=\text{”.”}, w_2=\text{“come”}, w_3=\text{“perro”}, w_4=\text{“El”}\right) \\
+&amp;= \frac{1}{256} \\
+&amp; \approx 0.004
+\end{align}
+$$</p>
+<p>Esto ocurre, porque asumimos que $P(w_1, w_2, w_3, w_4)$ es una distribución uniforme. En el mundo real, si consideramos el lenguaje español, esperaríamos que $P_1 \gt P_2$, además, idealmente $P_2 = 0$, ya que según las reglas gramaticales, no sería parte del lenguaje. A este modelo estadístico de calcular la probabilidad de una secuencia de palabras se le conoce como <strong>modelo de lenguaje</strong>.</p>
+<p>Finalmente, aclarar que el vocabulario $\Sigma$ en un lenguaje natural es mucho más grande que el del ejemplo donde la cardinalidad (cantidad de elementos) $|\Sigma| = 4$. Observamos que la cantidad de combinaciones posibles crece exponencialmente con el largo $N$ de texto a considerar y la cardinalidad $|\Sigma|$, que representa la cantidad de posibles asignaciones para las variables $w_1, w_2, \ldots, w_N$.</p>
+<h2 id="prediccin-de-la-siguiente-palabra">¿Predicción de la siguiente palabra?</h2>
+<p>La mayoría de la gente, cuando se habla de modelos del lenguaje habla sobre <em>predicción de la siguiente palabra</em>. Aclaremos esto, ya que recuerdo una vez que cierta persona (ingeniero de software), mencionaba los <em>LLM</em> (<em>Large Language Models</em>) y hablaba sobre predicción de la siguiente palabra. Sin embargo, cuando le preguntaron el por qué, o la justificación, la persona no pudo responder y divagó por varias ramas sin responder a la pregunta.</p>
+<p>Si recordamos la probabilidad condicional, y escribiendo considerando $P(A\cap B) = P(A, B)$ tenemos:</p>
+<p>$$P(A|B) = \displaystyle \frac{P(A, B)}{P(B)}$$</p>
+<p>Consideremos un lenguaje cuyas oraciones son de largo $N$, entonces, el modelo de lenguaje estaría dado por:</p>
+<p>$$P(w_1, w_2, \ldots w_N)$$</p>
+<p>Utilizando la definición de probabilidad condicional:</p>
+<p>$$P(w_1, w_2, \ldots w_N) = P(w_N|w_1, w_2, \ldots w_{N-1})P(w_1, w_2, \ldots w_{N-1}) $$</p>
+<p>Extendiendo:</p>
+<p>$$
+\begin{align}
+P(w_1, w_2, \ldots w_N) &amp;= P(w_N|w_1, w_2, \ldots w_{N-1})P(w_{N-1}|w_1, w_2, \ldots w_{N-2}) P(w_1, w_2, \ldots w_{N-2}) \\
+&amp;= \displaystyle \prod_{i=1}^{N} P(w_i|w_1 \ldots w_{i-1})
+\end{align}
+$$</p>
+<p>En este caso, intentamos calcular la probabilidad conjunta $P(w_1, w_2, \ldots w_N)$ como una cadena de probabilidades condicionales. Se eligieron las probabilidades condicionales, de manera de considerar la variable $w_i$ dadas todas las variables $w_i, \ldots\ w_{i-1}$, de ahí que decimos que intentamos calcular la probabilidad $P(w_i|w_1 \ldots w_{i-1})$, que se interpreta como calcular la probabilidad de la palabra $w_i$ dadas todas las palabras previas.</p>
+<h2 id="estimar-pw1-w2-ldots-wn">¿Estimar $P(w_1, w_2, \ldots w_N)$?</h2>
+<p>Sabemos que $P(w_1, w_2, \ldots w_N)$ es desconocida, por lo tanto necesitamos estimarla. Para ello, lo que se hace en la práctica es construir un repositorio gigante de textos, y encontrar las probabilidades condicionales para poder calcular la probabilidad conjunta que representa al lenguaje. El lector podrá observar, ¿Qué me garantiza que podré recolectar un conjunto de oraciones que contenga todas las oraciones posibles?. No hay garantía, y de hecho, podría darse el caso de que el repositorio no contenga una oración válida y que a dicha oración se le asigne una probabilidad igual a cero. Para evitar esto, se hacen aproximaciones. Si definimos $w_1, w_2 \ldots w_{i-1}$ como el <em>contexto</em> para la palabra $w_i$, entonces podemos escoger no utilizar el contexto completo y por ejemplo considerar únicamente las $n$ palabras previas. En este caso, estaríamos calculando $P(w_i|w_{i-n}, \ldots w_{i - 1})$. Este tipo de secuencias se conocen como <em>n-gramas</em>.</p>
+<p>En mi artículo <a href="/website/entrevistas/ti/2023/01/08/nlp-intro.html"><em>Un poco de NLP básico (no un tutorial de pytorch/tensor flow)</em></a>, explico cómo se construye un modelo de n-gramas simple, utilizando una <em>cadena de Markov</em>. Sin embargo, en dicho artículo describo una posible solución al problema. Actualmente, con los avances en semi-conductores y en las ciencias de la computación, ahora existen modelos que son capaces de considerar más contexto, e incluso ponderarlo, por ejemplo considerar ciertas palabras más relevantes que otras para el caso de predecir la siguiente palabra. Por ejemplo si consideramos la oración: “<em>El gato se sentó en</em>”, podríamos decir que es probable que sea “<em>el sofá</em>”. Sin embargo, si tuviesemos el contexto completo: “<em>Estabamos haciendo una parrillada en la terraza y vimos que el gato se sentó en</em>”, en este caso es más probable decir “<em>el techo</em>” que “<em>el sofá</em>”.</p>
+<p>Finalmente, al estimar $P(w_1, w_2, \ldots w_N)$ se obtiene un <em>modelo generativo</em> con el cual se pueden muestrear oraciones/texto que incluso no se vio en el conjunto de entrenamiento.</p>
+<p>En siguientes artículos, explicaré de forma simple cómo funciona uno de los modelos que ha causado mayor sensacionalismo recientemente, hablo de GPT (<em>Generative Pre-Trained Transformers</em>), e idealmente estos artículos podrán aclarar algunos temas que lamentablemente ciertos <em>influencers</em> viven publicando y que son engañosos.</p>
+<h1 id="conclusiones">Conclusiones</h1>
+<ul>
+<li>Un modelo de lenguaje es simplemente un modelo probabilístico que opera con secuencias.</li>
+<li>La probabilidad conjunta de una oración puede calcularse como un producto de probabilidades condicionales.</li>
+<li>El <em>predecir la siguiente palabra</em> es simplemente una forma de estimar $P(w_1, w_2, \ldots w_N)$.</li>
+<li>Este modelo probabilístico es generativo, lo que permite muestrear de $P(w_1, w_2, \ldots w_N)$ incluso oraciones no vistas en el repositorio de datos utilizado para estimar dicha distribución de probabilidad.</li>
+<li>En la historia han existido distintos enfoques/trucos/técnicas para calcular $P(w_1, w_2, \ldots w_N)$. En los recientes desarrollos GPT es el estado del arte en este problema.</li>
+</ul>
+
+  </div>
+<div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = 'https://dpalmasan.github.io/website/probability/algorithms/ai/2024/03/03/modelos-lenguaje-parte1.html';
+      this.page.identifier = 'https://dpalmasan.github.io/website/probability/algorithms/ai/2024/03/03/modelos-lenguaje-parte1.html';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://dpalmasan.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+<a class="u-url" href="/website/probability/algorithms/ai/2024/03/03/modelos-lenguaje-parte1.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/website/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="https://dpalmasan.github.io/website/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/website/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">dpalmasan</li>
+          
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Este es un blog donde compartiré un poco sobre mí y mis experiencias en el mundo tecnológico.</p>
+      </div>
+    </div>
+
+    <div class="social-links">
+<ul class="social-media-list">
+<li>
+  <a rel="me" href="https://www.linkedin.com/in/dpalmasan/" target="_blank" title="Mi perfil en Linkedin">
+    <svg class="svg-icon grey">
+      <use xlink:href="/website/assets/minima-social-icons.svg#linkedin"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://www.github.com/dpalmasan" target="_blank" title="Mi Github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/website/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://scholar.google.com/citations?user=Y5PN_1AAAAAJ&hl=en" target="_blank" title="Mi Google Scholar">
+    <svg class="svg-icon grey">
+      <use xlink:href="/website/assets/minima-social-icons.svg#google_scholar"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://stackoverflow.com/users/4051219/dpalma" target="_blank" title="Mis preguntas en SO LOL!">
+    <svg class="svg-icon grey">
+      <use xlink:href="/website/assets/minima-social-icons.svg#stackoverflow"></use>
+    </svg>
+  </a>
+</li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
