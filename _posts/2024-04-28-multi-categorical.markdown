@@ -1,13 +1,13 @@
 ---
 layout: post
-title:  "Redes Neuronales y Variables Multi-Categoricas"
+title:  "Redes Neuronales y Variables Multi-Categóricas"
 date:   2024-04-28 17:22:00 -0400
 categories: probability algorithms ai
 ---
 
 # Introducción
 
-En algunos problemas donde nos interesa poder "predecir" una cierta categoría para una entrada (por ejemplo usuario, negocio, entidad genérica), tenemos variables categóricas. Una variable categórica es una variable discreta que puede tomar ciertos valores, que no necesariamente consideran un orden específico (no hay noción de desigualdad). Generalmente los modelos basados en árboles de decisión no tienen problemas para lidiar con este tipo de variables, sin embargo los modelos numéricos necesitan un tratamiento especial para poder manipular este tipo de variables.
+En algunos problemas donde nos interesa poder "predecir" una cierta clase para una entrada dada (por ejemplo usuario, negocio, entidad genérica), podemos tener diversos tipos de variables, entre ellas variables categóricas. Una variable categórica es una variable discreta que puede tomar ciertos valores, que no necesariamente consideran un orden específico (no hay noción de desigualdad). Generalmente los modelos basados en árboles de decisión no tienen problemas para lidiar con este tipo de variables, sin embargo los modelos numéricos necesitan un tratamiento especial para poder manipularlas.
 
 Por otro lado, las variables categóricas por lo general pueden tomar un sólo valor (categoría). Sin embargo, existen problemas más interesantes. Por ejemplo, supongamos que tenemos IDs de páginas visitadas como una variable. El lector podrá notar, que esta no es una variable ordinal, y que este tipo de variables es *Multi-Categrórica* ya que una entrada puede tener más de una cateogoría a la vez.
 
