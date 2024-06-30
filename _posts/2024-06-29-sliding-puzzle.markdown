@@ -11,6 +11,10 @@ Era el año 2014, y me había titulado de ingeniería civil eléctrica en la Uni
 
 En ese mismo año alguien publica en facebook que darán un curso "gratis" de electromagnetismo en la plataforma edX (que yo desconocía), así que me inscribí; lamentablemente dicho curso ya no está disponible, era el curso _8.02x - MIT Physics II: Electricity and Magnetism_ (pero si no saben la historia **funaron** al profesor Walter Lewin; por lo que el curso ya no está dispnible en edX; hay que reconocer que las clases eran espectaculares). Debo decir que disfruté bastante el curso y hasta me uní a grupos de facebook y participaba activamente en los foros de edX ayudando y respondiendo dudas de los problemas; ¿qué pasó? Me volví adicto a los cursos en línea y me puse a tomar varios cursos (más relacionados a la ingeniería eléctrica). Luego, gracias a una de las personas que estaba en uno de esos cursos de física donde yo participaba, encontré el mítico curso [CS50x: Introduction to Computer Science de Harvard](https://www.edx.org/learn/computer-science/harvard-university-cs50-s-introduction-to-computer-science). Fue dicho curso en donde aprendí lo introductorio de las Ciencias de la Computación y varios temas de programación (en especial en C) que desconocía. Con mi "experiencia" programando, no pensé que sería un curso desafiante, pero lo fue. Lo interesante es que cada tarea, tenía dos versiones: La tarea para aprobar y la versión "hacker". Yo logré resolver las versiones "hacker" de todos los problemas, excepto de uno: [The game of fifteen](https://docs.cs50.net/problems/fifteen/fifteen.html). No entraré en detalles, pero en esencia es un puzzle, la tarea era implementar el puzzle como un juego de terminal y la versión hacker era implementar un comando "GOD" que resolviera el puzzle de forma automática. Este post es mi redención e intento de solución de este problema.
 
+# TL;DR
+
+El repositorio github del código: [N^2 Puzzle Solver](https://github.com/dpalmasan/n2_1_puzzle)
+
 # ¿$N^2 - 1$ Puzzle?
 
 El puzzle de $N^2 - 1$ es una grilla de $N\times N$ que consiste en $N^2 - 1$ piezas que deben moverse a una configuración objetivo, que consiste en tener todas las piezas ordenadas de forma ascendente, como se muestra en la figura 1.
@@ -169,6 +173,10 @@ _Fig 5: Muestra del algoritmo voraz para poner las filas y columnas en su lugar.
 </div>
 
 Esto se hace recursivamente hasta llegar al punto en que $n = 3$. Luego, aplicamos el algoritmo `A*` y resolvemos el resto del puzzle.
+
+## Repositorio GitHub
+
+El código completo lo dejo en este repositorio github: [N^2 Puzzle Solver](https://github.com/dpalmasan/n2_1_puzzle).
 
 # Reflexiones Finales
 
