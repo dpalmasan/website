@@ -19,73 +19,6 @@ En mi post más reciente, me puse a jugar un poco con redes neuronales convoluci
 * Curiosidad, ya que en la práctica utilicé un modelo de calce de imágenes, y quise entender los fundamentos de fondo para este tipo de modelos.
 * Aprender más sobre el estado del arte y los fundamentos que mueven la inteligencia artificial actualmente.
 
-Este post, tendrá una mezcla de dos sabores:
-
-1. Consejos para lidiar con el _Síndrome del Impostor_
-2. Reflexiones mías sobre el panorama Tech en general
-3. Exploraré un poco sobre Inteligencia Artificial Generativa (a.k.a _GenAI_)
-
-# Reflexiones
-
-En esta sección escribiré algunas reflexiones sobre el escenario actual en el mundo tech. Voy a informar y aclarar, que doy mis opiniones sesgadas a mi experiencia. Generalmente mis opiniones desafían el estatus quo, y a las personas en general les cae como _una patada en la guata_. Me disculpo de antemano si es así, pero como digo, es mi opinión. Si es polémica o no, dependerá del lector; si al lector le molesta, es libre de tener su propia opinión 😊. Advierto, de todas formas, que por lo general no pierdo tiempo en debatir en internet (como lo hacen algunas personas en los comentarios 😆), por lo tanto, me disculpo de antemano si es que no sigo el juego de crear un hilo gigante de comentarios.
-
-## La Cura para el _Síndrome del Impostor_
-
-En esta sección describo una posible solución/cura para el conocido síndrome del impostor. El lector debe notar, que estoy haciendo esto gratis (sin costosas sesiones de coaching 😊).
-
-<details><summary>Click para ver la cura al Síndrome del Impostor</summary>
-<p>
-
-<div align="center">
-
-![imposter](https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/2220830024f03619f8c96752e9a47673e6d9bce1/imposter-syndrome.jpeg)
-
-</div>
-
-_¿Eres lo suficientemente bueno para realmente tener el Síndrome del Impostor?_
-
-No te preocupes del Síndrome del Impostor, y como dice el dicho: _No hay que preocuparse, hay que ocuparse_. Si sientes que tienes carencias/falencias, sé responsable contigo mismo/a y hazte cargo de ellas 💪. La disciplina es lo que lleva al éxito (si no, miren la gente del mundo fitness, o los atletas de alto rendimiento). También está la variable talento, y hay personas que tienen más talento que otras (dejando constante el esfuerzo, el talentoso genera mayor utilidad). Pero el talento es casi una variable aleatoria y no es posible de controlar, por lo que no vale la pena ni pensar en ello.
-
-</p>
-</details>
-
-## Aspectos Humanos en el día a día Tech
-
-El estatus quo en la industria Tech en general en términos de la metodología de trabajo, es seguir alguna metodología ágil, del sabor que sea; y luego implementar de alguna forma las ceremonias y los aspectos que se deben seguir en dicha metodología/marco de trabajo.
-
-Un aspecto común son las famosas reuniones diarias (_dailies_), que en resumen consisten en lo siguiente:
-
-* Cada miembro del equipo dice su status
-    * En qué trabajé ayer
-    * En que estoy trabajando ahora
-    * Hay algo que esté bloqueando el desarrollo
-* En algunos casos se revisan "tickets" y esto hace que se pierda más tiempo
-
-Mi opinión y lo que llevo evangelizando hace un tiempo es:
-
-> Si quieres matar la productividad de un equipo de Ingeniería, simplemente crea reuniones diarias (daily)
->
-> -- <cite>Quien les escribe</cite>
-
-Siempre me he cuestionado dichas reuniones, algunas preguntas que me hago:
-
-* ¿Qué me importa lo que esté haciendo el resto?
-* ¿Hay un gradiente significativo entre lo que hice ayer y lo que haré hoy?
-* ¿Si estoy bloqueado, es realmente una _daily_ el momento de mencionar dicho bloqueo?
-* ¿De verdad vamos a sacrificar `(15 mins * 5 días * X ing) = 1.25 hr * $costo ing/hr` provocando cambios de contexto, corte de inspiración y costos en ingeniería todas las semanas?
-
-Yo creo que no tiene sentido. Seguir recetas, nunca va a ser el camino para llegar al objetivo (si fuera así de simple, todos seriamos exitosos). Creo que los cambios de contexto frecuentes son perjudiciales para los equipos de ingeniería.
-
-Lamento mucho tocar sensibilidades de gente que practique y utilice marcos de trabajo (_frameworks_) relacionados. Sin embargo, lo mío es una opinión y yo opino lo que quiero 😂. Por otro lado, no quiero que se malentienda lo que digo, no digo que estos _frameworks_ sean inútiles, pero eso de intentar inyectarlo en todos lados es contraproducente. Quizás para una empresa `X` en una situación `Y`, la solución sea utilizar el _framework_ `Z`; pero un caso no hace la norma. Por ejemplo, trabajar para una _startup_ es totalmente diferente que trabajar para una empresa con más años de circo, que ya tiene una estructura burocrática (que en algunos casos hay que cambiar/desafiar).
-
-Lo otro que he observado, los famosos memes de:
-
-* _Una reunión que podría haber sido un correo_
-* _No me llamen por teléfono, prefiero que me escriban_
-* etc.
-
-Siento que todos somos suficientemente adultos para tomar decisiones en el mundo laboral. Por ejemplo, esto es algo personal, si considero que una reunión no va a ser relevante para mí, o no soy estrictamente necesario, simplemente rechazo la reunión y le comunico a los organizadores que no asistiré, dando razones que justifiquen esta ausencia. Muchas veces me pasó este último año, y me propuse a no participar en ninguna reunión que no considerara que iba a ser aporte, precisamente porque necesito optimizar mi tiempo y pensar formas para generar impacto. Es cierto que existen otros roles que sí deben coordinarse y deben tener muchas reuniones, esto no lo niego. Sin embargo, en el caso de los ingenieros, estos debiesen asistir solo a las reuniones que puedan generar utilidades en el corto y largo plazo; por algo existe la famosa _comunicación asíncrona_.
-
 # Jugando con Pixeles y Modelos Generativos
 
 En esta sección simplente describiré algunos experimentos que hice para generar pixel-art (en particular _sprites_) de un estilo definido, a partir de un conjunto de datos de pixel art. Este mini-proyecto apareció por dos motivos:
@@ -419,7 +352,5 @@ Algunas observaciones que recalco y que me causaron curiosidad:
 
 # Conclusiones
 
-* Se deben tener claro los objetivos de la agilidad, y tratar de adoptar únicamente prácticas que habiliten trabajar de manera ágil y no simplemente seguir recetas. Empresa `X` tiene necesidades tipo `Y` en un contexto `Z`. No se puede llegar y repetir como loro una receta y esperar que funcione.
-* Los profesionales somos suficientemente adultos para tomar decisiones que impacten en el tiempo y productividad. Cancelar reuniones no tiene nada de malo, siempre y cuando sea con tiempo y justificado.
 * VAE es un modelo generativo que intenta ajustar una distribución a cada punto en un espacio latente, lo que permite generar nuevos datos a partir de muestreo en dicho espacio.
 * Generar pixel art es una tarea mucho más compleja que generar imágenes, debido a la naturaleza del pixel art: Paleta de colores limitada

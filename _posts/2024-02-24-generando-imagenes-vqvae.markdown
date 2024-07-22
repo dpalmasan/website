@@ -29,28 +29,7 @@ _Fig 1: Arquitectura codificador-decodificador variacional_
 
 </div>
 
-En este post tocaré dos temas:
-
-1. Algunas reflexiones de mi 2023, para algunos resonará, otros quizás no tanto
-2. Hablaré sobre una mejora a este modelo VAE: VQ-VAE, que es la base de modelos sofisticados como DALL-E para generación de imágenes.
-
-# Reflexiones Iniciales
-
-Me he dado cuenta que los posts que escribo y que más enganche tienen son los que digo algo polémico. Y voy a ser honesto, me gusta _trolear_ a cierto tipo de personas, y también me gusta desafiar las creencias de la gente en general. Y cuando genero molestia, en verdad me causa cierto placer. Lo que ya no hago, y solía hacer, es enganchar mucho en la discusión, ya que termino perdiendo tiempo.
-
-Lo que me causa un poco de tristeza, es que los artículos que escribo, donde intento explicar de forma "simple" y aterrizada cómo funcionan ciertos algoritmos y sistemas en el mundo actual (con fines de reducir el sensacionalismo), no tienen tanta recepción. Pero bueno, supongo que tengo que mejorar en "venderme a mi mismo" cosa que nunca he sido bueno, porque soy demasiado realista, objetivo y riguroso. Curiosamente, me he topado con personas similares en la industria y también se les hace difícil "venderse". Sin embargo, hay que aclarar que el tener miles de seguidores, no es sinónimo de conocimiento/veracidad de la información, es sólo publicidad y venderse. No niego que hay _influencers_ que crean muy buen material, sin embargo, en redes como LinkedIn esto no es el caso general.
-
-Por otro lado, me gustaría aclarar: **Yo no soy un _influencer_**. La verdad, mis artículos toman tiempo, necesito estar motivado, encontrar un buen tema y además intentar crear material de calidad, demostrando la veracidad de lo expuesto mediante el método científico. Ello toma tiempo y lamentablemente no vivo de esto. Si quisiera monetizar o ser _influencer_, escribiría mis artículos en lugares como **Medium**, y no en una web _chafa_ (me gusta esta palabra) como la que hago yo utilizando Github 🤣.
-
-Finalmente, aclarar que me considero un Ingeniero de Software/Machine Learning promedio; He conocido personas mucho más inteligentes/mejores que yo, y personas peores. No obstante, siempre intento hacer las cosas de la mejor calidad posible para mi. No me conformo con una evaluación de desempeño de _"Meets All"_, tengo hambre de _"Greatly Exceed Expectations"_.
-
-# Un poco más de IA generativa
-
-Aún voy atrasado en temas de conocimiento de los fundamentos de las tecnologías actuales (recién voy por el 2017 😅), sin embargo de a poco agarro el vuelo. Se me ha hecho bastante difícil entender los papers y ¡luego implementarlos! pero ya vamos de a poco.
-
-En estos momentos realmente me _impresionan los genios de GenAI que apenas sale una nueva tecnología se vuelven expertos_ (sarcasmo... ejem... ChatGPT, Sora, DALL-E, LLAMA... `LinkedIn`).
-
-En esta sección explicaré el modelo fundamental utilizado en sistemas como DALL-E, en la parte de generación de imágenes. En particular, explicaré el modelo de Codificador Variacional con Cuantización Vectorial (VQ-VAE _Vector Quantised-Variational Autoencoder_), y una simple implementación. Por otro lado, también intentaremos generar imágenes nuevas utilizando este mismo modelo.
+En este post hablaré sobre una mejora a este modelo VAE: VQ-VAE, que es la base de modelos sofisticados como DALL-E para generación de imágenes.
 
 ## Entendiendo el VQ-VAE
 
@@ -498,14 +477,9 @@ En este caso generamos nuevos íconos, curioso que también logramos muestrear p
 
 En este artículo expliqué cómo funciona uno de los modelos fundamentales en GenAI. Este modelo es la base del conocido DALL-E, claro que DALL-E utiliza otros trucos, en lugar de utilizar un VQ-VAE utiliza una adaptación llamada `dVAE` pero la idea es similar. Para más detalle ver paper [Zero-Shot Text-to-Image Generation](https://arxiv.org/abs/2102.12092). En simples palabras, ellos logran dado una imagen $x$ y un texto $y$, logran estimar $p(x, y)$ (en realidad, en un espacio latente), y muestrean nuevas imágenes dado un texto.
 
-¿Va la inteligencia artificial exterminarnos? De momento, creo que no. Si bien, en LinkedIn hay mucho _hype_ y sensacionalismo (también en algunos medios), ya observamos que en GenAI el patrón simple es encontrar una distribución de probabilidad y muestrear de la misma. Claro que hay varios trucos ingenieriles, los cuales desconozco, para lograr la calidad de contenido que generan estos sistemas de AI. El resto de mis opiniones, me las guardo.
-
 Finalmente, sólo como dato, quise hacer experimentos rápidos para validar mi entendimiento en estos temas y modelos. No utilicé una cantidad de datos abismal, ya que tengo GPU limitada (y dinero limitado 😂), pero la industria y las empresas con mayor poder adquisitivo cuentan con una mejor infraestructura, un mejor equipo de ingenieros, mayor cantidad de datos y mucho mayor poder de cómputo.
 
 # Conclusiones
 
-* No soy un influencer 😤
 * El modelo generativo VQ-VAE + PixelCNN es la base de sistemas como DALL-E
 * Generar imágenes en este contexto de GenAI, es simplemente muestrear de una distribución $p(x)$, que se estima mediante modelos de redes neuronales
-* La AI no nos va a exterminar por lo pronto, y mucho sensacionalismo y _posts_ de influencers no tienen base alguna
-* Sigo sin entender qué es ser experto en GenAI
