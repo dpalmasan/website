@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Inteligencia Artificial: Agentes y Conceptos Básicos | Mr Dipalma’s Pub 🍺</title>
+<meta name="generator" content="Jekyll v3.9.2">
+<meta property="og:title" content="Inteligencia Artificial: Agentes y Conceptos Básicos">
+<meta name="author" content="dpalmasan">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Introducción">
+<meta property="og:description" content="Introducción">
+<link rel="canonical" href="https://dpalmasan.github.io/website/algorithms/ai/2024/06/20/agents-ai.html">
+<meta property="og:url" content="https://dpalmasan.github.io/website/algorithms/ai/2024/06/20/agents-ai.html">
+<meta property="og:site_name" content="Mr Dipalma’s Pub 🍺">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2024-06-20T23:22:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Inteligencia Artificial: Agentes y Conceptos Básicos">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"dpalmasan"},"dateModified":"2024-06-20T23:22:00+00:00","datePublished":"2024-06-20T23:22:00+00:00","description":"Introducción","headline":"Inteligencia Artificial: Agentes y Conceptos Básicos","mainEntityOfPage":{"@type":"WebPage","@id":"https://dpalmasan.github.io/website/algorithms/ai/2024/06/20/agents-ai.html"},"url":"https://dpalmasan.github.io/website/algorithms/ai/2024/06/20/agents-ai.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/website/assets/css/style.css">
+<link type="application/atom+xml" rel="alternate" href="https://dpalmasan.github.io/website/feed.xml" title="Mr Dipalma's Pub 🍺">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KHXBX5G1VP"></script>
+<script>
+  window['ga-disable-G-KHXBX5G1VP'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KHXBX5G1VP');
+</script>
+
+<script>MathJax={"tex":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]},"svg":{"fontCache":"global"}}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<header class="site-header">
+
+  <div class="wrapper">
+<a class="site-title" rel="author" href="/website/">Mr Dipalma's Pub 🍺</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewbox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/website/about/">About</a></div>
+      </nav>
+</div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Inteligencia Artificial: Agentes y Conceptos Básicos</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2024-06-20T23:22:00+00:00" itemprop="datePublished">
+        Jun 20, 2024
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h1 id="introduccin">Introducción</h1>
+<p>En estos momentos estoy en Suvarnabhumi Airport, en Bangkok, en el Sakura Lounge de Japan Airlines, esperando para tomar mi vuelo de vuelta a Seattle. ¡Rayos! Las vacaciones pasan rápido. El artículo de hoy será sobre conceptos básicos de inteligencia artificial, en particular “agentes”, ya este término está empezando a sonar bastante con la tendencia de utilizar LLMs en la actualidad. Mi artículo, sin embargo, será un poco más simple e intentará introducir el concepto de manera intuitiva.</p>
+<h1 id="conceptos-de-ia">Conceptos de IA</h1>
+<p>Definir qué es la inteligencia artificial puede ser polémico, por lo que no daré una definición directamente en esta ocasión. El libro de Peter Norvig Artificial Intelligence: A modern approach tiene un capítulo introductorio fascinante. El nombre de Inteligencia Artificial para este campo de estudio, fue dado en 1956, aunque anteriormente hubo investigaciones ligadas a lo que desde entonces se conoce como Inteligencia Artificial. Es más, éste campo multidisciplinario toma conocimiento y teoría de: filosofía, lenguaje, psicología, neurociencia, economía, etc (en teoría podríamos estar hablando que la teoría asociada existe desde la época de Aristóteles).</p>
+<p>El nombre de IA ha perdurado en el tiempo, pero lo que estudia se asemeja con la racionalidad computacional. La razón de ello, es que en términos de “inteligencia”, la inteligencia artificial considera agentes que toman decisiones de forma racional, idealmente, toma la mejor decisión dada una situación.</p>
+<h2 id="agentes-en-ia">Agentes en IA</h2>
+<p>Primero deberíamos definir qué es un agente, para luego definir qué es un agente inteligente. Un agente, es cualquier ente que pueda percibir su entorno a través de sensores y ejecutar acciones dentro del entorno mediante actuadores, tal como muestra la figura 1. La caja con el signo de interrogación, es qué razonamiento/inteligencia se le provee al agente para que tome acciones dada una percepción del entorno.</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/e3206b8dbdc29f3a687960a72cdd682d5c6339a8/agents-act.png" alt="agent"></p>
+<p><em>Fig 1: Interacción entre agente y entorno en alto nivel.</em></p>
+</div>
+<p>Cabe destacar que esta noción de agente es una herramienta para analizar sistemas, no es una caracterización que define qué es y qué no es un agente.</p>
+<h2 id="agente-racional">Agente Racional</h2>
+<p>Ahora que definimos un agente, hay que definir qué es un agente racional. Un agente racional es un agente que toma la acción correcta, algunos ejemplos: El controlador de aire acondicionado, esperaríamos que manejara la temperatura acorde a la temperatura configurada (aunque en mi experiencia personal, esto a veces no resulta jeje); una aspiradora roomba, esperaríamos que limpiara satisfactoriamente una habitación dada.</p>
+<p>Pero, desde el punto de vista de IA ¿Qué podría definirse como racionalidad? En realidad, lo que es racional depende de cuatro factores:</p>
+<ul>
+<li>La métrica de rendimiento que define un criterio de éxito.</li>
+<li>El conocimiento previo del agente respecto al entorno donde opera.</li>
+<li>Las acciones que el agente puede tomar</li>
+<li>Las percepciones del agente en un momento dado.</li>
+</ul>
+<h2 id="omnipotencia">¿Omnipotencia?</h2>
+<p>Aquí también hay que hacer una diferencia entre lo racional y el rendimiento perfecto. Esto es, porque en general, el agente no tiene conocimiento del resultado real de sus acciones, sólo tiene conocimiento del resultado esperado. Si el agente fuese omnipotente (cosa imposible en la práctica), podría maximizar la métrica de rendimiento real, sin embargo, un agente racional busca maximizar la métrica de rendimiento esperada (dado a lo que el agente espera de los resultados de sus acciones). Por ejemplo, si me envían un correo diciendo que gané un millón de dólares, y en efecto no era spam, sin embargo el agente clasificador de correos lo clasificó como SPAM, por lo tanto yo decidí que era SPAM, pero en la realidad no era SPAM, es algo fortuito, que el agente no pudo haber esperado. Otro ejemplo, si no viene ningún auto, el semáforo marca verde, cruzo la calle y me cae la turbina de un avión, no puedo decir que no es racional cruzar en verde; es simplemente mala suerte. Otro ejemplo más actual que se me ocurre, mi instinto arácnido me dice que muchos “modelos predictivos” de algunas empresas no tenían contemplado el COVID-19.</p>
+<p>Algunas propiedades de los entornos en que un agente operará son:</p>
+<ul>
+<li>Completamente observable / parcialmente observable (¿Tengo conocimiento total del mundo o sólo parcial?)</li>
+<li>Determinístico / Estocástico (¿El estado siguiente se determina completamente del estado actual?)</li>
+<li>Episódico / secuencial (¿depende mi acción siguiente de mi acción previa?)</li>
+<li>Estático / Dinámico</li>
+<li>Discreto / Continuo</li>
+<li>Un sólo agente / Multiagente</li>
+</ul>
+<h1 id="inteligencia-en-ia">“Inteligencia” en IA</h1>
+<p>Los tipos de inteligencia en IA se pueden clasificar de acuerdo al razonamiento que hacen sobre el entorno/mundo, como se muestra en la figura 2.</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/c4d047d9403beada33098cf7e74d3d2a561e2964/line-intelligence.png" alt="intel"></p>
+<p><em>Fig 2: Distintos niveles de “inteligencia” de un agente. <a href="https://stanford-cs221.github.io/spring2020/lectures/index.html#include=overview.js&amp;mode=print1pp">Fuente</a>.</em></p>
+</div>
+<h2 id="agentes-por-reflejo">Agentes por Reflejo</h2>
+<p>En este tipo de inteligencia, se encuentran agentes que actúan por reflejo. Consideremos un caso hipótetico de un gato robot, llamémosle <em>RoboCat</em>. A este gato artificial le gusta jugar a seguir un punto generado por un puntero laser.</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="k">class</span> <span class="nc">LaserDot</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_pos</span> <span class="o">=</span> <span class="n">pos</span>
+
+    <span class="o">@</span><span class="nb">property</span>
+    <span class="k">def</span> <span class="nf">pos</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">_pos</span>
+
+    <span class="k">def</span> <span class="nf">randomize_pos</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_pos</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randint</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">RoboCat</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_next_action</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_pos</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="o">@</span><span class="nb">property</span>
+    <span class="k">def</span> <span class="nf">pos</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">_pos</span>
+
+    <span class="k">def</span> <span class="nf">perceive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">laser_dot</span><span class="p">:</span> <span class="n">LaserDot</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_next_action</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">laser_dot</span><span class="p">.</span><span class="n">pos</span> <span class="o">-</span> <span class="bp">self</span><span class="p">.</span><span class="n">_pos</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">action</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_pos</span> <span class="o">+=</span> <span class="bp">self</span><span class="p">.</span><span class="n">_next_action</span>
+</code></pre></div></div>
+<p>Si hacemos una simulación simple, por ejemplo en 100 episodios:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dot</span> <span class="o">=</span> <span class="n">LaserDot</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">cat</span> <span class="o">=</span> <span class="n">RoboCat</span><span class="p">()</span>
+<span class="n">dot_pos</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">cat_pos</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">cat</span><span class="p">.</span><span class="n">perceive</span><span class="p">(</span><span class="n">dot</span><span class="p">)</span>
+    <span class="n">cat</span><span class="p">.</span><span class="n">action</span><span class="p">()</span>
+    <span class="n">dot_pos</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">dot</span><span class="p">.</span><span class="n">pos</span><span class="p">)</span>
+    <span class="n">cat_pos</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">cat</span><span class="p">.</span><span class="n">pos</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">cat</span><span class="p">.</span><span class="n">pos</span> <span class="o">==</span> <span class="n">dot</span><span class="p">.</span><span class="n">pos</span><span class="p">:</span>
+        <span class="n">dot</span><span class="p">.</span><span class="n">randomize_pos</span><span class="p">()</span>
+</code></pre></div></div>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/6b79839da0b7e7eb6faa893d1a80d5d6dea0dfda/cat-laser.png" alt="intel"></p>
+<p><em>Fig 3: Agente reactivo ejemplo de RoboCat siguiendo un puntero laser.</em></p>
+</div>
+<p>En la figura 3 se muestra una simulación en 100 episodios del gato robot siguiendo un puntero. El puntero cambia de posición aleatoriamente una vez el gato está en la misma posición que el puntero. Cuando el gato robot percive que el puntero está en otra posición intenta minimizar la distancia entre su posición y la posición del puntero.</p>
+<p>En la figura 4 se muestra el controlador en alto nivel de un estanque, donde la variable controlada es la altura del estanque. En este caso, el agente tiene como referencia una altura deseada, y va sensando la altura del estanque en cada instante de tiempo. Si la altura es diferente de la deseada, el controlador la variará para acercarse a la altura deseada.</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/fbf482cd323764f47494ab5243cce7ffeac94ca2/estanque.png" alt="intel"></p>
+<p><em>Fig 4: Ejemplo de un controlador de un estanque.</em></p>
+</div>
+<p>En general este tipo de inteligencia funciona muy bien para problemas donde se conocen los procesos (modelos matemáticos, físicos, etc), y donde el entorno no es tan cambiante.</p>
+<h2 id="estados">Estados</h2>
+<p>En este tipo de inteligencia, existe la noción de “estados”, en donde el “mundo” o ambiente en que vive el agente se representa por estados, y una acción del agente produce un cambio de estado (que puede determinista o no determinista). Luego, el agente razona sobre acciones futuras y cambios de estado y ejecuta una acción. Este proceso requiere una búsqueda en un espacio de estados, donde la solución, es el camino (conjunto de acciones) que llevan desde un estado inicial hacia un estado objetivo. Cabe destacar, que un en esencia, todo problema puede ser planteado como un problema de búsqueda; Es más, varios algoritmos requieren de alguna forma u otra, resolver problemas de búsqueda. Algunos ejemplos: “Path finding”, soluciones al puzzle de las N piezas, etc.</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/37b5f28e91e17e8d9b82dc8680de3076a95e86bc/8-puzzle.png" alt="intel"></p>
+<p><em>Fig 5: Ejemplo de árbol de estados para el problema del 8-Puzzle</em></p>
+</div>
+<p>Un ejemplo clásico de problema de búsqueda, es el puzzle de las <a href="https://en.wikipedia.org/wiki/15_puzzle">N-piezas</a> . Este ejemplo es generalmente mostrado en cursos de inteligencia artificial, para mostrar ejemplos de distintos algoritmos de búsqueda: Depth-First Search, Breadth first search, Iterative Deepening Search, Uniform Cost Search, A* Search, Iterative Deepening A* search, inserte cualquier otro algoritmo de búsqueda que tenga alguna optimización en memoria o en reducción del espacio de búsqueda. En la figura 5, se muestra como se va armando el árbol de búsqueda. Por otro lado, existen dos tipos de búsqueda, la búsqueda no informada y la informada. La búsqueda no informada es básicamente hacer fuerza bruta y recorrer todo el árbol de búsqueda hasta encontrar la solución (estado objetivo). Por otro lado, está la búsqueda informada, en la cual se proporciona información respecto a qué tan cerca (o lejos) el estado actual se encuentra del estado objetivo. Generalmente estas funciones son de la forma $h(s) = n$, donde $s$ es un estado y $n$ es una estimación del costo que existe para ir del estado s al estado objetivo. Dependiendo de qué tan buena sea la heurística, se puede llegar más rápido al estado objetivo (expandir menos nodos). En general existen dos propiedades deseables en las heurísticas, admisibilidad y consistencia. La consistencia es sólo importante si se explora el espacio de estados como una búsqueda en grafo (no repetir estados, manteniendo una agenda de estados visitados).</p>
+<p>En el siguiente enlace pueden ver un demo de búsqueda por grafos para el puzzle de las 8 piezas: <a href="https://dpalmasan.github.io/blog-ia-dpalma/">Demo 8-puzzle A*</a></p>
+<p>En general, para implementar estos algoritmos se requiere representar los estados, por ejemplo:</p>
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">abstract</span> <span class="kd">class</span> <span class="nx">State</span> <span class="p">{</span>
+    <span class="nl">prev</span><span class="p">:</span> <span class="nx">State</span>
+    <span class="nx">action</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+    <span class="kd">constructor</span> <span class="p">(</span><span class="nx">prev</span><span class="p">:</span> <span class="nx">State</span><span class="p">,</span> <span class="nx">action</span><span class="p">:</span> <span class="kr">string</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">prev</span> <span class="o">=</span> <span class="nx">prev</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">action</span> <span class="o">=</span> <span class="nx">action</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kd">abstract</span> <span class="nx">equals</span><span class="p">(</span><span class="nx">otherState</span><span class="p">:</span> <span class="nx">State</span><span class="p">):</span> <span class="nx">boolean</span><span class="p">;</span>
+    <span class="kd">abstract</span> <span class="nx">hash</span><span class="p">():</span> <span class="kr">string</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">abstract</span> <span class="kd">class</span> <span class="nx">SearchProblem</span> <span class="p">{</span>
+    <span class="kd">abstract</span> <span class="nx">getStartState</span><span class="p">()</span> <span class="p">:</span> <span class="nx">State</span><span class="p">;</span>
+    <span class="kd">abstract</span> <span class="nx">isGoalState</span><span class="p">(</span><span class="nx">state</span><span class="p">:</span> <span class="nx">State</span><span class="p">)</span> <span class="p">:</span> <span class="nx">boolean</span><span class="p">;</span>
+    <span class="kd">abstract</span> <span class="nx">getSuccessors</span><span class="p">(</span><span class="nx">state</span><span class="p">:</span> <span class="nx">State</span><span class="p">)</span> <span class="p">:</span> <span class="nx">State</span><span class="p">[];</span>
+    <span class="kd">abstract</span> <span class="nx">getCostOfAction</span><span class="p">(</span><span class="nx">state</span><span class="p">:</span> <span class="nx">State</span><span class="p">)</span> <span class="p">:</span> <span class="kr">number</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>El siguiente snippet muestra una implementación simple del algoritmo A* para búsqueda en grafos:</p>
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">aStar</span><span class="p">(</span><span class="nx">problem</span><span class="p">:</span> <span class="nx">SearchProblem</span><span class="p">,</span> <span class="nx">heuristic</span><span class="p">:</span> <span class="p">(</span><span class="nx">state</span><span class="p">:</span> <span class="nx">State</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kr">number</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">frontier</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BinaryHeap</span><span class="o">&lt;</span><span class="nx">State</span><span class="o">&gt;</span><span class="p">(</span>
+        <span class="p">(</span><span class="nx">state</span><span class="p">:</span> <span class="nx">State</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">heuristic</span><span class="p">(</span><span class="nx">state</span><span class="p">)</span> <span class="o">+</span> <span class="nx">problem</span><span class="p">.</span><span class="nx">getCostOfAction</span><span class="p">(</span><span class="nx">state</span><span class="p">));</span>
+
+    <span class="nx">frontier</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">problem</span><span class="p">.</span><span class="nx">getStartState</span><span class="p">());</span>
+    <span class="kd">let</span> <span class="nx">explored</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">StateSet</span><span class="p">();</span>
+
+    <span class="k">while</span> <span class="p">(</span><span class="nx">frontier</span><span class="p">.</span><span class="nx">size</span><span class="p">()</span> <span class="o">!==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">let</span> <span class="nx">state</span><span class="p">:</span> <span class="nx">State</span> <span class="o">=</span> <span class="nx">frontier</span><span class="p">.</span><span class="nx">pop</span><span class="p">();</span>
+        <span class="nx">explored</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">state</span><span class="p">);</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nx">problem</span><span class="p">.</span><span class="nx">isGoalState</span><span class="p">(</span><span class="nx">state</span><span class="p">))</span> <span class="p">{</span>
+            <span class="kd">let</span> <span class="nx">curr</span><span class="p">:</span> <span class="nx">State</span> <span class="o">=</span> <span class="nx">state</span><span class="p">;</span>
+            <span class="kd">let</span> <span class="nx">path</span> <span class="o">=</span> <span class="p">[];</span>
+            <span class="k">while</span> <span class="p">(</span><span class="nx">curr</span><span class="p">.</span><span class="nx">prev</span> <span class="o">!==</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">path</span><span class="p">.</span><span class="nx">unshift</span><span class="p">(</span><span class="nx">curr</span><span class="p">.</span><span class="nx">action</span><span class="p">);</span>
+                <span class="nx">curr</span> <span class="o">=</span> <span class="nx">curr</span><span class="p">.</span><span class="nx">prev</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">return</span> <span class="nx">path</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="kd">let</span> <span class="nx">neighbors</span><span class="p">:</span> <span class="nx">State</span><span class="p">[]</span> <span class="o">=</span> <span class="nx">problem</span><span class="p">.</span><span class="nx">getSuccessors</span><span class="p">(</span><span class="nx">state</span><span class="p">);</span>
+        <span class="nx">neighbors</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span> <span class="p">(</span><span class="nx">neighbor</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">explored</span><span class="p">.</span><span class="nx">has</span><span class="p">(</span><span class="nx">neighbor</span><span class="p">))</span> <span class="p">{</span>
+                <span class="nx">frontier</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">neighbor</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="p">[];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>Nota aparte: Para resolver instancias de puzzle más grande, no es suficiente usar A* (ya que la RAM es limitada y el espacio de búsqueda crece exponencialmente). Para resolver instancias más grandes del (N^2 - 1) puzzle, siempre se puede aplicar algún algoritmo, como en este paper (<a href="http://ianparberry.com/pubs/saml.pdf">Combinación de algoritmo greedy + algoritmo de búsqueda</a>)</p>
+<p>Solo por completitud, en el siguiente video hay una demo de algunos de los algoritmos de búsqueda clásicos, para el problema de “path finding”, que probablemente hice hace mucho tiempo.</p>
+<p><a href="https://www.youtube.com/watch?v=PMHBzSIFPPE"><img src="https://img.youtube.com/vi/PMHBzSIFPPE/0.jpg" alt="PathFinding"></a></p>
+<p>Otro ejemplo de problema de búsqueda (con teoría de juegos aplicadas), es diseñar una IA que juegue el 2048 game. En el siguiente video se muestra un ejemplo (usa un algoritmo llamado MiniMax, basado en juegos “Zero Sum” de teoría de juegos), y el agente se pone en el peor caso (es decir siempre considera la peor situación, lo que a veces lo lleva a hacer movidas muy conservadoras):</p>
+<p><a href="https://www.youtube.com/watch?v=P1s3AyBB-j8"><img src="https://img.youtube.com/vi/P1s3AyBB-j8/0.jpg" alt="AdversarialSearch"></a></p>
+<h2 id="variables">Variables</h2>
+<p>Este tipo de problemas utilizan representaciones un poco más avanzadas del mundo y del entorno, en forma de variables. Algunos ejemplos: redes Bayesianas, problemas de satisfacción de restricciones, etc. (en teoría Machine Learning estaría un poco más adelante en la “línea de inteligencia” mostrada anteriormente).</p>
+<p>Un ejemplo clásico es resolver un Sudoku:</p>
+<ol>
+<li>No se pueden repetir números en las filas.</li>
+<li>No se pueden repetir números en las columnas.</li>
+<li>No se pueden repetir números en cada cuadrado del sudoku.</li>
+</ol>
+<p>Si consideramos que cada celda del Sudoku es una variable, tenemos 9x9 variables. Por ejemplo si a cada fila le asignamos una letra y a cada columna un valor, podríamos definir las variables como:</p>
+<p>$$\{A, B, C, D, E, F, G, H, I\} \times \{1, 2, 3, 4, 5, 6, 7, 8, 9\}$$</p>
+<p>En este caso, el dominio de cada variable será el conjunto $\{1, 2, 3, 4, 5, 6, 7, 8, 9\}$ ya que cada celda puede tomar alguno de dichos valores.</p>
+<p>En el siguiente código, hay una humilde implementación del <a href="https://github.com/dpalmasan/DiscreteOptimization/blob/master/Week2%20-%20Constraint%20Programming/ConstraintProgramming.py">algoritmo AC3 para problema de satisfacción de restricciones</a>.</p>
+<p>Por ejemplo podemos representar el Sudoku como un problema de satisfacción de restricciones, siguiendo las restricciones descritas:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Sudoku</span><span class="p">(</span><span class="n">ConstraintProgrammingProblem</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sudoku</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_variables</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_domains</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_arcs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_constraints</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_unassigned_variables</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_alldifferent</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">rows</span> <span class="o">=</span> <span class="s">"ABCDEFGHI"</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="s">"123456789"</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">:</span>
+                <span class="bp">self</span><span class="p">.</span><span class="n">_variables</span><span class="p">[</span><span class="n">row</span> <span class="o">+</span> <span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="bp">None</span> <span class="k">if</span> <span class="n">sudoku</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="s">"0"</span> <span class="k">else</span> <span class="nb">int</span><span class="p">(</span><span class="n">sudoku</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="p">.</span><span class="n">_domains</span><span class="p">[</span><span class="n">row</span> <span class="o">+</span> <span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span> <span class="k">if</span> <span class="n">sudoku</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="s">"0"</span> <span class="k">else</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">sudoku</span><span class="p">[</span><span class="n">i</span><span class="p">])]</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="n">sudoku</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="s">"0"</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="p">.</span><span class="n">_unassigned_variables</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span> <span class="o">+</span> <span class="n">col</span><span class="p">)</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+            <span class="n">tmp</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">:</span>
+                <span class="n">tmp</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">j</span> <span class="o">!=</span> <span class="n">k</span><span class="p">:</span>
+                        <span class="n">arc</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">((</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="n">k</span><span class="p">))</span>
+                        <span class="k">if</span> <span class="n">arc</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">_arcs</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="p">.</span><span class="n">_arcs</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">arc</span><span class="p">)</span>
+                            <span class="bp">self</span><span class="p">.</span><span class="n">_constraints</span><span class="p">[</span><span class="n">arc</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                                <span class="s">'variable["%s"] != variable["%s"]'</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="n">k</span><span class="p">)</span>
+                            <span class="p">]</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">_alldifferent</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">:</span>
+            <span class="n">tmp</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+                <span class="n">tmp</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">j</span> <span class="o">!=</span> <span class="n">k</span><span class="p">:</span>
+                        <span class="n">arc</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">((</span><span class="n">j</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span> <span class="n">k</span> <span class="o">+</span> <span class="n">i</span><span class="p">))</span>
+                        <span class="k">if</span> <span class="n">arc</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">_arcs</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="p">.</span><span class="n">_arcs</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">arc</span><span class="p">)</span>
+                            <span class="bp">self</span><span class="p">.</span><span class="n">_constraints</span><span class="p">[</span><span class="n">arc</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                                <span class="s">'variable["%s"] != variable["%s"]'</span> <span class="o">%</span> <span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span> <span class="n">k</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span>
+                            <span class="p">]</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">_alldifferent</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">row</span> <span class="o">+</span> <span class="n">col</span>
+                    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="mi">3</span> <span class="p">:</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">3</span><span class="p">]</span>
+                    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">[</span><span class="n">j</span> <span class="o">*</span> <span class="mi">3</span> <span class="p">:</span> <span class="n">j</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">3</span><span class="p">]</span>
+                <span class="p">]</span>
+                <span class="bp">self</span><span class="p">.</span><span class="n">_alldifferent</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">tmp</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">tmp</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">r</span> <span class="o">!=</span> <span class="n">c</span><span class="p">:</span>
+                            <span class="n">arc</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">((</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">))</span>
+                            <span class="k">if</span> <span class="n">arc</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">_arcs</span><span class="p">:</span>
+                                <span class="bp">self</span><span class="p">.</span><span class="n">_arcs</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">arc</span><span class="p">)</span>
+                                <span class="bp">self</span><span class="p">.</span><span class="n">_constraints</span><span class="p">[</span><span class="n">arc</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                                    <span class="s">'variable["%s"] != variable["%s"]'</span> <span class="o">%</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+                                <span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">arcs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">_arcs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">constraints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Xi</span><span class="p">,</span> <span class="n">Xj</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">_constraints</span><span class="p">[</span><span class="nb">frozenset</span><span class="p">((</span><span class="n">Xi</span><span class="p">,</span> <span class="n">Xj</span><span class="p">))]</span>
+
+    <span class="k">def</span> <span class="nf">neighbors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">removable_neighbor</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="n">neighbors</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">arc</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">_arcs</span><span class="p">:</span>
+            <span class="n">X1</span><span class="p">,</span> <span class="n">X2</span> <span class="o">=</span> <span class="n">arc</span>
+
+            <span class="k">if</span> <span class="n">X1</span> <span class="o">==</span> <span class="n">X</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">removable_neighbor</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">removable_neighbor</span> <span class="o">!=</span> <span class="n">X2</span><span class="p">:</span>
+                        <span class="n">neighbors</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">X2</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">neighbors</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">X2</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">X2</span> <span class="o">==</span> <span class="n">X</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">removable_neighbor</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">removable_neighbor</span> <span class="o">!=</span> <span class="n">X1</span><span class="p">:</span>
+                        <span class="n">neighbors</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">X1</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">neighbors</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">X1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">neighbors</span>
+
+    <span class="k">def</span> <span class="nf">domain</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Xi</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">_domains</span><span class="p">[</span><span class="n">Xi</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">remove_from_domain</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">Xi</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_domains</span><span class="p">[</span><span class="n">Xi</span><span class="p">].</span><span class="n">remove</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">unassigned_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">_unassigned_variables</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">assign_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">remove</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="s">"""
+        Asigna un valor a la variable X
+        """</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_variables</span><span class="p">[</span><span class="n">X</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">if</span> <span class="n">remove</span><span class="p">:</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">_unassigned_variables</span><span class="p">.</span><span class="n">remove</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">check_consistency</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""
+        Chequea que dada una asignación de variables, todas las reglas del
+        Sudoku se satisfacen
+        """</span>
+        <span class="k">for</span> <span class="n">variables</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">_alldifferent</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">variables</span><span class="p">)):</span>
+                <span class="n">X</span> <span class="o">=</span> <span class="n">variables</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">variables</span><span class="p">)):</span>
+                    <span class="n">Y</span> <span class="o">=</span> <span class="n">variables</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                    <span class="n">are_assigned</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="ow">not</span> <span class="bp">self</span><span class="p">.</span><span class="n">_variables</span><span class="p">[</span><span class="n">X</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span>
+                        <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="p">.</span><span class="n">_variables</span><span class="p">[</span><span class="n">Y</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span>
+                    <span class="p">)</span>
+                    <span class="k">if</span> <span class="n">are_assigned</span> <span class="ow">and</span> <span class="bp">self</span><span class="p">.</span><span class="n">_variables</span><span class="p">[</span><span class="n">X</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="p">.</span><span class="n">_variables</span><span class="p">[</span><span class="n">Y</span><span class="p">]:</span>
+                        <span class="k">return</span> <span class="bp">False</span>
+        <span class="k">return</span> <span class="bp">True</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""
+        Imprime en pantalla el Sudoku en su estado actual dadas las variables
+        asignadas.
+        """</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s">""</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="s">"-------------------------------------</span><span class="se">\n</span><span class="s">"</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="n">line</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="s">"ABCDEFGHI"</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="s">"|"</span>
+            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="s">"123456789"</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="p">.</span><span class="n">_variables</span><span class="p">[</span><span class="n">row</span> <span class="o">+</span> <span class="n">col</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="n">s</span> <span class="o">+=</span> <span class="p">(</span><span class="s">"%3d"</span> <span class="o">%</span> <span class="bp">self</span><span class="p">.</span><span class="n">_variables</span><span class="p">[</span><span class="n">row</span> <span class="o">+</span> <span class="n">col</span><span class="p">])</span> <span class="o">+</span> <span class="s">"|"</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">s</span> <span class="o">+=</span> <span class="p">(</span><span class="s">"%3s"</span> <span class="o">%</span> <span class="s">" "</span><span class="p">)</span> <span class="o">+</span> <span class="s">"|"</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span> <span class="o">+</span> <span class="n">line</span>
+
+        <span class="k">return</span> <span class="n">s</span>
+</code></pre></div></div>
+<p>Y luego ejecutar el algoritmo <code>AC3</code>:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">example</span>  <span class="o">=</span> <span class="s">"000102900"</span>
+<span class="n">example</span> <span class="o">+=</span> <span class="s">"000090301"</span>
+<span class="n">example</span> <span class="o">+=</span> <span class="s">"000008006"</span>
+<span class="n">example</span> <span class="o">+=</span> <span class="s">"000030000"</span>
+<span class="n">example</span> <span class="o">+=</span> <span class="s">"062000000"</span>
+<span class="n">example</span> <span class="o">+=</span> <span class="s">"079016000"</span>
+<span class="n">example</span> <span class="o">+=</span> <span class="s">"008060007"</span>
+<span class="n">example</span> <span class="o">+=</span> <span class="s">"004000190"</span>
+<span class="n">example</span> <span class="o">+=</span> <span class="s">"000004020"</span>
+<span class="n">cp</span> <span class="o">=</span> <span class="n">Sudoku</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">cp</span><span class="p">)</span>
+<span class="n">AC3</span><span class="p">(</span><span class="n">cp</span><span class="p">)</span>
+<span class="n">sol</span> <span class="o">=</span> <span class="n">backtracking_search</span><span class="p">(</span><span class="n">cp</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">X</span> <span class="ow">in</span> <span class="n">sol</span><span class="p">:</span>
+    <span class="n">cp</span><span class="p">.</span><span class="n">assign_variable</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">sol</span><span class="p">[</span><span class="n">X</span><span class="p">])</span>
+</code></pre></div></div>
+<p>Sudoku inicial:</p>
+<pre><code>-------------------------------------
+|   |   |   |  1|   |  2|  9|   |   |
+-------------------------------------
+|   |   |   |   |  9|   |  3|   |  1|
+-------------------------------------
+|   |   |   |   |   |  8|   |   |  6|
+-------------------------------------
+|   |   |   |   |  3|   |   |   |   |
+-------------------------------------
+|   |  6|  2|   |   |   |   |   |   |
+-------------------------------------
+|   |  7|  9|   |  1|  6|   |   |   |
+-------------------------------------
+|   |   |  8|   |  6|   |   |   |  7|
+-------------------------------------
+|   |   |  4|   |   |   |  1|  9|   |
+-------------------------------------
+|   |   |   |   |   |  4|   |  2|   |
+-------------------------------------
+</code></pre>
+<p>Sudoku final:</p>
+<pre><code>-------------------------------------
+|  8|  3|  6|  1|  5|  2|  9|  7|  4|
+-------------------------------------
+|  2|  4|  5|  6|  9|  7|  3|  8|  1|
+-------------------------------------
+|  1|  9|  7|  3|  4|  8|  2|  5|  6|
+-------------------------------------
+|  4|  8|  1|  2|  3|  5|  7|  6|  9|
+-------------------------------------
+|  5|  6|  2|  4|  7|  9|  8|  1|  3|
+-------------------------------------
+|  3|  7|  9|  8|  1|  6|  5|  4|  2|
+-------------------------------------
+|  9|  2|  8|  5|  6|  1|  4|  3|  7|
+-------------------------------------
+|  6|  5|  4|  7|  2|  3|  1|  9|  8|
+-------------------------------------
+|  7|  1|  3|  9|  8|  4|  6|  2|  5|
+-------------------------------------
+</code></pre>
+<p>En este caso, consideramos ninguna función de costo a optimizar. Generalmente queremos minimizar/maximizar una función y a la vez satisfacer las restricciones. Estos problemas de optimización son un mundo, y para que funcionen bien los algoritmos, el problema debe ser modelado de forma correcta, y algunas restricciones pueden podar el árbol de búsqueda (ej. dual de una restricción) de manera de hacer que encontrar una solución sea factible (En el ejemplo del Sudoku, IA toma prestado conocimiento del campo de la optimización, para crear un agente “inteligente” que resuelva sudokus).</p>
+<h2 id="lgica">Lógica</h2>
+<p>En este punto me extenderé un poco más, ya que es un área bastante interesante, además, implementar un agente lógico es todo un desafío.</p>
+<p>Los agentes lógicos siguen una cadena de razonamiento en base a símbolos y representan el conocimiento en una base de conocimiento, de la que se obtienen inferencias en relación a un determinado hecho. El clásico ejemplo: Todo hombre es mortal; Sócrates es Hombre; Por lo tanto Sócrates es mortal. Este ejemplo sigue una cadena lógica de razonamiento, la gran pregunta es cómo representar este conocimiento de manera que automáticamente un agente sea capaz de realizar inferencias y luego tomar acción. Para hacerlo más entretenido, tomemos el clásico ejemplo del mundo del Wumpus:</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/0b5be9b0cc96a1a00df1aa33c25a4df4309f59c0/wumpus-problem.png" alt="intel"></p>
+<p><em>Fig 6: Mundo del Wumpus.</em></p>
+</div>
+<p>De momento consideremos lo siguiente:</p>
+<ul>
+<li>El mundo es una grilla de 4x4</li>
+<li>Los cuadrados adyacentes al Wumpus tienen hedor del wumpus y en los cuadrados adyacentes a los precipicios, se puede percibir una brisa.</li>
+<li>Se puede percibir un brillo si en la habitación se encuentra el oro (aquí es donde nuestro agente gana el juego)</li>
+</ul>
+<p>Métricas de rendimiento:</p>
+<ul>
+<li>Si el agente toma el oro +1000 puntos</li>
+<li>Si el agente muere (se cae a un precipicio o es comido por el Wumpus) -1000 puntos</li>
+<li>-1 punto por cada acción</li>
+<li>El juego termina cuando el agente toma el oro o muere.</li>
+</ul>
+<p>Entorno:</p>
+<ul>
+<li>Grilla de 4x4</li>
+<li>El agente empieza en la posición <code>[1, 1]</code>
+</li>
+<li>Las ubicaciones del Wumpus y del Oro se escogen aleatoriamente de una distribución uniforme de todos los cuadrados excepto del <code>[1, 1]</code>
+</li>
+<li>Cada cuadrado (que no sea el <code>[1, 1]</code>) tiene una probabilidad de 0.2 de ser un precipicio.</li>
+</ul>
+<p>Actuadores:</p>
+<ul>
+<li>Girar izquierda, girar derecha, avanzar, recoger</li>
+</ul>
+<p>Sensores:</p>
+<ul>
+<li>Hedor, brisa, brillo</li>
+</ul>
+<p>Propiedades del mundo:</p>
+<ul>
+<li>Parcialmente observable</li>
+<li>Estático</li>
+<li>Discreto</li>
+<li>Un sólo agente</li>
+<li>Determinista</li>
+<li>Secuencial</li>
+</ul>
+<p>Primero, debemos modelar la base de conocimiento que tendrá el agente. Ello se puede lograr por ejemplo, con lógica proposicional (aquí recuerdo las clases de álgebra de primer año y me empiezan a hacer sentido). De hecho como ejemplo tomemos la figura mostrada anteriormente. De las reglas del mundo del Wumpus, el agente debería saber:</p>
+<ul>
+<li>$B_{11} \leftrightarrow \left( P_{12} \lor P_{21}\right)$</li>
+<li>$\neg B_{11}$</li>
+</ul>
+<p>En mi biblioteca opensource <a href="https://github.com/dpalmasan/py-logic">PyLogic</a> implemento una API para lógica proposicional y para cláusulas de Horn (sub-conjunto de la lógica de primer orden).</p>
+<p>Entonces, el agente, para decidir su siguiente acción, puede preguntarse: ¿Es <code>[1, 2]</code> seguro, o $\neg P_{12}$? Consideremos la siguiente tabla de verdad:</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/0b5be9b0cc96a1a00df1aa33c25a4df4309f59c0/truth-table-wumpus.png" alt="intel"></p>
+<p><em>Fig 7: Tabla de verdad para ejemplo de consecuencia lógica para determinar precipicio.</em></p>
+</div>
+<p>Como se ilustra en la tabla de verdad, en todo modelo en que la base de conocimiento es verdad (asignación de variables lógicas) se satisface que $\neg P_{12}$, es decir que $\neg P_{12}$ es una consecuencia lógica de $\neg B_{11} \land \left(B_{11} \leftrightarrow \left(P_{12} \lor P_{21} \right)\right)$ , o, el hecho de que no haya brisa en la habitación <code>[1, 1]</code>, significa que las habitaciones <code>[1, 2]</code>, <code>[2, 1]</code> son seguras (no hay precipicio). Ahora, podemos ver un inconveniente de hacer inferencias con tablas de verdad, y es que, crece exponencialmente con el número de símbolos y el número de cláusulas. Luego, para problemas no de juguete, no sería factible construir la tabla de verdad. Por otro lado vemos también que al construir la tabla de verdad, entre medio se construyen muchas asignaciones innecesarias, por lo que debe haber alguna forma más inteligente de llevar a cabo la “búsqueda” de satisfacibilidad. Sin embargo, en esta búsqueda debemos también considerar la correctitud y la completitud. Como dato extra, los problemas de satisfacibilidad Booleana son NP 😊.</p>
+<p>Para automatizar un algoritmo de inferencia lógica, es ideal que las cláusulas se puedan escribir de alguna forma canónica. Por suerte, dicha forma existe y se conoce como Forma Normal Conjuntiva (del inglés CNF, conjunctive normal form). De hecho, cualquier cláusula (por ahora en lógica proposicional) se puede escribir como una conjunción de disyunciones. Tomemos como ejemplo la cláusula $\left(B_{11} \leftrightarrow \left(P_{12} \lor P_{21} \right)\right)$:</p>
+<ol>
+<li>$\left(B_{11} \rightarrow \left(P_{12} \lor P_{21}\right)\right) \land \left(\left(P_{12} \lor P_{21}\right) \rightarrow B_{11} \right)$</li>
+</ol>
+<p>Usando $A \rightarrow B \iff \neg A \lor B$ tenemos que:</p>
+<ol start="2">
+<li>$\left(\neg B_{11} \lor P_{12} \lor P_{21} \right) \land \left((\neg P_{12} \land \neg P_{21}) \lor B_{11}\right)$</li>
+</ol>
+<p>Distribuyendo:</p>
+<ol start="3">
+<li>$\left(\neg B_{11} \lor P_{12} \lor P_{21} \right) \land \left(B_{11} \lor \neg P_{12}\right) \land \left(B_{11} \lor \neg P_{21}\right)$</li>
+</ol>
+<p>De esta forma obtenemos 3 cláusulas que podemos insertar en nuestra base de conocimiento canonicalizada. Como observación, Modus Ponens es si tengo $P$ y $P \rightarrow Q$, entonces también tengo $Q$. En CNF, tendríamos dos cláusulas $P \land \left(\neg P \lor Q\right)$, luego distribuyendo y resolviendo se llega a $\left(P \lor \neg P\right) \land \left(P \lor Q\right)$, y como $P \lor \neg P$ es siempre verdadero, entonces sólo nos quedamos con $\left(P \lor Q\right)$. Esta “regla” se conoce como regla de resolución, y puede ser utilizada para realizar una demostración por contradicción (reducción al absurdo). Volviendo al ejemplo anterior, para demostrar que <code>[1, 2]</code> es seguro (no hay precipicio), podemos seguir la siguiente cadena de razonamiento:</p>
+<ol>
+<li>Supongamos que hay un precipicio $P_{12}$.</li>
+<li>Haciendo resolución entre $P_{12}$ y $\neg P_{12} \lor B_{11}$, llegamos a $B_{11}$.</li>
+<li>Sin embargo, tenemos en la base de conocimiento que $\neg B_{11}$ es cierto, lo que es contradictorio.</li>
+<li>Por lo tanto, podemos concluir que la premisa $P_{12}$ no puede ser verdadera y por lo tanto es seguro visitar la posición <code>[1, 2]</code>.</li>
+</ol>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/0b5be9b0cc96a1a00df1aa33c25a4df4309f59c0/resolution-algo.png" alt="intel"></p>
+<p><em>Fig 8: Algoritmo de resolución en lógica proposicional.</em></p>
+</div>
+<p>El algoritmo de resolución está <a href="https://github.com/dpalmasan/py-logic/blob/main/pylogic/propositional.py#L588">implementado en pylogic</a> y sigue una idea similar al pseudo-código excepto que tiene algunas heurísticas extra para hacer el algoritmo más eficiente. Cabe destacar que el espacio de búsqueda también crece exponencialmente con la cantidad de símbolos y cláusulas.</p>
+<p>El lector astuto podrá notar que para la representación del mundo tuvimos que usar una cláusula para cada precipicio, hedor y brisa. Sin embargo, podemos obtener una representación más compacta. Para desarrollar esta intuición, consideremos el siguiente argumento, que es un silogismo (Aristóteles) clásico:</p>
+<p>$$
+\begin{array} {c}
+\text{Todo hombre es mortal} \\
+\text{Sócrates es hombre} \\
+\hline
+\text{Sócrates es mortal}
+\end{array}
+$$</p>
+<p>Cabe destacar que matemáticamente, estos axiomas se pueden fórmular con <strong>Lógica de Primer Orden</strong>:</p>
+<p>$$
+\begin{array} {c}
+\forall x (Hombre(x) \rightarrow Mortal(x)) \\
+Hombre(s) \\
+\hline
+Mortal(s)
+\end{array}
+$$</p>
+<p>En el caso del problema del Wumpus, por ejemplo para un precipicio, podriamos representarlo como $P(a, b)$ donde $a$ y $b$ son objetos en este universo, que representan coordenadas en el mundo del Wumpus.</p>
+<p>Por otro lado, cabe destacar que existe un subconjunto de la lógica en el cual consideramos sólo cierto tipo de cláusulas. Por ejemplo, las <strong>cláusulas de Horn</strong> son disyunciones de literales en donde a lo más un literal está sin negación, por ejemplo: $\neg A \lor \neg B \lor C$ es una cláusula de Horn, esta puede representarse como $A \land B \rightarrow C$, es decir una conjunción de antecedentes y un consecuente. Esto permite implementar algoritmos eficientes para ciertos problemas de satisfacibilidad.</p>
+<p>Consideremos el siguiente problema. Tenemos un mapa de Australia con las siguientes regiones:</p>
+<ul>
+<li>WA: Western Australia</li>
+<li>NT: Northern Territory</li>
+<li>SA: South Australia</li>
+<li>Q: Queensland</li>
+<li>NSW: New South Wales</li>
+<li>V: Victoria</li>
+</ul>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/37b5f28e91e17e8d9b82dc8680de3076a95e86bc/map.png" alt="intel"></p>
+<p><em>Fig 9: Problema de coloreado de mapas (Australia).</em></p>
+</div>
+<p>Supongamos que queremos colorear el mapa de tal manera que dos regiones adyacentes no sean del mismo color. Podemos representar el problema los siguientes axiomas en modo de cláusulas de Horn:</p>
+<p>$$
+\begin{array} {   rr} \quad Diff(wa, nt) \land Diff(wa, sa) \land \\ Diff(nt, q) \land Diff(nt, sa) \land \\ Diff(q, nsw) \land Diff(q, sa) \land \\ Diff(nsw, v) \land Diff(nsw, a) \land \\ Diff(v, sa) \Rightarrow Coloreable() \\ Diff(Red, Blue) \quad Diff(Red, Green) \\ Diff(Blue, Red) \quad Diff(Blue, Green) \\ Diff(Green, Red) \quad Diff(Green, Blue) \end{array}
+$$</p>
+<p>Utilizando mi biblioteca pylogic:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pylogic.fol</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">HornClauseFOL</span><span class="p">,</span>
+    <span class="n">Predicate</span><span class="p">,</span>
+    <span class="n">Term</span><span class="p">,</span>
+    <span class="n">TermType</span><span class="p">,</span>
+    <span class="n">fol_bc_ask</span><span class="p">,</span>
+    <span class="n">Substitution</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">wa</span> <span class="o">=</span> <span class="n">Term</span><span class="p">(</span><span class="s">"wa"</span><span class="p">,</span> <span class="n">TermType</span><span class="p">.</span><span class="n">VARIABLE</span><span class="p">)</span>
+<span class="n">sa</span> <span class="o">=</span> <span class="n">Term</span><span class="p">(</span><span class="s">"sa"</span><span class="p">,</span> <span class="n">TermType</span><span class="p">.</span><span class="n">VARIABLE</span><span class="p">)</span>
+<span class="n">nt</span> <span class="o">=</span> <span class="n">Term</span><span class="p">(</span><span class="s">"nt"</span><span class="p">,</span> <span class="n">TermType</span><span class="p">.</span><span class="n">VARIABLE</span><span class="p">)</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">Term</span><span class="p">(</span><span class="s">"q"</span><span class="p">,</span> <span class="n">TermType</span><span class="p">.</span><span class="n">VARIABLE</span><span class="p">)</span>
+<span class="n">nsw</span> <span class="o">=</span> <span class="n">Term</span><span class="p">(</span><span class="s">"nsw"</span><span class="p">,</span> <span class="n">TermType</span><span class="p">.</span><span class="n">VARIABLE</span><span class="p">)</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">Term</span><span class="p">(</span><span class="s">"v"</span><span class="p">,</span> <span class="n">TermType</span><span class="p">.</span><span class="n">VARIABLE</span><span class="p">)</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">Term</span><span class="p">(</span><span class="s">"t"</span><span class="p">,</span> <span class="n">TermType</span><span class="p">.</span><span class="n">VARIABLE</span><span class="p">)</span>
+
+<span class="nb">map</span> <span class="o">=</span> <span class="n">HornClauseFOL</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="n">Predicate</span><span class="p">(</span><span class="s">"Diff"</span><span class="p">,</span> <span class="p">[</span><span class="n">wa</span><span class="p">,</span> <span class="n">nt</span><span class="p">]),</span>
+        <span class="n">Predicate</span><span class="p">(</span><span class="s">"Diff"</span><span class="p">,</span> <span class="p">[</span><span class="n">wa</span><span class="p">,</span> <span class="n">sa</span><span class="p">]),</span>
+        <span class="n">Predicate</span><span class="p">(</span><span class="s">"Diff"</span><span class="p">,</span> <span class="p">[</span><span class="n">nt</span><span class="p">,</span> <span class="n">q</span><span class="p">]),</span>
+        <span class="n">Predicate</span><span class="p">(</span><span class="s">"Diff"</span><span class="p">,</span> <span class="p">[</span><span class="n">nt</span><span class="p">,</span> <span class="n">sa</span><span class="p">]),</span>
+        <span class="n">Predicate</span><span class="p">(</span><span class="s">"Diff"</span><span class="p">,</span> <span class="p">[</span><span class="n">q</span><span class="p">,</span> <span class="n">nsw</span><span class="p">]),</span>
+        <span class="n">Predicate</span><span class="p">(</span><span class="s">"Diff"</span><span class="p">,</span> <span class="p">[</span><span class="n">q</span><span class="p">,</span> <span class="n">sa</span><span class="p">]),</span>
+        <span class="n">Predicate</span><span class="p">(</span><span class="s">"Diff"</span><span class="p">,</span> <span class="p">[</span><span class="n">nsw</span><span class="p">,</span> <span class="n">v</span><span class="p">]),</span>
+        <span class="n">Predicate</span><span class="p">(</span><span class="s">"Diff"</span><span class="p">,</span> <span class="p">[</span><span class="n">nsw</span><span class="p">,</span> <span class="n">sa</span><span class="p">]),</span>
+        <span class="n">Predicate</span><span class="p">(</span><span class="s">"Diff"</span><span class="p">,</span> <span class="p">[</span><span class="n">v</span><span class="p">,</span> <span class="n">sa</span><span class="p">]),</span>
+    <span class="p">],</span>
+    <span class="n">Predicate</span><span class="p">(</span><span class="s">"Colorable"</span><span class="p">,</span> <span class="p">[]),</span>
+<span class="p">)</span>
+
+<span class="n">red</span> <span class="o">=</span> <span class="n">Term</span><span class="p">(</span><span class="s">"Red"</span><span class="p">,</span> <span class="n">TermType</span><span class="p">.</span><span class="n">CONSTANT</span><span class="p">)</span>
+<span class="n">blue</span> <span class="o">=</span> <span class="n">Term</span><span class="p">(</span><span class="s">"Blue"</span><span class="p">,</span> <span class="n">TermType</span><span class="p">.</span><span class="n">CONSTANT</span><span class="p">)</span>
+<span class="n">green</span> <span class="o">=</span> <span class="n">Term</span><span class="p">(</span><span class="s">"Green"</span><span class="p">,</span> <span class="n">TermType</span><span class="p">.</span><span class="n">CONSTANT</span><span class="p">)</span>
+
+<span class="n">p1</span> <span class="o">=</span> <span class="n">HornClauseFOL</span><span class="p">(</span>
+    <span class="p">[],</span>
+    <span class="n">Predicate</span><span class="p">(</span><span class="s">"Diff"</span><span class="p">,</span> <span class="p">[</span><span class="n">red</span><span class="p">,</span> <span class="n">blue</span><span class="p">]),</span>
+<span class="p">)</span>
+<span class="n">p2</span> <span class="o">=</span> <span class="n">HornClauseFOL</span><span class="p">(</span>
+    <span class="p">[],</span>
+    <span class="n">Predicate</span><span class="p">(</span><span class="s">"Diff"</span><span class="p">,</span> <span class="p">[</span><span class="n">red</span><span class="p">,</span> <span class="n">green</span><span class="p">]),</span>
+<span class="p">)</span>
+<span class="n">p3</span> <span class="o">=</span> <span class="n">HornClauseFOL</span><span class="p">(</span>
+    <span class="p">[],</span>
+    <span class="n">Predicate</span><span class="p">(</span><span class="s">"Diff"</span><span class="p">,</span> <span class="p">[</span><span class="n">green</span><span class="p">,</span> <span class="n">red</span><span class="p">]),</span>
+<span class="p">)</span>
+<span class="n">p4</span> <span class="o">=</span> <span class="n">HornClauseFOL</span><span class="p">(</span>
+    <span class="p">[],</span>
+    <span class="n">Predicate</span><span class="p">(</span><span class="s">"Diff"</span><span class="p">,</span> <span class="p">[</span><span class="n">green</span><span class="p">,</span> <span class="n">blue</span><span class="p">]),</span>
+<span class="p">)</span>
+<span class="n">p5</span> <span class="o">=</span> <span class="n">HornClauseFOL</span><span class="p">(</span>
+    <span class="p">[],</span>
+    <span class="n">Predicate</span><span class="p">(</span><span class="s">"Diff"</span><span class="p">,</span> <span class="p">[</span><span class="n">blue</span><span class="p">,</span> <span class="n">red</span><span class="p">]),</span>
+<span class="p">)</span>
+<span class="n">p6</span> <span class="o">=</span> <span class="n">HornClauseFOL</span><span class="p">([],</span> <span class="n">Predicate</span><span class="p">(</span><span class="s">"Diff"</span><span class="p">,</span> <span class="p">[</span><span class="n">blue</span><span class="p">,</span> <span class="n">green</span><span class="p">]))</span>
+
+<span class="n">kb</span> <span class="o">=</span> <span class="p">[</span><span class="nb">map</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">,</span> <span class="n">p4</span><span class="p">,</span> <span class="n">p5</span><span class="p">,</span> <span class="n">p6</span><span class="p">]</span>
+
+<span class="n">goal</span> <span class="o">=</span> <span class="n">Predicate</span><span class="p">(</span><span class="s">"Colorable"</span><span class="p">,</span> <span class="p">[])</span>
+<span class="n">answers</span> <span class="o">=</span> <span class="n">fol_bc_ask</span><span class="p">(</span><span class="n">kb</span><span class="p">,</span> <span class="p">[</span><span class="n">goal</span><span class="p">],</span> <span class="n">Substitution</span><span class="p">({}))</span>
+
+<span class="k">for</span> <span class="n">answer</span> <span class="ow">in</span> <span class="n">answers</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">answer</span><span class="p">.</span><span class="n">substitution_values</span><span class="p">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"="</span> <span class="o">*</span> <span class="mi">7</span><span class="p">)</span>
+</code></pre></div></div>
+<p>La cual entrega múltiples soluciones, por ejemplo:</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/37b5f28e91e17e8d9b82dc8680de3076a95e86bc/maps.drawio.png" alt="intel"></p>
+<p><em>Fig 10: Soluciones entregadas por PyLogic para el problema de coloreado de mapas.</em></p>
+</div>
+<h1 id="un-poco-ms-sobre-problemas-de-bsqueda">Un poco más sobre problemas de búsqueda</h1>
+<p>Gran parte de la IA, puede reducirse a un problema de búsqueda.</p>
+<ul>
+<li>En machine learning estamos buscando “el mejor modelo” en base a algún criterio (por ejemplo ajuste de datos)</li>
+<li>En problemas de estados, estamos buscando “el mejor camino” para llegar de un estado inicial a un estado objetivo</li>
+<li>En lógica dada una cláusula y una base de conocimiento estamos buscando si esta cláusula se puede satisfacer dado el conocimiento embebido en la base.</li>
+<li>En problemas de satisfacción de restricciones, estamos buscando la solución que cumpla todas las restricciones y que minimice o maximice una función objetivo.</li>
+</ul>
+<p>El cómo se hace la búsqueda es donde uno tiene que poner cerebro a resolver el problema.</p>
+<h2 id="ejemplo-de-estimacin-de-parmetros">Ejemplo de Estimación de Parámetros</h2>
+<p>Supongamos que tenemos los siguientes datos:</p>
+<ul>
+<li><code>t = [0., 0.11111111, 0.22222222, 0.33333333, 0.44444444, 0.55555556, 0.66666667, 0.77777778, 0.88888889, 1.]</code></li>
+<li><code>v = [100.96510126, 67.78222915, 48.48101823, 24.98947315, 18.23139621, 12.91163503, 5.18434069, 7.19801177, 4.63123254, 1.91433441]</code></li>
+</ul>
+<p>Queremos encontrar un modelo que ajuste dichos datos. Supongamos que estudiamos el modelo físico:</p>
+<p>$$v(t) = v_0 \cdot e^{-\frac{t}{\tau}}$$</p>
+<p>En este caso podemos transformar el problema a uno lineal en sus parámetros ($v_0$ y $\tau$):</p>
+<ul>
+<li>$log\left(v\left(t\right)\right) = log\left(v_0\right) + log\left(e^{-\frac{t}{\tau}}\right)$</li>
+<li>$log\left(v\left(t\right)\right) = a - b\cdot t$</li>
+</ul>
+<p>Luego aplicar mínimos cuadrados para encontrar $a$ y $b$ y re-transformar a los parámetros originales:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">V0</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">tau</span> <span class="o">=</span> <span class="mf">0.25</span>
+<span class="n">t_truth</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="mf">0.0</span><span class="p">,</span>
+        <span class="mf">0.11111111</span><span class="p">,</span>
+        <span class="mf">0.22222222</span><span class="p">,</span>
+        <span class="mf">0.33333333</span><span class="p">,</span>
+        <span class="mf">0.44444444</span><span class="p">,</span>
+        <span class="mf">0.55555556</span><span class="p">,</span>
+        <span class="mf">0.66666667</span><span class="p">,</span>
+        <span class="mf">0.77777778</span><span class="p">,</span>
+        <span class="mf">0.88888889</span><span class="p">,</span>
+        <span class="mf">1.0</span><span class="p">,</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="mf">100.96510126</span><span class="p">,</span>
+        <span class="mf">67.78222915</span><span class="p">,</span>
+        <span class="mf">48.48101823</span><span class="p">,</span>
+        <span class="mf">24.98947315</span><span class="p">,</span>
+        <span class="mf">18.23139621</span><span class="p">,</span>
+        <span class="mf">12.91163503</span><span class="p">,</span>
+        <span class="mf">5.18434069</span><span class="p">,</span>
+        <span class="mf">7.19801177</span><span class="p">,</span>
+        <span class="mf">4.63123254</span><span class="p">,</span>
+        <span class="mf">1.91433441</span><span class="p">,</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="p">.</span><span class="n">ones</span><span class="p">(</span><span class="n">t</span><span class="p">.</span><span class="n">shape</span><span class="p">),</span> <span class="o">-</span><span class="n">t</span><span class="p">])</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="n">sol</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">A</span><span class="p">.</span><span class="n">T</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">rcond</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+<span class="n">V0_approx</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">sol</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">tau_approx</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">sol</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"V0 = </span><span class="si">{</span><span class="n">V0</span><span class="si">}</span><span class="s">; tau = </span><span class="si">{</span><span class="n">tau</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+
+<span class="n">V_truth</span> <span class="o">=</span> <span class="n">V0</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">t_truth</span> <span class="o">/</span> <span class="n">tau</span><span class="p">)</span>
+<span class="n">V_approx</span> <span class="o">=</span> <span class="n">V0_approx</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">t_truth</span> <span class="o">/</span> <span class="n">tau_approx</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_truth</span><span class="p">,</span> <span class="n">V_truth</span><span class="p">,</span> <span class="s">"-b"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="s">"*r"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_truth</span><span class="p">,</span> <span class="n">V_approx</span><span class="p">,</span> <span class="s">"-g"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">legend</span><span class="p">((</span><span class="s">"Función Original"</span><span class="p">,</span> <span class="s">"Medidas con ruido"</span><span class="p">,</span> <span class="s">"Solución encontrada"</span><span class="p">))</span>
+</code></pre></div></div>
+<p>La salida del programa previo es:</p>
+<pre><code>V0 = 100; tau = 0.25
+V0_approx = 99.8009989146457; tau_approx = 0.2654186277602548
+</code></pre>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/0b5be9b0cc96a1a00df1aa33c25a4df4309f59c0/finding_example.png" alt="intel"></p>
+<p><em>Fig 11: Ejemplo de búsqueda de parámetros por mínimos cuadrados.</em></p>
+</div>
+<p>El resultado indica que podemos estimar los parámetros y dependiendo del ruido en los datos la estimación será cercana a los parámetros reales del modelo. Pregunta para el lector ¿Qué ocurre en el caso de outliers extremos? ¿Cómo lidiar con estos casos?</p>
+<h2 id="pddl-planning-domain-definition-language">PDDL: Planning Domain Definition Language</h2>
+<p><em>PDDL</em> es un lenguaje estandarizado desarrollado para agentes que resuelven problemas de planificación. El lenguaje es flexible y tiene los siguientes requerimientos:</p>
+<ul>
+<li>
+<p>Definir el dominio del problema</p>
+<ul>
+<li>Los predicados: van a ser estados que puedene ser verdaderos o falsos. Por ejemplo <code>in x</code>, <code>visited x</code>, <code>connected x y</code>
+</li>
+<li>Acciones: Las acciones tienen <strong>pre-requisitos</strong> y efectos. Por ejemplo si el agente se encuentra en la posición <code>a</code> (<code>in a</code>), <code>a</code> está conectado con b, <code>connected a b</code>, se puede tener la acción <code>move x y</code> cuyo <strong>efecto</strong> sea: <code>in y</code>, <code>visited y</code> y remover <code>in a</code> (hacer este predicado falso)</li>
+<li>Cada acción puede tener un <strong>costo</strong> asociado.</li>
+</ul>
+</li>
+<li>
+<p>Tener una instancia del problema, para la cual se haga el plan.</p>
+</li>
+</ul>
+<p>Supongamos que tenemos un mapa de ciudades, y queremos recorrer todas las ciudades en el mínimo de tiempo posible hasta volver al punto inicial.</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/1713a4dbddccb96f32b8e0d00a3e3c735c0a442e/tsp.png" alt="intel"></p>
+<p><em>Fig 12: Ejemplo de mapa de ciudades.</em></p>
+</div>
+<p>En este caso, en PDDL el dominio sería:</p>
+<pre><code class="language-pddl">&gt;(define (domain tsp-strips)
+  (:requirements :strips)
+  (:predicates (in ?x) (visited ?x) (not-visited ?x)
+	       (starting ?x) (complete) (not-complete)
+	       (connected ?x ?y))
+
+  (:action go-along
+    :parameters (?x ?y)
+    :precondition (and (in ?x) (not-visited ?y) (not-complete)
+		       (connected ?x ?y))
+    :effect (and (not (in ?x)) (in ?y) (visited ?y) (not (not-visited ?y))))
+
+  (:action return-along
+    :parameters (?x ?y)
+    :precondition (and (in ?x) (starting ?y) (not-complete)
+		       (connected ?x ?y))
+    :effect (and (not (in ?x)) (in ?y) (not (not-complete)) (complete)))
+
+ )
+</code></pre>
+<p>Ahora definamos la instancia en <code>PDDL</code>:</p>
+<pre><code class="language-pddl">&gt;(define (problem ten-cities)
+  (:domain tsp-strips)
+  (:objects c1 c2 c3 c4 c5 c6 c7 c8 c9 c10)
+  (:init (connected c1 c2) (connected c1 c3) (connected c2 c4)
+         (connected c2 c5) (connected c3 c6) (connected c3 c7)
+         (connected c4 c8) (connected c4 c9) (connected c5 c10)
+         (connected c5 c1) (connected c6 c2) (connected c6 c3)
+         (connected c7 c4) (connected c7 c5) (connected c8 c6)
+         (connected c8 c7) (connected c9 c8) (connected c10 c1)
+         (visited c1) (not-visited c2) (not-visited c3)
+         (not-visited c4) (not-visited c5) (not-visited c6)
+         (not-visited c7) (not-visited c8) (not-visited c9)
+         (not-visited c10)
+         (in c1) (starting c1) (not-complete))
+  (:goal (and (visited c1) (visited c2) (visited c3) (visited c4)
+              (visited c5) (visited c6) (visited c7) (visited c8)
+              (visited c9) (visited c10) (complete)))
+  )
+</code></pre>
+<p>El plan retornado por un planner por ejemplo sería el mostrado en la figura 13.</p>
+<pre><code>(go-along c1 c2)
+(go-along c2 c4)
+(go-along c4 c9)
+(go-along c9 c8)
+(go-along c8 c6)
+(go-along c6 c3)
+(go-along c3 c7)
+(go-along c7 c5)
+(go-along c5 c10)
+(return-along c10 c1)
+</code></pre>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/1713a4dbddccb96f32b8e0d00a3e3c735c0a442e/tsp-sol-pddl.png" alt="intel"></p>
+<p><em>Fig 13: Ejemplo de búsqueda de parámetros por mínimos cuadrados.</em></p>
+</div>
+<h2 id="agentes-llm">¿Agentes LLM?</h2>
+<p>Con los LLM y las nuevas tendencias en la industria, sale el concepto de agentes con LLMs. Estos agentes funcionan en un dominio abierto y son capaces de generar un plan como una consulta en lenguaje natural. Existen frameworks para connectar LLMs como <a href="https://python.langchain.com/v0.1/docs/modules/agents/">LangChain</a>.</p>
+<p>Ahora ¿Qué solución es mejor? Depende del problema, requerimientos, conocimiento de expertos del dominio y coste dispuesto a pagar (no es barato hacer inferencias con LLM dependiendo de las queries a considerar, por ejemplo QPS).</p>
+<h1 id="reflexiones">Reflexiones</h1>
+<ul>
+<li>Se pueden clasificar distintos tipos de agentes dependiendo de la “inteligencia” de estos. La inteligencia en este caso es una definición simplista que denota el nivel sofisticación del agente</li>
+<li>Todos los enfoques pueden reducirse a un problema de búsqueda. La estrategia cambia, y escoger cuál utilizar dependerá del problema a resolver.</li>
+<li>Existen lenguajes estandarizados para definir dominios y agentes.</li>
+<li>Las nuevas tendencias utilizan agentes que utilizan LLMs para el razonamiento y construcción de un plan. La “mejor” solución dependerá de las restricciones del problema.</li>
+</ul>
+<p>Espero que el artículo haya sido interesante 😊. ¡Abrazos!</p>
+
+  </div>
+<div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = '';
+      this.page.identifier = 'https://dpalmasan.github.io/website/algorithms/ai/2024/06/20/agents-ai.html';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://dpalmasan.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+<a class="u-url" href="/website/algorithms/ai/2024/06/20/agents-ai.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/website/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="https://dpalmasan.github.io/website/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/website/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">dpalmasan</li>
+          
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Este es un blog donde compartiré un poco sobre mí y mis experiencias en el mundo tecnológico.</p>
+      </div>
+    </div>
+
+    <div class="social-links">
+<ul class="social-media-list">
+<li>
+  <a rel="me" href="https://www.linkedin.com/in/dpalmasan/" target="_blank" title="Mi perfil en Linkedin">
+    <svg class="svg-icon grey">
+      <use xlink:href="/website/assets/minima-social-icons.svg#linkedin"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://www.github.com/dpalmasan" target="_blank" title="Mi Github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/website/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://scholar.google.com/citations?user=Y5PN_1AAAAAJ&hl=en" target="_blank" title="Mi Google Scholar">
+    <svg class="svg-icon grey">
+      <use xlink:href="/website/assets/minima-social-icons.svg#google_scholar"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://stackoverflow.com/users/4051219/dpalma" target="_blank" title="Mis preguntas en SO LOL!">
+    <svg class="svg-icon grey">
+      <use xlink:href="/website/assets/minima-social-icons.svg#stackoverflow"></use>
+    </svg>
+  </a>
+</li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

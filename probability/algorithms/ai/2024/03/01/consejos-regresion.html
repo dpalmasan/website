@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>¿Consejos? Introducción a las Regresiones | Mr Dipalma’s Pub 🍺</title>
+<meta name="generator" content="Jekyll v3.9.2">
+<meta property="og:title" content="¿Consejos? Introducción a las Regresiones">
+<meta name="author" content="dpalmasan">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Introducción">
+<meta property="og:description" content="Introducción">
+<link rel="canonical" href="https://dpalmasan.github.io/website/probability/algorithms/ai/2024/03/01/consejos-regresion.html">
+<meta property="og:url" content="https://dpalmasan.github.io/website/probability/algorithms/ai/2024/03/01/consejos-regresion.html">
+<meta property="og:site_name" content="Mr Dipalma’s Pub 🍺">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2024-03-01T00:30:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="¿Consejos? Introducción a las Regresiones">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"dpalmasan"},"dateModified":"2024-03-01T00:30:00+00:00","datePublished":"2024-03-01T00:30:00+00:00","description":"Introducción","headline":"¿Consejos? Introducción a las Regresiones","mainEntityOfPage":{"@type":"WebPage","@id":"https://dpalmasan.github.io/website/probability/algorithms/ai/2024/03/01/consejos-regresion.html"},"url":"https://dpalmasan.github.io/website/probability/algorithms/ai/2024/03/01/consejos-regresion.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/website/assets/css/style.css">
+<link type="application/atom+xml" rel="alternate" href="https://dpalmasan.github.io/website/feed.xml" title="Mr Dipalma's Pub 🍺">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KHXBX5G1VP"></script>
+<script>
+  window['ga-disable-G-KHXBX5G1VP'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KHXBX5G1VP');
+</script>
+
+<script>MathJax={"tex":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]},"svg":{"fontCache":"global"}}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<header class="site-header">
+
+  <div class="wrapper">
+<a class="site-title" rel="author" href="/website/">Mr Dipalma's Pub 🍺</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewbox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/website/about/">About</a></div>
+      </nav>
+</div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">¿Consejos? Introducción a las Regresiones</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2024-03-01T00:30:00+00:00" itemprop="datePublished">
+        Mar 1, 2024
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h1 id="introduccin">Introducción</h1>
+<p>Este artículo sigue una estructura similar a mis últimos artículos de la serie <em>De Vuelta a lo Básico</em>, donde expliqué fundamentos de probabilidad, con el fin de transferir conocimiento y hacer que mis otros artículos donde hablo sobre GenAI sean más simples/intuitivos de entender.</p>
+<p>Con el objetivo de seguir reciclando el material que alguna vez elaboré para algunas clases, haré una serie de artículos con tópicos clásicos utilizados en “<em>Ciencia de Datos</em>” (odio este término). Este <em>capítulo</em> será una introducción a las regresiones, en particular, la regresión lineal. Sin embargo, debido a preguntas que he recibido de algunos colegas, haré una pequeña sección de “<em>consejos</em>”, lo pongo entre comillas, porque ¿Quién es este pelagato para aconsejar?</p>
+<h1 id="consejos">Consejos</h1>
+<p>Lo he mencionado en situaciones anteriores, pero llevo ya dos años trabajando en Meta, ahora recientemente me cambié de equipo. En un post previo <a href="/website/python/algorithms/classification/machine-learning/2023/04/19/usa-primera-exp.html"><em>Primer año en USA y algunas reflexiones</em></a>, comenté algunos temas sobre cómo es trabajar en una <code>FAANG</code> (<code>MAANG</code>), y en el caso particular de Meta, cómo es de estresate el proceso de evaluación de desempeño o PSC (buscar <em>stack ranking</em> en dicho post mencionado). En mi primer año, logré estar en el lado derecho de la campana de Gauss (top 1%) y me promovieron de L4 a L5 (rating: <em>Redefined Expectations</em> o RE). Este 2023, en L5, las exigencias y expectativas fueron mucho mayores. En este caso logré estar en el top 15% (rating: <em>Greatly Exceeds Expectations</em>), lo cual me tiene contento porque sacar RE en L5 es muy complicado (hay que tener influencia a nivel multi-organizacional).</p>
+<p>Bueno, después de este <em>humble brag</em>, algunos colegas (no muchos la verdad), me preguntaron cómo lo hice para salir tan bien evaluado dos años seguidos. Si bien, no soy nadie para darte la <em>receta del éxito</em> (no existe, y depende de lo que consideres como éxito), las cosas que hice yo en particular fueron:</p>
+<ul>
+<li>Resolver problemas que tuviesen impacto</li>
+<li>Encontrar un buen <strong>aliado</strong> que entienda bien el negocio</li>
+<li>Investigar y crear soluciones innovadoras (pensar fuera de la caja)</li>
+<li>Reconocer los problemas a resolver, las limitaciones y las prioridades</li>
+<li>Iterar rápido en prototipos y descartar soluciones que no tendrán éxito (luego de $N$ intentos)</li>
+<li>
+<em>Resetear</em> la mente, y olvidarse de todo lo que sé, en esencia, <strong>desafiar mi propio contexto y creencias</strong>
+</li>
+<li>Desafiar el Status Quo a nivel de organización y procesos</li>
+<li>En lo técnico
+<ol>
+<li>Entender rápidamente una base de código y tener impacto lo antes posible</li>
+<li>Ser proficiente en programación. Ejemplo, saber utilizar un <em>debugger</em> (si haces <em>debugging</em> haciendo <em>prints</em>, lo estás haciendo mal)</li>
+<li>Ser capaz de <strong>modelar los problemas</strong> (ej. con teoría de probabilidad, modelos de teoría de sistemas, etc.)</li>
+<li>Saber bien la teoría y el por qué de las cosas (ej. complejidad asintótica, procesamiento distribuido, modelos de lenguaje, etc.)</li>
+</ol>
+</li>
+</ul>
+<p>No es mucho más lo que hice, creo que no es magia y lo que ayuda es la <strong>disciplina</strong> y <strong>consistencia</strong>.</p>
+<p>¿Significa esto que no me estreso o no paso sustos? Claro que no, todo lo contrario, me he estresado bastante, creo que es el primer trabajo en el que me estreso para ser honestos. Pero también es el primero en el que no me he aburrido. Ahora en nuevo equipo, con nuevos desafíos, está el miedo, pero bueno, supongo que habrá que ver que ocurre a medida que avanza el año.</p>
+<h1 id="regresin-lineal">Regresión Lineal</h1>
+<p>En simples términos, consiste en construir un modelo de la relación entre dos o más variables, a partir de datos disponibles. Primero, para
+ganar una intuición, consideraremos el caso de sólo dos variables, $x$ e $y$ (por ejemplo, años de estudio y sueldo, etc.), y para derivar el modelo, nos basaremos en la colección de pares $(x_i, y_i)$, $i = 1, \ldots, n$. Por ejemplo, $x_i$ podría ser los años de estudio e $y_i$ podría ser los ingresos anuales de la i-ésima persona en la muestra. A menudo un gráfico bi-dimensional de estas muestras indica una una relación lineal aproximada entre la relación de $x_i$ e $y_i$. Luego, es natural intentar construir un modelo lineal de la forma:</p>
+<p>$$y \approx \theta_0 + \theta_1 x$$</p>
+<p>Donde $\theta_0$ y $\theta_1$ son parámetros desconocidos que deberán ser estimados. En particular, dados los estimados $\hat{\theta}_0$ y $\hat{\theta}_1$ de los parámetros, el valor de $y_i$ correspondiente a $x_i$, predecido por el modelo, es:</p>
+<p>$$\hat{y}_i = \hat{\theta}_0 + \hat{\theta}_1x_i$$</p>
+<p>Por lo general, $\hat{y}_i$ será diferente del valor de $y_i$, y la diferencia correspondiente:</p>
+<p>$$\tilde{y}_i = y_i - \hat{y}_i$$</p>
+<p>se le llama el i-ésimo <b>residual</b>. Elegir los estimadores que resulten en valores pequeños para los residuales se considera que proveen un  buen ajuste a los datos. Utilizando esto como motivador, el enfoque de regresión lineal escoge parámetros estimados $\hat{\theta}_0$ y $\hat{\theta}_1$ que minimicen la suma de los residuales al cuadrado:</p>
+<p>$$\sum_{i=1}^{n} (y_i - \hat{y}_i)^2 = \sum_{i=1}^{n} (y_i - \theta_0 - \theta_1 x_i)^2$$</p>
+<div align="center">
+<p><img src="https://raw.githubusercontent.com/dpalmasan/homepage/master/public/imgs/modelo_lineal.png" alt="header"></p>
+<p><em>Fig 1: Visualización de un modelo lineal.</em></p>
+</div>
+<p>Notar que el modelo lineal sugerido podría ser verdadero o no. Por ejemplo, la relación real entre las variables podría ser no lineal. El enfoque de mínimizar los residuales al cuadrado intenta encontrar el mejor modelo lineal posible, e involucra una hipótesis implícita que la relación entre las variables es lineal y que es válida.</p>
+<p>Para derivar las fórmulas para las estimaciones $\hat{\theta}_0$ y $\hat{\theta}_1$, observamos que una vez se tienen los datos, la suma de los residuales al cuadrado es una función cuadrática de $\hat{\theta}_0$ y $\hat{\theta}_1$. Para minimizar la suma cuadrática $S$ de los residuales, calculamos las derivadas parciales con respecto a $\theta_0$ y $\hat{\theta}_1$ y las igualamos a 0 (punto crítico, mínimo de la función, no entraremos en detalle respecto a esto):</p>
+<p>$$\frac{\partial S}{\partial \theta_0} = -2 \sum_{i=1}^{n} (y_i - \theta_0 - \theta_1x_i) = 0$$</p>
+<p>$$\frac{\partial S}{\partial \theta_1} = -2 \sum_{i=1}^{n} (y_i - \theta_0 - \theta_1x_i)x_i = 0$$</p>
+<p>Resolviendo para $\theta_0$:</p>
+<p>$$
+\begin{array}{ll}
+0 &amp; =  \sum_{i=1}^{n} (y_i - \hat\theta_0 - \hat\theta_1x_i)\\
+\sum_{i=0}^{n}\theta_0 &amp; = \sum_{i=1}^{n} (y_i - \hat\theta_1x_i)\\
+n\hat\theta_0 &amp; = \sum_{i=1}^{n} y_i - \hat\theta_1 \sum_{i=1}^{n} x_i\\
+\hat\theta_0 &amp; = \bar{y} - \hat\theta_1 \bar{x}
+\end{array}
+$$</p>
+<p>Resolviendo para $\theta_1$:</p>
+<p>$$
+\begin{array}{ll}
+0 &amp; =  \sum_{i=1}^{n} (y_i - \hat\theta_0 - \hat\theta_1x_i)x_i\\
+0 &amp; = \sum_{i=1}^{n} (y_i - \bar{y} + \hat\theta_1 \bar{x} - \hat\theta_1x_i)x_i\\
+\hat\theta_1 &amp;= \frac{\sum_{i=1}^{n} (y_i - \bar{y})x_i}{\sum_{i=1}^{n} (x_i - \bar{x})x_i}
+\end{array}
+$$</p>
+<p>Con el siguiente desarrollo algebraico (un poco tedioso, uff):</p>
+<p>$$
+\begin{array}{ll}
+\sum_{i=1}^{n} (y_i - \bar{y})x_i &amp; = (y_1 - \bar{y})x_1 + \ldots + (y_n - \bar{y})x_n \\
+&amp; = (y_1 - \frac{1}{n}(y_1 + \ldots + y_n))x_1 + \ldots + (y_n - \frac{1}{n}(y_1 + \ldots + y_n))x_n \\
+&amp; = y_1x_1 - \frac{y_1x_1}{n} - \frac{y_2x_1}{n} - \ldots -\frac{y_nx_1}{n} \\
+&amp; \quad \vdots \\
+&amp; \quad y_nx_n - \frac{y_1x_n}{n} - \frac{y_2x_n}{n} - \ldots -\frac{y_nx_n}{n} \\
+&amp; = x_1y_1 + \ldots + x_ny_n - y_1\bar{x} - \ldots - y_n\bar{x} \\
+&amp; = \sum_{i=1}^{n} x_iy_i - y_i\bar{x} \\
+\end{array}
+$$</p>
+<p>Tomando parte de la ecuación, también se puede obtener:</p>
+<p>$$
+\begin{array}{ll}
+x_1y_1 + \ldots + x_ny_n - y_1\bar{x} - \ldots - y_n\bar{x} &amp; = x_1y_1 + \ldots + x_ny_n - \bar{x} (y_1 + \ldots + y_n) \\
+&amp;= x_1y_1 - \bar{x}\bar{y} + \ldots + x_ny_n - \bar{x}\bar{y} \\
+&amp;= \sum_{i=1}^{n} x_iy_i - \bar{x}\bar{y}
+\end{array}
+$$</p>
+<p>De las 3 formas de escribir el numerador, llegamos a que:</p>
+<p>$$\bar{x}\bar{y} = x_i\bar{y} = y_i\bar{x}$$</p>
+<p>Ahora, haciendo una “Harry-Potteada”, o sea literalmente magia a la expresión del numerador de $\hat\theta_1$:</p>
+<p>$$
+\begin{array}{ll}
+\sum_{i=1}^{n} (y_i - \bar{y})x_i &amp; = \sum_{i=1}^{n} x_iy_i - x_i\bar{y} \\
+&amp; = \sum_{i=1}^{n} x_iy_i - \bar{x}\bar{y} \\
+&amp; = \sum_{i=1}^{n} x_iy_i - \bar{x}\bar{y} - \bar{x}\bar{y} + \bar{x}\bar{y} \\
+&amp; = \sum_{i=1}^{n} x_iy_i - x_i\bar{y} - y_i\bar{x} + \bar{x}\bar{y} \\
+&amp; = \sum_{i=1}^{n} (y_i - \bar{y})(x_i - \bar{x})
+\end{array}
+$$</p>
+<p>Procediendo de forma similar en el denominador, se llega a una expresión equivalente para $\hat{\theta_1}$:</p>
+<p>$$\hat\theta_1 = \frac{\sum_{i=1}^{n} (y_i - \bar{y})(x_i - \bar{x})}{\sum_{i=1}^{n} (x_i - \bar{x})^2}$$</p>
+<p>Se parece a la fórmula de correlación ¿o no? Es sutilmente diferente, pues el numerador podría verse como la covarianza entre $x$ e $y$, y
+el denominador como la varianza de $x$.</p>
+<p><strong>Ejemplo:</strong> A través del tiempo, la torre de Pisa tiende a inclinarse. Algunas mediciones entre los años 1975 y 1987 de la distancia de un punto fijo de la torre, respecto a su posición si la torre estuviese derecha producen la siguiente tabla:</p>
+<table>
+<thead>
+<tr>
+<th align="left">Año</th>
+<th align="left">Inclinación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">1975</td>
+<td align="left">2.9642</td>
+</tr>
+<tr>
+<td align="left">1976</td>
+<td align="left">2.9644</td>
+</tr>
+<tr>
+<td align="left">1977</td>
+<td align="left">2.9656</td>
+</tr>
+<tr>
+<td align="left">1978</td>
+<td align="left">2.9667</td>
+</tr>
+<tr>
+<td align="left">1979</td>
+<td align="left">2.9673</td>
+</tr>
+<tr>
+<td align="left">1980</td>
+<td align="left">2.9688</td>
+</tr>
+<tr>
+<td align="left">1981</td>
+<td align="left">2.9696</td>
+</tr>
+<tr>
+<td align="left">1982</td>
+<td align="left">2.9698</td>
+</tr>
+<tr>
+<td align="left">1983</td>
+<td align="left">2.9713</td>
+</tr>
+<tr>
+<td align="left">1984</td>
+<td align="left">2.9717</td>
+</tr>
+<tr>
+<td align="left">1985</td>
+<td align="left">2.9725</td>
+</tr>
+<tr>
+<td align="left">1986</td>
+<td align="left">2.9742</td>
+</tr>
+<tr>
+<td align="left">1987</td>
+<td align="left">2.9757</td>
+</tr>
+</tbody>
+</table>
+<p>Probemos las ecuaciones descritas, en el siguiente código <code>python</code> intentamos ajustar los datos a un modelo lineal.</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="n">use</span><span class="p">(</span><span class="s">"seaborn"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">"figure.figsize"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">"figure.dpi"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">200</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1975</span><span class="p">,</span> <span class="mi">1976</span><span class="p">,</span> <span class="mi">1977</span><span class="p">,</span> <span class="mi">1978</span><span class="p">,</span> <span class="mi">1979</span><span class="p">,</span> <span class="mi">1980</span><span class="p">,</span> <span class="mi">1981</span><span class="p">,</span> <span class="mi">1982</span><span class="p">,</span> <span class="mi">1983</span><span class="p">,</span> <span class="mi">1984</span><span class="p">,</span> <span class="mi">1985</span><span class="p">,</span> <span class="mi">1986</span><span class="p">,</span> <span class="mi">1987</span><span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mf">2.9642</span><span class="p">,</span> <span class="mf">2.9644</span><span class="p">,</span> <span class="mf">2.9656</span><span class="p">,</span> <span class="mf">2.9667</span><span class="p">,</span> <span class="mf">2.9673</span><span class="p">,</span> <span class="mf">2.9688</span><span class="p">,</span> <span class="mf">2.9696</span><span class="p">,</span> <span class="mf">2.9698</span><span class="p">,</span> <span class="mf">2.9713</span><span class="p">,</span> <span class="mf">2.9717</span><span class="p">,</span> <span class="mf">2.9725</span><span class="p">,</span> <span class="mf">2.9742</span><span class="p">,</span> <span class="mf">2.9757</span><span class="p">])</span>
+
+<span class="n">num</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">((</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">np</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">np</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+<span class="n">den</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">((</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">np</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+
+<span class="n">theta_1_est</span> <span class="o">=</span> <span class="n">num</span><span class="o">/</span><span class="n">den</span>
+<span class="n">theta_0_est</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">theta_1_est</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s">"r."</span><span class="p">)</span>
+
+<span class="n">xx</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1975</span><span class="p">,</span> <span class="mi">1987</span><span class="p">)</span>
+<span class="n">yy</span> <span class="o">=</span> <span class="n">theta_0_est</span> <span class="o">+</span> <span class="n">theta_1_est</span><span class="o">*</span><span class="n">xx</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="s">"b-"</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Lo que entrega como resultado:</p>
+<div align="center">
+<p><img src="https://raw.githubusercontent.com/dpalmasan/homepage/master/public/imgs/ejemplo_regresion.png" alt="header"></p>
+<p><em>Fig 2: Ejemplo de inclinación de la torre de Pisa.</em></p>
+</div>
+<h2 id="justificacin-de-la-formulacin-por-mnimos-cuadrados">Justificación de la formulación por mínimos cuadrados</h2>
+<p>Asumimos que $x_i$ son números (no variables aleatorias). Asumimos que $y_i$ es la realización de una variable aleatoria $Y_i$, generada
+de acuerdo a la ecuación:</p>
+<p>$$Y_i = \theta_0 + \theta_1 x_i + W_i \quad i = 1, \ldots, n$$</p>
+<p>donde $W_i$ (ruido) son variables aleatorias normales independientes e idénticamente distribuidas (i.i.d) con media 0 y varianza $\sigma^2$. Siguiendo
+este razonamiento, se tiene que $Y_i$ son variables normales e independientes, donde $Y_i$ tiene media $\theta_0 + \theta_1 x_i$ y varianza $\sigma^2$. La función de probabilidad toma la forma:</p>
+<p>$$f_Y(y;\theta) = \prod_{i=1}^{n} \frac{1}{\sqrt{2\pi}\sigma} e^{-\frac{(y_i - \theta_0 - \theta_1 x_i)^2}{2\sigma^2}}$$</p>
+<p>Maximizar la función de probabilidad es lo mismo que maximizar el exponente en la expresión de arriba, lo que es equivalente a minimizar
+la suma cuadrática de los residuales. Así, las estimaciones de la regresión lineal pueden verse como estimaciones de máxima probabilidad en
+un contexto lineal adecuado. De hecho, dado algunos supuestos (que mencionaremos más adelante), puede demostrarse que en este contexto los
+estimadores son insesgados.</p>
+<h2 id="regresin-lineal-mltiple">Regresión Lineal Múltiple</h2>
+<p>Hasta ahora, hemos hablado de regresiones que involucran solo una <b>variable explicativa</b>, digamos $x$, este es un caso especial conocido como <strong>regresión lineal simple</strong>. El objetivo consistió en construir un modelo que explica los valores observados $y_i$ a partir de los valores $x_i$. Sin embargo, muchos fenómenos involucran múltiples variables explicarivas o latentes (ejemplo, un modelo que intente estimar el ingreso anual a partir de los años de estudio y la edad). Modelos de este tipo se conocen como modelos de <strong>regresión múltiple</strong>.</p>
+<p>Por ejemplo, supongamos que los datos consisten en triplets de la forma $(x_i, y_i, z_i)$ y que queremos estimar los parámetros $\theta_j$ de un modelo con forma:</p>
+<p>$$y \approx \theta_0 + \theta_1 x + \theta_2 z$$</p>
+<p>Por ejemplo, $y_i$ podría ser el ingreso anual, $x_i$ podría ser la edad y $z_i$ los años de estudio, de la i-ésima persona en una muestra
+aleatoria. Entonces, buscamos minimizar la suma de los residuales al cuadrado:</p>
+<p>$$\sum_{i=1}^{n} (y_i - \theta_0 - \theta_1 x_i - \theta_2 z_i)^2$$</p>
+<p>De forma general, no hay límite en la cantidad de variables explicarivas a utilizar. El cálculo de las estimaciones $\hat \theta_i$ de la
+regresión es conceptualmente el mismo que en el caso de una sola variable explicativa, pero por supuesto, las fórmulas se vuelven un poco
+más complejas.</p>
+<p>También existe el caso especial en que $z_i = x_i^2$, en el cual estamos lidiando con un modelo de la forma:</p>
+<p>$$y \approx \theta_0 + \theta_1 x + \theta_2 x^2$$</p>
+<p>Dicho modelo sería apropiado si existe una buena razón para esperar una relación cuadrádica entre $y_i$ y $x_i$ (También podrían utilizarse
+modelos polinomiales de mayor grado). A pesar de que dicha dependencia cuadrática es no lineal, seguimos diciendo que el modelo latente es
+lineal, en el sentido de que los parámetros desconocidos $\hat \theta_j$ están relacionados linealmente con las variables aleatorias observadas $Y_i$. De forma general, podríamos tener modelos de la forma:</p>
+<p>$$y \approx \theta_0 + \sum_{j=1}^{m} \theta_j h_j(x)$$</p>
+<p>Donde $h_j$ podría ser cualquier función que capture la dependencia anticipada de $y$ en $x$. Finalmente, para obtener las estimaciones de los parámetros, se puede proceder de la misma forma (mínimos cuadrados), y para ello existen métodos numéricos eficientes.</p>
+<p>Para seguir la notación comúnmente vista en la literatura, consideraremos el modelo de regresión lineal múltiple:</p>
+<p>$$y_i = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \ldots + \beta_n X_n + \varepsilon_i$$</p>
+<p>Donde $\beta_i$ ($i = 1, \ldots, n$) son los coeficientes de la regresión, y $\beta_0$ se conoce como el intercepto. El término $\varepsilon_i$  es un término de error. Recordemos que para obtener las estimaciones de los parámetros del modelo lineal latente, minimizamos la suma cuadrática de los residuales (OLS: Ordinary Least Squares). Se dice la estimación lineal es <strong>ELIO</strong> (Estimador Lineal Insesgado Óptimo), si se cumplen los supuestos de Gauss-Markov.</p>
+<p>El <strong>teorema de Gauss-Markov</strong> enuncia que si un modelo de regresión satisface los 6 primeros supuestos clásicos, entonces la regresión OLS
+produce estimadores insesgados que tienen la menor varianza entre todos los posibles estimadores; en palabras simples, se obtiene un estimador óptimo. Los supuestos son los siguientes:</p>
+<ol>
+<li>El modelo de regresión es lineal en los coeficientes y el término de error $\varepsilon$</li>
+<li>El término de error tiene una población de media 0. (Si se considera el término constante en el modelo, este supuesto se cumple ya que esta constante fuerza que el promedio de los residuales sea 0).</li>
+<li>Todas las variables independientes (regresores) no tienen correlación con el término de error (exogeneidad).</li>
+<li>Las obervaciones del término de error no tienen correlación entre ellas.</li>
+<li>El término de error tiene varianza constante (homocedasticidad).</li>
+<li>No hay variable independiente que sea una combinación lineal perfecta de otras variables.</li>
+<li>Opcional: El término de error está normalmente distribuido.</li>
+</ol>
+<h3 id="ejemplo-prctico">Ejemplo Práctico</h3>
+<p>Para tener un mejor entendimiento de las ideas planteadas, desarrollaremos un ejemplo práctico en python. Para ello, consideraremos los mismos datos del ejemplo de la torre de Pisa (ver tabla más arriba).</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="n">use</span><span class="p">(</span><span class="s">"seaborn"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">"figure.figsize"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">"figure.dpi"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">200</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s">"year"</span><span class="p">:</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span>
+        <span class="mi">1975</span><span class="p">,</span>
+        <span class="mi">1976</span><span class="p">,</span>
+        <span class="mi">1977</span><span class="p">,</span>
+        <span class="mi">1978</span><span class="p">,</span>
+        <span class="mi">1979</span><span class="p">,</span>
+        <span class="mi">1980</span><span class="p">,</span>
+        <span class="mi">1981</span><span class="p">,</span>
+        <span class="mi">1982</span><span class="p">,</span>
+        <span class="mi">1983</span><span class="p">,</span>
+        <span class="mi">1984</span><span class="p">,</span>
+        <span class="mi">1985</span><span class="p">,</span>
+        <span class="mi">1986</span><span class="p">,</span>
+        <span class="mi">1987</span>
+    <span class="p">]),</span>
+    <span class="s">"lean"</span><span class="p">:</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span>
+        <span class="mf">2.9642</span><span class="p">,</span>
+        <span class="mf">2.9644</span><span class="p">,</span>
+        <span class="mf">2.9656</span><span class="p">,</span>
+        <span class="mf">2.9667</span><span class="p">,</span>
+        <span class="mf">2.9673</span><span class="p">,</span>
+        <span class="mf">2.9688</span><span class="p">,</span>
+        <span class="mf">2.9696</span><span class="p">,</span>
+        <span class="mf">2.9698</span><span class="p">,</span>
+        <span class="mf">2.9713</span><span class="p">,</span>
+        <span class="mf">2.9717</span><span class="p">,</span>
+        <span class="mf">2.9725</span><span class="p">,</span>
+        <span class="mf">2.9742</span><span class="p">,</span>
+        <span class="mf">2.9757</span>
+    <span class="p">])</span>
+<span class="p">})</span>
+</code></pre></div></div>
+<p>Ajustemos un modelo lineal utilizando la biblioteca <code>statsmodels</code>:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="n">sm</span>
+<span class="kn">import</span> <span class="nn">statsmodels.formula.api</span> <span class="k">as</span> <span class="n">smf</span>
+
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">smf</span><span class="p">.</span><span class="n">ols</span><span class="p">(</span><span class="s">"lean ~ year"</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="n">fitted_model</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">fitted_model</span><span class="p">.</span><span class="n">summary</span><span class="p">()</span>
+</code></pre></div></div>
+<div align="center">
+<p><img src="https://raw.githubusercontent.com/dpalmasan/homepage/master/public/imgs/ols_reg.png" alt="header"></p>
+<p><em>Fig 4: Resultados de ajuste OLS.</em></p>
+</div>
+<p>Los resultados muestran que fuimos consistentes con la derivación hecha más arriba, ya que obtuvimos los mismos valores para los parámetros. También es interesante detallar cómo interpretar cada uno de los valores entregados en los resultados:</p>
+<ul>
+<li>
+<code>F-value</code>: Es una prueba de hipótesis, cuya hipótesis nula es <em>Todos los coeficientes son 0</em>, o en otras palabras que el modelo no tiene capacidad predictiva. Idealmente esperamos que este valor sea alto (mucho mayor que 1), y que el <code>p-value</code> sea pequeño, para tener un nivel de significancia estadística deseable (ej. menor que 0.05)</li>
+<li>
+<code>DF residuals</code>: Grados de libertad y se calcula como el tamaño muestral menos la cantidad de parámetros. En este caso da 11, pues
+se cuenta con 13 observaciones y dos parámetros.</li>
+<li>
+<code>R-squared</code>: Es el procentaje de varianza explicado por los datos. Va entre 0 a 1, e idealmente queremos que esté cercano a 1.</li>
+<li>
+<code>Adj. R-squared</code>: Es el valor ajustado de la estadística anterior. Este se utiliza, debido a que a medida que aumenta la cantidad de predictores, tiende a “inflarse” el valor de <code>R-squared</code> no necesariamente logrando un modelo mejor o útil. Este valor se calcula básicamente considerando significancia en la mejora de la métrica, a medida que se agregan predictores.</li>
+<li>
+<code>t</code>: Básicamente es el valor del coeficiente dividido por el error estándar. En esencia, mientras mayor el valor de esta métrica, menor error estándar, por lo que idealmente queremos que esté valor sea grande.</li>
+</ul>
+<p>Ahora, analicemos cada uno de los supuestos, enunciados anteriormente. El primer supuesto se cumple, ya que estamos ajustando un modelo lineal. El supuesto 2, también se cumple, pues el modelo está considerando un valor para el <code>intercepto</code>, si calculamos el promedio de los residuales, observamos que es cercano a 0:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">predictions</span> <span class="o">=</span> <span class="n">fitted_model</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">"year"</span><span class="p">])</span>
+<span class="n">residuals</span> <span class="o">=</span> <span class="n">predictions</span> <span class="o">-</span> <span class="n">data</span><span class="p">[</span><span class="s">"lean"</span><span class="p">]</span>
+<span class="n">np</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">residuals</span><span class="p">)</span>
+</code></pre></div></div>
+<pre><code>-2.445906725020345e-14
+</code></pre>
+<p>Para el supuesto 3, podemos calcular la correlación entre los regresores y los residuales, en este caso podemos hacer <code>data["year"].corr(residuals)</code>, lo que nos entrega <code>-4.984594328929679e-13</code>, que es cercano a 0, por lo que es seguro decir que no hay correlación entre el regresor y los residuales.</p>
+<p>Ahora veamos los supuestos 4 y 5. Para ello graficaremos los residuales, y veremos si existe alguna correlación entre ellos; para el supuesto 4, graficaremos los residuales en función de las predicciones, para ver si la varianza de las predicciones es constante:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">residuals</span><span class="p">,</span> <span class="s">"go-"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="n">data</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">linestyles</span><span class="o">=</span><span class="s">"dashed"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">"Orden Observaciones"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">"Residual"</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">residuals</span><span class="p">,</span> <span class="s">"bo"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nb">min</span><span class="p">(</span><span class="n">predictions</span><span class="p">),</span> <span class="n">xmax</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nb">max</span><span class="p">(</span><span class="n">predictions</span><span class="p">),</span> <span class="n">linestyles</span><span class="o">=</span><span class="s">"dashed"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">"Predicciones"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">"Residual"</span><span class="p">)</span>
+</code></pre></div></div>
+<div align="center">
+<p><img src="https://raw.githubusercontent.com/dpalmasan/homepage/master/public/imgs/correlacion_residuales.png" alt="header">
+<img src="https://raw.githubusercontent.com/dpalmasan/homepage/master/public/imgs/varianza_predicciones.png" alt="header"></p>
+<p><em>Fig 4: Supuestos 4 y 5 de Gauss-Markov.</em></p>
+</div>
+<p>De los gráficos observamos que no existe una tendencia clara en los residuales (no se ve correlación entre ellos), además, la varianza en las predicciones se mantiene aproximadamente constante.</p>
+<p>Para el supuesto 6, no aplica en este caso ya que sólo tenemos un regresor. En el caso de que hayan dos regresores que sea combinación lineal de otro (ej. tiempo en segundos, tiempo en minutos), básicamente cualquier <code>solver</code> de OLS, arrojará error. Lo que ocurririá es que no se podría diferenciar un regresor de otro (puede que contengan la misma información).</p>
+<h2 id="una-vista-desde-el-aprendizaje-automtico-machine-learning">Una vista desde el Aprendizaje Automático (Machine Learning)</h2>
+<p>En general, en estudios de diversas índoles, se utilizan modelos de regresión lineal para extraer ciertas propiedades de poblaciones y analizarrelaciones entre regresores y la variable dependiente. Por otro lado, el enfoque del aprendizaje automático es usualmente generar modelos predictivos que sean generalizables (que tengan buen rendimiento en la práctica). Antes de poner en producción un modelo predictivo, es necesario intentar estimar el <strong>error esperado fuera de muestra</strong>, esto es, el error que se espera que tendrá el modelo una vez puesto en producción. De esta forma, se evita tener <strong>sobre-ajuste</strong> (<em>overfitting</em>), es decir, que el modelo funciona bien sólo en los datos a disposición, pero no es capaz de generalizar a datos nuevos. Un enfoque para estimar el error esperado fuera de muestra, es dividir el conjunto de datos en dos, un conjunto de entrenamiento y uno de validación. En general, la proporción dependerá de la distribución de los datos y de la disposición de ellos, pero valores típicos utilizados son 80%, 20% o 2/3;1/3.</p>
+<h3 id="el-intercambio-de-sesgo-y-varianza-bias-variance-tradeoff">El intercambio de sesgo y varianza (bias variance tradeoff)</h3>
+<p>Esto no es particular del aprendizaje automático, si no que es una consecuencia de estimación de parámetros (que vimos la semana pasada). Repasemos un poco esto, ya que nos servirá para ganar intuiciones y conectar contenidos. Primero recordemos la fórmula de la varianza:</p>
+<p>$$
+\begin{array}{ll}
+var(X) &amp; =  E[(X - E[X])^2]\\
+&amp; = E[X^2 - 2(E[X])^2 + (E[X])^2] \\
+&amp; = E[X^2] - 2E[X]^2 + E[X]^2 \\
+&amp; = E[X^2] - (E[X])^2
+\end{array}
+$$</p>
+<p>Ahora, recordemos el error de estimación $\tilde \Theta_n = \hat \Theta_n - \theta$, donde $\hat \Theta_n$ es nuestro estimador del
+parámetro $\theta$. Ahora recordemos el sesgo del estimador, que es el error esperado del error de estimación, es decir:</p>
+<p>$$b_{\theta}(\hat \Theta_n) = E[\tilde \Theta_n] = E[\hat \Theta_n - \theta]$$</p>
+<p>Finalmente, consideremos la varianza del error de estimación:</p>
+<p>$$
+\begin{array}{ll}
+var_{\theta}(\tilde \Theta_n) &amp; =  E[\tilde \Theta_n^2] - (E[\tilde \Theta_n^2])^2\\
+var_{\theta}(\hat \Theta_n - \theta) &amp; =  E[\tilde \Theta_n^2] - b_{\theta}(\hat \Theta_n)^2\\
+E[\tilde \Theta_n^2] &amp;= b_{\theta}^2(\hat \Theta_n) + var_{\theta}(\hat \Theta_n)
+\end{array}
+$$</p>
+<p>Por lo que obtenemos el error cuadrático de la estimación $E[\tilde \Theta_n^2]$ depende del sesgo del estimador $ b_{\theta}(\hat \Theta_n)^2$ y de la varianza $var_{\theta}(\hat \Theta_n)$, por lo que por lo general, existirá un intercambio entre estas dos propiedades, con el fin de reducir el error esperado. Cabe destacar que un buen estimador por lo general tiene bajo sesgo y baja varianza.</p>
+<h2 id="ejemplo-completo">Ejemplo Completo</h2>
+<p>A modo de ejemplo, consideremos que tenemos una cierta muestra de datos con ruido (donde sabemos que el modelo real es <code>y = 2*x</code>. Consideremos la siguiente muestra (usamos random seed por reproducibilidad). Vamos a considerar dos modelos, el primero es un modelo lineal simple, y el segundo será un modelo polinomial (<strong>dato freak</strong>, una forma de obtener un polinomio de interpolación de <code>N puntos</code> es considerar ajustar los datos a un polinomio de grado <code>N - 1</code>; Teorema de existencia y unicidad del polinomio de interpolación):</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+
+<span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">40</span><span class="p">)</span>
+
+<span class="c1"># Generar datos de entrenamiento
+</span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+
+<span class="c1"># Agregamos ruido gaussiano a los datos para hacerlo más interesante
+</span><span class="n">y</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">X</span> <span class="o">+</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)))</span>
+
+<span class="c1"># Separar en conjunto de prueba y validación
+</span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.33</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">model_1</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+
+<span class="c1"># Usamos reshape porque tenemos sólo una columna
+</span><span class="n">model_1</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Ajustar a un polinomio de grado N-1 (interpolar todos los puntos)
+</span><span class="n">X_train_poly</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">vander</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_train</span><span class="p">))</span>
+<span class="n">coeff</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="n">solve</span><span class="p">(</span><span class="n">X_train_poly</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Ahora calculemos el error dentro de la muestra, de nuestros modelos ajustados:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+
+
+<span class="c1"># Calculamos error dentro de muestra
+</span><span class="n">y_pred_model_1</span> <span class="o">=</span> <span class="n">model_1</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">y_pred_model_2</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X_train_poly</span><span class="p">,</span> <span class="n">coeff</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Modelo 1: MSE: </span><span class="si">{</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_pred_model_1</span><span class="p">)</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Modelo 2: MSE: </span><span class="si">{</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_pred_model_2</span><span class="p">)</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+</code></pre></div></div>
+<pre><code>Modelo 1: MSE: 3.4803735743330284
+Modelo 2: MSE: 0.0030419521258808397
+</code></pre>
+<p>Observamos que como era de esperarse, el modelo polinomial ajusta perfectamente el conjunto de datos (error casi 0), mientras que el modelo lineal, tiene cierto sesgo en las estimaciones. Ahora grafiquemos los datos y los modelos obtenidos:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">xx</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">yy_model_1</span> <span class="o">=</span> <span class="n">model_1</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">xx</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">yy_model_2</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">vander</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_train</span><span class="p">)),</span> <span class="n">coeff</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy_model_1</span><span class="p">,</span> <span class="s">"k-"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy_model_2</span><span class="p">,</span> <span class="s">"b-"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="s">"r."</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="s">"g."</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">legend</span><span class="p">((</span><span class="s">"Modelo Lineal"</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s">"Modelo Polinomial de Grado </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="si">}</span><span class="s">"</span><span class="p">,</span>
+            <span class="s">"Datos Entrenamiento"</span><span class="p">,</span>
+            <span class="s">"Datos Validación"</span><span class="p">),</span> <span class="n">loc</span><span class="o">=</span><span class="s">"upper center"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+</code></pre></div></div>
+<div align="center">
+<p><img src="https://raw.githubusercontent.com/dpalmasan/homepage/master/public/imgs/overfit.png" alt="overfit"></p>
+<p><em>Fig 5: Ejemplo Sobre-ajuste de modelo.</em></p>
+</div>
+<p>¡Whoa! ¿Qué pasó aquí? Vemos que el modelo 2 (polinomio), en efecto pasa por todos los puntos del conjunto de entrenamiento. Sin embargo,
+¡se equivoca garrafalmente en el conjunto de validación! Una forma de visualizar esto, es que básicamente la “máquina” se aprendió los datos
+de memoria, y no fue capaz de generalizar (esto se conoce como sobre-ajuste o overfit). Una analogía, es por ejemplo un estudiante que se
+aprende un cuestionario de memoria, o un conjunto de ejercicios de cálculo de memoria. Si el estudiante no es capaz de generalizar, y la prueba consiste en preguntas sutilmente diferentes al cuestionario/listado de ejercicios, es muy probable que el estudiante que memorizó, no pueda generalizar y por lo tanto no tenga un buen rendimiento en la prueba. Finalmente, calculemos el error de validación (estimación del error fuera de muestra):</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">X_test_poly</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">vander</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_train</span><span class="p">))</span>
+
+<span class="c1"># Finalmente calculamos error fuera de muestra
+</span><span class="n">y_pred_test_model_1</span> <span class="o">=</span> <span class="n">model_1</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">y_pred_test_model_2</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X_test_poly</span><span class="p">,</span> <span class="n">coeff</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Modelo 1: MSE: </span><span class="si">{</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_test_model_1</span><span class="p">)</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Modelo 2: MSE: </span><span class="si">{</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_test_model_2</span><span class="p">)</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+</code></pre></div></div>
+<pre><code>Modelo 1: MSE: 3.0566262069391366
+Modelo 2: MSE: 16400416.201402526
+</code></pre>
+<p>Observamos que el modelo lineal, tiene un error similar al error de entrenamiento (poca varianza), sin embargo, el modelo polinomial tiene un MSE gigantezco, lo que indica que es un mal modelo en este caso y no será capaz de hacer predicciones fuera de muestra con un rendimiento aceptable.</p>
+<h1 id="conclusiones">Conclusiones</h1>
+<ul>
+<li>No hay receta para el éxito (dependiendo de la definición de éxito de la persona)</li>
+<li>Siempre es bueno <strong>desafiar tus propias creencias</strong>
+</li>
+<li>Se ilustraró un ejemplo de regresión lineal simple además de hacer una conexión con un estimador de máxima probabilidad.</li>
+<li>Se nombraron ciertas consideraciones prácticas al momento de aplicar regresión (teorema de Gauss-Markov)</li>
+<li>Se explicó una forma de interpretar resultados de regresión en bibliotecas tradicionales.</li>
+<li>Se repasó el concepto de sesgo y varianza en estimación de parámetros y su conexión con modelos predictivos.</li>
+<li>Se mostró un ejemplo didáctico de validación de modelos y las consecuencias del intercambio de sesgo y varianza.</li>
+</ul>
+
+  </div>
+<div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = '';
+      this.page.identifier = 'https://dpalmasan.github.io/website/probability/algorithms/ai/2024/03/01/consejos-regresion.html';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://dpalmasan.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+<a class="u-url" href="/website/probability/algorithms/ai/2024/03/01/consejos-regresion.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/website/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="https://dpalmasan.github.io/website/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/website/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">dpalmasan</li>
+          
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Este es un blog donde compartiré un poco sobre mí y mis experiencias en el mundo tecnológico.</p>
+      </div>
+    </div>
+
+    <div class="social-links">
+<ul class="social-media-list">
+<li>
+  <a rel="me" href="https://www.linkedin.com/in/dpalmasan/" target="_blank" title="Mi perfil en Linkedin">
+    <svg class="svg-icon grey">
+      <use xlink:href="/website/assets/minima-social-icons.svg#linkedin"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://www.github.com/dpalmasan" target="_blank" title="Mi Github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/website/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://scholar.google.com/citations?user=Y5PN_1AAAAAJ&hl=en" target="_blank" title="Mi Google Scholar">
+    <svg class="svg-icon grey">
+      <use xlink:href="/website/assets/minima-social-icons.svg#google_scholar"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://stackoverflow.com/users/4051219/dpalma" target="_blank" title="Mis preguntas en SO LOL!">
+    <svg class="svg-icon grey">
+      <use xlink:href="/website/assets/minima-social-icons.svg#stackoverflow"></use>
+    </svg>
+  </a>
+</li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
