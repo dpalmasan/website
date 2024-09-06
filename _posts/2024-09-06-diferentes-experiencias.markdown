@@ -42,7 +42,7 @@ En la segunda mitad, me dediqué a entender qué era el impacto y empecé a reso
 * Dirección: Ser capaz de darte dirección y dar dirección a otros
 * People: Mentorear, entrevistas, organizar eventos, etc.
 
-En la segunda mitad logré completar proyectos con mayor impacto que el esperado (2x), además de terminar mis propios proyectos personales, que sí tuvieron impacto. Para los curiosos, implementé una lib para análisis de anuncios, implementé un modelo de detección de malos actores basado en NLP, inventé un modelo basado en grafos de negocios con LSA (Latent Semantic Análisis) para detección de cuentas comprometidas, anomalía de presupuestos en actividad de cuentas de anuncios para detección de malos actores, entre otros proyectos más pequeños.
+En la segunda mitad logré completar proyectos con mayor impacto que el esperado (2x), además de terminar mis propios proyectos personales, que sí tuvieron impacto. Para los curiosos, implementé una lib para análisis de anuncios, implementé un modelo de detección de malos actores basado en NLP, inventé un modelo basado en grafos de negocios con LSA (Latent Semantic Analysis) para detección de cuentas comprometidas, anomalía de presupuestos en actividad de cuentas de anuncios para detección de malos actores, entre otros proyectos más pequeños.
 
 En la segunda mitad tuve feedback perfecto de un E6, más excelente feedback de los XFN. Mi manager en varios 1:1 me dijo que a mi probablemente me habían hecho _low balling_ (que me contrataron en un nivel más bajo del que realmente era), y el último feedback que me dio era que yo estaba haciendo trabajo de E5 que tendría un rating _greatly exceeded_, al ser E4, saqué _redefined expectations_ y me promovieron a E5 en un año (que fue bastante rápido).
 
