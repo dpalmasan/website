@@ -34,4 +34,5 @@ group :jekyll_plugins do
   gem 'jekyll-commonmark-ghpages'
   gem 'jekyll-spaceship', group: :jekyll_plugins
   gem "jekyll-feed", "~> 0.12"
+  gem 'jekyll-target-blank'
 end

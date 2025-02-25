@@ -35,6 +35,7 @@ plugins:
   - jekyll-feed
   - jekyll-spaceship
   - jekyll-remote-theme
+  - jekyll-target-blank
 
 port: 4002
 # Exclude from processing.

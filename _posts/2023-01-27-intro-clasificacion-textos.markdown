@@ -229,10 +229,6 @@ Se observa que las probabilidades son valores cercanos a 0, por lo tanto su mult
 
 $$$$
 
-## Problema del día
-
-Para ir con la temática, el problema de hoy estará relacionado con [búsqueda de palabras](https://github.com/dpalmasan/code-challenges/issues/16).
-
 $$c_{map} = \underset{c \in \mathbb{C}}{\mathrm{argmax}} \left(\ log \ \hat{P}(c) + \sum_{t_i \in V} log \ \hat{P}(t_i|c)\right)$$
 
 ```python
@@ -266,6 +262,10 @@ Baseline 0.465 | Accuracy: 0.77
 ```
 
 El resultado es bastante decente considerando la simplicidad del modelo. Se pueden aplicar mejoras, pero eso prefiero dejarlo para otro artículo. Dado que este modelo es de tipo generativo, también podemos generar textos dada la categoría.
+
+## Problema del día
+
+Para ir con la temática, el problema de hoy estará relacionado con [búsqueda de palabras](https://github.com/dpalmasan/code-challenges/issues/16).
 
 ## Conclusiones
 
