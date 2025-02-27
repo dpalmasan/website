@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Tips para Entrevistas TI y un poco de “System Design” 💻 | Mr Dipalma’s Pub 🍺</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Tips para Entrevistas TI y un poco de “System Design” 💻">
+<meta name="author" content="dpalmasan">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Aclaración: Me disculpo de antemano si abuso de los anglicismos (no me gustan), pero lamentablemente es un vocabulario común en redes profesionales 😔.">
+<meta property="og:description" content="Aclaración: Me disculpo de antemano si abuso de los anglicismos (no me gustan), pero lamentablemente es un vocabulario común en redes profesionales 😔.">
+<link rel="canonical" href="https://dpalmasan.github.io/website/entrevistas/ti/2022/07/04/acortador-url.html">
+<meta property="og:url" content="https://dpalmasan.github.io/website/entrevistas/ti/2022/07/04/acortador-url.html">
+<meta property="og:site_name" content="Mr Dipalma’s Pub 🍺">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2022-07-04T20:03:03+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Tips para Entrevistas TI y un poco de “System Design” 💻">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"dpalmasan"},"dateModified":"2022-07-04T20:03:03+00:00","datePublished":"2022-07-04T20:03:03+00:00","description":"Aclaración: Me disculpo de antemano si abuso de los anglicismos (no me gustan), pero lamentablemente es un vocabulario común en redes profesionales 😔.","headline":"Tips para Entrevistas TI y un poco de “System Design” 💻","mainEntityOfPage":{"@type":"WebPage","@id":"https://dpalmasan.github.io/website/entrevistas/ti/2022/07/04/acortador-url.html"},"url":"https://dpalmasan.github.io/website/entrevistas/ti/2022/07/04/acortador-url.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css">
+    <link rel="stylesheet" href="/website/assets/css/style.css">
+    <style type="text/css">
+        div#disqus_thread iframe[sandbox] {
+                max-height: 0px !important;
+        }
+    </style>
+<link type="application/atom+xml" rel="alternate" href="https://dpalmasan.github.io/website/feed.xml" title="Mr Dipalma's Pub 🍺">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KHXBX5G1VP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KHXBX5G1VP');
+</script>
+
+</head>
+<body>
+<header class="site-header">
+
+  <div class="wrapper">
+<a class="site-title" rel="author" href="/website/">Mr Dipalma's Pub 🍺</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewbox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/website/about/">About</a></div>
+      </nav>
+</div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Tips para Entrevistas TI y un poco de "System Design" 💻</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2022-07-04T20:03:03+00:00" itemprop="datePublished">
+        Jul 4, 2022
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p><em>Aclaración</em>: Me disculpo de antemano si abuso de los anglicismos (no me gustan), pero lamentablemente es un vocabulario común en redes profesionales 😔.</p>
+<p><em>Obs</em>: Si quieres ir al problema de código del día, <a href="#code-challenge">click aquí</a>.</p>
+<p>No es sopresa que en estos tiempos muchas empresas han optado por estrategias conservadoras, debido a diferentes eventos que han afectado el mercado a nivel mundial. Ello también ha impactado en el mundo tecnológico y entre las consecuencias de estas estrategias se encuentra el <em>hiring freeze</em> (paulatinamente pausar las contrataciones). Esta incertidumbre hace que un proceso que de por sí es estresante (buscar trabajo, proceso de entrevistas), cause más ansiedad de lo normal. Es sabido en el mundo TI, en especial en roles ligados al desarrollo (ej. <em>software engineer</em>, <em>machine learning engineer</em>) el proceso de entrevistas es estresante, causa ansiedad, y a veces llega a ser complicado. Existe un debate constante en redes profesionales (como <em>LinkedIn</em>) sobre cómo debiese ser el proceso de entrevistas para desarrolladores, algunos se quejan de los <em>code challenges</em> en vivo, otros se quejan de las tareas (<em>homework assignments</em>), otros se quejan de las entrevistas no técnicas, en fin, quejas hay para todo. Las únicas verdades, en mi opinión:</p>
+<ul>
+<li>A nadie lo van a contratar por ser <code>X</code> o por tener un currículum bien pulido (a veces exagerado) (excepción: ha hecho algo muy relevante en la industria)</li>
+<li>Nadie tiene garantizado un puesto, o el “éxito” (por eso hay que ser agradecido e intentar ayudar siempre; dejar el ego a un lado)</li>
+</ul>
+<p>Volviendo al tema de las entrevistas, en general creo que los procesos de selección que más ansiedad producen, son los que involucran demostrar conocimiento técnico “en vivo”. En general, los <em>homework assignments</em> son simples por los plazos y porque uno puede googlear. Un ejemplo anecdótico, una vez hice una prueba de <code>ReactJs</code> sin saber nada del framework, pero entre la documentación y googleando saqué el puntaje máximo (era de estas pruebas tipo hackerrank). Otras veces estas tareas, las usan malintencionadamente para que les hagas trabajo gratis, me ha pasado y se nota demasiado; esto en general ocurre en roles de diseño, y <em>data science</em>, me imagino que por la naturaleza de los entregables. Los procesos de entrevistas que involucran pruebas “en vivo” generalmente tienen las siguientes componentes:</p>
+<ul>
+<li>Rondas de <em>code challenges</em>, para probar la capacidad de la persona a la hora de resolver problemas.</li>
+<li>Rondas de <em>system design</em>, para medir el <em>seniority</em> del postulante.</li>
+</ul>
+<p>Si bien este proceso tiene ciertos vicios, en la práctica se da que minimiza los falsos positivos (pudiendo obtener falsos negativos). Desde el punto de vista de la empresa, y por lo que he leído en blogs, imagino que la razón principal de ello es que contratar es caro. En mi experiencia este proceso es divertido, excepto raras veces en que salen con un problema de programación dinámica (tipo <em>hard</em> de leetcode) y esperan que lo resuelvas en 20 minutos. Pero fuera de esos casos raros, el proceso es divertido, pero causa ansiedad. Si soy honesto, resolver problemas de código no es complicado, ya que en general en estas entrevistas preguntan problemas de dificultad media (a veces fácil, y rara vez difíciles). En general se busca evaluar la capacidad analítica del postulante (generalmente es libre de escoger el lenguaje de programación que guste), y también conocimiento básico de algoritmos y estructuras de datos (ordenamiento, grafos, <em>heaps</em>, árboles binarios, <em>arrays</em>, testing, capacidad de plantear una solución y luego implementarla). Como al final de cada entrada pondré algún ejercicio de este tipo, en esta oportunidad me enfocare en las entrevistas que sí me asustan: <em>System Design</em>. En este tipo de entrevistas, el problema en general es ambigüo, no existe una solución clara, y el postulante es el que debe hacer supuesto, aclarar requerimientos, hacer cálculos (latencia, consultas por segundo, memoria, escalabilidad, uso de red, etc.).</p>
+<p>En esta entrada de blog, diseñaremos el cliché de los sistemas, un acortador de <code>URLs</code> (tipo <em>tinyurl</em>).</p>
+<h2 id="acortador-de-urls">Acortador de URLs</h2>
+<p>Cuando te encuentras en una entrevista de diseño de sistemas, el enunciado probablemente sea algo como: <em>Diseñe un acortador de urls</em>. Como se puede notar, el enunciado es bastante ambigüo e incompleto, y empezar a diseñar “a la mala” es un mal indicio para el entrevistador. Algunas preguntas que se pueden hacer:</p>
+<ul>
+<li>¿De qué largo tienen que ser las URLs sin considerar el dominio?</li>
+<li>¿Es necesario que un usuario se registre para usar el sistema?</li>
+<li>¿Cuántas URLs se espera que se generen diariamente?</li>
+<li>¿Cuál es el largo máximo esperado para una URL?</li>
+</ul>
+<p>Dependiendo de las aclaraciones que haga el entrevistador, se debe tomar nota de los requerimientos y hacer estimaciones, como cantidad de consultas por segundo, espacio en disco requerido, tolerancia a fallas, entre otras cosas. Supongamos que iterando con el entrevistador obtuvimos las siguientes respuestas:</p>
+<ul>
+<li>Se esperan urls de en promedio <code>100</code> caractéres</li>
+<li>Promedio de <code>10000</code> URLs al día</li>
+<li>Prototipo inicial vivirá 1 año</li>
+<li>Por el momento no preocuparse de la tolerancia a fallas</li>
+</ul>
+<p>Con ello se puede hacer una estimación:</p>
+<ul>
+<li>Largo de URL <code>100 B</code>
+</li>
+<li>Cantidad de consultas diarias <code>10000</code>
+</li>
+<li>No se requiere registro de usuarios</li>
+</ul>
+<p>Por lo tanto el espacio requerido diario <code>100 Bytes * 10000</code> sería aproximadamente <code>1 MB</code> y considerando 1 año <code>~365MB</code>. Para soportar este caso de uso, se puede utilizar cualquier motor de base de datos (relacional o no relacional), como de momento la tolerancia a fallas no es un impedimento, se puede dejar, pero valdría la pena mencionar que se pueden utilizar réplicas de la base de datos para tolerancia a falla. Pero para este caso se considerará un servidor, y se puede comentar que luego del diseño inicial se propondrán ideas para escalar el sistema.</p>
+<p>El flujo del sistema se muestra en la figura 1. Básicamente, se hace una petición a la URL acortada, y el sistema redirecciona a la URL original. Un posible diseño de este sistema se muestra en la figura 2, en esencia se requieren los siguientes componentes:</p>
+<ul>
+<li>Un server que permita crear URLs acortadas y también redireccionar a las URLs originales</li>
+<li>Una base de datos para almacenar el mapeo de las URLs acortadas a las originales</li>
+<li>Un caché para evitar hacer múltiples llamadas innecesarias a la BBDD.</li>
+</ul>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/99e6ae0ed96337ad83354e04bdb87b2e309837b8/url-shortener.png" alt="Funcionamiento Acortador de URLs"></p>
+<p><em>Fig 1: Funcionamiento del acortador de URLs.</em></p>
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/99e6ae0ed96337ad83354e04bdb87b2e309837b8/url-shortener-hl.png" alt="Diseño en Alto Nivel del Acortador de URLs"></p>
+<p><em>Fig 2: Diseño en alto nivel del acortador de URLs.</em></p>
+</div>
+<p>Por lo tanto, se podría diseñar una API con dos <em>endpoints</em>:</p>
+<ul>
+<li>
+<code>POST /shortener</code> que recibe una URL y la transforma en una URL acortada</li>
+<li>
+<code>GET /&lt;URL_ID&gt;</code> que a partir de la URL acortada, retorna la URL original</li>
+</ul>
+<p>Para transformar la url, se puede utilizar una función <em>hash</em>, como se muestra en la figura 3. Esta función retornará un valor que se utilizará para mapear hacia la URL original.</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/ab212faf039dac2e65559066f2019b08259fbf79/hash.png" alt="Hash"></p>
+<p><em>Fig 3: Función hash.</em></p>
+</div>
+<h3 id="modelo-de-datos">Modelo de datos</h3>
+<p>El modelo de datos puede ser el siguiente:</p>
+<table>
+<thead>
+<tr>
+<th>Col</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>url_id</code></td>
+<td><code>int64</code></td>
+</tr>
+<tr>
+<td><code>url</code></td>
+<td><code>string</code></td>
+</tr>
+<tr>
+<td><code>shorten_url</code></td>
+<td><code>string</code></td>
+</tr>
+</tbody>
+</table>
+<p>Si queremos que los valores de la función hash sean valores alfanuméricos (<code>[0-9A-Za-z]</code>), entonces tenemos 62 símbolos para escoger. El largo del <code>string</code> resultante del hash, dará la cantidad de URL diferentes que se pueden tener. Por ejemplo, si consideramos <em>hashes</em> de largo 3, entonces:</p>
+<p><code># Posibles URLs = 62^3 = 238328</code>.</p>
+<p>El largo debe considerarse, si a futuro se quiere escalar el sistema a millones o billones de URLs.</p>
+<p>Se pueden explorar dos posibles alternativas:</p>
+<ol>
+<li>Utilizar una función hash existente (<code>CRC32</code>, <code>MD5</code>, <code>SHA-1</code>)</li>
+<li>Generar un <code>Id</code> único para cada <code>URL</code>
+</li>
+</ol>
+<p>En la primera alternativa, para reducir el largo del hash (idea de acortar URLs), habría que truncar el valor resultante al aplicarlo a la <code>URL</code> original. Por otro lado, existe el riesgo de tener colisiones (<code>f(x1) = f(x2)</code> para algún <code>x1 != x2</code>), por lo que habría que implementar un método que permita lidiar con colisiones. Hacer que esto sea eficiente es un desafío complejo, pero es una alternativa válida. Por otro lado, podría utilizarse un <code>Id</code> único y transformarlo a base 62. Esto tiene la desventaja que los hashes no serán de largo fijo, y por otro lado dependen de cómo se genere el <code>Id</code> (es un poco complejo para el caso distribuido). Sin embargo, para el prototipo, podemos usar de <code>Id</code> el <code>timestamp</code> en el que la <code>url</code> es creada y realizar la transformación. El siguiente código en <code>golang</code> transforma un entero de base 10 a base 62:</p>
+<figure class="highlight"><pre><code class="language-golang" data-lang="golang"><span class="k">var</span> <span class="n">codes</span> <span class="o">=</span> <span class="p">[</span><span class="o">...</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span>
+	<span class="s">"0"</span><span class="p">,</span> <span class="s">"1"</span><span class="p">,</span> <span class="s">"2"</span><span class="p">,</span> <span class="s">"3"</span><span class="p">,</span> <span class="s">"4"</span><span class="p">,</span> <span class="s">"5"</span><span class="p">,</span> <span class="s">"6"</span><span class="p">,</span> <span class="s">"7"</span><span class="p">,</span> <span class="s">"8"</span><span class="p">,</span> <span class="s">"9"</span><span class="p">,</span>
+	<span class="s">"a"</span><span class="p">,</span> <span class="s">"b"</span><span class="p">,</span> <span class="s">"c"</span><span class="p">,</span> <span class="s">"d"</span><span class="p">,</span> <span class="s">"e"</span><span class="p">,</span> <span class="s">"f"</span><span class="p">,</span> <span class="s">"g"</span><span class="p">,</span> <span class="s">"h"</span><span class="p">,</span> <span class="s">"i"</span><span class="p">,</span> <span class="s">"j"</span><span class="p">,</span>
+	<span class="s">"k"</span><span class="p">,</span> <span class="s">"l"</span><span class="p">,</span> <span class="s">"m"</span><span class="p">,</span> <span class="s">"n"</span><span class="p">,</span> <span class="s">"o"</span><span class="p">,</span> <span class="s">"p"</span><span class="p">,</span> <span class="s">"q"</span><span class="p">,</span> <span class="s">"r"</span><span class="p">,</span> <span class="s">"s"</span><span class="p">,</span> <span class="s">"t"</span><span class="p">,</span>
+	<span class="s">"u"</span><span class="p">,</span> <span class="s">"v"</span><span class="p">,</span> <span class="s">"w"</span><span class="p">,</span> <span class="s">"x"</span><span class="p">,</span> <span class="s">"y"</span><span class="p">,</span> <span class="s">"z"</span><span class="p">,</span> <span class="s">"A"</span><span class="p">,</span> <span class="s">"B"</span><span class="p">,</span> <span class="s">"C"</span><span class="p">,</span> <span class="s">"D"</span><span class="p">,</span>
+	<span class="s">"E"</span><span class="p">,</span> <span class="s">"F"</span><span class="p">,</span> <span class="s">"G"</span><span class="p">,</span> <span class="s">"H"</span><span class="p">,</span> <span class="s">"I"</span><span class="p">,</span> <span class="s">"J"</span><span class="p">,</span> <span class="s">"K"</span><span class="p">,</span> <span class="s">"L"</span><span class="p">,</span> <span class="s">"M"</span><span class="p">,</span> <span class="s">"N"</span><span class="p">,</span>
+	<span class="s">"O"</span><span class="p">,</span> <span class="s">"P"</span><span class="p">,</span> <span class="s">"Q"</span><span class="p">,</span> <span class="s">"R"</span><span class="p">,</span> <span class="s">"S"</span><span class="p">,</span> <span class="s">"T"</span><span class="p">,</span> <span class="s">"U"</span><span class="p">,</span> <span class="s">"V"</span><span class="p">,</span> <span class="s">"W"</span><span class="p">,</span> <span class="s">"X"</span><span class="p">,</span>
+	<span class="s">"Y"</span><span class="p">,</span> <span class="s">"Z"</span><span class="p">}</span>
+
+<span class="k">func</span> <span class="n">Base62</span><span class="p">(</span><span class="n">number</span> <span class="kt">int64</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
+	<span class="n">result</span> <span class="o">:=</span> <span class="s">""</span>
+	<span class="k">for</span> <span class="n">number</span> <span class="o">&gt;</span> <span class="m">0</span> <span class="p">{</span>
+		<span class="n">result</span> <span class="o">=</span> <span class="n">codes</span><span class="p">[</span><span class="n">number</span><span class="o">%</span><span class="m">62</span><span class="p">]</span> <span class="o">+</span> <span class="n">result</span>
+		<span class="n">number</span> <span class="o">/=</span> <span class="m">62</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">result</span>
+<span class="p">}</span></code></pre></figure>
+<p>Por ejemplo si la <code>url</code> fue creada con un timestamp <code>1657000477</code>, entonces el <em>hash</em> sería <code>1O8Bw9</code>.</p>
+<h3 id="implementacin">Implementación</h3>
+<p>Implementé este sistema con el siguiente stack:</p>
+<ul>
+<li><code>MySQL</code></li>
+<li><code>Golang</code></li>
+<li><code>Redis</code></li>
+</ul>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/cafe2106f31be18c521789d7d7adc764fa2e73d1/postman.png" alt="Create Hash"></p>
+<p><em>Fig 4: Creando hash para url.</em></p>
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/cafe2106f31be18c521789d7d7adc764fa2e73d1/demo-url.gif" alt="Demo"></p>
+<p><em>Fig 5: Demo acortador de url redireccionando.</em></p>
+</div>
+<p>Dejo un <a href="https://github.com/dpalmasan/url-shortener" target="_blank" rel="noopener noreferrer">enlace al projecto en github</a>.</p>
+<h2 id="code-challenge">Code Challenge</h2>
+<p>Escriba una función con la siguiente firma <code>bool oneEditApart(string s1, string s2)</code>. La función debe retornar <code>true</code> si con una sola <em>edición</em> el string <code>s1/s2</code> puede ser transformado a <code>s2/s1</code>. Una edición consiste en:</p>
+<ul>
+<li>Insertar un caracter en cualquier posición del <code>string</code>
+</li>
+<li>Eliminar un caracter</li>
+<li>Reemplazar un caracter</li>
+</ul>
+<p>Ejemplos:</p>
+<pre><code>OneEditApart("cat", "dog") = false
+OneEditApart("cat", "cats") = true
+OneEditApart("cat", "cut") = true
+OneEditApart("cat", "cast") = true
+OneEditApart("cat", "at") = true
+OneEditApart("cat", "act") = false
+</code></pre>
+<details><summary>Ver Solución</summary>
+<p>
+</p>
+<p>La primera observación que hay que tener en este problema, es que si el largo de los strings difiere en 2 o más, significa que se necesita más de una edición para convertir <code>s1</code> en <code>s2</code>, por lo tanto para este caso siempre deberíamos retornar <code>false</code>. Por ejemplo si consideramos los strings <code>"c"</code> y <code>"cat"</code>, necesitamos o insertar dos caracteres en <code>"c"</code> o eliminar dos caracteres en <code>"cat"</code>. Esta regla nos da una idea de cómo podemos abordar el problema, debido a la simetría de las operaciones.</p>
+<p>Primero debemos chequear si <code>|s1 - s2| &lt;= 1</code>, en caso contrario siempre retornamos <code>false</code>. Luego, podemos definir <code>s1'</code> y <code>s2'</code>, tal que <code>s1'.length &gt;= s2'.length</code>. En esta definición tenemos un caso de borde extra, por ejemplo si <code>s1'</code> o <code>s2'</code> son de largo 1, significa que siempre van a estar a una distancia de edición o menos. Por lo tanto retornamos <code>true</code>.</p>
+<p>Finalmente, debemos considerar los siguientes 3 casos para <code>s1'</code> y <code>s2'</code>:</p>
+<ul>
+<li>
+<code>"cat"</code> y <code>"at"</code>
+</li>
+<li>
+<code>"cat"</code> y <code>"ca"</code>
+</li>
+<li>
+<code>"cat"</code> y <code>"cut"</code>
+</li>
+</ul>
+<p>Para el primer caso, chequeamos el primer caracter y lo “ignoramos” si es diferente. Luego, iteramos sobre <code>s2'</code> y contamos las diferencias. Si hay más de dos diferencias, significa que los strings no están a una distancia de edición igual 1 y por lo tanto retornamos <code>false</code>, en caso contrario, retornamos <code>true</code>. Se llega al siguiente algoritmo:</p>
+<pre><code>algoritmo one_edit_apart:
+  entrada: s1, s2
+  salida: true si s1 y s2 están a una distancia de edición igual a 1, false en caso contrario
+
+  len_diff = |s1.length - s2.length|
+
+    if len_diff &gt; 1:
+        return false
+
+    if s1.length &gt; s2.length:
+        s1' = s1
+        s2' = s2
+    else:
+        s1' = s2
+        s2' = s1
+
+    if s1'.length == 1:
+        return True
+
+    diffs = 0
+
+    # Caso de borde
+    s1_idx = 1 if s1p[0] != s2p[0] else 0
+    for s2_idx = 0 to s2'.length - 1
+        if s1_idx &lt; s1'.length and s2'[s2_idx] != s1'[s1_idx]:
+            if diffs &lt; 1 and len_diff &gt; 0:
+                s1_idx += 1
+            diffs += 1
+        s1_idx += 1
+    return diffs &lt;= 1
+</code></pre>
+<h3 id="implementacin-tentativa-en-python">Implementación tentativa en python</h3>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">one_edit_apart</span><span class="p">(</span><span class="n">s1</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">s2</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="s">"""Check if two strings are one edit apart.
+    The possible operations to consider are:
+    - Insert
+    - Replace
+    - Remove
+    If using one of these operations we can convert string ``s1`` in string
+    ``s2`` then the function returns True, otherwise it will return False.
+
+    :param s1: Input string 1
+    :type s1: str
+    :param s2: Input string 2
+    :type s2: str
+    :return: True if strings are one edit apart, False otherwise
+    :rtype: bool
+    """</span>
+    <span class="n">len_diff</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">s2</span><span class="p">))</span>
+
+    <span class="c1"># To be one edit apart this is required
+</span>    <span class="k">if</span> <span class="n">len_diff</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">False</span>
+
+    <span class="c1"># Making s1' as the largest string
+</span>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">s2</span><span class="p">):</span>
+        <span class="n">s1p</span> <span class="o">=</span> <span class="n">s1</span>
+        <span class="n">s2p</span> <span class="o">=</span> <span class="n">s2</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">s1p</span> <span class="o">=</span> <span class="n">s2</span>
+        <span class="n">s2p</span> <span class="o">=</span> <span class="n">s1</span>
+
+    <span class="c1"># Base case, if s1' is one char then we now distance is 1
+</span>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s1p</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">True</span>
+
+    <span class="n">diffs</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># For corner cases like "cat" "at", we check the first character.
+</span>    <span class="n">s1_idx</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">s1p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">s2p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">else</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">s2_idx</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">s2p</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">s1_idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">s1p</span><span class="p">)</span> <span class="ow">and</span> <span class="n">c</span> <span class="o">!=</span> <span class="n">s1p</span><span class="p">[</span><span class="n">s1_idx</span><span class="p">]:</span>
+            <span class="c1"># This is for corner cases like "cat" "ca"
+</span>            <span class="k">if</span> <span class="n">diffs</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">len_diff</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">s1_idx</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">diffs</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">s1_idx</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="c1"># If we found less or 1 difference, then strings are one edit apart
+</span>    <span class="k">return</span> <span class="n">diffs</span> <span class="o">&lt;=</span> <span class="mi">1</span></code></pre></figure>
+
+</details>
+
+  </div>
+<div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = '';
+      this.page.identifier = 'https://dpalmasan.github.io/website/entrevistas/ti/2022/07/04/acortador-url.html';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://dpalmasan.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow noopener noreferrer" target="_blank">comments powered by Disqus.</a>
+</noscript>
+<a class="u-url" href="/website/entrevistas/ti/2022/07/04/acortador-url.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/website/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="https://dpalmasan.github.io/website/feed.xml">
+            <svg class="svg-icon orange">
+              <path d="M12.8 16C12.8 8.978 7.022 3.2 0 3.2V0c8.777 0 16 7.223 16 16h-3.2zM2.194
+                11.61c1.21 0 2.195.985 2.195 2.196 0 1.21-.99 2.194-2.2 2.194C.98 16 0 15.017 0
+                13.806c0-1.21.983-2.195 2.194-2.195zM10.606
+                16h-3.11c0-4.113-3.383-7.497-7.496-7.497v-3.11c5.818 0 10.606 4.79 10.606 10.607z"></path>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">dpalmasan</li>
+          
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Este es un blog donde compartiré un poco sobre mí y mis experiencias en el mundo tecnológico...</p>
+      </div>
+    </div>
+
+    <div class="social-links">
+<ul class="social-media-list">
+<li>
+    <a rel="me noopener noreferrer" href="https://www.linkedin.com/in/dpalmasan/" target="_blank" title="Mi perfil en Linkedin">
+      <span class="grey fa-brands fa-linkedin fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://www.github.com/dpalmasan" target="_blank" title="Mi Github">
+      <span class="grey fa-brands fa-github fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://scholar.google.com/citations?user=Y5PN_1AAAAAJ&hl=en" target="_blank" title="Mi Google Scholar">
+      <span class="grey fa-brands fa-google-scholar fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://stackoverflow.com/users/4051219/dpalma" target="_blank" title="Mis preguntas en SO LOL!">
+      <span class="grey fa-brands fa-stack-overflow fa-lg"></span>
+    </a>
+  </li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+
+</body>
+
+</html>

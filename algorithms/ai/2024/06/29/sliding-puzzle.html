@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Resolviendo puzzles con algoritmos | Mr Dipalma’s Pub 🍺</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Resolviendo puzzles con algoritmos">
+<meta name="author" content="dpalmasan">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Introducción">
+<meta property="og:description" content="Introducción">
+<link rel="canonical" href="https://dpalmasan.github.io/website/algorithms/ai/2024/06/29/sliding-puzzle.html">
+<meta property="og:url" content="https://dpalmasan.github.io/website/algorithms/ai/2024/06/29/sliding-puzzle.html">
+<meta property="og:site_name" content="Mr Dipalma’s Pub 🍺">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2024-06-29T22:00:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Resolviendo puzzles con algoritmos">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"dpalmasan"},"dateModified":"2024-06-29T22:00:00+00:00","datePublished":"2024-06-29T22:00:00+00:00","description":"Introducción","headline":"Resolviendo puzzles con algoritmos","mainEntityOfPage":{"@type":"WebPage","@id":"https://dpalmasan.github.io/website/algorithms/ai/2024/06/29/sliding-puzzle.html"},"url":"https://dpalmasan.github.io/website/algorithms/ai/2024/06/29/sliding-puzzle.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css">
+    <link rel="stylesheet" href="/website/assets/css/style.css">
+    <style type="text/css">
+        div#disqus_thread iframe[sandbox] {
+                max-height: 0px !important;
+        }
+    </style>
+<link type="application/atom+xml" rel="alternate" href="https://dpalmasan.github.io/website/feed.xml" title="Mr Dipalma's Pub 🍺">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KHXBX5G1VP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KHXBX5G1VP');
+</script>
+
+<script>MathJax={"tex":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]},"svg":{"fontCache":"global"}}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<header class="site-header">
+
+  <div class="wrapper">
+<a class="site-title" rel="author" href="/website/">Mr Dipalma's Pub 🍺</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewbox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/website/about/">About</a></div>
+      </nav>
+</div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Resolviendo puzzles con algoritmos</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2024-06-29T22:00:00+00:00" itemprop="datePublished">
+        Jun 29, 2024
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h1 id="introduccin">Introducción</h1>
+<p>Era el año 2014, y me había titulado de ingeniería civil eléctrica en la Universidad de Concepción (¡grande mi alma mater!). También estaba en conflicto pues venía saliendo de una práctica profesional que no me gustó para nada (área de mantención de una planta papelera). No fue una buena experiencia y estaba dudando si era eso a lo que quería dedicarme en mi vida profesional. Por otro lado, siempre me gustaron las clases teóricas en ingeniería, las simulaciones y meter algo de código; debo confesar que mi única experiencia programando fue un curso de un semestre en el lenguaje <code>C</code>, y el resto <code>MATLAB</code>.</p>
+<p>En ese mismo año alguien publica en facebook que darán un curso “gratis” de electromagnetismo en la plataforma edX (que yo desconocía), así que me inscribí; lamentablemente dicho curso ya no está disponible, era el curso <em>8.02x - MIT Physics II: Electricity and Magnetism</em> (pero si no saben la historia <strong>funaron</strong> al profesor Walter Lewin; por lo que el curso ya no está dispnible en edX; hay que reconocer que las clases eran espectaculares). Debo decir que disfruté bastante el curso y hasta me uní a grupos de facebook y participaba activamente en los foros de edX ayudando y respondiendo dudas de los problemas; ¿qué pasó? Me volví adicto a los cursos en línea y me puse a tomar varios cursos (más relacionados a la ingeniería eléctrica). Luego, gracias a una de las personas que estaba en uno de esos cursos de física donde yo participaba, encontré el mítico curso <a href="https://www.edx.org/learn/computer-science/harvard-university-cs50-s-introduction-to-computer-science" target="_blank" rel="noopener noreferrer">CS50x: Introduction to Computer Science de Harvard</a>. Fue dicho curso en donde aprendí lo introductorio de las Ciencias de la Computación y varios temas de programación (en especial en C) que desconocía. Con mi “experiencia” programando, no pensé que sería un curso desafiante, pero lo fue. Lo interesante es que cada tarea, tenía dos versiones: La tarea para aprobar y la versión “hacker”. Yo logré resolver las versiones “hacker” de todos los problemas, excepto de uno: <a href="https://docs.cs50.net/problems/fifteen/fifteen.html" target="_blank" rel="noopener noreferrer">The game of fifteen</a>. No entraré en detalles, pero en esencia es un puzzle, la tarea era implementar el puzzle como un juego de terminal y la versión hacker era implementar un comando “GOD” que resolviera el puzzle de forma automática. Este post es mi redención e intento de solución de este problema.</p>
+<h1 id="tldr">TL;DR</h1>
+<p>El repositorio github del código: <a href="https://github.com/dpalmasan/n2_1_puzzle" target="_blank" rel="noopener noreferrer">N^2 Puzzle Solver</a></p>
+<h1 id="n2---1-puzzle">¿$N^2 - 1$ Puzzle?</h1>
+<p>El puzzle de $N^2 - 1$ es una grilla de $N\times N$ que consiste en $N^2 - 1$ piezas que deben moverse a una configuración objetivo, que consiste en tener todas las piezas ordenadas de forma ascendente, como se muestra en la figura 1.</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/1c42887ede70e37523fb601075a0e8cbf2d8a892/8puzzle-def.png" alt="puzzle-def"></p>
+<p><em>Fig 1: Ejemplo de puzzle de 8-piezas y su configuración objetivo.</em></p>
+</div>
+<p>Para mover las piezas, hay una restricción, estas deben deslizarse, por ello es que la grilla tiene un espacio libre como se muestra en la figura. Cabe destacar que no todas las configuraciones posibles tienen solución (no vamos a demostrar esto hoy jeje), por lo tanto, para lo que sigue del artículo, asumiremos que existe solución para la configuración inicial.</p>
+<p>¿Cómo buscar una solución? Pensando que cada puzzle representa un <strong>estado</strong>, entonces al realizar cualquier <strong>acción</strong> habrá un cambio de estado. Considerando múltiples posibles acciones, construímos lo que es un <strong>espacio de estados</strong> que se muestra en la figura 2.</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/1c42887ede70e37523fb601075a0e8cbf2d8a892/8puzzle-search.png" alt="puzzle-search"></p>
+<p><em>Fig 2: Ejemplo de espacio de estados para puzzle de 8-piezas dada una configuración inicial.</em></p>
+</div>
+<p>Y aquí viene la gran pregunta de todo problema de inteligencia artificial ¿Cómo explorar el espacio de estados para encontrar una solución? ¿Cómo encontrar la “mejor” solución? Existen varios algoritmos de búsqueda, y para no alargar tanto este artículo, prefiero no mencionar todos. Sin embargo, para tener una intuición, consideremos el problema de encontrar el camino menos costoso entre una ciudad y otra.</p>
+<h2 id="problemas-de-bsqueda">Problemas de Búsqueda</h2>
+<p>En la figura 3, se muestra un diagrama de las ciudades <code>A</code>, <code>B</code>, <code>C</code>, <code>D</code>, <code>E</code>, <code>F</code>, <code>G</code>, <code>H</code>. Cada flecha indica la conexión entre las ciudades el valor en la flecha indica el costo de viajar entre dos ciudades. Si qusieramos encontrar el camino menos costoso entre <code>A</code> y <code>H</code>, tenemos que usar dicho costo para realizar la búsqueda.</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/b8153a6577ac00558bcf42e2f9580e2c3f3b4820/city-example.png" alt="puzzle-sol"></p>
+<p><em>Fig 3: Ejemplo de camino menos costoso entre ciudades.</em></p>
+</div>
+<p>Comencemos:</p>
+<ol>
+<li>Estoy en la ciudad <code>A</code>, puedo hacer <code>(A-&gt;B, 1)</code>, <code>(A-&gt;C, 3)</code>, <code>(A-&gt;E, 3)</code>
+</li>
+<li>Me cuesta menos el primer camino, luego puedo hacer <code>(A-&gt;B-&gt;C, 2)</code>, <code>(A-&gt;B-&gt;H, 15)</code> <code>(A-&gt;C, 3)</code>, <code>(A-&gt;E, 3)</code>
+</li>
+<li>Ahora podría elegir <code>(A-&gt;B-&gt;C, 2)</code>, luego tengo las opciones: <code>(A-&gt;B-&gt;C-&gt;D, 8)</code>, <code>(A-&gt;B-&gt;H, 15)</code> <code>(A-&gt;C, 3)</code>, <code>(A-&gt;E, 3)</code>
+</li>
+<li>Ahora elijo <code>(A-&gt;C, 3)</code>, luego: <code>(A-&gt;C-&gt;D, 9)</code>, <code>(A-&gt;B-&gt;C-&gt;D, 8)</code>, <code>(A-&gt;B-&gt;H, 15)</code>, <code>(A-&gt;E, 3)</code>
+</li>
+<li>Ahora elijo <code>(A-&gt;E, 3)</code>, luego: <code>(A-&gt;E-&gt;F, 4)</code>, <code>(A-&gt;C-&gt;D, 9)</code>, <code>(A-&gt;B-&gt;C-&gt;D, 8)</code>, <code>(A-&gt;B-&gt;H, 15)</code>
+</li>
+<li>Elijo <code>(A-&gt;E-&gt;F, 4)</code>, luego: <code>(A-&gt;E-&gt;F-&gt;G, 5)</code>, <code>(A-&gt;C-&gt;D, 9)</code>, <code>(A-&gt;B-&gt;C-&gt;D, 8)</code>, <code>(A-&gt;B-&gt;H, 15)</code>
+</li>
+<li>Elijo <code>(A-&gt;E-&gt;F-&gt;G, 5)</code>, luego: <code>(A-&gt;E-&gt;F-&gt;G-&gt;H, 6)</code>, <code>(A-&gt;C-&gt;D, 9)</code>, <code>(A-&gt;B-&gt;C-&gt;D, 8)</code>, <code>(A-&gt;B-&gt;H, 15)</code>
+</li>
+<li>Finalmente llegué a <code>H</code> con el recorriendo el siguiente camino: <code>A-&gt;E-&gt;F-&gt;G-&gt;H</code>. Que es el menos costoso, cuyo coste es 6.</li>
+</ol>
+<p>Como podemos observar, este es un enfoque completamente automatizable. De hecho, el algoritmo que acabamos de hacer se conoce como <strong>búsqueda de costo uniforme</strong>. Como se pudo observar, esta búsqueda fue no informada, ya que reaccionabamos al costo de las acciones y sólo utilizamos información vista (pasada). ¿Qué pasaría si tuviesemos información adicional? Por ejemplo ¿Qué pasaría si supieramos exactamente cuánto falta para llegar al destino? Supongamos que existe una función $f$, tal que $f(s) = n$, donde $s$ es una ciudad y $n$ es el costo mínimo que existe desde $s$ hasta <code>H</code>. Por ejemplo si $s = \text{B}$ entonces <code>f(B) = 15</code>. Intentemos nuevamente el algoritmo, con esta información:</p>
+<ol>
+<li>Estoy en la ciudad <code>A</code>, puedo hacer <code>(A-&gt;B, 1 + 15)</code>, <code>(A-&gt;C, 3 + 14)</code>, <code>(A-&gt;E, 3 + 3)</code>
+</li>
+<li>Tomo <code>(A-&gt;E, 3)</code>, puedo hacer: <code>(A-&gt;B, 1 + 15)</code>, <code>(A-&gt;C, 3 + 14)</code>, <code>(A-&gt;E-&gt;F, 4 + 2)</code>
+</li>
+<li>Tomo <code>(A-E-&gt;F, 4)</code>, puedo hacer: <code>(A-&gt;B, 1 + 15)</code>, <code>(A-&gt;C, 3 + 14)</code>, <code>(A-&gt;E-&gt;F-&gt;G, 5 + 1)</code>
+</li>
+<li>Tomo <code>(A-&gt;E-&gt;F-&gt;G, 5)</code> puedo hacer: <code>(A-&gt;B, 1 + 15)</code>, <code>(A-&gt;C, 3 + 14)</code>, <code>(A-&gt;E-&gt;F-&gt;G-&gt;H, 5)</code>
+</li>
+<li>Llego a <code>H</code> tomando <code>(A-&gt;E-&gt;F-&gt;G-&gt;H, 6)</code>, camino menos costoso: 6.</li>
+</ol>
+<p>La diferencia, es que teniendo información pude descartar soluciones y reducir el espacio de búsqueda. Este algoritmo se conoce como <code>A*</code> (o <em>A estrella</em>). Ahora, generalmente no conocemos esta función $f$. Generalmente, podemos tener una aproximación $h$. Si dicha aproximación es tal que $h$ nunca sobre-estima $f$ (es decir, $h(s) \leq f(s)$) entonces se puede garantizar que la solución a encontrar será óptima y la heurística se dice <strong>admisible</strong>. En caso contrario, no hay garantías. Sin embargo, en la mayoría de los casos en la práctica, un óptimo local es suficiente y si $h$ ayuda a reducir el espacio de búsqueda entonces no es necesaria la admisibilidad.</p>
+<p>Finalmente, cabe destacar que la heurística trivial $h(s) = 0$ es admisible, pero no entrega información, por lo que es equivalente a hacer búsqueda no informada. En general, más cerca se encuentre $h$ de $f$, mayor es la cantidad de soluciones a descartar.</p>
+<h2 id="definiendo-una-heurstica-admisible-para-el-problema-del-puzzle-de-8-piezas">Definiendo una heurística admisible para el problema del puzzle de 8 piezas</h2>
+<p>Una estrategia para definir heurísticas admisibles es “relajar” las restricciones del problema. Por ejemplo, en el caso del puzzle podemos considerar tomar cada pieza y ponerla en el lugar que le corresponda. En este caso, la heurística sería “número de piezas fuera de lugar”, que sería equivalente a calcular la distancia Hamming. Otra heurística, podría ser deslizar las piezas por encima de las otras, en este caso la distancia sería el número de “deslizamientos de cada pieza”, esta se conoce como distancia Manhattan, ya que dada una posición objetivo $(i_o, j_o)$ y una posición inicial $(i_i, j_i)$, entonces la distancia sería: $|i_o - i_i| + |j_o - j_i|$.</p>
+<p>En este caso, la distancia Manhattan es una mejor Heurística que la distancia Hamming debido a que el costo estimado está más cerca al costo real de la solución, lo que permite podar más el espacio de búsqueda. Asumiendo que tenemos una clase <code>State</code> que representa el estado del puzzle, una posible definición para la distancia Manhattan:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">manhattan_distance</span><span class="p">(</span><span class="n">s1</span><span class="p">:</span> <span class="n">State</span><span class="p">,</span> <span class="n">s2</span><span class="p">:</span> <span class="n">State</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="s">"""Manhattan distance heuristic.
+
+    Given s1 and s2, return the Manhattan distance between them.
+    In this case if i1, j1 are coordinates of s1 and i2, j2 are
+    coordinates of s2, the manhattan distance is computed by
+    `abs(i1 - i2) + abs(j1 - j2)`.
+    """</span>
+    <span class="n">distance</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">s1</span><span class="p">.</span><span class="n">puzzle</span><span class="p">.</span><span class="n">board</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">tile</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
+            <span class="n">i1</span><span class="p">,</span> <span class="n">j1</span> <span class="o">=</span> <span class="n">s1</span><span class="p">.</span><span class="n">puzzle</span><span class="p">.</span><span class="n">tile_pos</span><span class="p">[</span><span class="n">tile</span><span class="p">]</span>
+            <span class="n">i2</span><span class="p">,</span> <span class="n">j2</span> <span class="o">=</span> <span class="n">s2</span><span class="p">.</span><span class="n">puzzle</span><span class="p">.</span><span class="n">tile_pos</span><span class="p">[</span><span class="n">tile</span><span class="p">]</span>
+            <span class="n">distance</span> <span class="o">+=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">i1</span> <span class="o">-</span> <span class="n">i2</span><span class="p">)</span> <span class="o">+</span> <span class="nb">abs</span><span class="p">(</span><span class="n">j1</span> <span class="o">-</span> <span class="n">j2</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">distance</span>
+</code></pre></div></div>
+<p>Y el algoritmo <code>A*</code> se vería como:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">a_star_puzzle</span><span class="p">(</span><span class="n">init_state</span><span class="p">,</span> <span class="n">goal_state</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Direction</span><span class="p">]:</span>
+    <span class="s">"""A* search algorithm for the 8-puzzle problem.
+
+    In theory it supports any size of the board,
+    but in practice it only works for 3x3 boards. The reason
+    being that the search space increases exponentially with the size
+    of the board.
+    """</span>
+    <span class="n">queue</span> <span class="o">=</span> <span class="n">PriorityQueue</span><span class="p">()</span>
+    <span class="n">queue</span><span class="p">.</span><span class="n">push</span><span class="p">(</span>
+        <span class="n">init_state</span><span class="p">,</span> <span class="n">manhattan_distance</span><span class="p">(</span><span class="n">init_state</span><span class="p">,</span> <span class="n">goal_state</span><span class="p">)</span> <span class="o">+</span> <span class="n">init_state</span><span class="p">.</span><span class="n">depth</span>
+    <span class="p">)</span>
+    <span class="n">visited</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">plan</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Direction</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">queue</span><span class="p">.</span><span class="n">isEmpty</span><span class="p">():</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="n">queue</span><span class="p">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="n">visited</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="n">goal_state</span><span class="p">:</span>
+            <span class="k">while</span> <span class="n">state</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">state</span><span class="p">.</span><span class="n">action</span><span class="p">:</span>
+                    <span class="n">plan</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">state</span><span class="p">.</span><span class="n">action</span><span class="p">)</span>
+                <span class="n">state</span> <span class="o">=</span> <span class="n">state</span><span class="p">.</span><span class="n">parent</span>
+            <span class="k">break</span>
+        <span class="k">for</span> <span class="n">neighbor</span> <span class="ow">in</span> <span class="n">state</span><span class="p">.</span><span class="n">neighbors</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">neighbor</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">visited</span><span class="p">:</span>
+                <span class="n">queue</span><span class="p">.</span><span class="n">push</span><span class="p">(</span>
+                    <span class="n">neighbor</span><span class="p">,</span> <span class="n">manhattan_distance</span><span class="p">(</span><span class="n">neighbor</span><span class="p">,</span> <span class="n">goal_state</span><span class="p">)</span> <span class="o">+</span> <span class="n">neighbor</span><span class="p">.</span><span class="n">depth</span>
+                <span class="p">)</span>
+    <span class="k">return</span> <span class="n">plan</span>
+</code></pre></div></div>
+<p>La cola de prioridades o <em>Priority Queue</em> es una estructura de datos que en base a una función de costo, permite obtener elementos de forma ordenada haciendo orden en las inserciones de forma eficiente. Esta estructura de datos está basada en un <a href="https://en.wikipedia.org/wiki/Binary_heap" target="_blank" rel="noopener noreferrer">Binary Heap</a>.</p>
+<p>El plan de pasos para llegar a la solución dado el estado inicial de ejemplo en la figura 2, se muestra a continuación:</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/1c42887ede70e37523fb601075a0e8cbf2d8a892/8puzzle-sol.gif" alt="puzzle-sol"></p>
+<p><em>Fig 4: Solución y pasos para ejemplo del puzzle de las 8 piezas.</em></p>
+</div>
+<h2 id="buscando-soluciones-para-puzzles-ms-grandes">Buscando soluciones para puzzles más grandes</h2>
+<p>Hasta acá todo bien, ¿cuál es el problema? Al crecer $N$ el espacio de búsqueda crece en órdenes de magnitudes. Por ejemplo el puzzle de las 8 piezas tiene $9! / 2 = 181440$ estados alcanzables. El puzzle de las 15 piezas tiene 1.3 trilliones de estados posibles, el puzzle de las 24 piezas ($5 \times 5$) tiene $10^25$ estados posibles…</p>
+<p>Si no nos importa esperar unas cuantas horas, o cientos de años para encontrar una solución, entonces no hay problema (y eso, asumiendo que se tiene la RAM disponible para hacerlo). En caso contrario, hay que buscar otro tipo de soluciones, aunque sean sub-óptimas. En algunos casos <em>tener una solución es mejor que no tener ninguna</em>.</p>
+<p>En estos casos, se puede aplicar el principio de <em>Divide y vencerás</em>, en el cual un problema se puede descomponer en sub-problemas, y la solución de estos problemas se puede agregar de manera tal de resolver el problema inicial. El paper <a href="https://ianparberry.com/pubs/saml.pdf" target="_blank" rel="noopener noreferrer">A Real-Time Algorithm for the $(n^2 − 1)$-Puzzle</a> implementa un enfoque como el descrito. El algortimo es simple:</p>
+<ol>
+<li>
+<strong>Procedimiento</strong> $\text{Resolver Puzzle}(n)$
+<ol>
+<li>Si $n = 3$ resolver por fuerza bruta
+<ul>
+<li>En caso contrario usar algoritmo voraz para poner las filas y columnas en su posición correcta</li>
+</ul>
+</li>
+<li>$\text{Resolver Puzzle}(n - 1)$</li>
+</ol>
+</li>
+</ol>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/649b07262fc51591de77f06b4c2aa561fe317496/greedy-n8-1.png" alt="puzzle-greedy-1"></p>
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/649b07262fc51591de77f06b4c2aa561fe317496/greedy-n8-2.png" alt="puzzle-greedy-2"></p>
+<p><em>Fig 5: Muestra del algoritmo voraz para poner las filas y columnas en su lugar.</em></p>
+</div>
+<p>Esto se hace recursivamente hasta llegar al punto en que $n = 3$. Luego, aplicamos el algoritmo <code>A*</code> y resolvemos el resto del puzzle.</p>
+<h2 id="repositorio-github">Repositorio GitHub</h2>
+<p>El código completo lo dejo en este repositorio github: <a href="https://github.com/dpalmasan/n2_1_puzzle" target="_blank" rel="noopener noreferrer">N^2 Puzzle Solver</a>.</p>
+<h1 id="reflexiones-finales">Reflexiones Finales</h1>
+<ul>
+<li>Plantear un problema de búsqueda no es complicado, pero encontrar una solución lo es. Encontrar una solución óptima lo es mucho más, a veces imposible o impráctico.</li>
+<li>Una heurística es una aproximación de una función desconocida, que puede utilizarse para realizar <strong>búsqueda informada</strong> y de esta forma reducir el espacio de búsqueda</li>
+<li>Resolvimos en problema del $N^2 - 1$ puzzle de manera sub-óptima para $n &gt; 3$ y óptima en el caso de $n = 3$.</li>
+</ul>
+<p>Como nota aparte, en su tiempo tomé aproximadamente 60 <em>MOOCs</em> (<em>Massive Open Online Courses</em>); más que todos los cursos que tomé en ingeniería… Si me preguntan cuáles fueron mis favoritos:</p>
+<ol>
+<li><a href="https://www.edx.org/learn/computer-science/harvard-university-cs50-s-introduction-to-computer-science" target="_blank" rel="noopener noreferrer">CS50’s Introduction to Computer Science</a></li>
+<li><a href="https://work.caltech.edu/telecourse.html" target="_blank" rel="noopener noreferrer">Learning from Data</a></li>
+<li><a href="https://www.edx.org/learn/magnetism/rice-university-electricity-and-magnetism-part-1" target="_blank" rel="noopener noreferrer">Electricity and Magnetism</a></li>
+<li><a href="https://online.princeton.edu/algorithms-part-i" target="_blank" rel="noopener noreferrer">Algorithms Part 1</a></li>
+</ol>
+<p>No soy mucho de estudiar algo directamente como por ejemplo frameworks, etc… prefiero los libros MIL veces para entender los fundamentos y leer la documentación y papers para entender el uso. Por ello, no me gustan las plataformas como platzi, Udemy, etc… Me gusta mucho más la teoría abierta y a veces la que al parecer no tiene mucho uso, hasta que realmente te toca resolver un problema que hay que pensar.</p>
+
+  </div>
+<div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = '';
+      this.page.identifier = 'https://dpalmasan.github.io/website/algorithms/ai/2024/06/29/sliding-puzzle.html';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://dpalmasan.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow noopener noreferrer" target="_blank">comments powered by Disqus.</a>
+</noscript>
+<a class="u-url" href="/website/algorithms/ai/2024/06/29/sliding-puzzle.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/website/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="https://dpalmasan.github.io/website/feed.xml">
+            <svg class="svg-icon orange">
+              <path d="M12.8 16C12.8 8.978 7.022 3.2 0 3.2V0c8.777 0 16 7.223 16 16h-3.2zM2.194
+                11.61c1.21 0 2.195.985 2.195 2.196 0 1.21-.99 2.194-2.2 2.194C.98 16 0 15.017 0
+                13.806c0-1.21.983-2.195 2.194-2.195zM10.606
+                16h-3.11c0-4.113-3.383-7.497-7.496-7.497v-3.11c5.818 0 10.606 4.79 10.606 10.607z"></path>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">dpalmasan</li>
+          
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Este es un blog donde compartiré un poco sobre mí y mis experiencias en el mundo tecnológico...</p>
+      </div>
+    </div>
+
+    <div class="social-links">
+<ul class="social-media-list">
+<li>
+    <a rel="me noopener noreferrer" href="https://www.linkedin.com/in/dpalmasan/" target="_blank" title="Mi perfil en Linkedin">
+      <span class="grey fa-brands fa-linkedin fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://www.github.com/dpalmasan" target="_blank" title="Mi Github">
+      <span class="grey fa-brands fa-github fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://scholar.google.com/citations?user=Y5PN_1AAAAAJ&hl=en" target="_blank" title="Mi Google Scholar">
+      <span class="grey fa-brands fa-google-scholar fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://stackoverflow.com/users/4051219/dpalma" target="_blank" title="Mis preguntas en SO LOL!">
+      <span class="grey fa-brands fa-stack-overflow fa-lg"></span>
+    </a>
+  </li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+
+</body>
+
+</html>

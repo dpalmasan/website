@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Tips para entrevistas SWE/MLE | Mr Dipalma’s Pub 🍺</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Tips para entrevistas SWE/MLE">
+<meta name="author" content="dpalmasan">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Introducción">
+<meta property="og:description" content="Introducción">
+<link rel="canonical" href="https://dpalmasan.github.io/website/python/algorithms/classification/machine-learning/2023/07/04/tips-entrevistas-swe-mle.html">
+<meta property="og:url" content="https://dpalmasan.github.io/website/python/algorithms/classification/machine-learning/2023/07/04/tips-entrevistas-swe-mle.html">
+<meta property="og:site_name" content="Mr Dipalma’s Pub 🍺">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2023-07-04T22:10:03+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Tips para entrevistas SWE/MLE">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"dpalmasan"},"dateModified":"2023-07-04T22:10:03+00:00","datePublished":"2023-07-04T22:10:03+00:00","description":"Introducción","headline":"Tips para entrevistas SWE/MLE","mainEntityOfPage":{"@type":"WebPage","@id":"https://dpalmasan.github.io/website/python/algorithms/classification/machine-learning/2023/07/04/tips-entrevistas-swe-mle.html"},"url":"https://dpalmasan.github.io/website/python/algorithms/classification/machine-learning/2023/07/04/tips-entrevistas-swe-mle.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css">
+    <link rel="stylesheet" href="/website/assets/css/style.css">
+    <style type="text/css">
+        div#disqus_thread iframe[sandbox] {
+                max-height: 0px !important;
+        }
+    </style>
+<link type="application/atom+xml" rel="alternate" href="https://dpalmasan.github.io/website/feed.xml" title="Mr Dipalma's Pub 🍺">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KHXBX5G1VP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KHXBX5G1VP');
+</script>
+
+<script>MathJax={"tex":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]},"svg":{"fontCache":"global"}}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<header class="site-header">
+
+  <div class="wrapper">
+<a class="site-title" rel="author" href="/website/">Mr Dipalma's Pub 🍺</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewbox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/website/about/">About</a></div>
+      </nav>
+</div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Tips para entrevistas SWE/MLE</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2023-07-04T22:10:03+00:00" itemprop="datePublished">
+        Jul 4, 2023
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="introduccin">Introducción</h2>
+<p>Muchos se preguntarán ¿Y éste pelagato qué tiene que dar tips/consejos? Yo me preguntaría lo mismo inicialmente, pero aconsejo seguir leyendo pues puede haber información útil. Un poco sobre mi:</p>
+<ul>
+<li>He trabajado en múltiples roles a lo largo de mi carrera (QA SWE, Data Scientist, Data Engineer, SWE backend, MLE)</li>
+<li>Llevo 1 año trabajando en USA (FAANG) y logré sacar el máximo “rating” posible en evaluación de desempeño en mi primer año (top 1%-3% de la empresa obtiene este ranking, víctima del <a href="https://www.betterup.com/blog/stack-ranking" target="_blank" rel="noopener noreferrer">stack ranking</a> 😅)</li>
+<li>En mi estadía en USA, he tenido ofertas de 2 FAANG y una empresa non-FAANG pero tamnbién conocida (por lo que conozco el sistema y cómo pasar las entrevistas)</li>
+<li>He publicado múltiples papers en NLP/ML y también tengo proyectos open-source que han tenido al menos un poco de éxito (estrellas en Github)</li>
+</ul>
+<p>Lo anterior puede sonar <strong>d*** measurement</strong>, pero ya luego de haber tenido buen desempeño en múltiples roles, puedo ya pensar que no ha sido coincidencia y liberarme un poco del <strong>síndrome del impostor</strong> en este blog.</p>
+<p>El mercado actual está muy competitivo debido a despidos masivos por el momento económico actual, por lo tanto hay muchos talentos disponibles en el mercado. Por lo tanto, es importante conocer la mecánica de los procesos de selección. En esta entrada, comentaré algunos detalles a tener en cuenta y algunos tips para las entrevistas de código.</p>
+<h2 id="currculum-vitae-cv">1. Currículum Vitae (CV)</h2>
+<p>Un error común cuando me toca revisar currículums es ver experiencias como <strong>“Programé X”</strong>, <strong>“Seguí buenas prácticas de código”</strong>, <strong>“Lideré Y”</strong>. En caso de MLE <strong>“Creé un modelo para Z con precisión 90%”</strong>. Lo relevante es ver el impacto que tuvo la experiencia. Por ejemplo, se puede re-escribir una experiencia como <strong>“Implementé X, lo que incrementó los usuarios activos diarios en un 30%”</strong>, <strong>“Escalé servicio Z, que redujo la latencia p95 de 200ms a 50ms”</strong>, <strong>“Implementé un modelo de ML para asignación de recursos que redujo costos mensuales en $2M”</strong>. La experiencia debe describir el impacto/dirección que se tuvo.</p>
+<p>Otro error común es mencionar <strong>tecnologías internas</strong> o <strong>proyectos internos</strong>. Por ejemplo, supongamos que la persona desarrolló el proyecto <strong>“Cooperación de Agentes para Calibración Agnóstica”</strong> e internamente se conoce como proyecto <code>CACA</code>. Poner como experiencia <strong>“Trabajé en el proyecto <code>CACA</code>”</strong> no significa nada a menos que se indique el contexto. En este caso, se debe explicar la experiencia de forma que sea autocontenida y que la persona que lea el CV no necesite contexto.</p>
+<p>Finalmente, hay que tener en cuenta que muchos CVs se filtran automáticamente, por palabras claves. Por lo tanto, si la descripción de un cargo menciona que se requiere conocimiento tecnología <code>A1</code>, <code>A2</code>, intentar agregar dichas tecnologías al CV, e intentar agregar cómo se usó dicha tecnología en la experiencia.</p>
+<h2 id="entrevista-tcnica-cdigo">2. Entrevista Técnica (código)</h2>
+<p>Es importante tener conocimiento de estructuras de datos básicas y algoritmos, por ejemplo:</p>
+<ul>
+<li>Manipuación de Arrays</li>
+<li>Algoritmos de ordenamiento</li>
+<li>Árboles Binarios</li>
+<li>Recursividad</li>
+<li>Depth-First-Search/Breadth-First-Search</li>
+<li>Grafos</li>
+<li>Complejidad en espacio y tiempo de ejecución</li>
+</ul>
+<h3 id="manipulacin-de-arrays">Manipulación de Arrays</h3>
+<p>Un ejemplo práctico:</p>
+<p><strong>Dado un array de citas bibliográficas de un autor, donde <code>citas[i]</code> es el número de citas que un investigador recibió por su paper <code>i</code>, retornar el índice <code>h</code> del investigador. El índice <code>h</code> se define como el máximo valor de <code>h</code> tal que el autor ha publicado al menos <code>h</code> papers que han sido citados al menos <code>h</code> veces.</strong></p>
+<p>Ejemplos:</p>
+<pre><code>Entrada: [3, 0, 6, 1, 5]
+Salida: 3
+Explicación: El investigador tiene 5 papers en total. Dado que el investigador tiene 3 papers que han sido citados al menos 3 veces, su índice `h` es 3.
+</code></pre>
+<pre><code>Entrada: [1, 3, 1]
+Salida: 1
+Explicación: El investigador tiene 3 papers. El investigador tiene 2 papers que han sido citados al menos 1 vez, cero papers que hayan sido citados 2 veces y 1 sólo paper que ha sido citado 3 veces.
+</code></pre>
+<pre><code>Entrada: [100]
+Salida: 1
+Explicación: El investigador tiene 1 paper. El paper ha sido citado al menos 100 veces, por lo tanto el valor máximo de `h` es 1.
+</code></pre>
+<p>Restricciones:</p>
+<p><code>1 &lt;= n &lt;= 5000</code>
+<code>0 &lt;= citas[i] &lt;= 1000</code></p>
+<p>Una solución simple es hacer fuerza bruta, es decir, iterar sobre todos los valores posibles de <code>h</code> y encontrar el máximo <code>h</code> satisfaga la condición mencionada. Por ejemplo en <code>python</code>:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">hIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">citations</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">max_seen</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">hmax</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">citations</span><span class="p">)):</span>
+            <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">citation</span> <span class="ow">in</span> <span class="n">citations</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">citation</span> <span class="o">&gt;=</span> <span class="n">h</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;=</span> <span class="n">h</span> <span class="o">+</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">count</span> <span class="o">&gt;=</span> <span class="n">max_seen</span><span class="p">:</span>
+                <span class="n">hmax</span> <span class="o">=</span> <span class="n">h</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">hmax</span>
+</code></pre></div></div>
+<p>Dicha solución tiene una complejidad de $O(n^2)$ en tiempo de ejecución y $O(1)$ en memoria, ya que no se utiliza memoria extra. En este caso, el entrevistador podrá preguntar, ¿se puede obtener una solución mejor en tiempo de ejecución?</p>
+<p>En este caso se podría ordenar el array ($O(n\log(n))$) y recorrer cada paper hasta encontrar el paper tal que <code>citas[h] &lt; h</code>, como el arreglo está ordenado, el invariante del ciclo es que siempre tendré el máximo valor posible de <code>h</code> entre el índice <code>[0, h]</code>, ya que el array está ordenado:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">hIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">citations</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">citations</span><span class="p">.</span><span class="n">sort</span><span class="p">(</span><span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">h</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">citations</span><span class="p">)</span> <span class="ow">and</span> <span class="n">citations</span><span class="p">[</span><span class="n">h</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">h</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">h</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">h</span>
+</code></pre></div></div>
+<p>Complejidad asintótica $O(n \log n)$ en tiempo de ejecución, y $O(1)$ en memoria. Luego el entrevistador podría preguntar nuevamente ¿Se puede hacer mejor? En este caso, el cuello de botella es el algoritmo de ordenamiento, por lo que se puede mencionar que dadas las retricciones, se podría implementar <strong>count sort</strong> que sería constante en memoria ($O(k)$) y $O(n)$ en ordenamiento, reduciendo la complejidad en tiempo de ejecución a $O(n)$.</p>
+<h3 id="dos-punteros">Dos Punteros</h3>
+<p>Máximo número de de pares que suman <code>k</code>:</p>
+<p><strong>Dado un array <code>nums</code> y un entero <code>k</code>, en una operación, se pueden tomar dos números que sumen <code>k</code> y removerlos del array. Retornar el máximo número de operaciones que se pueden aplicar a este array</strong>.</p>
+<pre><code>Entrada: nums = [1,2,3,4], k = 5
+Salida: 2
+Explicación:
+- Remover los números 1 y 4, luego nums = [2,3]
+- Remover 2 y 3, luego numes = []
+No hay más pares, por lo que la salida es 2
+</code></pre>
+<pre><code>Entrada: nums = [3,1,3,4,3], k = 6
+Salida: 1
+Explicación:
+- Remover los primeros 3 = [1,4,3]
+No hay más pares que sumen 6, por lo que el resultado es 1
+</code></pre>
+<p>En este caso, se puede ordenar el array de entrada. Luego se pueden tener dos punteros, uno a la izquierda del array y otro a la derecha. Si <code>nums[left] + num[right] &lt; k</code>, entonces mover <code>left</code> hacia adelante. Si la suma es mayor que <code>k</code>, mover <code>right</code> hacia atras. Si la suma es igual a <code>k</code> incrementar el conteo de operaciones y mover ambos punteros (hacia la izquierda y derecha respectivamente). Continuar hasta que <code>left == right</code>.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">maxOperations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">nums</span><span class="p">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="k">while</span> <span class="n">start</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="n">start</span><span class="p">]</span> <span class="o">+</span> <span class="n">nums</span><span class="p">[</span><span class="n">end</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">k</span><span class="p">:</span>
+                <span class="n">end</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="k">elif</span> <span class="n">nums</span><span class="p">[</span><span class="n">start</span><span class="p">]</span> <span class="o">+</span> <span class="n">nums</span><span class="p">[</span><span class="n">end</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">k</span><span class="p">:</span>
+                <span class="n">start</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">total</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">start</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">end</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">total</span>
+</code></pre></div></div>
+<p>Complejidad en tiempo de ejecución $O(n \log n)$, complejidad en memoria $O(1)$. Este truco también se puede aplicar en listas enlazadas.</p>
+<h3 id="ventana-deslizante-sliding-window">Ventana Deslizante (Sliding Window)</h3>
+<p>Suma de sub-array de tamaño mínimo:</p>
+<p><strong>Dado un array de enteros positivos <code>nums</code> y un número positivo <code>target</code>, retornar el largo mínimo de un subarray cuya suma es mayor o igual que <code>target</code>. Si no existe dicho subarray, retornar 0</strong>:</p>
+<pre><code>Entrada: target = 7, nums = [2,3,1,2,4,3]
+Salida: 2
+Explicación: El subarray [4,3] tiene el largo mínimo dadas las restricciones
+</code></pre>
+<pre><code>Entrada: target = 4, nums = [1,4,4]
+Salida: 1
+</code></pre>
+<pre><code>Entrada: target = 11, nums = [1,1,1,1,1,1,1,1]
+Salida: 0
+</code></pre>
+<p>En este caso, la solución simple sería probar todos los subarray posibles. En este caso la complejidad en tiempo de ejecución sería $O(n^2)$. Otra solución sería utilizar una <strong>ventana deslizante</strong>, es decir, un puntero inicial y un puntero final hacia elementos del array, tal que la suma de los elementos entre los punteros cumpla la restricción. El invariante del ciclo sería que en cada iteración, se tiene la mínima ventana encontrada que satisfaga las restricciones. El algoritmo sería:</p>
+<ul>
+<li>Inicializar puntero inicial <code>i = 0</code> y <code>min_length = inf</code> (también se puede usar <code>min_length = n + 1</code> donde <code>n</code> es el largo de <code>nums</code>)</li>
+<li>Inicializar la suma como <code>0</code>
+</li>
+<li>Para cada puntero final (iniciando desde 0), agregar <code>nums[j]</code> a la suma total</li>
+<li>Mientras la suma total sea mayor o igual a la suma objetivo (<code>target</code>), mover <code>i</code> hacia la derecha</li>
+<li>Actualizar largo mínimo (<code>min_length = (min_length, j - i + 1)</code>)</li>
+<li>Retornar <code>0</code> si <code>min_length == inf</code> o <code>min_length</code> en caso contrario</li>
+</ul>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">minSubArrayLen</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">nums</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">min_length</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s">'inf'</span><span class="p">)</span>
+
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">total_sum</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nums</span><span class="p">):</span>
+            <span class="n">total_sum</span> <span class="o">+=</span> <span class="n">n</span>
+            <span class="k">while</span> <span class="n">total_sum</span> <span class="o">&gt;=</span> <span class="n">target</span><span class="p">:</span>
+                <span class="n">min_length</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">min_length</span><span class="p">,</span> <span class="n">j</span> <span class="o">-</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">total_sum</span> <span class="o">-=</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">min_length</span> <span class="o">==</span> <span class="nb">float</span><span class="p">(</span><span class="s">'inf'</span><span class="p">)</span> <span class="k">else</span> <span class="n">min_length</span>
+</code></pre></div></div>
+<p>Notar que aunque la solución tiene dos ciclos anidados, la complejidad asintótica es $O(n)$, por lo que no recomiendo mecanizar el análisis de complejdidad (por ejemplo decir <strong>Si tiene $k$ ciclos anidados entonces complejidad es $O(n^k)$</strong>).</p>
+<h3 id="rboles-binarios">Árboles Binarios</h3>
+<p>Algunos consejos para este tipo de problemas:</p>
+<ul>
+<li>Intentar la solución simple inicialmente (por ejemplo utilizando recursividad)</li>
+<li>Tener claro lo que significa recorrido en <strong>preorder</strong>, <strong>postorder</strong>, <strong>inorder</strong>
+</li>
+<li>Diferencia entre recorrer por niveles (Usando Breadth First Search) o recorrer por profunidad (Depth First Search)</li>
+</ul>
+<p>Un ejemplo simple, invertir un árbol binario:</p>
+<p><strong>Dada la raíz de un árbol binario (<code>root</code>), invertir el árbol y retornar su raíz</strong>:</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/a6b49289782e60ceb2d40fb8682f2821514e4e9c/invert1-tree.jpg" alt="tree-1"></p>
+<p><em>Fig. 1: Ejemplo 1.</em></p>
+</div>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/a6b49289782e60ceb2d40fb8682f2821514e4e9c/invert2-tree.jpg" alt="tree-2"></p>
+<p><em>Fig. 2: Ejemplo 2.</em></p>
+</div>
+<p>En este caso, una solución simple es utilizar recursividad, por ejemplo:</p>
+<ul>
+<li>Dado un nodo, intercambiar el nodo izquierdo con el derecho, repetir con el nodo izquierdo y el derecho</li>
+<li>Si el nodo es nulo, retornar</li>
+<li>Retornar la raíz</li>
+</ul>
+<p>En este caso, al terminar de recorrer el árbol, todos los nodos habrán sido invertidos.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">invertTree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TreeNode</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TreeNode</span><span class="p">]:</span>
+        <span class="k">def</span> <span class="nf">invert_childs</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">node</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="n">tmp</span> <span class="o">=</span> <span class="n">node</span><span class="p">.</span><span class="n">left</span>
+            <span class="n">node</span><span class="p">.</span><span class="n">left</span><span class="p">,</span> <span class="n">node</span><span class="p">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">node</span><span class="p">.</span><span class="n">right</span><span class="p">,</span> <span class="n">node</span><span class="p">.</span><span class="n">left</span>
+            <span class="n">invert_childs</span><span class="p">(</span><span class="n">node</span><span class="p">.</span><span class="n">left</span><span class="p">)</span>
+            <span class="n">invert_childs</span><span class="p">(</span><span class="n">node</span><span class="p">.</span><span class="n">right</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">root</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">root</span>
+
+        <span class="k">if</span> <span class="n">root</span><span class="p">.</span><span class="n">left</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">root</span><span class="p">.</span><span class="n">right</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">root</span>
+
+        <span class="n">invert_childs</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">root</span>
+</code></pre></div></div>
+<p>En este caso la complejidad es $O(n)$ donde $n$ es el número de nodos (pues recorremos todos los nodos del árbol una sola vez).</p>
+<h3 id="grafos">Grafos</h3>
+<p>Problemas que involucren grafos aparecen frecuentemente en este tipo de entrevistas (y en varios problemas reales). Lo que recomiendo es saber cómo recorrer un grafo, detección de ciclos, cómo representar un grafo (ejemplo: matriz de adyacencia), y cómo medir la complejidad en un problema de grafos (¿proporcional a los vértices, a las aristas?).</p>
+<p>Ejemplo de problema, Horario Cursos:</p>
+<p><strong>Existe un total de cursos <code>numCourses</code> que tienes que tomar, etiquetados desde <code>0</code> a <code>numCourses - 1</code>. Se te da un array <code>prerequisites</code> donde <code>prerequisites[i] = [ai, bi]</code> indica que debes tomar el curso <code>bi</code> si quieres tomar <code>ai</code>. Por ejemplo, el par <code>[0, 1]</code> indica que para tomar el curso <code>0</code>, se debe haber tomado el curso <code>1</code>. Crear una función que retorne <code>true</code> si se pueden completar todos los cursos y <code>false</code> en caso contrario.</strong></p>
+<pre><code>Entrada: numCourses = 2, prerequisites = [[1,0]]
+Salida: true
+Explicación: Hay dos cursos a tomar.
+Para tomar el curso 1, se debe tomar el curso 0, por lo que es posible tomar ambos cursos.
+</code></pre>
+<pre><code>Entrada: numCourses = 2, prerequisites = [[1,0],[0,1]]
+Salida: false
+Explicación: Hay dos cursos a tomar
+Para tomar el curso 0, se debe tomar el curso 1 y para tomar el curso 1 se debe tomar el curso 0, por lo que es imposible tomar todos los cursos
+</code></pre>
+<p>En este caso, el problema se puede representar como un grafo. En esencia, el problema se puede simplificar a encontrar un ciclo dentro del grafo (pues esto implicaría que hay dependencias circulares entre cursos). Un algoritmo podría ser:</p>
+<ul>
+<li>Construir el grafo a partir de los pares de cursos (ejemplo: Matriz de adyacencia)</li>
+<li>Para cada curso, recorrer el grafo en busca de algún ciclo, por ejemplo utilizando <strong>Depth-First-Search</strong>
+</li>
+<li>Si se encuentra un ciclo retornar <code>false</code>
+</li>
+<li>En caso de que se recorrieron todos los nodos y caminos, retornar <code>true</code>
+</li>
+</ul>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+
+<span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">canFinish</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numCourses</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">prerequisites</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="n">edges</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">prereq</span> <span class="ow">in</span> <span class="n">prerequisites</span><span class="p">:</span>
+            <span class="n">edges</span><span class="p">[</span><span class="n">prereq</span><span class="p">[</span><span class="mi">1</span><span class="p">]].</span><span class="n">append</span><span class="p">(</span><span class="n">prereq</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="k">for</span> <span class="n">course</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">numCourses</span><span class="p">):</span>
+            <span class="n">stack</span> <span class="o">=</span> <span class="p">[</span><span class="n">course</span><span class="p">]</span>
+            <span class="n">visited</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+            <span class="k">while</span> <span class="n">stack</span><span class="p">:</span>
+                <span class="n">node</span> <span class="o">=</span> <span class="n">stack</span><span class="p">.</span><span class="n">pop</span><span class="p">()</span>
+                <span class="n">visited</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">neighbor</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">[</span><span class="n">node</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">neighbor</span> <span class="o">==</span> <span class="n">course</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="bp">False</span>
+                    <span class="k">if</span> <span class="n">neighbor</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">visited</span><span class="p">:</span>
+                        <span class="n">stack</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">neighbor</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">True</span>
+</code></pre></div></div>
+<p>En este caso, la complejidad asintótica en tiempo de ejecución es $O(|V||E|)$ ya que para cada vértice se deben recorrer todas las aristas. La complejidad en espacio es $O(V)$, pues a lo más se guardan $|V|$ nodos en el conjunto de nodos visitados.</p>
+<h2 id="entrevista-tcnica-diseo-de-sistemas">3. Entrevista Técnica (Diseño de Sistemas)</h2>
+<p>En este caso depende mucho de la empresa. Este tipo de entrevistas son bastante abiertas, y por lo general se utilizan para medir el <strong>Seniority</strong> del postulante. En FAANG las preguntas son más abiertas y no están ligadas a un framework específico. En entrevistas para empresas convencionales, pueden aparecer preguntas sobre ciertos frameworks, por ejemplo <code>kubernetes</code>, manejo de despliegues, entre otros detalles un poco más ligados al framework. Lo que es cierto para ambos casos es que conviene saber conceptos como:</p>
+<ul>
+<li>Escalabilidad (ejemplo: horizontal vs vertical)</li>
+<li>Latencia y uso de CPU (qué significa p95, p99, etc.); SLA, SLO</li>
+<li>Uso de Caching, invalidación, TTL</li>
+<li>Bases de datos (ejemplo: SQL vs NoSQL, OLAP vs OLTP, B-Trees vs Log-Structured Merge Tree)</li>
+<li>Servicios, serialización de datos, protocolos para transmisión de datos (ejemplo: TCP vs UDP)</li>
+<li>Sharding de bases de datos, procesamiento distribuído (ejemplo: Round Robin vs Consistent Hashing)</li>
+<li>Etc</li>
+</ul>
+<p>Ejemplos de problemas:</p>
+<ul>
+<li>Diseñar un acortador de URLs</li>
+<li>Diseñar un motor de búsqueda exacta de textos</li>
+</ul>
+<p>En Machine Learning:</p>
+<ul>
+<li>Flujo completo y mantención de modelos (entrenamiento y despliegue, comunicación con servicios, escalamiento, monitoreo de rendimiento)</li>
+<li>Algoritmos comunes y sus ventajas y desventajas (ejemplo: En qué consiste un árbol de decisión, qué diferencias existen entre Random Forests y XGB y cuándo se prefiere uno del otro)</li>
+<li>Qué diferencia hay entre <strong>similarity aware</strong> embeddings vs los que no lo son</li>
+<li>Diferencia entre tener alto volumen de datos vs bajo y qué modelos utilizar</li>
+</ul>
+<p>Ejemplo de problemas de diseño de sistemas en MLE:</p>
+<ul>
+<li>Diseñar un detector de armas en anuncios</li>
+<li>Diseñar un sistema para <strong>Federated Machine Learning</strong>
+</li>
+</ul>
+<p>La idea en este tipo de entrevistas es iterar con el entrevistador, aclarar supuestos, definir el problema. Análisis de diferentes alternativas u ventajas/desventajas (ej. escalamiento vertical vs horizontal).</p>
+<h2 id="conclusiones">Conclusiones</h2>
+<p>Ya cerrando esta entrada, en resumen:</p>
+<ul>
+<li>El CV debe ser conciso, ir al grano y mostrar impacto en las tareas desempeñadas; idealmente apuntar al cargo</li>
+<li>Se deben tener conocimientos básicos de algoritmos y estructuras de datos. Hay ciertas técnicas encontrar soluciones mejores en términos de complejidad asintótica</li>
+<li>La experiencia y buenos fundamentos teóricos son la clave para arrasar en una entrevista de diseño de sistemas</li>
+</ul>
+<p>Finalmente, a los que estén buscando empleo, les deseo suerte y espero que estos tips les sirvan.</p>
+<p>Saludos!</p>
+
+  </div>
+<div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = '';
+      this.page.identifier = 'https://dpalmasan.github.io/website/python/algorithms/classification/machine-learning/2023/07/04/tips-entrevistas-swe-mle.html';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://dpalmasan.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow noopener noreferrer" target="_blank">comments powered by Disqus.</a>
+</noscript>
+<a class="u-url" href="/website/python/algorithms/classification/machine-learning/2023/07/04/tips-entrevistas-swe-mle.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/website/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="https://dpalmasan.github.io/website/feed.xml">
+            <svg class="svg-icon orange">
+              <path d="M12.8 16C12.8 8.978 7.022 3.2 0 3.2V0c8.777 0 16 7.223 16 16h-3.2zM2.194
+                11.61c1.21 0 2.195.985 2.195 2.196 0 1.21-.99 2.194-2.2 2.194C.98 16 0 15.017 0
+                13.806c0-1.21.983-2.195 2.194-2.195zM10.606
+                16h-3.11c0-4.113-3.383-7.497-7.496-7.497v-3.11c5.818 0 10.606 4.79 10.606 10.607z"></path>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">dpalmasan</li>
+          
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Este es un blog donde compartiré un poco sobre mí y mis experiencias en el mundo tecnológico...</p>
+      </div>
+    </div>
+
+    <div class="social-links">
+<ul class="social-media-list">
+<li>
+    <a rel="me noopener noreferrer" href="https://www.linkedin.com/in/dpalmasan/" target="_blank" title="Mi perfil en Linkedin">
+      <span class="grey fa-brands fa-linkedin fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://www.github.com/dpalmasan" target="_blank" title="Mi Github">
+      <span class="grey fa-brands fa-github fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://scholar.google.com/citations?user=Y5PN_1AAAAAJ&hl=en" target="_blank" title="Mi Google Scholar">
+      <span class="grey fa-brands fa-google-scholar fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://stackoverflow.com/users/4051219/dpalma" target="_blank" title="Mis preguntas en SO LOL!">
+      <span class="grey fa-brands fa-stack-overflow fa-lg"></span>
+    </a>
+  </li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+
+</body>
+
+</html>

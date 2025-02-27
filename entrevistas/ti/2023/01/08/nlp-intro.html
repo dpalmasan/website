@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Un poco de NLP básico (no un tutorial de pytorch/tensor flow) | Mr Dipalma’s Pub 🍺</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Un poco de NLP básico (no un tutorial de pytorch/tensor flow)">
+<meta name="author" content="dpalmasan">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="La entrada de hoy no tendrá nada polémico ni ninguna afirmación que pudiera herir los sentimientos/egos de algún lector. Esta entrada es para compartir un poco de lo básico de Procesamiento de Lenguaje Natural (Natural Language Processing o NLP). Está un poco relacionado a un post que hace un tiempo hice en Linkedin. La diferencia, esta vez no me las daré de experto en TypeScript (porque estoy muy lejos de serlo :sweat_smile:), sin embargo el código a compartir será en python ya que veo que la mayoría de las personas metidas en el mundo de TI, en especial área de datos/inteligencia artificial utilizan este lenguaje.">
+<meta property="og:description" content="La entrada de hoy no tendrá nada polémico ni ninguna afirmación que pudiera herir los sentimientos/egos de algún lector. Esta entrada es para compartir un poco de lo básico de Procesamiento de Lenguaje Natural (Natural Language Processing o NLP). Está un poco relacionado a un post que hace un tiempo hice en Linkedin. La diferencia, esta vez no me las daré de experto en TypeScript (porque estoy muy lejos de serlo :sweat_smile:), sin embargo el código a compartir será en python ya que veo que la mayoría de las personas metidas en el mundo de TI, en especial área de datos/inteligencia artificial utilizan este lenguaje.">
+<link rel="canonical" href="https://dpalmasan.github.io/website/entrevistas/ti/2023/01/08/nlp-intro.html">
+<meta property="og:url" content="https://dpalmasan.github.io/website/entrevistas/ti/2023/01/08/nlp-intro.html">
+<meta property="og:site_name" content="Mr Dipalma’s Pub 🍺">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2023-01-08T21:03:03+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Un poco de NLP básico (no un tutorial de pytorch/tensor flow)">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"dpalmasan"},"dateModified":"2023-01-08T21:03:03+00:00","datePublished":"2023-01-08T21:03:03+00:00","description":"La entrada de hoy no tendrá nada polémico ni ninguna afirmación que pudiera herir los sentimientos/egos de algún lector. Esta entrada es para compartir un poco de lo básico de Procesamiento de Lenguaje Natural (Natural Language Processing o NLP). Está un poco relacionado a un post que hace un tiempo hice en Linkedin. La diferencia, esta vez no me las daré de experto en TypeScript (porque estoy muy lejos de serlo :sweat_smile:), sin embargo el código a compartir será en python ya que veo que la mayoría de las personas metidas en el mundo de TI, en especial área de datos/inteligencia artificial utilizan este lenguaje.","headline":"Un poco de NLP básico (no un tutorial de pytorch/tensor flow)","mainEntityOfPage":{"@type":"WebPage","@id":"https://dpalmasan.github.io/website/entrevistas/ti/2023/01/08/nlp-intro.html"},"url":"https://dpalmasan.github.io/website/entrevistas/ti/2023/01/08/nlp-intro.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css">
+    <link rel="stylesheet" href="/website/assets/css/style.css">
+    <style type="text/css">
+        div#disqus_thread iframe[sandbox] {
+                max-height: 0px !important;
+        }
+    </style>
+<link type="application/atom+xml" rel="alternate" href="https://dpalmasan.github.io/website/feed.xml" title="Mr Dipalma's Pub 🍺">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KHXBX5G1VP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KHXBX5G1VP');
+</script>
+
+<script>MathJax={"tex":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]},"svg":{"fontCache":"global"}}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<header class="site-header">
+
+  <div class="wrapper">
+<a class="site-title" rel="author" href="/website/">Mr Dipalma's Pub 🍺</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewbox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/website/about/">About</a></div>
+      </nav>
+</div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Un poco de NLP básico (no un tutorial de pytorch/tensor flow)</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2023-01-08T21:03:03+00:00" itemprop="datePublished">
+        Jan 8, 2023
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>La entrada de hoy no tendrá nada polémico ni ninguna afirmación que pudiera herir los sentimientos/egos de algún lector. Esta entrada es para compartir un poco de lo básico de Procesamiento de Lenguaje Natural (<em>Natural Language Processing</em> o <em>NLP</em>). Está un poco relacionado a un <a href="https://www.linkedin.com/pulse/generaci%2525C3%2525B3n-autom%2525C3%2525A1tica-de-oraciones-una-humilde-intro-y-palma-s%2525C3%2525A1nchez%3FtrackingId=jwAk4Po8EYaTMJ9z1BUP8g%253D%253D/?trackingId=jwAk4Po8EYaTMJ9z1BUP8g%3D%3D" target="_blank" rel="noopener noreferrer">post que hace un tiempo hice en Linkedin</a>. La diferencia, esta vez no me las daré de experto en TypeScript (porque estoy muy lejos de serlo<img class="emoji" title=":sweat_smile:" alt=":sweat_smile:" raw="😅" src="https://github.githubassets.com/images/icons/emoji/unicode/1f605.png" style="vertical-align: middle; display: inline; max-width: 1em; visibility: hidden;" onload="this.style.visibility='visible'" onerror="this.replaceWith(this.getAttribute('raw'))">), sin embargo el código a compartir será en <code>python</code> ya que veo que la mayoría de las personas metidas en el mundo de TI, en especial área de datos/inteligencia artificial utilizan este lenguaje.</p>
+<p><strong>Aclaración</strong>: Esto no es un tutorial de modelos de <strong>HuggingFace</strong> con <code>pytorch</code> o <code>keras</code> con <code>tensor flow</code>. Si vienes buscando contenido así, mejor googlear o leer la documentación/foros de discusión de tales sitios.</p>
+<h2 id="n-gramas-conocimiento-bsico-de-nlp">N-Gramas, conocimiento básico de NLP</h2>
+<p>En simple, un <code>n-grama</code> es una secuencia de <strong>tokens</strong>, en el caso del lenguaje humano, es una secuencia de palabras. ¿Por qué los <code>n-gramas</code> son tan importantes? Los <code>n-gramas</code> dan información contextual del contenido del discurso, por ello es que se utilizan en modelos más sofisticados como <code>Word2Vec</code>, <code>GloVe</code> entre otros.</p>
+<p>En el contexto de NLP, los n-gramas sirven para computacionalmente procesar discurso humano, y lograr que la máquina pueda automatizar ciertas tareas, que sería intractable automatizar con un conjunto de reglas pre-definido. Por ejemplo, supongamos que queremos implementar un programa que prediga la palabra siguiente dado un contexto. Sería poco práctico tener un conjunto con todas las reglas y combinaciones posibles:</p>
+<ol>
+<li>El lenguaje humano es infinito, ya que se pueden generar infinitas oraciones siguiendo la gramática.</li>
+<li>El costo computacional sería altísimo, incluso teniendo capacidad de cómputo infinita, el tiempo de búsqueda lo haría impráctico; De hecho es un problema que aunque tenga solución puede que pasen trillones de años en encontrarse.</li>
+</ol>
+<p>¿Existe una manera más simple? Por supuesto, podemos utilizar razonamiento con incertidumbre y utilizar la opción que, dado un contexto, sea la más probable. Como intuición, tomemos la siguiente oración: <strong>Iré al supermercado, necesito…</strong>. Una opción de palabra siguiente podría ser comprar o cualquiera de sus variaciones. Aquí es donde entra la probabilidad y los n-gramas.</p>
+<h3 id="estimando-probabilidades-en-el-lenguaje">Estimando Probabilidades en el Lenguaje</h3>
+<p>Como anécdota, en proyectos de investigación he trabajado con lingüístas, y las veces que hablé de probabilidades en el lenguaje, reaccionaron como si estuviera cometiendo el peor de los delitos. Para estimar la probabilidad de una oración, dentro del lenguaje habría que estimar la probabilidad conjunta de un grupo de palabras, por ejemplo, responder a la pregunta <strong>“De todas las oraciones posibles con 7 palabras, cuál es la probabilidad de tener la oración ¿Mi abuela me cocinó tallarines con salsa?”</strong>. La probabilidad conjunta de una oración se puede calcular utilizando la regla de la cadena de probabilidades:</p>
+<p>$$P(a, b, c) = P(a, b)P(c|a, b) = P(a)P(b|a)P(c|a,b)$$</p>
+<p>La fórmula anterior se puede generalizar para oraciones de cualquier tamaño. Sin embargo, sigue existiendo un problema, no podemos calcular la probabilidad conjunta de una secuencia, porque necesitaríamos contar la ocurrencia de secuencias de largo $N-1$. Esto se vuelve intratable debido a la variedad del lenguaje.</p>
+<p>La intuición de utilizar un modelo de <code>n-gramas</code> es, en lugar de tomar todas las palabras previas para calcular la probabilidad de una oración, podemos utilizar como aproximación el contexto en el que la palabra se encuentra, por ejemplo las <code>n</code> palabras anteriores (modelos más sofisticados utilizan variaciones, como por ejemplo, predecir una palabra en medio de una ventana de palabras, esto consideraría palabras previas y palabras posteriores). Volviendo a lo básico, y el tema anterior, podemos aproximar la probabilidad condicional considerando sólo una parte del contexto previo, por ejemplo:</p>
+<p>$$P(salsa|\text{Mi abuela me cocinó tallarines con}) \approx P(salsa|con)$$</p>
+<p>Este supuesto se conoce como <strong>Supuesto de Markov</strong>. Finalmente, para calcular las probabilidades de estos <code>n-gramas</code> podemos utilizar una <strong>estimación de Máxima Verosimilitud</strong> contando las palabras de un CORPUS (repositorio de textos) dado:</p>
+<p>$$P(w_n|w_{n - 1}) = \displaystyle \frac{C(w_{n-1}{w_n})}{\sum_w C(w_{n-1}w)}$$</p>
+<p>La ecuación anterior se puede generalizar para todo tipo de <code>n-grama</code>, <code>bi-grama</code> ($P(salsa|con)$), <code>tri-grama</code> ($P(salsa|\text{tallarines con})$), etc.</p>
+<h4 id="generacin-de-lenguaje-con-modelo-de-n-gramas">Generación de Lenguaje con modelo de N-gramas</h4>
+<p>Luego de tener la teoría, implementaremos un simple programa en <code>python</code> para crear un modelo generativo de lenguaje. En este ejemplo, utilizaremos como CORPUS el corpus <a href="http://clic.ub.edu/corpus/en" target="_blank" rel="noopener noreferrer">AnCora</a> que consiste en múltiples textos manualmente anotados por humanos (y en su forma de árbol de derivación). Lo primero que necesitamos es procesar el CORPUS para obtener las oraciones (ya que de momento no estamos interesados ni en las etiquetas léxicas ni en los árboles de derivación).</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">AncoraCorpusReader</span><span class="p">(</span><span class="n">SyntaxCorpusReader</span><span class="p">):</span>
+    <span class="s">"""Implementación lectura de CORPUS AnCora."""</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">files</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="s">"""Constructor.
+
+        Si no se provee una lista de archivos, lee el CORPUS completo.
+
+        :param path: Ruta al directorio del CORPUS.
+        :type path: str
+        :param files: Lista de archivos a considerar, defaults to None
+        :type files: List[str], optional
+        """</span>
+        <span class="k">if</span> <span class="n">files</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">files</span> <span class="o">=</span> <span class="s">".*\.tbf\.xml"</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">xmlreader</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="p">.</span><span class="n">XMLCorpusReader</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">files</span><span class="p">)</span>
+
+    <span class="o">@</span><span class="nb">staticmethod</span>
+    <span class="k">def</span> <span class="nf">parsed</span><span class="p">(</span><span class="n">element</span><span class="p">):</span>
+        <span class="s">"""Procesa corpus.
+
+        Convierte una 'oración' XML element (xml.etree.ElementTree.Element) a
+        un árbol en formato NLTK.
+        element -- the XML sentence element (or a subelement)
+
+        :param element: Oración a procesar.
+        :type element: xml.etree.ElementTree.Element
+        :return: Árbol en formato NLTK
+        :rtype: tree.Tree
+        """</span>
+        <span class="k">if</span> <span class="n">element</span><span class="p">:</span>
+            <span class="n">subtrees</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">AncoraCorpusReader</span><span class="p">.</span><span class="n">parsed</span><span class="p">,</span> <span class="n">element</span><span class="p">)</span>
+            <span class="n">subtrees</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">subtrees</span> <span class="k">if</span> <span class="n">t</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">tree</span><span class="p">.</span><span class="n">Tree</span><span class="p">(</span><span class="n">element</span><span class="p">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">subtrees</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">element</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"elliptic"</span><span class="p">)</span> <span class="o">==</span> <span class="s">"yes"</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">element</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"wd"</span><span class="p">):</span>
+                <span class="k">return</span> <span class="bp">None</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">tree</span><span class="p">.</span><span class="n">Tree</span><span class="p">(</span>
+                    <span class="n">element</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"pos"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">element</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"ne"</span><span class="p">)</span> <span class="ow">or</span> <span class="s">"unk"</span><span class="p">,</span>
+                    <span class="p">[</span><span class="n">element</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"wd"</span><span class="p">)],</span>
+                <span class="p">)</span>
+
+    <span class="o">@</span><span class="nb">staticmethod</span>
+    <span class="k">def</span> <span class="nf">tagged</span><span class="p">(</span><span class="n">element</span><span class="p">:</span> <span class="n">xml</span><span class="p">.</span><span class="n">etree</span><span class="p">.</span><span class="n">ElementTree</span><span class="p">.</span><span class="n">Element</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+        <span class="s">"""Convierte elemento de XML a oración etiquetada.
+
+        :param element: Oración a procesar.
+        :type element: xml.etree.ElementTree.Element
+        :return: Lista de tags de la oración.
+        :rtype: List[Tuple[str, str]]
+        """</span>
+        <span class="n">pos</span> <span class="o">=</span> <span class="n">AncoraCorpusReader</span><span class="p">.</span><span class="n">parsed</span><span class="p">(</span><span class="n">element</span><span class="p">).</span><span class="n">pos</span><span class="p">()</span>
+        <span class="c1"># Puede terminar en lista vacía!
+</span>        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">,</span> <span class="n">pos</span><span class="p">))</span>
+
+    <span class="o">@</span><span class="nb">staticmethod</span>
+    <span class="k">def</span> <span class="nf">untagged</span><span class="p">(</span><span class="n">element</span><span class="p">:</span> <span class="n">xml</span><span class="p">.</span><span class="n">etree</span><span class="p">.</span><span class="n">ElementTree</span><span class="p">.</span><span class="n">Element</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="s">"""Obtiene lista de palabras sin etiqueta.
+
+        :param element: Oración a procesar.
+        :type element: xml.etree.ElementTree.Element
+        :return: Lista de palabras de la oración.
+        :rtype: List[str]
+        """</span>
+
+        <span class="n">sent</span> <span class="o">=</span> <span class="n">AncoraCorpusReader</span><span class="p">.</span><span class="n">parsed</span><span class="p">(</span><span class="n">element</span><span class="p">).</span><span class="n">leaves</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">,</span> <span class="n">sent</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">parsed_sents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fileids</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="s">"""Obteniene oraciones como árboles NLTK."""</span>
+        <span class="k">return</span> <span class="n">LazyMap</span><span class="p">(</span><span class="n">AncoraCorpusReader</span><span class="p">.</span><span class="n">parsed</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">elements</span><span class="p">(</span><span class="n">fileids</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">tagged_sents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fileids</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="s">"""Obtiene oraciones como tuplas de palabras/tag."""</span>
+        <span class="k">return</span> <span class="n">LazyMap</span><span class="p">(</span><span class="n">AncoraCorpusReader</span><span class="p">.</span><span class="n">tagged</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">elements</span><span class="p">(</span><span class="n">fileids</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">sents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fileids</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="s">"""Obtiene oraciones como listas de palabras."""</span>
+        <span class="k">return</span> <span class="n">LazyMap</span><span class="p">(</span><span class="n">AncoraCorpusReader</span><span class="p">.</span><span class="n">untagged</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">elements</span><span class="p">(</span><span class="n">fileids</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">elements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fileids</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="s">"""Obtiene lista de oraciones como elementos XML."""</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">fileids</span><span class="p">:</span>
+            <span class="n">fileids</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">xmlreader</span><span class="p">.</span><span class="n">fileids</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">LazyConcatenation</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">xmlreader</span><span class="p">.</span><span class="n">xml</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fileids</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">tagged_words</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fileids</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="s">"""Obtiene listas de palabras etiquetdas como tuplas palbra/tag."""</span>
+        <span class="k">return</span> <span class="n">LazyConcatenation</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">tagged_sents</span><span class="p">(</span><span class="n">fileids</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">"&lt;AncoraCorpusReader&gt;"</span>
+
+
+<span class="k">class</span> <span class="nc">SimpleAncoraCorpusReader</span><span class="p">(</span><span class="n">AncoraCorpusReader</span><span class="p">):</span>
+    <span class="s">"""Ancora Corpus con conjunto de tags simplificados de Stanford.
+
+    Revisar el siguiente enlace para ver descripción de los tags.
+    https://nlp.stanford.edu/software/spanish-faq.shtml#tagset
+    """</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">files</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">().</span><span class="n">__init__</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">files</span><span class="p">)</span>
+
+    <span class="o">@</span><span class="nb">staticmethod</span>
+    <span class="k">def</span> <span class="nf">simple_tag</span><span class="p">(</span><span class="n">t</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="s">"""Convierte etiqueta Ancora en Stanford.
+
+        :param t: Etiqueta a convertir.
+        :type t: str
+        :return: Etiqueta en formato Stanford.
+        :rtype: str
+        """</span>
+        <span class="k">if</span> <span class="n">t</span><span class="p">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">"a"</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">t</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="s">"0000"</span>
+        <span class="k">if</span> <span class="n">t</span><span class="p">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">"d"</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">t</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="s">"0000"</span>
+        <span class="k">if</span> <span class="n">t</span><span class="p">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">"f"</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">t</span>
+        <span class="k">if</span> <span class="n">t</span> <span class="ow">in</span> <span class="p">[</span><span class="s">"cc"</span><span class="p">,</span> <span class="s">"cs"</span><span class="p">,</span> <span class="s">"i"</span><span class="p">,</span> <span class="s">"w"</span><span class="p">,</span> <span class="s">"zm"</span><span class="p">,</span> <span class="s">"zu"</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="n">t</span>
+        <span class="k">if</span> <span class="n">t</span><span class="p">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">"nc"</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s">"nc0{}000"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">t</span><span class="p">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">"np"</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s">"np00000"</span>
+        <span class="k">if</span> <span class="n">t</span><span class="p">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">"p"</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">t</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="s">"000000"</span>
+        <span class="k">if</span> <span class="n">t</span><span class="p">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">"r"</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">t</span>
+        <span class="k">if</span> <span class="n">t</span><span class="p">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">"sp"</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s">"sp000"</span>
+        <span class="k">if</span> <span class="n">t</span><span class="p">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">"v"</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">t</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="s">"000"</span>
+        <span class="k">if</span> <span class="n">t</span><span class="p">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">"z"</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s">"z0"</span>
+        <span class="c1"># Probablemente inválido o "unk"
+</span>        <span class="k">return</span> <span class="n">t</span>
+
+    <span class="k">def</span> <span class="nf">tagged_sents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fileids</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="s">"""Obtener oraciones etiquetadas con tags de Stanford."""</span>
+
+        <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">[(</span><span class="n">w</span><span class="p">,</span> <span class="n">SimpleAncoraCorpusReader</span><span class="p">.</span><span class="n">simple_tag</span><span class="p">(</span><span class="n">t</span><span class="p">))</span> <span class="k">for</span> <span class="n">w</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">s</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">LazyMap</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="nb">super</span><span class="p">().</span><span class="n">tagged_sents</span><span class="p">(</span><span class="n">fileids</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">parsed_sents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fileids</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="s">"""Obtener arboles NLTK etiquetados con tags de Stanford."""</span>
+
+        <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">t</span><span class="p">.</span><span class="n">treepositions</span><span class="p">(</span><span class="s">"leaves"</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">tag</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="n">p</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]].</span><span class="n">label</span><span class="p">()</span>
+                    <span class="n">t</span><span class="p">[</span><span class="n">p</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]].</span><span class="n">set_label</span><span class="p">(</span><span class="n">SimpleAncoraCorpusReader</span><span class="p">.</span><span class="n">simple_tag</span><span class="p">(</span><span class="n">tag</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">t</span>
+
+        <span class="k">return</span> <span class="n">LazyMap</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="nb">super</span><span class="p">().</span><span class="n">parsed_sents</span><span class="p">(</span><span class="n">fileids</span><span class="p">))</span>
+</code></pre></div></div>
+<p>Con ello podemos cargar el CORPUS, y así las oraciones. Las oraciones, serán una lista de lista de palabras, por ejemplo:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span>
+    <span class="p">[</span><span class="s">"el"</span><span class="p">,</span> <span class="s">"perro"</span><span class="p">,</span> <span class="s">"come"</span><span class="p">,</span> <span class="s">"carne"</span><span class="p">],</span>
+    <span class="p">[</span><span class="s">"el"</span><span class="p">,</span> <span class="s">"gato"</span><span class="p">,</span> <span class="s">"me"</span><span class="p">,</span> <span class="s">"mordió"</span><span class="p">],</span>
+<span class="p">]</span>
+</code></pre></div></div>
+<p>Podemos luego crear la clase <code>HMMGenerator</code> cuyo constructor recibirá como parámetro el tamaño del <code>n-grama</code>. Luego, debemos calcular las probabilidades, y una tabla hash conteniendo el contexto (palabras previas) y una lista posible de palabras siguientes:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sents</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">sent</span> <span class="ow">in</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sents</span><span class="p">):</span>
+        <span class="n">new_sent</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">[</span><span class="n">HMMGenerator</span><span class="p">.</span><span class="n">START_SYMBOL</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">ngram_length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">sent</span>
+            <span class="o">+</span> <span class="p">[</span><span class="n">HMMGenerator</span><span class="p">.</span><span class="n">END_SYMBOL</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">new_sent</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">+</span> <span class="bp">self</span><span class="p">.</span><span class="n">ngram_length</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_sent</span><span class="p">):</span>
+                <span class="k">break</span>
+            <span class="n">ngram</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">word</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">new_sent</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="bp">self</span><span class="p">.</span><span class="n">ngram_length</span><span class="p">])</span>
+            <span class="n">word</span> <span class="o">=</span> <span class="n">ngram</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">_probs</span><span class="p">[</span><span class="n">ngram</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">context</span> <span class="o">=</span> <span class="n">ngram</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">_context</span><span class="p">[</span><span class="n">context</span><span class="p">].</span><span class="n">append</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">ngram</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">_probs</span><span class="p">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_probs</span><span class="p">[</span><span class="n">ngram</span><span class="p">]</span> <span class="o">=</span> <span class="n">count</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">_context</span><span class="p">[</span><span class="n">ngram</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+
+    <span class="bp">self</span><span class="p">.</span><span class="n">_trained</span> <span class="o">=</span> <span class="bp">True</span>
+</code></pre></div></div>
+<p>El código anterior, resulta en las probabilidades de los ngramas, y una lista de palabras siguientes dado el contexto:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">probs</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">(</span><span class="s">"el"</span><span class="p">,</span> <span class="s">"perro"</span><span class="p">,</span> <span class="s">"come"</span><span class="p">):</span> <span class="mf">0.022</span>
+<span class="p">}</span>
+
+<span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">"(el, perro)"</span><span class="p">:</span> <span class="p">[</span><span class="s">"ladra"</span><span class="p">,</span> <span class="s">"come"</span><span class="p">]],</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>Luego del entrenamiento, se pueden generar oraciones, basados en la probabilidad de los <code>n-gramas</code> eligiendo una palabra aleatoreamente dado el contexto y respetando la distribución generada en el entrenamiento:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">generate_random_sentence</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">current_token</span> <span class="o">=</span> <span class="n">HMMGenerator</span><span class="p">.</span><span class="n">START_SYMBOL</span>
+    <span class="n">ngram_prev</span> <span class="o">=</span> <span class="p">(</span><span class="n">HMMGenerator</span><span class="p">.</span><span class="n">START_SYMBOL</span><span class="p">,)</span> <span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">ngram_length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">candidate_tokens</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">candidate</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">_context</span><span class="p">[</span><span class="n">ngram_prev</span><span class="p">]:</span>
+            <span class="n">candidate_tokens</span><span class="p">.</span><span class="n">append</span><span class="p">((</span><span class="n">candidate</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">_probs</span><span class="p">[(</span><span class="o">*</span><span class="n">ngram_prev</span><span class="p">,</span> <span class="n">candidate</span><span class="p">)]))</span>
+
+        <span class="n">prob</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">random</span><span class="p">()</span>
+        <span class="n">cum_prob</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">candidate</span> <span class="ow">in</span> <span class="n">candidate_tokens</span><span class="p">:</span>
+            <span class="n">cum_prob</span> <span class="o">+=</span> <span class="n">candidate</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">cum_prob</span> <span class="o">&gt;=</span> <span class="n">prob</span><span class="p">:</span>
+                <span class="n">current_token</span> <span class="o">=</span> <span class="n">candidate</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">break</span>
+
+        <span class="k">if</span> <span class="n">current_token</span> <span class="o">==</span> <span class="n">HMMGenerator</span><span class="p">.</span><span class="n">END_SYMBOL</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="n">tokens</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_token</span><span class="p">)</span>
+        <span class="n">ngram_prev</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="n">ngram_prev</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">current_token</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s">" "</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Finalmente, podemos tener un programa que se entrene con distintos tramaños de <code>n-gramas</code>, por ejemplo:</p>
+<pre><code>===============================================================================
+Oraciones con ngramas n = 2
+===============================================================================
+El secretario general de la investigación militar , y la que los que España , el país , el presidente de la reunión que los palestinos , que se han sido el " , el sistema de la reelección en la ley .
+La angustia .
+El presidente del Gobierno de la mayoría de la formación de la investigación y el proceso de la que la necesidad de los que " .
+El secretario general de la que se ha sido un mercado de su campaña electoral de la mayoría de la situación de la caída del país , la reunión de la necesidad de la compañía .
+El presidente de la presidencia de los salarios de la empresa de las empresas de la que se ha llegado al que se ha sido el ex primer trimestre del mundo en la empresa , la política de los comicios , que los comicios .
+El presidente de la sociedad civil " , que " , que se ha sido suspendida hasta el caso de las elecciones para el proceso de la economía , esta noche .
+El paro entre España , y con el sistema de la ley .
+El presidente de los que se fijen los presidentes de la que se ha sido un soldador .
+El presidente del Gobierno , la operación de la reforma laboral de la legislación a_través_de la que los que se ha sido inmejorable .
+El desempleo en la que se situó en el líder del Estado , uno de los expertos de la que se han sido el presidente de la situación de la urgencia .
+===============================================================================
+Oraciones con ngramas n = 3
+===============================================================================
+El responsable del grupo , la de un estímulo determinado , como el del pasado año .
+El portavoz del PNV , Xabier_Arzalluz , cuestiona la legitimidad en sí .
+Durante la presentación de un PP que están inmersos es un superviviente , por_más_que haya muchísimos rasgos andaluces en el sector productivo .
+La oposición ha visto alterada por la paz " , y en el que se han registrado 2.430.879 contratos indefinidos e incentivados .
+El número de sufragios , la Reina y con 23.000 empleados , opera en el que se ha mantenido una impresionante lucha contra el dictamen pericial por la banda terrorista ETA .
+En el sondeo que publica hoy el conseller de Política_Territorial , Felip_Puig , sellaron ayer en defensa de la segunda vuelta electoral , y el de la petición de la compañía de electricidad .
+Este grupo ha creado un mayor incremento del número de víctimas demuestra que " el esfuerzo de estos dos centrocampistas de marca , repartidas en el mercado laboral " peruano .
+El secretario general de CCOO , José_María_Fidalgo , opinó que las autoridades ambientales de Colombia , que ha sido el objeto de una grave enfermedad .
+El presidente de la Liga , Pauleta insistió ante los ex : ex_bigotudos , ex_ministros , ex_futbolistas , obstinadas secuelas de su partido número 300 en Primera , precisamente en el que se ha creado un " problema inmenso " la última semana , el primero que escribió Tónicos_de_la_voluntad , Charlas_de_Café , Cuentos_de_Vacaciones con los huesos de las dos cualidades de un mes , constará de 49 años , leyó una nota de prensa de Barcelona , inmersos en una conferencia de prensa , a_sabiendas_de que si las circunstancias que todos los españoles " .
+El presidente de la sociedad vasca " , ya_que en la que es muy interesante porque encarna la tolerancia y la construcción de Altamira_2 y , como el riego localizado o por fax .
+===============================================================================
+Oraciones con ngramas n = 5
+===============================================================================
+La Fiscalía_General de este país emitió hoy ordenes de detención contra la directiva de Sov_Invest , sociedad que administró el Fondo_Nacional_de_Inversiones , tras comprobarse un agujero de más_de 500.000 dólares de un total de 170 millones de dólares que este fondo privado había atraído de la población .
+La compañía , una de las más antiguas de Oriente_Próximo , tiene numerosos críticos en su propio país y son muchas e insistentes las voces que reclaman su privatización .
+El secretario general de Empleo , Juan_Chozas , dijo que hay que insistir en las políticas activas de empleo para conseguir que los colectivos con más problemas - parados de larga duración y con los jóvenes " .
+El presidente de la Junta_de_Extremadura pidió " esperanzas " para el País_Vasco , " esperanzas para los demócratas y desesperanza para los que creen que todo lo pueden conseguir con la lucha armada , - yo no estoy de_acuerdo - comentaba uno de ellos - ; después de cinco años en la escudería todavía no lo hablaba y la llegada de Barrichello , que domina la lengua de Dante , le ha hecho cambiar sus costumbres y en la presentación del equipo a finales de enero , pronunció sus primeras palabras en italiano en público .
+La elección de un nuevo presidente por parte del Parlamento israelí se decidió después de que el Ejecutivo se diera_cuenta de que era " insostenible " mantener el acuerdo de Gobierno con EH , pero insistió en que corresponde al lehendakari tomar las decisiones que considere oportunas .
+El presidente de la Comisión_Europea , la griega Anna_Diamantoupoulou , como un respaldo moral a las posiciones de la ACB en este asunto .
+En esa situación , sus recursos legales podrían tramitarse en tribunales de apelación o podrían pasar directamente al Tribunal_Supremo_de_Justicia , una opción que existe para los grandes casos de monopolio .
+El gobernador , que se caracteriza por una tensión de los músculos de cara y cuello , acompañado de dolor de cabeza , náuseas y vahído " .
+El grupo de los complementos ha evolucionado de manera muy positiva en los últimos cinco años , que se saldaron con cinco muertos , más de 15 heridos y al_menos 130 detenidos .
+El mismo jugador yugoslavo dispuso de una inmejorable oportunidad para empatar el partido a los dos minutos de la segunda parte será comunicado oficialmente hoy por la Comisión_de_Control que verifica que el desarrollo de las comunidades que riega , ¿ cómo conciliar los legítimos y comprensibles derechos del Gobierno aragonés con los de las otras autonomías sedientas ? .
+</code></pre>
+<p>En teoría, mientras mayor sea $n$, es cada vez menos probable que ciertas secuencias ocurran repetidamente, por lo que las distribuciones resultantes son dispersas. Si se observa, para $n = 5$, las oraciones son bastante coherentes, pero ¡son oraciones del CORPUS! Una forma de evaluar estos modelos de lenguaje es utilizar una métrica conocida como <strong>perplejidad</strong>. La perplejidad está asociada a qué tan bien la distribución de probabilidades obtenida puede predecir el lenguaje. A menor perplejidad, mejor es el modelo (en esencia la perplejidad representa nivel de entropía):</p>
+<p>$$PP(W) = \sqrt[n]{\displaystyle \frac{1}{P(w_1, w_2, \ldots , w_n)}}$$</p>
+<h4 id="sistema-pregunta-respuesta-qa-system-utilizando-n-gramas">Sistema Pregunta-Respuesta (QA-system) utilizando N-Gramas</h4>
+<p>En el paper <a href="https://aclanthology.org/W02-1033.pdf" target="_blank" rel="noopener noreferrer">An Analysis of the AskMSR Question-Answering System </a> se implementó un sistema QA (Question Answering System) minando N-gramas desde la web. La arquitectura del sistema se muestra en la figura 1:</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/13980a4a24ba09c7c5010b285fcf0948fdf486ec/qa-system.png" alt="AskMSR"></p>
+<p><em>Fig 1: Arquitectura Sistema Pregunta-Respuesta AskMSR.</em></p>
+</div>
+<p>En esencia, el sistema necesita:</p>
+<ol>
+<li>Clasificar el tipo de pregunta (e.g. Dónde, Quién, Cuándo, etc.)</li>
+<li>Reformular la pregunta para enviar al motor de búsqueda</li>
+<li>Minar <code>N-gramas</code>
+</li>
+<li>Darle un puntaje a las respuestas candidatas (e.g. utilizar palabras capitalizadas como aproximación a un sustantivo)</li>
+</ol>
+<p>Cabe destacar que el sistema no utiliza ningún tipo de procesamiento, otro más que un lexicon para encontrar los verbos y reformular la pregunta. Este sistema lo implementé a nivel básico y estas fueron las entradas y salidas:</p>
+<pre><code>cual es la capital de argentina?
+1 ('Buenos', 'Aires') (207)
+2 ('',) (93)
+3 ('Buenos',) (69)
+4 ('Aires',) (69)
+5 ('de', 'Buenos', 'Aires') (63)
+6 ('Buenos', 'Aires', 'The') (54)
+7 ('Argentina',) (42)
+8 ('de',) (31)
+9 ('the',) (28)
+10 ('Presentday', 'Buenos', 'Aires') (27)
+Donde está el museo de louvre?
+1 ('',) (168)
+2 ('Louvre',) (63)
+3 ('', '') (63)
+4 ('Museo', 'del', 'Louvre') (54)
+5 ('', '', '') (54)
+6 ('del', 'Louvre') (33)
+7 ('The',) (27)
+8 ('', 'Louvre', 'Museum') (27)
+9 ('Louvre', 'Museum', 'Official') (27)
+10 ('Visit', 'Explore', 'Whats') (27)
+Quien es el presidente de Chile?
+1 ('',) (195)
+2 ('Gabriel', 'Boric') (90)
+3 ('de',) (85)
+4 ('', 'Ver') (63)
+5 ('', 'Ver', 'más') (63)
+6 ('de', '') (57)
+7 ('Chile', 'Spanish', 'Presidente') (54)
+8 ('Gabriel', 'Boric', 'Font') (54)
+9 ('Chile', 'Gabriel', 'Boric') (54)
+10 ('', 'de') (48)
+Que idioma se habla en Paraguay?
+1 ('',) (96)
+2 ('', 'de') (42)
+3 ('El',) (39)
+4 ('', 'Wikipedia') (36)
+5 ('', 'Wikipedia', 'la') (36)
+6 ('de',) (34)
+7 ('Paraguay',) (27)
+8 ('Paraguay', '', 'Wikipedia') (27)
+9 ('El', 'Guaraní', 'Es') (27)
+10 ('', 'Idioma', 'Oficial') (27)
+</code></pre>
+<p>Con un poco de ajustes, se puede armar una respuesta en base a los mejores <code>N-gramas</code> (e.g. como en el paper combinan <code>N-Gramas</code>). Una métrica de desempeño de estos sistemas es el <strong>Mean Reciprocal Rank</strong>, o $MRR$, que es un promedio ponderado de las respuestas y cómo las categorizó el sistema a un conjunto de preguntas.</p>
+<p>$$MRR = \displaystyle \frac{1}{|Q|}\sum^{|Q|}_{i=1}\frac{1}{r_i}$$</p>
+<p>Se observa que el máximo valor es 1 (el sistema siempre entrega la respuesta en la primera posición), y el mínimo en el límite es 0 (asumiendo que el RR es 0 si el sistema no entrega la respuesta).</p>
+<h2 id="conclusiones">Conclusiones</h2>
+<ul>
+<li>Es complicado lidiar con discursos computacionalmente (problema intratable)</li>
+<li>Se puede utilizar aproximaciones para estimar la probabilidad de una secuencia de palabras</li>
+<li>Se pueden utilizar N-Gramas para tareas básicas de NLP (e.g. generar lenguaje, sistema pregunta respuesta)</li>
+</ul>
+<p>Todos los ejemplos de código e implementaciones los pueden encontrar en <a href="https://github.com/dpalmasan/python-nlp-examples" target="_blank" rel="noopener noreferrer">este repo en Github</a></p>
+<h2 id="desafo-y-pregunta-de-entrevista">Desafío y pregunta de entrevista</h2>
+<p>Esta fue una pregunta que me hicieron en una empresa top (a mi criterio jeje):</p>
+<p>Escriba un programa que dada una palabra, entregue la palabra siguiente más probable.</p>
+<ul>
+<li>¿Qué supuestos de deben realizar?</li>
+<li>¿Cómo testear el algoritmo?</li>
+<li>¿Cuál es la complejidad en tiempo y espacio?</li>
+<li>¿Qué problemas pueden haber en la implementación que realicen?</li>
+</ul>
+<p>Asuman que tienen entre 20 y 30 minutos para resolver el problema<img class="emoji" title=":smile:" alt=":smile:" raw="😄" src="https://github.githubassets.com/images/icons/emoji/unicode/1f604.png" style="vertical-align: middle; display: inline; max-width: 1em; visibility: hidden;" onload="this.style.visibility='visible'" onerror="this.replaceWith(this.getAttribute('raw'))">.</p>
+
+  </div>
+<div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = '';
+      this.page.identifier = 'https://dpalmasan.github.io/website/entrevistas/ti/2023/01/08/nlp-intro.html';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://dpalmasan.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow noopener noreferrer" target="_blank">comments powered by Disqus.</a>
+</noscript>
+<a class="u-url" href="/website/entrevistas/ti/2023/01/08/nlp-intro.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/website/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="https://dpalmasan.github.io/website/feed.xml">
+            <svg class="svg-icon orange">
+              <path d="M12.8 16C12.8 8.978 7.022 3.2 0 3.2V0c8.777 0 16 7.223 16 16h-3.2zM2.194
+                11.61c1.21 0 2.195.985 2.195 2.196 0 1.21-.99 2.194-2.2 2.194C.98 16 0 15.017 0
+                13.806c0-1.21.983-2.195 2.194-2.195zM10.606
+                16h-3.11c0-4.113-3.383-7.497-7.496-7.497v-3.11c5.818 0 10.606 4.79 10.606 10.607z"></path>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">dpalmasan</li>
+          
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Este es un blog donde compartiré un poco sobre mí y mis experiencias en el mundo tecnológico...</p>
+      </div>
+    </div>
+
+    <div class="social-links">
+<ul class="social-media-list">
+<li>
+    <a rel="me noopener noreferrer" href="https://www.linkedin.com/in/dpalmasan/" target="_blank" title="Mi perfil en Linkedin">
+      <span class="grey fa-brands fa-linkedin fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://www.github.com/dpalmasan" target="_blank" title="Mi Github">
+      <span class="grey fa-brands fa-github fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://scholar.google.com/citations?user=Y5PN_1AAAAAJ&hl=en" target="_blank" title="Mi Google Scholar">
+      <span class="grey fa-brands fa-google-scholar fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://stackoverflow.com/users/4051219/dpalma" target="_blank" title="Mis preguntas en SO LOL!">
+      <span class="grey fa-brands fa-stack-overflow fa-lg"></span>
+    </a>
+  </li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+
+</body>
+
+</html>

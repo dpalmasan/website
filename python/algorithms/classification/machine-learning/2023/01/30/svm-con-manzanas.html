@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Explicando las Máquinas de Soporte Vectorial | Mr Dipalma’s Pub 🍺</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Explicando las Máquinas de Soporte Vectorial">
+<meta name="author" content="dpalmasan">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Esta entrada intentaré explicar en términos simples en qué consisten máquinas de soporte vectorial (Support Vector Machines o SVM), dando detalles y mostrando ejemplos, pros y contras. También, preguntas para reflexionar al final de la entrada.">
+<meta property="og:description" content="Esta entrada intentaré explicar en términos simples en qué consisten máquinas de soporte vectorial (Support Vector Machines o SVM), dando detalles y mostrando ejemplos, pros y contras. También, preguntas para reflexionar al final de la entrada.">
+<link rel="canonical" href="https://dpalmasan.github.io/website/python/algorithms/classification/machine-learning/2023/01/30/svm-con-manzanas.html">
+<meta property="og:url" content="https://dpalmasan.github.io/website/python/algorithms/classification/machine-learning/2023/01/30/svm-con-manzanas.html">
+<meta property="og:site_name" content="Mr Dipalma’s Pub 🍺">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2023-01-30T15:10:03+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Explicando las Máquinas de Soporte Vectorial">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"dpalmasan"},"dateModified":"2023-01-30T15:10:03+00:00","datePublished":"2023-01-30T15:10:03+00:00","description":"Esta entrada intentaré explicar en términos simples en qué consisten máquinas de soporte vectorial (Support Vector Machines o SVM), dando detalles y mostrando ejemplos, pros y contras. También, preguntas para reflexionar al final de la entrada.","headline":"Explicando las Máquinas de Soporte Vectorial","mainEntityOfPage":{"@type":"WebPage","@id":"https://dpalmasan.github.io/website/python/algorithms/classification/machine-learning/2023/01/30/svm-con-manzanas.html"},"url":"https://dpalmasan.github.io/website/python/algorithms/classification/machine-learning/2023/01/30/svm-con-manzanas.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css">
+    <link rel="stylesheet" href="/website/assets/css/style.css">
+    <style type="text/css">
+        div#disqus_thread iframe[sandbox] {
+                max-height: 0px !important;
+        }
+    </style>
+<link type="application/atom+xml" rel="alternate" href="https://dpalmasan.github.io/website/feed.xml" title="Mr Dipalma's Pub 🍺">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KHXBX5G1VP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KHXBX5G1VP');
+</script>
+
+<script>MathJax={"tex":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]},"svg":{"fontCache":"global"}}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<header class="site-header">
+
+  <div class="wrapper">
+<a class="site-title" rel="author" href="/website/">Mr Dipalma's Pub 🍺</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewbox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/website/about/">About</a></div>
+      </nav>
+</div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Explicando las Máquinas de Soporte Vectorial</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2023-01-30T15:10:03+00:00" itemprop="datePublished">
+        Jan 30, 2023
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>Esta entrada intentaré explicar en términos simples en qué consisten <em>máquinas de soporte vectorial</em> (<em>Support Vector Machines</em> o SVM), dando detalles y mostrando ejemplos, pros y contras. También, preguntas para reflexionar al final de la entrada.</p>
+<p>Aprovechando la introducción, responderé un par de preguntas que me llegan recurrentemente, espero poder ayudar:</p>
+<ul>
+<li>¿Cómo aprendiste sobre IA y ML?</li>
+<li>¿Cómo te has movido en tantos roles (e.g. Data Engineering, Backend)?</li>
+<li>¿Seguiste alguna ruta en particular?</li>
+</ul>
+<p>Las respuestas están al final de esta entrada.</p>
+<h2 id="mquinas-de-soporte-vectorial">Máquinas de Soporte Vectorial</h2>
+<p>Primero se debe entender qué problema intentan resolver las máquinas de soporte vectorial. Volvamos a lo básico: en un <em>problema de clasificación</em> se tiene una función $h: \mathbb{R} \longrightarrow L$, donde $L$ es un conjunto de etiquetas o <em>clases</em>. En particular, en clasificación binaria se tienen dos clases, y para propósitos de este artículo $L = \{-1, +1\}$.</p>
+<p>En general, en los cursos introductorios de <em>Machine Learning</em> se ve revisa como primera unidad el <em>aprendizaje del perceptrón</em>, que en esencia, es una función que buscar un hiperplano que particione el espacio vectorial y separe las clases positivas de las negativas. Cuando es posible hacer esto, se habla de <em>separabilidad lineal</em>. En la figura 1, se muestra una animación del aprendizaje del perceptrón.</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/54e9984d25b566dbfe8f54e8bcdce1c2dde17ca9/animacion-perceptron.gif" alt="perceptron"></p>
+<p><em>Fig 1: Aprendizaje del perceptrón en un conjunto de datos separable linealmente</em></p>
+</div>
+<p>El lector atento, podrá notar que pueden existir infinitos hiperplanos que logren particionar un espacio logrando separar las clases. Sin embargo, debe existir un hiperplano que sea “mejor” que el resto bajo algún criterio. De aquí sale el concepto de <em>margen</em>. El margen es en esencia, la distancia de separación entre el hiperplano y los puntos más cercanos al hiperplano (por cada clase). Intuitivamente, el “mejor” hiperplano, podría ser el que maximice este margen, ya que estaría logrando la máxima separación lineal entre las clases. Las máquinas de soporte vectorial intentan encontrar este hiperplano.</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/ee85e9acce5687f22b4419ca8b04f1d925cacd43/svm-data-points.png" alt="svm-lin-sep"></p>
+<p><em>Fig 2: Conjunto de datos separable linealmente ¿Cuál es el méjor hiperplano?</em></p>
+</div>
+<h3 id="intuicin-y-entrenando-un-modelo-svm">Intuición y entrenando un modelo SVM</h3>
+<p>Supongamos que tenemos un punto $x \in \mathbb{R}$. Consideremos la función:</p>
+<p>$$f: \mathbb{R}^n \longrightarrow \mathbb{R}$$</p>
+<p>$$x \longrightarrow \langle w, x \rangle + b$$</p>
+<p>Donde $w$ y $b$ son parámetros de $f$. El hiperplano que separa ambas clases en el problema de clasificación binaria está dado por:</p>
+<p>$$\{ x \in \mathbb{R}: f(x) = 0\}$$</p>
+<p>Para calcular la clase a la que pertenece un dato nuevo $x_{test}$, se calcular el valor $f(x_{test})$ y se clasifica, por ejemplo con la clase $+1$ si $f(x_{test}) \geq 0$ o $-1$ en caso contrario.</p>
+<p>Al momento de entrenar, se requiere que los ejemplos de la clase positiva se encuentren en el lado positivo del hiperplano, $\langle w, x_n \rangle + b \geq 0$ cuando $y_n = +1 $ y la clase negativa en el otro lado $\langle w, x_n \rangle + b &lt; 0$ cuando $y_n = -1$ Generalmente se utiliza la función <em>signo</em> para escribir de forma compact esto, es decir: $y_n = sign(\langle w, x_n \rangle + b)$</p>
+<h3 id="margen-y-problema-de-optimizacin">Margen y problema de optimización</h3>
+<p>Supongamos que el punto $x_a$ es el punto más cercano al hiperplano $\langle w, x_a \rangle + b &gt; 0$ ($w$ es un vector ortogonal al hiperplano). Consideremos también una escala, tal que $\langle w, x_a \rangle + b = 1$, la razón es que si consideramos la escala en la que están los datos (escala de $x_n$), si cambiamos la unidad de medida o valores de $x$ (por ejemplo $10x_n$), la distancia al hiperplano también va a cambiar. Consideremos una escala tal que $\langle w, x_a \rangle + b = 1$.</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/43fb5f53da0f7fe31e4110c998580388af70a16b/svm.png" alt="svm-lin-sep"></p>
+<p><em>Fig 3: Intuición margen máximo</em></p>
+</div>
+<p>Como se muestra en la figura 3, la proyección $x_a’$ de $x_a$ en el plano, está dada por:</p>
+<p>$$x_a = x_a’ - \displaystyle r \frac{w}{||w||}$$</p>
+<p>Donde $r$ es la distancia al hiperplano y consideramos la dirección del vector $w$. Ya que $x_a’$ se encuentra en el hiperplano, entonces $\langle w, x_a’ \rangle + b = 0$, si resolvemos:</p>
+<p>$$ \langle w, x_a - \displaystyle r \frac{w}{||w||} \rangle + b = 0$$</p>
+<p>$$\langle w, x_a\rangle + b - \langle w, \displaystyle r \frac{w}{||w||} \rangle = 0$$</p>
+<p>$$1 - r\displaystyle \frac{w^Tw}{||w||} = 1 - r\displaystyle \frac{||w||^2}{||w||} = 0$$</p>
+<p>$$r = \displaystyle \frac{1}{||w||}$$</p>
+<p>En esencia, para maximizar el margen $r$, debemos maximizar $\displaystyle \frac{1}{||w||}$, esto sería equivalente a minimizar $||w||$, luego:</p>
+<p>$$
+\begin{aligned}
+\min_{w,b} \quad &amp; \frac{1}{2}||w||^2 \\<br>
+\textrm{s.t.} \quad &amp; y_n (\langle w, x_n \rangle + b) \geq 1\\
+\end{aligned}
+$$</p>
+<p>Donde $\frac{1}{2}||w||^2$ no cambia al valor optimo de $w$, se escribe sólo por conveniencia (al calcuar la derivada parcial con respecto a $w$ para encontrar el óptimo, queda más simple de analizar), y las restricciones están relacionadas al ajuste de datos.</p>
+<p>Este problema de optimización se resuelve con <em>programación cuadrática</em>. La forma estándar que consideran como entrada los algoritmos de programación cuadrática, es la siguiente:</p>
+<p>$$
+\begin{aligned}
+\min_{x} \quad &amp; \frac{1}{2} x^TPx + q^Tx\\\
+\textrm{s.t.} \quad &amp; Gx \leq h\\
+&amp; Ax = b
+\end{aligned}
+$$</p>
+<p>Utilizando la biblioteca <code>cvxopt</code> en python, y escribiendo el programa en la forma estándar, tenemos el siguiente código en <code>Python</code> (asumiendo que $x$ tiene dos dimensiones)</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">cvxopt</span> <span class="kn">import</span> <span class="n">matrix</span><span class="p">,</span> <span class="n">solvers</span>
+
+
+<span class="n">P</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="o">-</span><span class="n">y</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">np</span><span class="p">.</span><span class="n">ones</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">x</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">h</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="p">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)))</span>
+<span class="n">sol</span> <span class="o">=</span> <span class="n">solvers</span><span class="p">.</span><span class="n">qp</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
+<span class="n">wsol</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">sol</span><span class="p">[</span><span class="s">"x"</span><span class="p">])</span>
+</code></pre></div></div>
+<p>Al graficar la solución, se obtiene:</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/43fb5f53da0f7fe31e4110c998580388af70a16b/svm-linear-best-margin.png" alt="svm-lin-sep-opt"></p>
+<p><em>Fig 4: Hiperplano que optimiza el margen</em></p>
+</div>
+<h3 id="interpretacin-como-cscara-convexa">Interpretación como cáscara convexa</h3>
+<p>Una interpretación del hiperplano que maximiza el margen, es considerar que cada clase pertence a una cáscara convexa (<em>convex hull</em>). Una cáscara convexa, es básicamente un polígono que cubre los límites de un conjunto de puntos (figura 5).</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/43fb5f53da0f7fe31e4110c998580388af70a16b/svm-convex-hull.png" alt="svm-convex-humm"></p>
+<p><em>Fig 5: Cáscara convexa</em></p>
+</div>
+<p>En esencia, una SVM, maximiza la distancia entre las cáscaras convexas de cada clase.</p>
+<h3 id="margen-duro-vs-margen-suave">Margen Duro vs Margen Suave</h3>
+<p>El problema de optimización previo, asume que las clases son separables linealmente, es decir, la solución no admite soluciones fuera del margen. Esto se conoce como <em>margen duro</em>. Una alternativa, es, en lugar de tener $y_n (\langle w, x_n\rangle) + b \geq 1$, se introduce una variable de flexibilidad $\xi_n$, tal que se permiten ciertos errores de clasificación $y_n (\langle w, x_n\rangle) + b \geq 1 - \xi_n$</p>
+<p>$$
+\begin{aligned}
+\min_{w,b,\xi} \quad &amp; \frac{1}{2}w^{T}w+C\sum_{n=1}^{N}{\xi_{n}} \\
+\textrm{s.t.} \quad &amp; y_{n}(\langle w, x_{n} \rangle+b)\geq 1 - \xi_{n}\\
+&amp;\xi_n\geq0    \\
+\end{aligned}
+$$</p>
+<h3 id="derivacin-de-la-forma-dual">Derivación de la forma Dual</h3>
+<p>El problema de optimización original es maximizar el margen tal que ambas clases son separables. Hasta ahora hemos definido el problema como un problema de minimización. Sin embargo, podemos resolver el problema de optimización utilizando <em>multiplicadores de Lagrange</em>. Tomando la ecuación del margen suave, y utilizando los multiplicadores de lagrange, tenemos:</p>
+<p>$$
+\begin{aligned}
+\min_{w,b,\xi, \alpha, \gamma} \quad &amp; \frac{1}{2}w^{T}w \\
+&amp; -\sum_{n=1}^{N}\alpha_n(y_{i}(\langle w, x_{n} \rangle+b)+\xi_{i}-1)\\
+&amp; -C\sum_{n=1}^{N} \gamma_n\xi_n \\
+\end{aligned}
+$$</p>
+<p>Donde $\alpha_n$ y $\gamma_n$ son multiplicadores de Lagrange. Para encontrar el mínimo, debemos calcular gradiente, es decir las derivadas parciales de la función de Lagrange, con respecto a cada variable a optimizar e igualar a cero.</p>
+<p>$$
+\begin{aligned}
+\displaystyle \frac{\partial \mathcal{L}}{\partial w} = w^T - \sum_{n=1}^{N} \alpha_n y_n x_n^T = 0 \Rightarrow w = \sum_{n=1}^{N} \alpha_n y_n x_n\\
+\displaystyle \frac{\partial \mathcal{L}}{\partial b} = \sum_{n=0}^{N} \alpha_n y_n = 0\\
+\displaystyle \frac{\partial \mathcal{L}}{\partial \xi_n} = C - \alpha_n - \gamma_n = 0\\
+\end{aligned}
+$$</p>
+<p>Trabajando las ecuaciones y considerando las restricciones, llegamos al siguiente problema de optimización:</p>
+<p>$$
+\begin{aligned}
+\min_{\alpha} \quad &amp; \frac{1}{2} \sum_{i=1}^{N}\sum_{j=1}^{N} y_iy_j\alpha_i\alpha_j\langle x_i, x_j\rangle - \sum_{n=1}^{N} \alpha_n \\
+\textrm{s.t.} \quad &amp; \sum_{n=1}^{N} \alpha_n y_n = 0 \\
+&amp; 0 \leq \alpha_n \leq C \\
+\end{aligned}
+$$</p>
+<p>En este caso los vectores $\alpha$ se les conoce vectores de soporte, ya que soportan el margen de máxima separabilidad. De aquí sale el nombre de <em>máquinas de soporte vectorial</em>.</p>
+<h3 id="separabilidad-lineal">Separabilidad Lineal</h3>
+<p>Existen casos (me disculpo por el ejemplo clásico) en que no existe un hiperplano que separe ambas clases, como se muestra en la figura 6:</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/6a3cce4767da7ee9fc6e2050cf4929bf8401feed/svm-non-separable.png" alt="svm-convex-humm"></p>
+<p><em>Fig 6: Conjunto de datos no separable linealmente</em></p>
+</div>
+<p>En este caso, ya que los datos fueron generados en este ejemplo, conocemos el líimite de decisión, el cual está marcado de color negro. Por otro lado, conocemos una transformación $\phi$ tal que $\phi (x) = z$. En la figura 7, se muestra el conjunto de datos transformado al nuevo sistema de coordenadas. Y luego podemos encontrar el máximo margen resolviendo el problema de optimización. El hiperplano se muestra en la figura 7.</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/6a3cce4767da7ee9fc6e2050cf4929bf8401feed/svm-transformed-space.png" alt="svm-nonsep-trans"></p>
+<p><em>Fig 7: Conjunto de datos no separable linealmente en un espacio $z$ donde es separable</em></p>
+</div>
+<h3 id="el-truco-del-kernel">El truco del kernel</h3>
+<p>Supongamos que tenemos un conjunto de datos donde cada registro consiste en dos características $x = (x_1, x_2)$. Lo que podemos hacer es por ejemplo considerar todas las coordenadas posibles (ejemplo: polinomio cuadrado) $z = (x_1, x_2, x_1^2, x_2^2, x_1x_2)$. Si quisieramos agregar más características, este problema se vuelve intratable (ejemplo: 50 características ¿cuántas posibles combinaciones hay para un polinomio cuadrado? ¿y para uno de grado $Q$?).</p>
+<p>Si observamos la última derivación del problema de optimización, la solución depende de los vectores de soporte (cantidad de registros) y no de la cantidad de características. En el único momento en que utilizamos las características, es cuando calculamos $\langle x_i, x_j\rangle$. Esto quiere decir, si tuvieramos la función $\phi$, sólo nos interesa el producto interior $\langle \phi(x_i), \phi(x_j)\rangle$. En el caso estándar $\langle x_i, x_j\rangle$ es un kernel lineal. Podemos definir por ejemplo un kernel polinomial:</p>
+<p>$$K(x_i, x_j) = (1 + x_i^Tx_j)^D$$</p>
+<p>Por ejemplo en la figura 8, se muestra el límite de decisión derivado utilizando un kernel polinomial con $D=2$.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">polynomial_kernel</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">xj</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">xi</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">xj</span><span class="p">))</span><span class="o">**</span><span class="n">d</span>
+</code></pre></div></div>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/840cea62b06ab73b6a2bcc8310149da13c127fb8/contour-circle.png" alt="svm-nonsep-kernel"></p>
+<p><em>Fig 8: Límite de decisión utilizando kernel polinomial.</em></p>
+</div>
+<p>Puede notarse que el límite de decisión encontrado es el límite de decisión manualmente generado, con la diferencia que no tuvimos que aplicar directamente la transformación $\phi$ a $x$. La idea de un kernel es en esencia llevar los datos de un espacio a otro espacio de mayor dimensionalidad, donde las clases sean linealmente separables (idealmente).</p>
+<p>No todas las funciones son kernel válidos, para que un kernel sea válido, la matriz generada aplicando kernels a todos los pares $x_i$ y $x_j$ debe ser simétrica y semi-definida positiva. Esto quiere decir:</p>
+<ul>
+<li>$K = K^T$</li>
+<li>$\forall \lambda_n, \quad \lambda_n \geq 0$</li>
+</ul>
+<p>Donde $\lambda_n$ son los valores propios de $K$ y $K$ es la matriz generada al aplicar el kernel a todos los pares en el conjunto de datos (es decir $K \in \mathbb{R}^{n \times n}$).</p>
+<p>Incluso, se pueden encontrar límites de decisión más sofisticados, por ejemplo, consideremos el siguiente conjunto de datos:</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/840cea62b06ab73b6a2bcc8310149da13c127fb8/non-trivial-data.png" alt="svm-nonsep-kernel"></p>
+<p><em>Fig 9: Conjunto de datos no separable linealmente.</em></p>
+</div>
+<p>Podemos utilizar un kernel que utilice una <em>función de base radial</em> (radial basis function o RBF).</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">radial_basis_function_kernel</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">xj</span><span class="p">,</span> <span class="n">gamma</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">gamma</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="n">norm</span><span class="p">(</span><span class="n">xi</span> <span class="o">-</span> <span class="n">xj</span><span class="p">))</span>
+</code></pre></div></div>
+<p>Por ejemplo si $C = 1$, se obtiene límite de decisión mostrado en la figura 10.</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/597cf4d346755373d397207774732e4c5a817b50/svm-contour-c1.png" alt="svm-rbf-c1"></p>
+<p><em>Fig 10: Límite de decisión con kernel RBF y $C = 1$.</em></p>
+</div>
+<p>Relajando las restricciones (por ejemplo aumentando $C = 100$), encontramos otro límite de decisión (figura 11).</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/05c12e73a6e761f76adcb4e0ff26d4acb9ddf34a/svm-contour-c100.png" alt="svm-rbf-c1"></p>
+<p><em>Fig 10: Límite de decisión con kernel RBF y $C = 100$.</em></p>
+</div>
+<h3 id="realizando-predicciones">Realizando Predicciones</h3>
+<p>Para realizar las predicciones, se debe calcular la proyección en el hiperplano:</p>
+<p>$$\langle w, \phi(x)\rangle = \sum_{n=1}^{N}\alpha_n y_n K(x, x_n)$$</p>
+<p>Y también se debe considerar el hiperplano:</p>
+<p>$$b = y_k - \sum_{n=1}^{n} \alpha_n y_n K(x_k, x_n) \quad \text{Any } k, 0 &lt; \alpha_k &lt; C$$</p>
+<p>$$y(x) = sign(\langle w, \phi(x)\rangle + b)$$</p>
+<p>A continuación se muestra el código en <code>python</code> que implementé hay mucho que optimizar, como por ejemplo:</p>
+<ul>
+<li>Eliminar los $\alpha = 0$ para reducir la cantidad de calculos.</li>
+<li>Calcular $K(x_i, x_j)$ sólo para $\alpha &gt; 0$</li>
+</ul>
+<p>Dejo al lector que implemente, como es una implementación de juguete no me preocupé de optimizar.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">SupportVectorMachine</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="o">*</span><span class="n">kernel_args</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_kernel</span> <span class="o">=</span> <span class="n">kernel</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_kernel_args</span> <span class="o">=</span> <span class="n">kernel_args</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">C</span> <span class="o">=</span> <span class="n">C</span>
+
+    <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">kernel_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+        <span class="n">diag_y</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">diag</span><span class="p">(</span><span class="n">y</span><span class="p">.</span><span class="n">flatten</span><span class="p">())</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                <span class="n">kernel_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">_kernel</span><span class="p">(</span>
+                  <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="p">:],</span> <span class="o">*</span><span class="bp">self</span><span class="p">.</span><span class="n">_kernel_args</span><span class="p">)</span>
+        <span class="n">P</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="n">diag_y</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">kernel_matrix</span><span class="p">).</span><span class="n">dot</span><span class="p">(</span><span class="n">diag_y</span><span class="p">))</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="p">.</span><span class="n">ones</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="mi">1</span><span class="p">)))</span>
+        <span class="n">G</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">concatenate</span><span class="p">([</span>
+          <span class="n">y</span><span class="p">.</span><span class="n">T</span><span class="p">,</span> <span class="o">-</span><span class="n">y</span><span class="p">.</span><span class="n">T</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="p">.</span><span class="n">eye</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)),</span> <span class="n">np</span><span class="p">.</span><span class="n">eye</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">))]))</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">concatenate</span><span class="p">([</span>
+          <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="bp">self</span><span class="p">.</span><span class="n">C</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">ones</span><span class="p">(</span><span class="n">y</span><span class="p">.</span><span class="n">shape</span><span class="p">)]))</span>
+        <span class="n">sol</span> <span class="o">=</span> <span class="n">solvers</span><span class="p">.</span><span class="n">qp</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
+        <span class="n">alphasol</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">sol</span><span class="p">[</span><span class="s">'x'</span><span class="p">])</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_alpha</span> <span class="o">=</span> <span class="n">alphasol</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="n">alphasol</span><span class="p">.</span><span class="n">argmax</span><span class="p">()</span>
+        <span class="n">xk</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">kernel_k</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)):</span>
+            <span class="n">kernel_k</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">_kernel</span><span class="p">(</span><span class="n">xk</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="o">*</span><span class="bp">self</span><span class="p">.</span><span class="n">_kernel_args</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_b</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">alphasol</span><span class="o">*</span><span class="n">y</span><span class="p">).</span><span class="n">T</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">kernel_k</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_x</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_y</span> <span class="o">=</span> <span class="n">y</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_test</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">_x</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">_y</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">_alpha</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">_b</span>
+        <span class="n">kernel_new</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_test</span><span class="p">)))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x_test</span><span class="p">)):</span>
+                <span class="n">kernel_new</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">_kernel</span><span class="p">(</span>
+                  <span class="n">x_test</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="p">:],</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="o">*</span><span class="bp">self</span><span class="p">.</span><span class="n">_kernel_args</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">kernel_new</span><span class="p">.</span><span class="n">T</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">y</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
+</code></pre></div></div>
+<h2 id="conclusiones">Conclusiones</h2>
+<ul>
+<li>Explicamos la intuición de las SVM y cómo se pueden derivar dos tipos de parámetros, el vector $w$ o los vectores de soporte $\alpha$</li>
+<li>Una interpretación del problema que resuelven las máquinas de soporte vectorial es encontrar la separación máxima entre las cáscaras convexas de los conjuntos para cada clase.</li>
+<li>Un espacio no separable linealmente, se puede separar linealmente en otro espacio dado por una función $\phi$</li>
+<li>La regularización del parámetro $C$ puede suavizar o endurecer las restricciones de margen</li>
+<li>El truco del kernel permite calcular el producto interior de dos vectores en cualquier espacio dimensional, sin necesidad de explícitamente transformar el espacio</li>
+<li>Se pueden diseñar kernels adhoc, siempre que cumplan con las condiciones de Mercer ($K$ es Simetrica y semi-definida positiva)</li>
+</ul>
+<p>Para reflexionar:</p>
+<ul>
+<li>Si se puede transformar el espacio dimensional a una dimensión infinita ¿Por qué las máquinas de soporte vectorial no pueden resolver todos los problemas de clasificación?</li>
+<li>Qué desventajas se observan en las máquinas de soporte vectorial? (e.g. escalabilidad, error fuera de muestra)</li>
+</ul>
+<h2 id="respuestas-a-las-preguntas-de-la-introduccin">Respuestas a las preguntas de la introducción</h2>
+<details><summary>Click para ver mi respuesta</summary>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/6a3cce4767da7ee9fc6e2050cf4929bf8401feed/meme-wey.jpg" alt="meme"></p>
+</div>
+No tengo una respuesta ni una ruta. Siendo honesto son muchas más las veces que me siento inútil que útil. Lo que puedo decir es que he invertido mucho en libros  <img class="emoji" title=":smile:" alt=":smile:" raw="😄" src="https://github.githubassets.com/images/icons/emoji/unicode/1f604.png" style="vertical-align: middle; display: inline; max-width: 1em; visibility: hidden;" onload="this.style.visibility='visible'" onerror="this.replaceWith(this.getAttribute('raw'))"> , y me preocupo de intentar entender lo que estudio a fondo.
+</details>
+
+  </div>
+<div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = '';
+      this.page.identifier = 'https://dpalmasan.github.io/website/python/algorithms/classification/machine-learning/2023/01/30/svm-con-manzanas.html';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://dpalmasan.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow noopener noreferrer" target="_blank">comments powered by Disqus.</a>
+</noscript>
+<a class="u-url" href="/website/python/algorithms/classification/machine-learning/2023/01/30/svm-con-manzanas.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/website/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="https://dpalmasan.github.io/website/feed.xml">
+            <svg class="svg-icon orange">
+              <path d="M12.8 16C12.8 8.978 7.022 3.2 0 3.2V0c8.777 0 16 7.223 16 16h-3.2zM2.194
+                11.61c1.21 0 2.195.985 2.195 2.196 0 1.21-.99 2.194-2.2 2.194C.98 16 0 15.017 0
+                13.806c0-1.21.983-2.195 2.194-2.195zM10.606
+                16h-3.11c0-4.113-3.383-7.497-7.496-7.497v-3.11c5.818 0 10.606 4.79 10.606 10.607z"></path>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">dpalmasan</li>
+          
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Este es un blog donde compartiré un poco sobre mí y mis experiencias en el mundo tecnológico...</p>
+      </div>
+    </div>
+
+    <div class="social-links">
+<ul class="social-media-list">
+<li>
+    <a rel="me noopener noreferrer" href="https://www.linkedin.com/in/dpalmasan/" target="_blank" title="Mi perfil en Linkedin">
+      <span class="grey fa-brands fa-linkedin fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://www.github.com/dpalmasan" target="_blank" title="Mi Github">
+      <span class="grey fa-brands fa-github fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://scholar.google.com/citations?user=Y5PN_1AAAAAJ&hl=en" target="_blank" title="Mi Google Scholar">
+      <span class="grey fa-brands fa-google-scholar fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://stackoverflow.com/users/4051219/dpalma" target="_blank" title="Mis preguntas en SO LOL!">
+      <span class="grey fa-brands fa-stack-overflow fa-lg"></span>
+    </a>
+  </li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+
+</body>
+
+</html>

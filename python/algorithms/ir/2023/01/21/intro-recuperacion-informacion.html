@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Motores de Búsqueda y Procesamiento de Texto | Mr Dipalma’s Pub 🍺</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Motores de Búsqueda y Procesamiento de Texto">
+<meta name="author" content="dpalmasan">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Una de las entrevistas de diseño de sistemas (hice un post en que explico en qué consisten) que tuve para cierta empresa, me preguntaron sobre implementar un motor de búsqueda que dada una consulta, recuperara documentos de un repositorio, siempre que los documentos contuvieran las palabras de la consulta. Yo que venía utilizando técnicas como Indexado Semántico Latente (LSI: Latent Semantic Indexing), o modelos de espacio vectorial me enredé un poco por los nervios, y dije lo más simple: Índice Invertido, y de ahí vino la pregunta, ¿cómo implementas un índice invertido? Ahí me quedé helado, porque la verdad no me acordaba, intenté razonarlo, pero al final expliqué sólo la parte de búsqueda Booleana, pero no pude explicar cómo implementarlo eficientemente. Para los morbosos, sí fallé un poco en esa pregunta pero eso era parte de la entrevista, en el resto me fue bien porque pasé :smile:.">
+<meta property="og:description" content="Una de las entrevistas de diseño de sistemas (hice un post en que explico en qué consisten) que tuve para cierta empresa, me preguntaron sobre implementar un motor de búsqueda que dada una consulta, recuperara documentos de un repositorio, siempre que los documentos contuvieran las palabras de la consulta. Yo que venía utilizando técnicas como Indexado Semántico Latente (LSI: Latent Semantic Indexing), o modelos de espacio vectorial me enredé un poco por los nervios, y dije lo más simple: Índice Invertido, y de ahí vino la pregunta, ¿cómo implementas un índice invertido? Ahí me quedé helado, porque la verdad no me acordaba, intenté razonarlo, pero al final expliqué sólo la parte de búsqueda Booleana, pero no pude explicar cómo implementarlo eficientemente. Para los morbosos, sí fallé un poco en esa pregunta pero eso era parte de la entrevista, en el resto me fue bien porque pasé :smile:.">
+<link rel="canonical" href="https://dpalmasan.github.io/website/python/algorithms/ir/2023/01/21/intro-recuperacion-informacion.html">
+<meta property="og:url" content="https://dpalmasan.github.io/website/python/algorithms/ir/2023/01/21/intro-recuperacion-informacion.html">
+<meta property="og:site_name" content="Mr Dipalma’s Pub 🍺">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2023-01-21T21:15:03+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Motores de Búsqueda y Procesamiento de Texto">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"dpalmasan"},"dateModified":"2023-01-21T21:15:03+00:00","datePublished":"2023-01-21T21:15:03+00:00","description":"Una de las entrevistas de diseño de sistemas (hice un post en que explico en qué consisten) que tuve para cierta empresa, me preguntaron sobre implementar un motor de búsqueda que dada una consulta, recuperara documentos de un repositorio, siempre que los documentos contuvieran las palabras de la consulta. Yo que venía utilizando técnicas como Indexado Semántico Latente (LSI: Latent Semantic Indexing), o modelos de espacio vectorial me enredé un poco por los nervios, y dije lo más simple: Índice Invertido, y de ahí vino la pregunta, ¿cómo implementas un índice invertido? Ahí me quedé helado, porque la verdad no me acordaba, intenté razonarlo, pero al final expliqué sólo la parte de búsqueda Booleana, pero no pude explicar cómo implementarlo eficientemente. Para los morbosos, sí fallé un poco en esa pregunta pero eso era parte de la entrevista, en el resto me fue bien porque pasé :smile:.","headline":"Motores de Búsqueda y Procesamiento de Texto","mainEntityOfPage":{"@type":"WebPage","@id":"https://dpalmasan.github.io/website/python/algorithms/ir/2023/01/21/intro-recuperacion-informacion.html"},"url":"https://dpalmasan.github.io/website/python/algorithms/ir/2023/01/21/intro-recuperacion-informacion.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css">
+    <link rel="stylesheet" href="/website/assets/css/style.css">
+    <style type="text/css">
+        div#disqus_thread iframe[sandbox] {
+                max-height: 0px !important;
+        }
+    </style>
+<link type="application/atom+xml" rel="alternate" href="https://dpalmasan.github.io/website/feed.xml" title="Mr Dipalma's Pub 🍺">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KHXBX5G1VP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KHXBX5G1VP');
+</script>
+
+<script>MathJax={"tex":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]},"svg":{"fontCache":"global"}}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<header class="site-header">
+
+  <div class="wrapper">
+<a class="site-title" rel="author" href="/website/">Mr Dipalma's Pub 🍺</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewbox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/website/about/">About</a></div>
+      </nav>
+</div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Motores de Búsqueda y Procesamiento de Texto</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2023-01-21T21:15:03+00:00" itemprop="datePublished">
+        Jan 21, 2023
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>Una de las entrevistas de diseño de sistemas (hice un <a href="/website/entrevistas/ti/2022/07/04/acortador-url.html">post en que explico en qué consisten</a>) que tuve para cierta empresa, me preguntaron sobre implementar un motor de búsqueda que dada una consulta, recuperara documentos de un repositorio, siempre que los documentos contuvieran las palabras de la consulta. Yo que venía utilizando técnicas como Indexado Semántico Latente (<em>LSI: Latent Semantic Indexing</em>), o modelos de espacio vectorial me enredé un poco por los nervios, y dije lo más simple: <em>Índice Invertido</em>, y de ahí vino la pregunta, ¿cómo implementas un índice invertido? Ahí me quedé helado, porque la verdad no me acordaba, intenté razonarlo, pero al final expliqué sólo la parte de búsqueda Booleana, pero no pude explicar cómo implementarlo eficientemente. Para los morbosos, sí fallé un poco en esa pregunta pero eso era parte de la entrevista, en el resto me fue bien porque pasé<img class="emoji" title=":smile:" alt=":smile:" raw="😄" src="https://github.githubassets.com/images/icons/emoji/unicode/1f604.png" style="vertical-align: middle; display: inline; max-width: 1em; visibility: hidden;" onload="this.style.visibility='visible'" onerror="this.replaceWith(this.getAttribute('raw'))">.</p>
+<p>Para redimirme un poco, en este post explico lo básico de búsqueda de texto, y en particular el índice invertido, para dar pie a probablemente un siguiente post, donde hablaré de clasificación de textos y otros temas y anécdotas.</p>
+<h2 id="recuperacin-de-documentos-relevantes">Recuperación de Documentos Relevantes</h2>
+<h3 id="enfoque-ingenuo">Enfoque Ingenuo</h3>
+<p>Supongamos que tenemos un listado de 5 documentos <code>D1</code>, <code>D2</code>, <code>D3</code>, <code>D4</code>, <code>D5</code> y un <em>vocabulario</em> como el mostrado en la primera columna de la tabla 1. La mostrada se conoce como matriz de término-documentos, y en este caso, cada celda tiene un valor Booleano de ocurrencia o no ocurrencia del término $t_i$ en el documento $D_j$.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>D1</th>
+<th>D2</th>
+<th>D3</th>
+<th>D4</th>
+<th>D5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>partido</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>perro</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>comida</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>casa</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>Supongamos que queremos encontrar todos los documentos que contengan los términos perro y comida, utilizando la representación dada, podríamos considerar los bits que representan estas palabras $perro = 01011$, $comida = 00111$, luego el conjunto de documentos que contienen los dos términos:</p>
+<p>$$perro \land comida = 01011 \land 00111 = 00011$$</p>
+<p>Es decir, los documentos <code>D4</code> y <code>D5</code>. Si bien esta representación es intuitiva, y simple, no es práctica, ya que la cantidad de memoria necesaria dependerá de la cantidad de términos únicos a considerar y también de la cantidad de documentos. En especial si consideramos que la matriz resultante para estos casos será dispersa (muchas entradas nulas). Por lo que se necesitan mejores representaciones para lograr escalar a una mayor cantidad de documentos y términos.</p>
+<h3 id="ndice-invertido">Índice Invertido</h3>
+<p>El índice invertido, toma las ideas descritas en la sección anterior, pero utiliza una representación en que no se almacenan los valores nulos, es decir se elimina la dispersión de los datos (matriz término-documento). La idea es simple, en lugar de utilizar todos los “bits”, representamos la matriz como un lexicon de términos-publicaciones, como se muestra en la figura 1:</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/54e9984d25b566dbfe8f54e8bcdce1c2dde17ca9/inverted-index-postings.png" alt="postings"></p>
+<p><em>Fig 1: Representación lexicon-publicaciones</em></p>
+</div>
+<p>Las documentos, deben estar ordenados por ID en cada lista, esto, para poder implementar una intersección de forma eficiente. Para construir el índice, generalmente se sigue el siguiente proceso:</p>
+<ol>
+<li>Crear pares <code>término - documento</code>
+</li>
+<li>Ordenar pares por término y luego por documento</li>
+<li>Combinar pares para crear la lista de publicaciones para cada término (ver figura 1)</li>
+</ol>
+<p>Notar que la secuencia de pasos 2, 3 es algo similar a ejecutar <code>sort | uniq</code> en una terminal. Una vez teniendo las listas, se pueden tener dos punteros, y encontrar calces de documentos por término, y finalmente retornar la lista de calces. Esto tendría una complejidad asintótica de $O(x + y)$ donde $x$ e $y$ son los largos de las listas a intersectar. De forma más general, la complejidad asintótica sería $O(N)$ donde $N$ es la cantidad de documentos.</p>
+<h4 id="tokenizacin-y-canonicalizacin">Tokenización y Canonicalización</h4>
+<p>A menos que requeramos hacer búsqueda exacta de términos, por lo general, para reducir la variabilidad del lenguaje se intenta canonicalizar cada término. Un ejemplo de canonicalización es remover las inflexiones de cada lexema, por ejemplo llevando las palabras a una forma base, supongamos que tenemos la siguiente oración:</p>
+<ul>
+<li>Juanito escapó de un perrito que lo quería morder</li>
+</ul>
+<p>Si llevamos cada palabra a su forma base y eliminamos las palabras funcionales, la oración canonicalizada seria:</p>
+<ul>
+<li>Juanito escape perro querer morder</li>
+</ul>
+<p>Existen distintos tipos de canonicalización, los más comunes en la práctica: <em>lematización</em>, <em>stemming</em> o incluso corrección ortográfica. Sin embargo, la canonicalización puede ser cualquier tipo de transoformación que transforme las oraciones/términos a una forma base. Los ejemplos mencionados:</p>
+<ul>
+<li>Lematización: Llevar palabras a su forma raíz: $corriendo \rightarrow correr$. Generalmente se necesita un <a href="https://github.com/michmech/lemmatization-lists" target="_blank" rel="noopener noreferrer"><em>lexicon</em></a> que tenga los pares <code>(término, lema)</code>.</li>
+<li>Stemming: Conjunto de reglas para reducir las palabras a una forma base, no necesariamente una palabra válida, ejemplo $corriendo \rightarrow corr$. Un ejemplo clásico es el <a href="https://tartarus.org/martin/PorterStemmer/" target="_blank" rel="noopener noreferrer">stemmer de Porter</a>.</li>
+<li>Corrección ortográfica: Este paso puede ser pre-procesamiento a los pasos anteriores. Existen varios tipos de corrección ortográfica (libre de contexto o dependiente del contexto). Una forma simple de implementar un corrector ortográfico, es extraer la frecuencia de términos en un lenguaje, y generar un modelo del lenguaje a partir de dicha frecuencia. Finalmente, generar posibles transformaciones de la palabra a un <code>string</code> cuya distancia de edición es <code>k</code> de la palabra original y retornar la palabra más probable del modelo del lenguaje.</li>
+</ul>
+<h4 id="implementacin">Implementación</h4>
+<p>La ventaja del índice invertido es que es simple de implementar. A continuación se muestra una implementación trivial en memoria utilizando <code>python</code> :</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">InMemoryInvertedIndex</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docs</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">tokenizer</span><span class="p">:</span> <span class="n">Tokenizer</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_terms</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_build_terms</span><span class="p">(</span><span class="n">docs</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_tokenizer</span> <span class="o">=</span> <span class="n">tokenizer</span>
+
+    <span class="k">def</span> <span class="nf">_build_terms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docs</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">doc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">docs</span><span class="p">):</span>
+            <span class="n">curr_term</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="k">for</span> <span class="n">term</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">tokenizer</span><span class="p">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">doc</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="n">term</span> <span class="o">!=</span> <span class="n">curr_term</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="p">.</span><span class="n">_terms</span><span class="p">[</span><span class="n">term</span><span class="p">].</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                    <span class="n">curr_term</span> <span class="o">=</span> <span class="n">term</span>
+
+    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="n">terms</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">_tokenizer</span><span class="p">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">_intersect</span><span class="p">(</span><span class="n">terms</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_intersect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">terms</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="c1"># Sort by frequency
+</span>        <span class="n">terms</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">terms</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">_terms</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
+        <span class="n">curr_term</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">_terms</span><span class="p">[</span><span class="n">terms</span><span class="p">[</span><span class="n">curr_term</span><span class="p">]]</span>
+        <span class="n">curr_term</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">while</span> <span class="n">curr_term</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">terms</span><span class="p">)</span> <span class="ow">and</span> <span class="n">result</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">_intersect_two</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">_terms</span><span class="p">[</span><span class="n">terms</span><span class="p">[</span><span class="n">curr_term</span><span class="p">]])</span>
+            <span class="n">curr_term</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="k">def</span> <span class="nf">_intersect_two</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">):</span>
+        <span class="n">i1</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">i2</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">answer</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">while</span> <span class="n">i1</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span> <span class="ow">and</span> <span class="n">i2</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">p2</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">p1</span><span class="p">[</span><span class="n">i1</span><span class="p">]</span> <span class="o">==</span> <span class="n">p2</span><span class="p">[</span><span class="n">i2</span><span class="p">]:</span>
+                <span class="n">answer</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">p1</span><span class="p">[</span><span class="n">i1</span><span class="p">])</span>
+                <span class="n">i1</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">i2</span> <span class="o">+=</span> <span class="mi">2</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">p1</span><span class="p">[</span><span class="n">i1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">p2</span><span class="p">[</span><span class="n">i2</span><span class="p">]:</span>
+                    <span class="n">i1</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">i2</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">answer</span>
+</code></pre></div></div>
+<p>Donde <code>Tokenizer</code> es una interfaz que implementa tokenización, por ejemplo, una implementación simple utilizando lematización:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Tokenizer</span><span class="p">:</span>
+    <span class="o">@</span><span class="n">abstractmethod</span>
+    <span class="k">def</span> <span class="nf">tokenize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">LemmaTokenizer</span><span class="p">(</span><span class="n">Tokenizer</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lemmas</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_lemmas</span> <span class="o">=</span> <span class="n">lemmas</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_re</span> <span class="o">=</span> <span class="n">re</span><span class="p">.</span><span class="nb">compile</span><span class="p">(</span><span class="s">"[^0-9a-zA-Z]+"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_threshold</span> <span class="o">=</span> <span class="n">threshold</span>
+
+    <span class="k">def</span> <span class="nf">tokenize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">_lemmas</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">word</span><span class="p">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">word</span><span class="p">.</span><span class="n">lower</span><span class="p">())</span>
+            <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">_re</span><span class="p">.</span><span class="n">sub</span><span class="p">(</span><span class="s">" "</span><span class="p">,</span> <span class="n">text</span><span class="p">).</span><span class="n">split</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="p">.</span><span class="n">_threshold</span>
+        <span class="p">]</span>
+
+    <span class="o">@</span><span class="nb">classmethod</span>
+    <span class="k">def</span> <span class="nf">load_from_file</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="n">Path</span><span class="p">):</span>
+        <span class="n">lexicon</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fp</span><span class="p">:</span>
+                <span class="n">lemma</span><span class="p">,</span> <span class="n">word</span> <span class="o">=</span> <span class="n">line</span><span class="p">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="n">lexicon</span><span class="p">[</span><span class="n">word</span><span class="p">.</span><span class="n">strip</span><span class="p">()]</span> <span class="o">=</span> <span class="n">lemma</span><span class="p">.</span><span class="n">strip</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">cls</span><span class="p">(</span><span class="n">lexicon</span><span class="p">)</span>
+</code></pre></div></div>
+<h4 id="aplicacin-motor-de-bsqueda-de-noticias">Aplicación: Motor de Búsqueda de Noticias</h4>
+<p>Primero que todo, el código se encuentra en un <a href="https://github.com/dpalmasan/python-nlp-examples" target="_blank" rel="noopener noreferrer">repositorio en github</a>. Manualmente, extraje textos de noticias de <a href="https://www.biobiochile.cl/" target="_blank" rel="noopener noreferrer">Bío-Bío Chile</a>, luego cree un índice invertido utilizando el conjunto de documentos, y como canonicalización, utilicé lematización utilizando el lexicon disponible en <a href="https://github.com/michmech/lemmatization-lists" target="_blank" rel="noopener noreferrer">https://github.com/michmech/lemmatization-lists</a>. El código se ve como sigue:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">ir</span> <span class="kn">import</span> <span class="n">InMemoryInvertedIndex</span><span class="p">,</span> <span class="n">LemmaTokenizer</span>
+
+<span class="n">RESOURCE_PATH</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">"./resources"</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">LemmaTokenizer</span><span class="p">.</span><span class="n">load_from_file</span><span class="p">(</span><span class="n">RESOURCE_PATH</span> <span class="o">/</span> <span class="s">"lemmatization-es.txt"</span><span class="p">)</span>
+    <span class="n">docs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="p">(</span><span class="n">RESOURCE_PATH</span> <span class="o">/</span> <span class="s">"documents"</span><span class="p">).</span><span class="n">glob</span><span class="p">(</span><span class="s">"*.txt"</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">doc</span><span class="p">:</span>
+            <span class="n">docs</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">doc</span><span class="p">.</span><span class="n">read</span><span class="p">())</span>
+
+    <span class="n">inverted_index</span> <span class="o">=</span> <span class="n">InMemoryInvertedIndex</span><span class="p">(</span><span class="n">docs</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">)</span>
+    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s">"Ingresar búsqueda: "</span><span class="p">)</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">inverted_index</span><span class="p">.</span><span class="n">search</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s">"Mostrar texto? (S/s)"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">query</span><span class="p">.</span><span class="n">lower</span><span class="p">().</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s">"s"</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+                <span class="k">print</span><span class="p">(</span><span class="s">"="</span> <span class="o">*</span> <span class="mi">79</span><span class="p">)</span>
+                <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Resultado </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+                <span class="k">print</span><span class="p">(</span><span class="s">"="</span> <span class="o">*</span> <span class="mi">79</span><span class="p">)</span>
+                <span class="k">print</span><span class="p">(</span><span class="n">docs</span><span class="p">[</span><span class="n">result</span><span class="p">])</span>
+</code></pre></div></div>
+<p>Algunas consultas envíadas al motor de búsqueda:</p>
+<pre><code>Ingresar búsqueda: universidad chile
+[10, 13]
+Mostrar texto? (S/s)s
+===============================================================================
+Resultado 1
+===============================================================================
+Johnny Herrera, exportero de Universidad de Chile y hoy comentarista de TNT Sports, fue captado golpeando a un hombre en un club nocturno de Vitacura.
+
+El violento hecho ocurrió el pasado jueves 19 de enero en el Bar Candelaria de la comuna del sector oriente, lugar donde el retirado guardametas agredió a una persona por razones que se desconocen.
+
+Los detalles los reveló el periodista Sergio Rojas a través de una transmisión en vivo en Instagram, donde mostró el video de las cámaras de seguridad donde se aprecia al ‘Samurái’ golpeando a un hombre hasta botarlo al piso.
+
+De acuerdo a las imágenes, pese a que la víctima no respondió a los primer golpes, las agresiones del exarquero no se detuvieron.
+
+El citado comunicador detalló que habló con la persona agredida. Según él, no hubo razones para ser atacado por el ídolo de Universidad de Chile, por lo que analiza tomar acciones legales en contra de Johnny Herrera.
+
+Rojas, además, aseguró que desde TNT Sport evalúan sancionar al otrora seleccionado de La Roja por este violento hecho.
+
+Herrera, pese a ser contactado por el reconocido periodista de farándula, optó por no dar declaraciones sobre lo acontecido.
+===============================================================================
+Resultado 2
+===============================================================================
+Universidad de Chile debuta en el Campeonato Nacional 2023 ante Huachipato, en lo que será el debut oficial de Mauricio Pellegrino en la banca de los azules.
+
+El duelo está programado para las 19:00 horas de este lunes 23 de enero, en el estadio Santa Laura.
+
+Comienza otro año para La U, uno donde esperan -luego de tres temporadas consecutivas peleando por el descenso- luchar por la parte alta de la tabla.
+
+Para eso, destacan las incorporaciones de jugadores como Matías Zaldivia, Juan Pablo Gómez, Federico Mateos Leandro Fernández, Nicolás Guerra y el portero Cristopher Toselli.
+
+En el papel, es un plantel competitivo con el que Pellegrino espera dejar en el olvido los fracasos azules de los últimos años y con el que quiere empezar ganando.
+
+Al frente estará un Huachipato que también tuvo un mal 2022, al punto de acabar entre los últimos elencos de la tabla.
+
+Gustavo Álvarez es el nuevo entrenador de los ‘acereros’, que sumaron interesantes refuerzos como Mateo Acosta, Carlo Villanueva y Julián Brea.
+
+La U y Huachipato se enfrentan este lunes 23 de enero, a partir de las 19:00 horas, en el estadio Santa Laura.
+
+Ingresar búsqueda: diabetes
+[8]
+Mostrar texto? (S/s)s
+===============================================================================
+Resultado 1
+===============================================================================
+Un estudio finlandés sobre la influencia del estilo de vida del gestante en el neurodesarrollo de los infantes determinó que los hijos de personas con diabetes gestacional tienen peores habilidades lingüísticas que los bebés de madres sin la enfermedad.
+
+Una investigación finlandesa reveló que los hijos de embarazadas y pacientes de diabetes gestacional pueden tener peores habilidades lingüísticas que aquellos que nacen de madres sin la enfermedad.
+
+La Universidad Turku y el Hospital Universitario de Turku de Finlandia, investigaron cómo la salud y el estilo de vida de la madre durante el embarazo condicionan el neurodesarrollo de los niños de 2 años, de donde se extrajeron los resultados.
+
+El proyecto de investigación publicado en la revista Pediatric Research examinó el desarrollo de las habilidades cognitivas, lingüísticas y motoras de los niños.
+
+La adiposidad materna se determinó mediante pletismografía por desplazamiento de aire y la diabetes gestacional con prueba de tolerancia oral a la glucosa. Además, la ingesta dietética durante el embarazo se evaluó con índices de calidad de la dieta y cuestionarios de consumo de pescado.
+
+“En promedio, el neurodesarrollo infantil en nuestros datos estaba en el rango normal. Los resultados de nuestra investigación mostraron que los niños de 2 años cuyas madres habían sido diagnosticadas con diabetes gestacional tenían peores habilidades lingüísticas que los niños cuyas madres no habían sido diagnosticadas con diabetes gestacional”, dijeron los expertos.
+
+Además, el estudio descubrió que un mayor porcentaje de grasa corporal materna estaba asociado con habilidades cognitivas, de lenguaje y motoras más débiles en los niños.
+
+“Nuestra observación es única, ya que estudios previos no han examinado la asociación entre la composición corporal materna y el neurodesarrollo de los niños”, recalcaron los investigadores.
+
+Por otro lado, el estudio también ha mostrado que una mejor calidad dietética de la dieta de la madre se asoció con un mejor desarrollo del lenguaje del niño, al igual que un consumo elevado de pescado por parte de la madre.
+
+“Una dieta saludable e integral durante el embarazo puede ser particularmente beneficiosa para el neurodesarrollo de los niños cuyas madres pertenecen al grupo de riesgo de diabetes gestacional por sobrepeso u obesidad”, han zanjado los expertos.
+</code></pre>
+<h4 id="mejoras-utilizando-skip-lists">Mejoras utilizando Skip Lists</h4>
+<p>Una implementación un poco más eficiente es utilizar <a href="https://en.wikipedia.org/wiki/Skip_list" target="_blank" rel="noopener noreferrer"><code>SkipLists</code></a>. Esto funciona únicamente si decidimos soportar únicamente consultas en conjunción (es decir, considerando únicamente el operador Booleano $\land$). La idea es reducir el número de comparaciones entre IDs de documentos, aprovechando que los documentos están ordenados por ID, por ejemplo, si tenemos las lista de publicaciones <code>[1, 3, 5, 8, 9, 11, 13, 20]</code> y <code>20</code>, podríamos saltar desde <code>1</code> a <code>20</code> sin tener recorrer todos los elementos y así reduciendo la cantidad de comparaciones. Un ejemplo de <code>SkipList</code> en <code>python</code>:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">SkipList</span><span class="p">:</span>
+    <span class="k">class</span> <span class="nc">Node</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">_key</span> <span class="o">=</span> <span class="n">key</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">forward</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">level</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="o">@</span><span class="nb">property</span>
+        <span class="k">def</span> <span class="nf">key</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">_key</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_level</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_max_level</span> <span class="o">=</span> <span class="n">max_level</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_p</span> <span class="o">=</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_sentinel</span> <span class="o">=</span> <span class="n">SkipList</span><span class="p">.</span><span class="n">Node</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">_max_level</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="p">.</span><span class="n">level</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">_random_level</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">level</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">random</span><span class="p">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="p">.</span><span class="n">_p</span> <span class="ow">and</span> <span class="n">level</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="p">.</span><span class="n">_max_level</span><span class="p">:</span>
+            <span class="n">level</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">level</span>
+
+    <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">update</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">_max_level</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">current</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">_sentinel</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">level</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="k">while</span> <span class="n">current</span><span class="p">.</span><span class="n">forward</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">and</span> <span class="n">current</span><span class="p">.</span><span class="n">forward</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">key</span> <span class="o">&lt;</span> <span class="n">key</span><span class="p">:</span>
+                <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="p">.</span><span class="n">forward</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">update</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">current</span>
+        <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="p">.</span><span class="n">forward</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">current</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">current</span><span class="p">.</span><span class="n">key</span> <span class="o">!=</span> <span class="n">key</span><span class="p">:</span>
+            <span class="n">random_level</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">_random_level</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">random_level</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="p">.</span><span class="n">level</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">level</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">random_level</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                    <span class="n">update</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">_sentinel</span>
+                <span class="bp">self</span><span class="p">.</span><span class="n">level</span> <span class="o">=</span> <span class="n">random_level</span>
+
+            <span class="n">node</span> <span class="o">=</span> <span class="n">SkipList</span><span class="p">.</span><span class="n">Node</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">random_level</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">random_level</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">node</span><span class="p">.</span><span class="n">forward</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">update</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">forward</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">update</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">forward</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">node</span>
+
+    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">current</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s">"SkipList.Node"</span><span class="p">:</span>
+        <span class="s">"""Go to the previous key of the possible next key
+        :param key: Value to find
+        :type key: int
+        :param current: Starting node, defaults to None
+        :type current: SkipList.Node, optional
+        :return: Node to be left of the target node
+        :rtype: Optional[SkipList.Node]
+        """</span>
+        <span class="n">current</span> <span class="o">=</span> <span class="n">current</span>
+        <span class="k">if</span> <span class="n">current</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">_sentinel</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">level</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="k">while</span> <span class="n">current</span><span class="p">.</span><span class="n">forward</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">and</span> <span class="n">current</span><span class="p">.</span><span class="n">forward</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">key</span> <span class="o">&lt;</span> <span class="n">key</span><span class="p">:</span>
+                <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="p">.</span><span class="n">forward</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">current</span>
+
+    <span class="k">def</span> <span class="nf">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="s">"""Check membership for key
+        :param key: Item to be checked
+        :type key: int
+        :return: True if list contains key False otherwise
+        :rtype: bool
+        """</span>
+        <span class="n">current</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">_sentinel</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">level</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="k">while</span> <span class="n">current</span><span class="p">.</span><span class="n">forward</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">and</span> <span class="n">current</span><span class="p">.</span><span class="n">forward</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">key</span> <span class="o">&lt;</span> <span class="n">key</span><span class="p">:</span>
+                <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="p">.</span><span class="n">forward</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+        <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="p">.</span><span class="n">forward</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">current</span> <span class="ow">and</span> <span class="n">current</span><span class="p">.</span><span class="n">key</span> <span class="o">==</span> <span class="n">key</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">head</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">_sentinel</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="s">""</span>
+        <span class="k">for</span> <span class="n">lvl</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">level</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">res</span> <span class="o">+=</span> <span class="sa">f</span><span class="s">"Level </span><span class="si">{</span><span class="n">lvl</span><span class="si">}</span><span class="s">: "</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">head</span><span class="p">.</span><span class="n">forward</span><span class="p">[</span><span class="n">lvl</span><span class="p">]</span>
+            <span class="k">while</span> <span class="n">node</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">res</span> <span class="o">+=</span> <span class="sa">f</span><span class="s">"</span><span class="si">{</span><span class="n">node</span><span class="p">.</span><span class="n">key</span><span class="si">}</span><span class="s"> "</span>
+                <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="p">.</span><span class="n">forward</span><span class="p">[</span><span class="n">lvl</span><span class="p">]</span>
+            <span class="n">res</span> <span class="o">+=</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span>
+        <span class="k">return</span> <span class="n">res</span>
+</code></pre></div></div>
+<p>Queda como ejercicio para el lector, implementar la intersección utilizando <code>SkipList</code>.</p>
+<h3 id="escalando-a-millones-de-documentos">Escalando a Millones de Documentos</h3>
+<p>Como podrá observar el lector, para una cantidad de documentos que no se puedan cargar en RAM, hay que utilizar otras estrategias. Todo, en general depende del hardware disponible. Una estrategia simple es utilizar <a href="https://nlp.stanford.edu/IR-book/html/htmledition/blocked-sort-based-indexing-1.html" target="_blank" rel="noopener noreferrer"><em>blocked sort-based indexing</em> (BSBI)</a>. En simples términos, lo que se hace es cargar los datos en buffers. Para minimizar las llamadas a disco, se utiliza un buffer del máximo tamaño disponible, se aplica el índice invertido a los pares encontrados, se escriben a disco, y se prosigue hasta haber leído todos los documentos. Finalmente existe un paso de combinación de todos estos archivos intermedios, para obtener el índice final.</p>
+<p>Para soportar billones de documentos, ya se requiere un enfoque distribuído, el cual queda como ejercicio para el lector investigar.</p>
+<h2 id="conclusiones">Conclusiones</h2>
+<ul>
+<li>Una representación simple de textos, puede ser basada en ocurrencia o no ocurrencia de términos</li>
+<li>En general, las matrices término-documentos son dispersas, en la práctica la mayor cantidad de entradas es nula, debido a la variabilidad del lenguaje.</li>
+<li>Existen distintas estrategias para canonicalizar términos, y dependen del problema a tratar (como siempre, no hay enfoque que sirva para todos los casos)</li>
+<li>Para lograr búsquedas eficientes, se debe lidiar con reducción en el espacio de búsqueda, esto se puede lograr vía índices (por ejemplo utilizando una tabla hash)</li>
+</ul>
+<h2 id="problema-del-da">Problema del día</h2>
+<p>Para ir con la temática, el problema de hoy estará relacionado con <a href="https://github.com/dpalmasan/code-challenges/issues/16" target="_blank" rel="noopener noreferrer">búsqueda de palabras</a>.</p>
+
+  </div>
+<div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = '';
+      this.page.identifier = 'https://dpalmasan.github.io/website/python/algorithms/ir/2023/01/21/intro-recuperacion-informacion.html';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://dpalmasan.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow noopener noreferrer" target="_blank">comments powered by Disqus.</a>
+</noscript>
+<a class="u-url" href="/website/python/algorithms/ir/2023/01/21/intro-recuperacion-informacion.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/website/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="https://dpalmasan.github.io/website/feed.xml">
+            <svg class="svg-icon orange">
+              <path d="M12.8 16C12.8 8.978 7.022 3.2 0 3.2V0c8.777 0 16 7.223 16 16h-3.2zM2.194
+                11.61c1.21 0 2.195.985 2.195 2.196 0 1.21-.99 2.194-2.2 2.194C.98 16 0 15.017 0
+                13.806c0-1.21.983-2.195 2.194-2.195zM10.606
+                16h-3.11c0-4.113-3.383-7.497-7.496-7.497v-3.11c5.818 0 10.606 4.79 10.606 10.607z"></path>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">dpalmasan</li>
+          
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Este es un blog donde compartiré un poco sobre mí y mis experiencias en el mundo tecnológico...</p>
+      </div>
+    </div>
+
+    <div class="social-links">
+<ul class="social-media-list">
+<li>
+    <a rel="me noopener noreferrer" href="https://www.linkedin.com/in/dpalmasan/" target="_blank" title="Mi perfil en Linkedin">
+      <span class="grey fa-brands fa-linkedin fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://www.github.com/dpalmasan" target="_blank" title="Mi Github">
+      <span class="grey fa-brands fa-github fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://scholar.google.com/citations?user=Y5PN_1AAAAAJ&hl=en" target="_blank" title="Mi Google Scholar">
+      <span class="grey fa-brands fa-google-scholar fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://stackoverflow.com/users/4051219/dpalma" target="_blank" title="Mis preguntas en SO LOL!">
+      <span class="grey fa-brands fa-stack-overflow fa-lg"></span>
+    </a>
+  </li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+
+</body>
+
+</html>

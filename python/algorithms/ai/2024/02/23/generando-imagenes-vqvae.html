@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Generando Imágenes con VQ-VAE | Mr Dipalma’s Pub 🍺</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Generando Imágenes con VQ-VAE">
+<meta name="author" content="dpalmasan">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Introducción">
+<meta property="og:description" content="Introducción">
+<link rel="canonical" href="https://dpalmasan.github.io/website/python/algorithms/ai/2024/02/23/generando-imagenes-vqvae.html">
+<meta property="og:url" content="https://dpalmasan.github.io/website/python/algorithms/ai/2024/02/23/generando-imagenes-vqvae.html">
+<meta property="og:site_name" content="Mr Dipalma’s Pub 🍺">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2024-02-23T14:00:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Generando Imágenes con VQ-VAE">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"dpalmasan"},"dateModified":"2024-02-23T14:00:00+00:00","datePublished":"2024-02-23T14:00:00+00:00","description":"Introducción","headline":"Generando Imágenes con VQ-VAE","mainEntityOfPage":{"@type":"WebPage","@id":"https://dpalmasan.github.io/website/python/algorithms/ai/2024/02/23/generando-imagenes-vqvae.html"},"url":"https://dpalmasan.github.io/website/python/algorithms/ai/2024/02/23/generando-imagenes-vqvae.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css">
+    <link rel="stylesheet" href="/website/assets/css/style.css">
+    <style type="text/css">
+        div#disqus_thread iframe[sandbox] {
+                max-height: 0px !important;
+        }
+    </style>
+<link type="application/atom+xml" rel="alternate" href="https://dpalmasan.github.io/website/feed.xml" title="Mr Dipalma's Pub 🍺">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KHXBX5G1VP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KHXBX5G1VP');
+</script>
+
+<script>MathJax={"tex":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]},"svg":{"fontCache":"global"}}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<header class="site-header">
+
+  <div class="wrapper">
+<a class="site-title" rel="author" href="/website/">Mr Dipalma's Pub 🍺</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewbox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/website/about/">About</a></div>
+      </nav>
+</div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Generando Imágenes con VQ-VAE</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2024-02-23T14:00:00+00:00" itemprop="datePublished">
+        Feb 23, 2024
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h1 id="introduccin">Introducción</h1>
+<p>En mi post <em><a href="/website/python/algorithms/ai/2024/02/18/reflexiones-y-jugando-con-pixeles.html">Reflexiones y Jugando con Pixeles</a></em> expliqué cómo generar imágenes con un Autocodificador variacional. Expliqué cómo las imágenes son codificadas a un espacio latente, donde en lugar de mapear a un “punto” como en el caso de los auto-codificadores, se mapea a una distribución de probabilidad. También expliqué que el problema de inferencia era en esencia aproximar la distribución condicional $p(z|x)$ a una distribución Gaussiana $q_x(z)$, tal que su media y covarianza están definidas por dos funciones, $g$ y $h$</p>
+<p>$$
+\begin{align}
+(g^*, h^*) &amp; = \underset{(g, h) \in G\times H}{\mathrm{argmin}} D_{KL}(q_x(z), p(z|x))
+\end{align}
+$$</p>
+<p>Y que esto llevado a una red neuronal, se vería como la figura 1. Donde la función de pérdida a minimizar estaría dada por:</p>
+<p>$$Loss = C ||x - \hat{x}||^2 + D_{KL}(\cal{N(\mu_x, \sigma_x)}, \cal{N(0, I)})$$</p>
+<p><strong>Nota: Para ver la derivación completa, y experimentos leer el post anterior.</strong></p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/2f72cc5476a22b888e00ab78ca11a29d1ff0c738/vae-arch.png" alt="vae"></p>
+<p><em>Fig 1: Arquitectura codificador-decodificador variacional</em></p>
+</div>
+<p>En este post hablaré sobre una mejora a este modelo VAE: VQ-VAE, que es la base de modelos sofisticados como DALL-E para generación de imágenes.</p>
+<h2 id="entendiendo-el-vq-vae">Entendiendo el VQ-VAE</h2>
+<p>Este modelo fue introducido en el paper <a href="https://arxiv.org/abs/1711.00937" target="_blank" rel="noopener noreferrer"><em>Neural Discrete Representation Learning</em></a> y es una modificación que intenta resolver los problemas del VAE. En este caso, en lugar de tener una distribución continua en el espacio latente (distribuciones apriori y aposteriori se asumen Gausianas en el VAE), se obtiene una distribución discreta que se basa en cuantización vectorial, lo que implica distribuciones categóricas tanto apriori, como aposteriori. En palabras simples, se obtienen reconstrucciones más nítidas.</p>
+<p>La arquitectura de la red neuronal para el modelo VQ-VAE se muestra en la figura 2:</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/3ce75eda3bd933f8ceba04c2d9ff2db3546b89ef/Screenshot%25202024-02-24%2520at%25203.13.06%25E2%2580%25AFPM.png" alt="vae"></p>
+<p><em>Fig 2: Arquitectura VQ-VAE</em></p>
+</div>
+<p>Se define un espacio latente de <em>embeddings</em> $e \in \mathbb{R}^{K\times D}$, donde $K$ es la cantidad de categorías, es decir, el número de <em>embeddings</em> y $D$ es la dimensión de cada vector latente. El codificador tiene una entrada $x$ y produce una salida $z_e(x)$. Las variables latentes discretas $z$ se calculan como el vector más cercano (<em>nearest neighbor</em>) del conjunto de vectores $e$. La entrada para el decodificador, es el vector $e_k$ obtenido en el paso previo:</p>
+<p>$$z_q(x) = e_k, \quad \text{donde} \quad k = \text{argmin}_j ||z_e(x) - e_j||_2$$</p>
+<p>La distribución categorica $q(z|x)$ (codificador) está definida como:</p>
+<p>$$
+q(z=k|x) =
+\begin{cases}
+1  &amp; \mbox{for } k = \text{argmin}_j ||z_e(x) - e_j||_2 \\
+0 &amp; \mbox{en caso contrario }
+\end{cases}
+$$</p>
+<p>En el paper, se propone $q(z = k | x)$ como determinista, y al definir $p(z)$ como una distribución uniforme. Si recordamos que un VAE intenta optimizar:</p>
+<p>$$
+\begin{align}
+(g^*, h^*) &amp; = \underset{(g, h) \in G\times H}{\mathrm{argmin}} D_{KL}(q_x(z), p(z|x)) \\\\
+&amp; = \underset{(g, h) \in G\times H}{\mathrm{argmin}} \left(\mathop{\mathbb{E}_{z\sim q_x}}(\log q_x(z)) - \mathop{\mathbb{E}_{z\sim q_x}}\left(\log \displaystyle \frac{p(x|z)p(z)}{p(x)}\right) \right) \\
+&amp; = \underset{(g, h) \in G\times H}{\mathrm{argmin}} \left(\mathop{\mathbb{E}_{z\sim q_x}}(\log q_x(z)) - \mathop{\mathbb{E}_{z\sim q_x}}(\log p(z)) - \mathop{\mathbb{E}_{z\sim q_x}}(\log p(x|z)) + \mathop{\mathbb{E}_{z\sim q_x}}(\log p(x)) \right) \\
+&amp; = \underset{(g, h) \in G\times H}{\mathrm{argmax}} \left(\mathop{\mathbb{E}_{z\sim q_x}} (\log p(x|z)) - D_{KL}(q_x(z), p(z)) \right) \\
+&amp; = \underset{(g, h) \in G\times H}{\mathrm{argmax}} \left(\mathop{\mathbb{E}_{z\sim q_x}} \left(\displaystyle -\frac{||x - f(z)||}{2c}^2\right) - D_{KL}(q_x(z), p(z)) \right)
+\end{align}
+$$</p>
+<p>Entonces, en este caso no tenemos una distribución Gaussiana $q_x(z)$, si no que una distribución categórica $q(z|x)$ como la descrita anteriormente, entonces, dado que la distribución $q(z|x)$ tiene un valor distinto de cero sólo en $q(z = k|x)$, se tiene que la divergencia de Kullback-Leibler es constante:</p>
+<p>$$
+\begin{align}
+D_{KL}(q(z|x), p(z)) &amp; = \sum_{z \in \mathop{Z}} q(z|x)\log\left(\frac{q(z|x)}{p(z)}\right) \\
+&amp; = q(k | x) \log\left(\frac{q(k|x)}{p(k)}\right) \\
+&amp; = 1 \cdot \log \left(\frac{1}{\frac{1}{K}}\right) \\\\
+&amp; = \log K
+\end{align}
+$$</p>
+<p>En el caso de la ecuación $z_q(x) = e_k$ (entrada al decodificador), no tiene un gradiente definido, sin embargo se puede aproximar el gradiente de forma similar al estimador directo (<em>straight-through estimator</em>), y simplemente copiar los gradientes de la entrada del decodficador $z_q(x)$ a la salida del codificador $z_e(x)$. <a href="https://hassanaskary.medium.com/intuitive-explanation-of-straight-through-estimators-with-pytorch-implementation-71d99d25d9d0" target="_blank" rel="noopener noreferrer">Este post en Medium</a> tiene una explicación muy intuitiva de este estimador. <a href="https://github.com/ritheshkumar95/pytorch-vqvae/blob/master/functions.py" target="_blank" rel="noopener noreferrer">En este repositorio en Github</a> hay una implementación intuitiva de este estimador.</p>
+<p>En el caso de cuantización vectorial:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">VectorQuantization</span><span class="p">(</span><span class="n">Function</span><span class="p">):</span>
+    <span class="o">@</span><span class="nb">staticmethod</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">codebook</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">embedding_size</span> <span class="o">=</span> <span class="n">codebook</span><span class="p">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">inputs_size</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">.</span><span class="n">size</span><span class="p">()</span>
+            <span class="n">inputs_flatten</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">embedding_size</span><span class="p">)</span>
+
+            <span class="n">codebook_sqr</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">codebook</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">inputs_sqr</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">inputs_flatten</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+            <span class="c1"># Compute the distances to the codebook
+</span>            <span class="n">distances</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">addmm</span><span class="p">(</span><span class="n">codebook_sqr</span> <span class="o">+</span> <span class="n">inputs_sqr</span><span class="p">,</span>
+                <span class="n">inputs_flatten</span><span class="p">,</span> <span class="n">codebook</span><span class="p">.</span><span class="n">t</span><span class="p">(),</span> <span class="n">alpha</span><span class="o">=-</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+
+            <span class="n">_</span><span class="p">,</span> <span class="n">indices_flatten</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nb">min</span><span class="p">(</span><span class="n">distances</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">indices</span> <span class="o">=</span> <span class="n">indices_flatten</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="o">*</span><span class="n">inputs_size</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">ctx</span><span class="p">.</span><span class="n">mark_non_differentiable</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">indices</span>
+
+    <span class="o">@</span><span class="nb">staticmethod</span>
+    <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">grad_output</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="nb">RuntimeError</span><span class="p">(</span><span class="s">'Trying to call `.grad()` on graph containing '</span>
+            <span class="s">'`VectorQuantization`. The function `VectorQuantization` '</span>
+            <span class="s">'is not differentiable. Use `VectorQuantizationStraightThrough` '</span>
+            <span class="s">'if you want a straight-through estimator of the gradient.'</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Se calculan las distancias entre el vector de entrada y los vectores del espacio de embeddings. En el caso de este código, lo que está haciendo es calcular el mínimo de la distancia al cuadrado (que sería lo mismo que minimizar la distancia, pero sin el costo computacional de calcular la raíz):</p>
+<p>$$
+\begin{align}
+||X - Y||_2^2 &amp; = ||X||_2^2 - 2 X \cdot Y + ||Y||_2^2 \\
+&amp; = ||X||_2^2 + ||Y||_2^2 - 2 X \cdot Y
+\end{align}
+$$</p>
+<p>En el caso del estimador <em>straight-through</em>, puede implementarse como:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">VectorQuantizationStraightThrough</span><span class="p">(</span><span class="n">Function</span><span class="p">):</span>
+    <span class="o">@</span><span class="nb">staticmethod</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">codebook</span><span class="p">):</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="n">vq</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">codebook</span><span class="p">)</span>
+        <span class="n">indices_flatten</span> <span class="o">=</span> <span class="n">indices</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">ctx</span><span class="p">.</span><span class="n">save_for_backward</span><span class="p">(</span><span class="n">indices_flatten</span><span class="p">,</span> <span class="n">codebook</span><span class="p">)</span>
+        <span class="n">ctx</span><span class="p">.</span><span class="n">mark_non_differentiable</span><span class="p">(</span><span class="n">indices_flatten</span><span class="p">)</span>
+
+        <span class="n">codes_flatten</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">index_select</span><span class="p">(</span><span class="n">codebook</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">index</span><span class="o">=</span><span class="n">indices_flatten</span><span class="p">)</span>
+        <span class="n">codes</span> <span class="o">=</span> <span class="n">codes_flatten</span><span class="p">.</span><span class="n">view_as</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">codes</span><span class="p">,</span> <span class="n">indices_flatten</span><span class="p">)</span>
+
+    <span class="o">@</span><span class="nb">staticmethod</span>
+    <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">grad_output</span><span class="p">,</span> <span class="n">grad_indices</span><span class="p">):</span>
+        <span class="n">grad_inputs</span><span class="p">,</span> <span class="n">grad_codebook</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span>
+
+        <span class="k">if</span> <span class="n">ctx</span><span class="p">.</span><span class="n">needs_input_grad</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="c1"># Straight-through estimator
+</span>            <span class="n">grad_inputs</span> <span class="o">=</span> <span class="n">grad_output</span><span class="p">.</span><span class="n">clone</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">ctx</span><span class="p">.</span><span class="n">needs_input_grad</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="c1"># Gradient wrt. the codebook
+</span>            <span class="n">indices</span><span class="p">,</span> <span class="n">codebook</span> <span class="o">=</span> <span class="n">ctx</span><span class="p">.</span><span class="n">saved_tensors</span>
+            <span class="n">embedding_size</span> <span class="o">=</span> <span class="n">codebook</span><span class="p">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="n">grad_output_flatten</span> <span class="o">=</span> <span class="p">(</span><span class="n">grad_output</span><span class="p">.</span><span class="n">contiguous</span><span class="p">()</span>
+                                              <span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">embedding_size</span><span class="p">))</span>
+            <span class="n">grad_codebook</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">codebook</span><span class="p">)</span>
+            <span class="n">grad_codebook</span><span class="p">.</span><span class="n">index_add_</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">grad_output_flatten</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">grad_inputs</span><span class="p">,</span> <span class="n">grad_codebook</span><span class="p">)</span>
+</code></pre></div></div>
+<p>En este caso, se aplica cuantización vectorial en la propagación hacia adelante y se guardan los vectores resultantes del espacio de embeddings y sus correspondientes índices en el diccionario de vectores. No se calculan los gradientes respecto a $z_q(x)$, y en el caso de los vectores del diccionario de embeddings, el objetivo es minimizar $||\text{sg}[z_e(x)] - e||_2^2$.</p>
+<p>Finalmente para la función de costo del VQ-VAE tenemos que considerar 3 ingredientes:</p>
+<ol>
+<li>La pérdida de reconstrucción $\log p(z|z_q(x))$.</li>
+<li>Dado que los embeddings $e_i$ no reciben gradientes por reconstrucción, usamos un simple algoritmo: Cuantización vectorial. En este caso, como mencionamos previamente, el término a minimizar es $||\text{sg}[z_e(x)] - e||_2^2$</li>
+<li>Finalmente, dado que el espacio de embeddings puede crecer arbitrariamente si los embeddings $e_i$ no se entrenan tan rápido como los parámetros del codificador, agregamos un término de regularización $\beta ||z_e(x) - \text{sg}[e]||_2^2$.</li>
+</ol>
+<p>La función de pérdida a minimizar es:</p>
+<p>$$Loss = p(z|z_q(x)) + ||\text{sg}[z_e(x)] - e||_2^2 + \beta ||z_e(x) - \text{sg}[e]||_2^2$$</p>
+<p>Dado que el término que corresponde a la divergencia de Kullback-Leibler es constante dado los supuestos, este término se ignora, ya que no tiene efecto en la función de pérdida.</p>
+<p>La distribución apriori sobre los vectores latentes $p(z)$ se asume como uniforme. Sin embargo, para el proceso generativo, se puede estimar otra distribución, por ejemplo utilizando un modelo autoregresivo como <em>PixelCNN</em>, y ello nos permitirá generar imágenes de acuerdo al estilo de los datos de entrenamiento.</p>
+<h3 id="entrenando-vq-vae">Entrenando VQ-VAE</h3>
+<p>En esta sección mostraré dos experimentos:</p>
+<ol>
+<li>Utilizando un sub-conjunto del conjunto de datos <a href="https://www.cs.toronto.edu/~kriz/cifar.html" target="_blank" rel="noopener noreferrer">CIFAR10</a>
+</li>
+<li>Generar Pokémones en base a pixel art</li>
+</ol>
+<p>Primero definimos los embeddings del cuantizador vectorial:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">VQEmbedding</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">D</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">().</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">embedding</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">D</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">embedding</span><span class="p">.</span><span class="n">weight</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">uniform_</span><span class="p">(</span><span class="o">-</span><span class="mf">1.</span><span class="o">/</span><span class="n">K</span><span class="p">,</span> <span class="mf">1.</span><span class="o">/</span><span class="n">K</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z_e_x</span><span class="p">):</span>
+        <span class="n">z_e_x_</span> <span class="o">=</span> <span class="n">z_e_x</span><span class="p">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">).</span><span class="n">contiguous</span><span class="p">()</span>
+        <span class="n">latents</span> <span class="o">=</span> <span class="n">vq</span><span class="p">(</span><span class="n">z_e_x_</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">embedding</span><span class="p">.</span><span class="n">weight</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">latents</span>
+
+    <span class="k">def</span> <span class="nf">straight_through</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z_e_x</span><span class="p">):</span>
+        <span class="n">z_e_x_</span> <span class="o">=</span> <span class="n">z_e_x</span><span class="p">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">).</span><span class="n">contiguous</span><span class="p">()</span>
+        <span class="n">z_q_x_</span><span class="p">,</span> <span class="n">indices</span> <span class="o">=</span> <span class="n">vq_st</span><span class="p">(</span><span class="n">z_e_x_</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">embedding</span><span class="p">.</span><span class="n">weight</span><span class="p">.</span><span class="n">detach</span><span class="p">())</span>
+        <span class="n">z_q_x</span> <span class="o">=</span> <span class="n">z_q_x_</span><span class="p">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">).</span><span class="n">contiguous</span><span class="p">()</span>
+
+        <span class="n">z_q_x_bar_flatten</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">index_select</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">embedding</span><span class="p">.</span><span class="n">weight</span><span class="p">,</span>
+            <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">indices</span><span class="p">)</span>
+        <span class="n">z_q_x_bar_</span> <span class="o">=</span> <span class="n">z_q_x_bar_flatten</span><span class="p">.</span><span class="n">view_as</span><span class="p">(</span><span class="n">z_e_x_</span><span class="p">)</span>
+        <span class="n">z_q_x_bar</span> <span class="o">=</span> <span class="n">z_q_x_bar_</span><span class="p">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">).</span><span class="n">contiguous</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">z_q_x</span><span class="p">,</span> <span class="n">z_q_x_bar</span>
+</code></pre></div></div>
+<p>La definición de este embedding requiere dos parámetros:</p>
+<ol>
+<li>$K$ que es la cantidad de categorías o elementos que tendrá el diccionario de embeddings</li>
+<li>$D$ que es la dimensionalidad de cada embedding.</li>
+</ol>
+<p>Ambos parámetros afectan la reconstrucción, por lo que ajustarlos depende del problema. El método <code>straight_through</code> simplemente aplica la estrategia mencionada previamente para actualizar los embeddings vía el gradiente. La permutación de componentes, es debido a que la entrada de los vectores en procesamiento de imágenes es <code>(B, C, H, W)</code>, donde <code>C</code> es la cantidad de canales (ejemplo <code>RGB</code>) y queremos aplicar la misma multiplicación para todos los canales. Finalmente para computar los vectores latentes, estos se re-permutan para volver a las componentes originales. El codificador decodificador queda como:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">VectorQuantizedVAE</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dim</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">K</span><span class="o">=</span><span class="mi">512</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">().</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">encoder</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">BatchNorm2d</span><span class="p">(</span><span class="n">dim</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">ReLU</span><span class="p">(</span><span class="bp">True</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="n">ResBlock</span><span class="p">(</span><span class="n">dim</span><span class="p">),</span>
+            <span class="n">ResBlock</span><span class="p">(</span><span class="n">dim</span><span class="p">),</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="p">.</span><span class="n">codebook</span> <span class="o">=</span> <span class="n">VQEmbedding</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="p">.</span><span class="n">decoder</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">ResBlock</span><span class="p">(</span><span class="n">dim</span><span class="p">),</span>
+            <span class="n">ResBlock</span><span class="p">(</span><span class="n">dim</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">ReLU</span><span class="p">(</span><span class="bp">True</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">ConvTranspose2d</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">BatchNorm2d</span><span class="p">(</span><span class="n">dim</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">ReLU</span><span class="p">(</span><span class="bp">True</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">ConvTranspose2d</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">input_dim</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">Tanh</span><span class="p">()</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="p">.</span><span class="nb">apply</span><span class="p">(</span><span class="n">weights_init</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">z_e_x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">encoder</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">latents</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">codebook</span><span class="p">(</span><span class="n">z_e_x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">latents</span>
+
+    <span class="k">def</span> <span class="nf">decode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">latents</span><span class="p">):</span>
+        <span class="c1"># (B, D, H, W)
+</span>        <span class="n">z_q_x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">codebook</span><span class="p">.</span><span class="n">embedding</span><span class="p">(</span><span class="n">latents</span><span class="p">).</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">x_tilde</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">decoder</span><span class="p">(</span><span class="n">z_q_x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x_tilde</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">z_e_x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">encoder</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">z_q_x_st</span><span class="p">,</span> <span class="n">z_q_x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">codebook</span><span class="p">.</span><span class="n">straight_through</span><span class="p">(</span><span class="n">z_e_x</span><span class="p">)</span>
+        <span class="n">x_tilde</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">decoder</span><span class="p">(</span><span class="n">z_q_x_st</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x_tilde</span><span class="p">,</span> <span class="n">z_e_x</span><span class="p">,</span> <span class="n">z_q_x</span>
+</code></pre></div></div>
+<p>Debe notarse que ahora, en lugar de re-parametrizar y obtener una distribución continua, se usa este diccionario de vectores para reconstruir la entrada codificada. El entrenamiento, se ve como sigue, lo ejecuté por <code>100</code> epochs.</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">train_loss</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="c1"># Another hyperparameter
+</span><span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">):</span>
+    <span class="n">avg_loss</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">img</span> <span class="ow">in</span> <span class="n">train_loader</span><span class="p">:</span>
+        <span class="c1"># Convertir tipo a float
+</span>        <span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">optimizer</span><span class="p">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">x_tilde</span><span class="p">,</span> <span class="n">z_e_x</span><span class="p">,</span> <span class="n">z_q_x</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+
+        <span class="c1"># Reconstruction loss
+</span>        <span class="n">loss_recons</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="n">mse_loss</span><span class="p">(</span><span class="n">x_tilde</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
+        <span class="c1"># Vector quantization objective
+</span>        <span class="n">loss_vq</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="n">mse_loss</span><span class="p">(</span><span class="n">z_q_x</span><span class="p">,</span> <span class="n">z_e_x</span><span class="p">.</span><span class="n">detach</span><span class="p">())</span>
+        <span class="c1"># Commitment objective
+</span>        <span class="n">loss_commit</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="n">mse_loss</span><span class="p">(</span><span class="n">z_e_x</span><span class="p">,</span> <span class="n">z_q_x</span><span class="p">.</span><span class="n">detach</span><span class="p">())</span>
+
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_recons</span> <span class="o">+</span> <span class="n">loss_vq</span> <span class="o">+</span> <span class="n">BETA</span> <span class="o">*</span> <span class="n">loss_commit</span>
+        <span class="n">loss</span><span class="p">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">optimizer</span><span class="p">.</span><span class="n">step</span><span class="p">()</span>
+
+        <span class="c1"># Actualizar promedio de pérdida
+</span>        <span class="n">avg_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="p">.</span><span class="n">item</span><span class="p">()</span>
+
+    <span class="n">avg_loss</span> <span class="o">/=</span> <span class="n">BATCH_SIZE</span>
+    <span class="n">train_loss</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">avg_loss</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Epoch </span><span class="si">{</span><span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s">|</span><span class="si">{</span><span class="n">num_epochs</span><span class="si">}</span><span class="s">; Running loss </span><span class="si">{</span><span class="n">avg_loss</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+</code></pre></div></div>
+<p>La curva de aprendizaje que obtuve:</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/5bd96588b648795058582c5e8ade76024c6d68fc/vq-vae-learning.png" alt="vq-vae-learning"></p>
+<p><em>Fig 3: Curva de aprendizaje en CIFAR10 (aviones) para modelo VQ-VAE definido.</em></p>
+</div>
+<p>Ejemplo de imágenes originales y reconstrucción:</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/5bd96588b648795058582c5e8ade76024c6d68fc/vq-vae-originals.png" alt="vq-vae-orig"></p>
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/5bd96588b648795058582c5e8ade76024c6d68fc/vq-vae-recons.png" alt="vq-vae-recons"></p>
+<p><em>Fig 4: (arriba) Ejemplos de imágenes de aviones CIFAR 10 (abajo) Reconstrucción de los ejemplos con VQ-VAE</em></p>
+</div>
+<h3 id="re-ajustando-pz-con-modelo-auto-regressivo-pixelcnn">Re-Ajustando $p(z)$ con Modelo Auto-Regressivo PixelCNN</h3>
+<p>En esta sección estimaremos $p(z)$ utilizando el modelo auto-regresivo PixelCNN. En lugar de pixeles, en este caso predecimos los vectores diccionario de embeddings asociados a cada posición de la imagen en el espacio latente:</p>
+<p>$$p(z) = \prod_i^K p(z_i|z_1, z_2, \ldots, z_{i-1})$$</p>
+<p>El modelo PixelCNN a definir en <code>Pytorch</code>:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">PixelCNN</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c_in</span><span class="p">,</span> <span class="n">c_hidden</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">().</span><span class="n">__init__</span><span class="p">()</span>
+
+        <span class="c1"># Initial convolutions skipping the center pixel
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">conv_vstack</span> <span class="o">=</span> <span class="n">VerticalStackConvolution</span><span class="p">(</span><span class="n">c_in</span><span class="p">,</span> <span class="n">c_hidden</span><span class="p">,</span> <span class="n">mask_center</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">conv_hstack</span> <span class="o">=</span> <span class="n">HorizontalStackConvolution</span><span class="p">(</span><span class="n">c_in</span><span class="p">,</span> <span class="n">c_hidden</span><span class="p">,</span> <span class="n">mask_center</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="c1"># Convolution block of PixelCNN. We use dilation instead of downscaling
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">conv_layers</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">ModuleList</span><span class="p">([</span>
+            <span class="n">GatedMaskedConv</span><span class="p">(</span><span class="n">c_hidden</span><span class="p">),</span>
+            <span class="n">GatedMaskedConv</span><span class="p">(</span><span class="n">c_hidden</span><span class="p">,</span> <span class="n">dilation</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+            <span class="n">GatedMaskedConv</span><span class="p">(</span><span class="n">c_hidden</span><span class="p">),</span>
+            <span class="n">GatedMaskedConv</span><span class="p">(</span><span class="n">c_hidden</span><span class="p">,</span> <span class="n">dilation</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
+            <span class="n">GatedMaskedConv</span><span class="p">(</span><span class="n">c_hidden</span><span class="p">),</span>
+            <span class="n">GatedMaskedConv</span><span class="p">(</span><span class="n">c_hidden</span><span class="p">,</span> <span class="n">dilation</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+            <span class="n">GatedMaskedConv</span><span class="p">(</span><span class="n">c_hidden</span><span class="p">)</span>
+        <span class="p">])</span>
+        <span class="c1"># Output classification convolution (1x1)
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">conv_out</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">c_hidden</span><span class="p">,</span> <span class="n">c_in</span> <span class="o">*</span> <span class="mi">512</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="s">"""
+        Forward image through model and return logits for each pixel.
+        Inputs:
+            x - Image tensor with integer values between 0 and 255.
+        """</span>
+        <span class="c1"># Scale input from 0 to K - 1 back to -1 to 1
+</span>        <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="nb">float</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="n">K</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span>
+
+        <span class="c1"># Initial convolutions
+</span>        <span class="n">v_stack</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">conv_vstack</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">h_stack</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">conv_hstack</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="c1"># Gated Convolutions
+</span>        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">conv_layers</span><span class="p">:</span>
+            <span class="n">v_stack</span><span class="p">,</span> <span class="n">h_stack</span> <span class="o">=</span> <span class="n">layer</span><span class="p">(</span><span class="n">v_stack</span><span class="p">,</span> <span class="n">h_stack</span><span class="p">)</span>
+        <span class="c1"># 1x1 classification convolution
+</span>        <span class="c1"># Apply ELU before 1x1 convolution for non-linearity on residual connection
+</span>        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">conv_out</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">elu</span><span class="p">(</span><span class="n">h_stack</span><span class="p">))</span>
+
+        <span class="c1"># Output dimensions: [Batch, Classes, Channels, Height, Width]
+</span>        <span class="n">out</span> <span class="o">=</span> <span class="n">out</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">out</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">K</span><span class="p">,</span> <span class="n">out</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">//</span><span class="n">K</span><span class="p">,</span> <span class="n">out</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">out</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">out</span>
+</code></pre></div></div>
+<p>Entrenando modelo PixelCNN para obtener $p(z)$:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">prior_train_loss</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">):</span>
+    <span class="n">avg_loss</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">img</span> <span class="ow">in</span> <span class="n">train_loader</span><span class="p">:</span>
+        <span class="c1"># Encode with the VQ-VAE
+</span>        <span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+            <span class="n">latents</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">encode</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+            <span class="n">shape</span> <span class="o">=</span> <span class="n">latents</span><span class="p">.</span><span class="n">shape</span>
+            <span class="n">latents</span> <span class="o">=</span> <span class="n">latents</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+            <span class="n">latents</span> <span class="o">=</span> <span class="n">latents</span><span class="p">.</span><span class="n">detach</span><span class="p">()</span>
+
+        <span class="c1"># Calc likelihood
+</span>        <span class="n">pred</span> <span class="o">=</span> <span class="n">prior</span><span class="p">(</span><span class="n">latents</span><span class="p">)</span>
+        <span class="n">nll</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">latents</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="s">'none'</span><span class="p">)</span>
+        <span class="n">bpd</span> <span class="o">=</span> <span class="n">nll</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">log2</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">bpd</span><span class="p">.</span><span class="n">mean</span><span class="p">()</span>
+
+        <span class="c1"># Update weights
+</span>        <span class="n">prior_optimizer</span><span class="p">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">loss</span><span class="p">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">prior_optimizer</span><span class="p">.</span><span class="n">step</span><span class="p">()</span>
+
+        <span class="c1"># Update average loss
+</span>        <span class="n">avg_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="p">.</span><span class="n">item</span><span class="p">()</span>
+
+    <span class="n">avg_loss</span> <span class="o">/=</span> <span class="n">batch_size</span>
+    <span class="n">prior_train_loss</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">avg_loss</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Epoch </span><span class="si">{</span><span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s">|</span><span class="si">{</span><span class="n">num_epochs</span><span class="si">}</span><span class="s">; Running loss </span><span class="si">{</span><span class="n">avg_loss</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Ahora con $p(z)$ re-calculada, podemos generar imágenes de nuevos aviones haciendo un muestreo en esta distribución:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="n">img_shape</span><span class="p">,</span> <span class="n">out_img</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">out_img</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">out_img</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">img_shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="nb">long</span><span class="p">).</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="c1"># Generation loop
+</span>        <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">img_shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span> <span class="n">leave</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">img_shape</span><span class="p">[</span><span class="mi">3</span><span class="p">]):</span>
+                <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">img_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+                    <span class="c1"># Skip if not to be filled (-1)
+</span>                    <span class="k">if</span> <span class="p">(</span><span class="n">out_img</span><span class="p">[:,</span><span class="n">c</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">w</span><span class="p">]</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">).</span><span class="nb">all</span><span class="p">().</span><span class="n">item</span><span class="p">():</span>
+                        <span class="k">continue</span>
+                    <span class="c1"># For efficiency, we only have to input the upper part of the image
+</span>                    <span class="c1"># as all other parts will be skipped by the masked convolutions anyways
+</span>                    <span class="n">pred</span> <span class="o">=</span> <span class="n">prior</span><span class="p">.</span><span class="n">forward</span><span class="p">(</span><span class="n">out_img</span><span class="p">[:,:,:</span><span class="n">h</span><span class="o">+</span><span class="mi">1</span><span class="p">,:])</span>
+                    <span class="n">probs</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">pred</span><span class="p">[:,:,</span><span class="n">c</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">w</span><span class="p">],</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+                    <span class="n">out_img</span><span class="p">[:,</span><span class="n">c</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">w</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">multinomial</span><span class="p">(</span><span class="n">probs</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">1</span><span class="p">).</span><span class="n">squeeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out_img</span>
+</code></pre></div></div>
+<p>Las imágenes generadas se muestran en la figura 5:</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/5bd96588b648795058582c5e8ade76024c6d68fc/generated-samples.png" alt="vq-vae-gen"></p>
+<p><em>Fig 5: Imágenes generadas muestrando desde la distribución $p(z)$ y reconstruyendo con el decodificador.</em></p>
+</div>
+<p>Sigo pensando que es mágico que simplemente muestreando índices en un espacio latente, puedan reconstruirse/generarse imágenes. Además en el caso de reconstrucción de imágenes, una imagen de 3 canales y dimensiones <code>32x32</code> se comprimió a una imagen de un solo canal de <code>8x8</code> y luego el decodificador fue capaz de reconstruirla.</p>
+<h4 id="qu-pas-con-mis-pokmon">¿Qué pasó con mis Pokémon?</h4>
+<p>Sólo por diversión, quiero ver qué ocurriría con el conjunto de datos que utilicé en mi post previo (sprites de íconos de pokémon):</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/e33c649b57c0662ac2152ffa0df841d3c5a6e690/vq-vae-pkmn-orig.png" alt="vq-vae-pk-orig"></p>
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/e33c649b57c0662ac2152ffa0df841d3c5a6e690/vq-vae-pkmn-recons.png" alt="vq-vae-pk-recons"></p>
+<p><em>Fig 6: (arriba) Muestras de Pokémon del conjunto de datos. (abajo) Reconstrucciones con VQ-VAE.</em></p>
+</div>
+<p>Ahora, generemos nuevos Pokémones:</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/e33c649b57c0662ac2152ffa0df841d3c5a6e690/vq-vae-pkmn-gen.png" alt="vq-vae-pk-gen"></p>
+<p><em>Fig 7: Generación de Pokémones muestreando de $p(z)$.</em></p>
+</div>
+<p>En este caso generamos nuevos íconos, curioso que también logramos muestrear pokémones cercanos a los que ya existían en el conjunto de entrenamiento.</p>
+<h1 id="reflexiones-finales">Reflexiones Finales</h1>
+<p>En este artículo expliqué cómo funciona uno de los modelos fundamentales en GenAI. Este modelo es la base del conocido DALL-E, claro que DALL-E utiliza otros trucos, en lugar de utilizar un VQ-VAE utiliza una adaptación llamada <code>dVAE</code> pero la idea es similar. Para más detalle ver paper <a href="https://arxiv.org/abs/2102.12092" target="_blank" rel="noopener noreferrer">Zero-Shot Text-to-Image Generation</a>. En simples palabras, ellos logran dado una imagen $x$ y un texto $y$, logran estimar $p(x, y)$ (en realidad, en un espacio latente), y muestrean nuevas imágenes dado un texto.</p>
+<p>Finalmente, sólo como dato, quise hacer experimentos rápidos para validar mi entendimiento en estos temas y modelos. No utilicé una cantidad de datos abismal, ya que tengo GPU limitada (y dinero limitado 😂), pero la industria y las empresas con mayor poder adquisitivo cuentan con una mejor infraestructura, un mejor equipo de ingenieros, mayor cantidad de datos y mucho mayor poder de cómputo.</p>
+<h1 id="conclusiones">Conclusiones</h1>
+<ul>
+<li>El modelo generativo VQ-VAE + PixelCNN es la base de sistemas como DALL-E</li>
+<li>Generar imágenes en este contexto de GenAI, es simplemente muestrear de una distribución $p(x)$, que se estima mediante modelos de redes neuronales</li>
+</ul>
+
+  </div>
+<div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = '';
+      this.page.identifier = 'https://dpalmasan.github.io/website/python/algorithms/ai/2024/02/23/generando-imagenes-vqvae.html';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://dpalmasan.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow noopener noreferrer" target="_blank">comments powered by Disqus.</a>
+</noscript>
+<a class="u-url" href="/website/python/algorithms/ai/2024/02/23/generando-imagenes-vqvae.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/website/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="https://dpalmasan.github.io/website/feed.xml">
+            <svg class="svg-icon orange">
+              <path d="M12.8 16C12.8 8.978 7.022 3.2 0 3.2V0c8.777 0 16 7.223 16 16h-3.2zM2.194
+                11.61c1.21 0 2.195.985 2.195 2.196 0 1.21-.99 2.194-2.2 2.194C.98 16 0 15.017 0
+                13.806c0-1.21.983-2.195 2.194-2.195zM10.606
+                16h-3.11c0-4.113-3.383-7.497-7.496-7.497v-3.11c5.818 0 10.606 4.79 10.606 10.607z"></path>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">dpalmasan</li>
+          
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Este es un blog donde compartiré un poco sobre mí y mis experiencias en el mundo tecnológico...</p>
+      </div>
+    </div>
+
+    <div class="social-links">
+<ul class="social-media-list">
+<li>
+    <a rel="me noopener noreferrer" href="https://www.linkedin.com/in/dpalmasan/" target="_blank" title="Mi perfil en Linkedin">
+      <span class="grey fa-brands fa-linkedin fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://www.github.com/dpalmasan" target="_blank" title="Mi Github">
+      <span class="grey fa-brands fa-github fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://scholar.google.com/citations?user=Y5PN_1AAAAAJ&hl=en" target="_blank" title="Mi Google Scholar">
+      <span class="grey fa-brands fa-google-scholar fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://stackoverflow.com/users/4051219/dpalma" target="_blank" title="Mis preguntas en SO LOL!">
+      <span class="grey fa-brands fa-stack-overflow fa-lg"></span>
+    </a>
+  </li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+
+</body>
+
+</html>

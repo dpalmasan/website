@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>De vuelta a lo básico (Parte 3) | Mr Dipalma’s Pub 🍺</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="De vuelta a lo básico (Parte 3)">
+<meta name="author" content="dpalmasan">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Introducción">
+<meta property="og:description" content="Introducción">
+<link rel="canonical" href="https://dpalmasan.github.io/website/probability/algorithms/ai/2024/02/28/hipotesis-correlacion.html">
+<meta property="og:url" content="https://dpalmasan.github.io/website/probability/algorithms/ai/2024/02/28/hipotesis-correlacion.html">
+<meta property="og:site_name" content="Mr Dipalma’s Pub 🍺">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2024-02-28T13:00:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="De vuelta a lo básico (Parte 3)">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"dpalmasan"},"dateModified":"2024-02-28T13:00:00+00:00","datePublished":"2024-02-28T13:00:00+00:00","description":"Introducción","headline":"De vuelta a lo básico (Parte 3)","mainEntityOfPage":{"@type":"WebPage","@id":"https://dpalmasan.github.io/website/probability/algorithms/ai/2024/02/28/hipotesis-correlacion.html"},"url":"https://dpalmasan.github.io/website/probability/algorithms/ai/2024/02/28/hipotesis-correlacion.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css">
+    <link rel="stylesheet" href="/website/assets/css/style.css">
+    <style type="text/css">
+        div#disqus_thread iframe[sandbox] {
+                max-height: 0px !important;
+        }
+    </style>
+<link type="application/atom+xml" rel="alternate" href="https://dpalmasan.github.io/website/feed.xml" title="Mr Dipalma's Pub 🍺">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KHXBX5G1VP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KHXBX5G1VP');
+</script>
+
+<script>MathJax={"tex":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]},"svg":{"fontCache":"global"}}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<header class="site-header">
+
+  <div class="wrapper">
+<a class="site-title" rel="author" href="/website/">Mr Dipalma's Pub 🍺</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewbox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/website/about/">About</a></div>
+      </nav>
+</div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">De vuelta a lo básico (Parte 3)</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2024-02-28T13:00:00+00:00" itemprop="datePublished">
+        Feb 28, 2024
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h1 id="introduccin">Introducción</h1>
+<p>El propósito de esta serie es intentar desafiar las creencias del lector respecto a cómo ve la Inteligencia Artificial (IA). Llevo dos “episodios” explicando conceptos básicos de probabilidad. Por otro lado, el lector puede ir a artículos previos, donde explico los fundamentos de algunos modelos de IA:</p>
+<ul>
+<li><a href="/website/python/algorithms/ai/2024/02/18/reflexiones-y-jugando-con-pixeles.html"><em>Reflexiones y Jugando con Pixeles</em></a></li>
+<li><a href="/website/python/algorithms/ai/2024/02/23/generando-imagenes-vqvae.html"><em>Generando Imágenes con VQ-VAE</em></a></li>
+</ul>
+<p>Donde logramos entender, que generar una imagen nueva sigue el proceso de muestrar the una distribución de probabilidad $p(x)$ donde $x$ es una representación de la imagen. Los modelos generativos de lenguaje también se ven discutidos en los medios y redes sociales con frecuencia. Debemos entender sin embargo, que en esencia estos modelos también están muestreando de una distribución de probabilidad. Además, se debe recordar la definición de un modelo del lenguaje: <em>Determinar si una oración pertenece o no al lenguaje</em>. En la ciencia, se ha intentado hacer esto con diferentes enfoques, en un artículo previo por ejemplo, expliqué cómo implementar un simple modelo de lenguaje utilizando <em>Cadenas de Markov</em>: <a href="/website/entrevistas/ti/2023/01/08/nlp-intro.html"><em>Un poco de NLP básico (no un tutorial de pytorch/tensor flow)</em></a>. En dicho artículo, también fuimos capaces de generar oraciones, simplemente haciendo un muestreo de una distribución de probabilidad $p(x)$, en este caso $x$ representa una oración.</p>
+<p>Aún no he explicado todos los conceptos de variables aleatorias en la teoría de la probabilidad, y este artículo contendrá algunos conceptos, explicados de forma simple, para entender dos tópicos importantes: <em>Covarianza</em> y <em>Correlación</em>. Como <em>bonus</em> hablaré un poco sobre estimación de parámetros y test de hipótesis, en el sentido probabilístico.</p>
+<h1 id="ms-tpicos-sobre-variables-aleatorias">Más tópicos sobre variables aleatorias</h1>
+<h2 id="covarianza-y-correlacin">Covarianza y Correlación</h2>
+<p>Ahora introduciremos una medida cuantitativa de la fuerza y dirección de la relación entre dos variables aleatorias. Esta cuantificación
+tiene un rol fundamental en variados contextos, y será utilizada en la metodología de estimación que se explicará explicaré más adelante.</p>
+<p>La <strong>covarianza</strong> de dos variables aleatorias $X$ e $Y$, denotada como $cov(X, Y)$, se define como:</p>
+<p>$$cov(X, Y) = E\left[ (X - E[X])(Y - E[Y]) \right]$$</p>
+<p>O alternativamente:</p>
+<p>$$cov(X, Y) = E[XY] - E[X]E[Y]$$</p>
+<p>Cuando $cov(X, Y) = 0$, decimos que $X$ e $Y$ no están <strong>correlacionadas</strong>. Puede observarse además que $cov(X, X) = var(X)$.</p>
+<p>Consideremos el ejemplo del lanzamiento de dos dados de 4 caras. Para este ejemplo consideraremos las variables $X = max(a, b)$ e $Y = a + b$, donde $a$ y $b$ son los resultados del lanzamiento de cada dado. Las funciones de masa de probabilidad son:</p>
+<p>$$
+p_X(x)=
+\left\{
+\begin{array}{ll}
+1/16 &amp; \mbox{si } x = 1 \\
+3/16 &amp; \mbox{si } x = 2 \\
+5/16 &amp; \mbox{si } x = 3 \\
+7/16 &amp; \mbox{si } x = 4 \\
+\end{array}
+\right.$$</p>
+<p>$$
+p_Y(y)=
+\left\{
+\begin{array}{ll}
+1/16 &amp; \mbox{si } y = 2 \\
+2/16 &amp; \mbox{si } y = 3 \\
+3/16 &amp; \mbox{si } y = 4 \\
+4/16 &amp; \mbox{si } y = 5 \\
+3/16 &amp; \mbox{si } y = 6 \\
+2/16 &amp; \mbox{si } y = 7 \\
+1/16 &amp; \mbox{si } y = 8 \\
+\end{array}
+\right.$$</p>
+<p>Recordemos que para una variable aleatoria $X$ su esperanza se define como $\sum_x {xp_X(x)}$, de esta forma obtenemos:</p>
+<p>$$E[X] = 1\cdot\frac{1}{16} + 2\cdot\frac{3}{16} + 3\cdot\frac{5}{16} + 4\cdot\frac{7}{16} = \frac{25}{8} = 3.125$$</p>
+<p>$$E[Y] = 2\cdot\frac{1}{16} + 3\cdot\frac{2}{16} + 4\cdot\frac{3}{16} + 5\cdot\frac{4}{16} + 6\cdot\frac{3}{16} + 7\cdot\frac{2}{16} + 8\cdot\frac{1}{16} = 5$$</p>
+<p>Finalmente, debemos calcular $E[XY]$, para ello, necesitamos la función de probabilidad de masa de $Z = XY$, para ello podemos dibujar la siguiente tabla:</p>
+<div align="center">
+<p><img src="https://raw.githubusercontent.com/dpalmasan/homepage/master/public/imgs/probabilidad_conjunta.png" alt="header"></p>
+<p><em>Fig 1: Ejemplo de probabilidad conjunta.</em></p>
+</div>
+<p>En la figura se ilustra la función de probabilidad de masa $p_Z$ de $Z = XY$, luego:</p>
+<p>$$
+\begin{align}
+E[XY] &amp; = E[Z] \\
+\sum_z {zp_Z(z)} &amp; =  2\cdot\frac{1}{16} +  6\cdot\frac{2}{16} + 8\cdot\frac{1}{16} \\
+&amp; + 12\cdot\frac{2}{16} + 15\cdot\frac{2}{16} + 18\cdot\frac{1}{16} \\
+&amp; + 20\cdot\frac{2}{16} + 24\cdot\frac{2}{16} + 28\cdot\frac{3}{16} \\
+&amp; + 32\cdot\frac{1}{16} \\
+&amp; = \frac{135}{8} = 16.875
+\end{align}
+$$</p>
+<p>Finalmente, podemos obtener la covarianza:</p>
+<p>$$cov(X, Y) = E[XY] - E[X]E[Y] = \frac{135}{8} - 5\cdot \frac{25}{8} = \frac{10}{8} = 1.25$$</p>
+<p>Para ver de forma empírica esto, probemos implementar en python este experimento:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+
+
+<span class="k">def</span> <span class="nf">random_vars_two_dices</span><span class="p">(</span><span class="n">faces</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">exp</span><span class="o">=</span><span class="mi">100000</span><span class="p">):</span>
+    <span class="s">"""Experimento de lanzamiento de dos dados.
+
+    :param faces: Número de caras de los dados, defaults to 4
+    :type faces: int, optional
+    :param exp: Cantidad de experimentos, defaults to 100000
+    :type exp: int, optional
+    :return: Dataframe con resultados de experimentos
+    :rtype: pd.DataFrame
+    """</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">exp</span><span class="p">)</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">exp</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">exp</span><span class="p">):</span>
+        <span class="n">dice1</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">faces</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">dice2</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">faces</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">dice1</span><span class="p">,</span> <span class="n">dice2</span><span class="p">)</span>
+        <span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">dice1</span> <span class="o">+</span> <span class="n">dice2</span>
+
+    <span class="k">return</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">"X"</span><span class="p">:</span> <span class="n">X</span><span class="p">,</span> <span class="s">"Y"</span><span class="p">:</span> <span class="n">Y</span><span class="p">})</span>
+
+
+<span class="c1"># Sólo por reproducibilidad
+</span><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">random_vars_two_dices</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"E[X] = </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s">'X'</span><span class="p">].</span><span class="n">mean</span><span class="p">()</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"E[Y] = </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s">'Y'</span><span class="p">].</span><span class="n">mean</span><span class="p">()</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"E[XY] = </span><span class="si">{</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'X'</span><span class="p">]</span><span class="o">*</span><span class="n">df</span><span class="p">[</span><span class="s">'Y'</span><span class="p">]).</span><span class="n">mean</span><span class="p">()</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"cov(X, Y) = </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s">'X'</span><span class="p">].</span><span class="n">cov</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'Y'</span><span class="p">])</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Asumiendo que no borraron la semilla configurada (si la borran deberían llegar a un resultado similar pero probablemente no igual), deberían ver lo siguiente:</p>
+<pre><code>E[X] = 3.12452
+E[Y] = 4.99505
+E[XY] = 16.85539
+cov(X, Y) = 1.248268856688566
+</code></pre>
+<p>Si hacen una comparación de estos resultados, con los resultados teóricos, notarán que son extremadamente parecidos, y es lo esperable ya que conocemos la variable aleatoria y podemos calcular el valor de la esperanza y de la covarianza de forma exacta. En general en la práctica no se conocen los modelos probabilísticos de las variables en sí, pero si se pueden hacer ciertas estimaciones, si es que se tiene una muestra de datos representativa. Como <strong>ejercicio adicional</strong>, pueden calcular la covarianza de una variable binomial, por ejemplo considerando dos lanzamientos de monedas y <code>X</code> la cantidad de caras e <code>Y</code> la cantidad de sellos/cruces. Por ejemplo si consideran $n$ igual a 2, la covarianza debería darles <code>-0.5</code> (esperable que estén negativamente correlacionadas, ya que mientras más caras menos cruces/sellos y viceversa).</p>
+<p>El <strong>coeficiente de correlación</strong> $\rho(X, Y)$ entre dos variables aleatorias $X$ e $Y$ que tienen varianzas distintas de 0, se define como:</p>
+<p>$$\rho(X, Y) = \frac{cov(X, Y)}{var(X)var(Y)}$$</p>
+<p>Este coeficiente se puede ver como una versión normalizada de la covarianza $cov(X, Y)$, y de hecho, puede demostrarse que los valores de
+$\rho$ se encuentran entre -1 y 1. Si $\rho &gt; 0$ (o $\rho &lt; 0$), los valores de $X - E[X]$ e $Y - E[Y]$ “tienden” a tener el mismo
+(o opuesto, respectivamente) signo. El tamaño de $|\rho|$ provee una medida normalizada del grado de veracidad de esto. Básicamente la
+correlación nos permite comparar distintas variables (que pueden estar en diferentes escalas) y sus relaciones. Por completitud, calculemos
+la correlación de las variables $X$ e $Y$ consideradas en el experimento del lanzamiento de dos dados de 4 caras. Primero debemos calcular
+las varianzas:</p>
+<p>$$
+\begin{align}
+var(X) &amp; = E\left[(X - E[X])^2\right] \\
+&amp; = \frac{1}{16}\left(1 - \frac{25}{8}\right)^2 + \frac{3}{16}\left(2 - \frac{25}{8}\right)^2 \\
+&amp; + \frac{5}{16}\left(3 - \frac{25}{8}\right)^2 + \frac{7}{16}\left(4 - \frac{25}{8}\right)^2 \\
+&amp; = \frac{55}{64}
+\end{align}
+$$</p>
+<p>$$
+\begin{align}
+var(Y) &amp; = E\left[(Y - E[Y])^2\right] \\
+&amp; = \frac{1}{16}\left(2 - 5\right)^2 + \frac{1}{16}\left(2 - 5\right)^2 \\
+&amp; + \frac{2}{16}\left(3 - 5\right)^2 + \frac{3}{16}\left(4 - 5\right)^2 \\
+&amp; + \frac{4}{16}\left(5 - 5\right)^2 + \frac{3}{16}\left(6 - 5\right)^2 \\
+&amp; + \frac{2}{16}\left(7 - 5\right)^2 + \frac{1}{16}\left(8 - 5\right)^2 \\
+&amp; = \frac{5}{2}
+\end{align}
+$$</p>
+<p>Finalmente:</p>
+<p>$$\rho(X, Y) = \frac{\frac{5}{4}}{\sqrt{\frac{55}{64}\cdot\frac{5}{2}}} = \frac{\frac{5}{4}}{\sqrt{\frac{275}{128}}} \approx 0.8528$$</p>
+<p>Para calcular la correlación entre las variables del ejemplo de los dados, pueden hacer <code>df["X"].corr(df["Y"])</code> lo que entrega <code>0.8527042714104315</code> (básicamente el mismo valor obtenido teóricamente). Finalmente, podemos graficar la distribución conjunta de estas variables:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+
+
+<span class="n">plt</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="n">use</span><span class="p">(</span><span class="s">"seaborn"</span><span class="p">)</span> <span class="c1"># gráficos estilo seaborn
+</span><span class="n">plt</span><span class="p">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">"figure.figsize"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span> <span class="c1"># Tamaño gráficos
+</span><span class="n">plt</span><span class="p">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">"figure.dpi"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">200</span> <span class="c1"># resolución gráficos
+</span><span class="n">sns</span><span class="p">.</span><span class="n">jointplot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">"X"</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s">"Y"</span><span class="p">],</span> <span class="n">kind</span><span class="o">=</span><span class="s">"reg"</span><span class="p">,</span> <span class="n">stat_func</span><span class="o">=</span><span class="n">stats</span><span class="p">.</span><span class="n">pearsonr</span><span class="p">)</span>
+</code></pre></div></div>
+<div align="center">
+<p><img src="https://raw.githubusercontent.com/dpalmasan/homepage/master/public/imgs/pearson.png" alt="header"></p>
+<p><em>Fig 2: Gráfico de probabilidad conjunta ejemplo de los dados.</em></p>
+</div>
+<p>Se observa que las variables están correlacionadas positivamente y fuertemente (ya que el coeficiente de correlación es 0.85).</p>
+<h2 id="inferencia-estadstica-clsica">Inferencia Estadística Clásica</h2>
+<p>Como se mencionó algunas veces durante esta serie de artículos, existen dos visiones, frecuentista y Bayesiana. Para evitar complejizar las explicaciones, nos iremos por la visión clásica.</p>
+<p>Tenemos una cantidad desconocida $\theta$ que queremos estimar, en el modelo clásico vemos a $\theta$ como un valor determinístico que desconocemos (contrario a la visión Bayesiana donde $\theta$ se le considera una variable aleatoria). Tenemos una observación $X$ aleatoria y cuya distribución $p_X(x;\theta)$ (o $f_X(x;\theta)$ si $X$ es continua) depende del valor de $\theta$. Por lo tanto, en esta visión se lidia de manera simultánea con múltiples modelos candidatos, un modelo por cada valor posible de $\theta$.  En este contexto una “buena” forma de estimar $\theta$ es tener un proceso de estimación que posea ciertas propiedades deseables bajo cualquier modelo candidato.</p>
+<div align="center">
+<p><img src="https://raw.githubusercontent.com/dpalmasan/homepage/master/public/imgs/inference.png" alt="header"></p>
+<p><em>Fig 3: Proceso de inferencia.</em></p>
+</div>
+<p>Dadas las observaciones $X = (X_1, \ldots, X_n)$, un <b>estimador</b> es una variable aleatoria de la forma $\hat{\Theta} = g(X)$, para  alguna función $g$. Notar que $X$ depende de $\theta$, lo mismo ocurre para la distribución de $\hat{\Theta}$. Se usa el término  <strong>estimación</strong> para referirse a un valor actual calculado para $\hat{\Theta}$. Ahora introduciremos añguna terminología relacionada a  varias propiedades de los estimadores:</p>
+<ul>
+<li>El <strong>error de estimación</strong>, denotado $\tilde{\Theta}_n$ se define como $\tilde{\Theta}_n = \hat{\Theta}_n - \theta$
+(notar que $n$ es el número de observaciones).</li>
+<li>El <strong>sesgo</strong> (<strong>bias</strong>) del estimador, denotado por $b_{\theta}(\hat{\Theta}_n)$ es el valor esperado (esperanza)
+del error de estimación:</li>
+</ul>
+<p>$$
+\begin{equation}
+b_{\theta}(\hat{\Theta}_n) = E_{\theta}[\hat{\Theta}_n] - \theta
+\end{equation}
+$$</p>
+<ul>
+<li>Decimos que $\tilde{\Theta}_n$ es imparcial (en algunos lados leerán insesgado, <strong>unbiased</strong>) si
+$E_{\theta}[\hat{\Theta}_n] = \theta$ para cualquier valor posible de $\theta$</li>
+<li>Decimos que $\hat{\Theta}_n$ es <strong>asintóticamente imparcial</strong> si a medida que el número de observaciones $n$ aumenta, hay una
+convergencia de $E_{\theta}[\hat{\Theta}_n] = \theta$</li>
+</ul>
+<p>Para entender de mejor manera los conceptos ilustrados hasta ahora, estimaremos dos parámetros importantes, el promedio y la varianza  de una varible aleatoria. Supongamos que tenemos $n$ observaciones $X_1, \ldots, X_n$ i.i.d, que tienen un promedio común pero desconocido  $\theta$ (promedio de la población). El estimador más natural de $\theta$ es el <strong>promedio muestral</strong>:</p>
+<p>$$M_n = \frac{X_1 + \ldots + X_n}{n}$$</p>
+<p>Calculemos la esperanza del error de estimación:</p>
+<p>$$
+\begin{array}{ll}
+E[M_n - \theta] &amp; = E[M_n - \theta] \\
+&amp; = E[M_n] - \theta\\
+&amp; = 0 \\
+\end{array}
+$$</p>
+<p>Por lo tanto este estimador es imparcial, $E[M_n] = \theta$ (0 error de estimación). La varianza de este estimador:</p>
+<p>$$
+\begin{array}{ll}
+var(M_n) &amp; = var\left( \frac{X_1 + \ldots + X_n}{n}\right) \\
+&amp; = \displaystyle \frac{1}{n^2} (var(X_1) + \ldots + var(X_2))\\
+&amp; = \displaystyle \frac{v}{n} \\
+\end{array}
+$$</p>
+<p>Donde $v$ es la varianza que comparten las muestras. Supongamos que ahora estamos interesados en un estimador de la varianza $v$ de la variable aleatoria a partir de las $n$ observaciones. Una opción natural sería:</p>
+<p>$$\bar{S}_n^2 = \frac{1}{n} \sum_{i=1}^{n} (X_i - M_n)^2$$</p>
+<p>Usando las siguientes relaciones (esperanza de $M_n$, esperanza de $X_i^2$, esto sale de $var(X) = E[X^2] - (E[X])^2$, y
+la esperanza de $M_n^2$ se obtuvo anteriormente):</p>
+<p>$$E_{(\theta, v)}[M_n] = \theta, \quad  E_{(\theta, v)}[X_i^2] = \theta^2 + v, \quad E_{(\theta, v)}[M_n^2] = \theta^2 + \frac{v}{n}$$</p>
+<p>Luego resolviendo:</p>
+<p>$$
+\begin{array}{ll}
+E_{(\theta, v)}[\bar{S}_n^2] &amp; = \displaystyle \frac{1}{n} E_{(\theta, v)} \left[ \sum_{i=1}^{n}{X_i^2 - 2M_nX_i + Mn^2}  \right]  \\
+&amp; = \displaystyle \frac{1}{n} E_{(\theta, v)} \left[ \sum_{i=1}^{n}{X_i^2} - 2M_n \sum_{i=1}^{n}{X_i} + \sum_{i=1}^{n}{Mn^2}  \right] \\
+&amp; = \displaystyle \frac{1}{n} E_{(\theta, v)} \left[ \sum_{i=1}^{n}{X_i^2} - 2nM_n^2 + nM_n^2  \right] \\
+&amp; = E_{(\theta, v)} \left[ \frac{1}{n} \sum_{i=1}^{n}{X_i^2} - M_n^2  \right] \\
+&amp; = E_{(\theta, v)} \left[ \frac{1}{n} \sum_{i=1}^{n}{X_i^2}\right] - E_{(\theta, v)}\left[ M_n^2  \right] \\
+&amp; = \displaystyle \frac{1}{n} E_{(\theta, v)} \left[X_1^2 + \ldots + X_n^2\right] - (\theta^2 + \frac{v}{n}) \\
+&amp; = \displaystyle \frac{1}{n} n (\theta^2 + v) - (\theta^2 + \frac{v}{n}) \\
+&amp; = \displaystyle \frac{n - 1}{n} v
+\end{array}
+$$</p>
+<p>Notamos que el estimador de la varianza definido como $\bar{S}_n^2$ no es imparcial, ya que su valor esperado no es $v$, pero a medida que
+el tamaño muestral aumenta ($n$), converge asintóticamente a la varianza real $v$. Si escalamos adecuadamente $\bar{S}_n^2$, obtenemos:</p>
+<p>$$\hat{S}_n^2 = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - M_n)^2 = \frac{n}{n - 1} \bar{S}_n^2$$</p>
+<p>Del cual se puede demostrar que $E[\hat{S}_n^2] = v$, y este es un estimador imparcial de la varianza real $v$ para cualquier $n$. Sin embargo, si $n$ es lo suficientemente grande, entonces ambos estimadores son aproximadamente equivalentes (<strong>de aquí sale el $n - 1$ que hemos visto un par de veces</strong>).</p>
+<h3 id="intervalos-de-confianza">Intervalos de Confianza</h3>
+<p>Supongamos que queremos ver si una moneda está cargada o no. Nos gustaría estimar el parámetro de probabilidad de que salga cara, por ejemplo. Sin embargo, comparar diferentes valores numéricamente hablando, no se podría diferenciar entre 0.4999 o 0.5, tampoco tendría sentido ya que es un estimado. En general, para esta situación nos interesa construir lo que se conoce como <strong>intervalo de confianza</strong>. En simples términos, este intervalo de confianza tiene una alta probabilidad de contener el parámetro que deseamos estimar, para cualquier valor del parámetro.</p>
+<p>Para una definición más precisa, primero fijemos un <strong>nivel de confianza</strong>, $1 - \alpha$ donde $\alpha$ es típicamente un valor pequeño. Luego reemplazamos el estimador $\hat{\Theta}_n$ por un límite inferior $\hat{\Theta}_n^{-}$ y superior $\hat{\Theta}_n^{+}$, diseñados de manera que $\hat{\Theta}_n^{-} \leq \hat{\Theta}_n^{+}$, y:</p>
+<p>$$P_{\theta}(\hat{\Theta}_n^{-} \leq \theta \leq \hat{\Theta}_n^{+}) \geq 1 - \alpha$$</p>
+<p>En otras palabras, la probabilidad de que el intervalo contenga al parámetro a estimar, sea mayor que un cierto nivel de confianza. Notamos que $\hat{\Theta}_n^{-}$ y $\hat{\Theta}_n^{+}$ son función de las observaciones y por tanto, variables aleatorias cuya distribución dependen de $\theta$. Llamamos al intervalo $[\hat{\Theta}_n^{-}, \hat{\Theta}_n^{+}]$ <strong>intervalo de confianza</strong>.</p>
+<p>En general los intervalos de confianza se construyen alrededor de un estimador $\hat{\Theta}_n$. Más aún, de una gran variedad de intervalos de confianza posibles, uno con un ancho pequeño es usualmente deseable. Sin embargo, esta construcción es complicada a veces debido que la distribución del error $\hat{\Theta}_n - \theta$ es desconocida o depende de $\theta$. Afortunadamente, para muchos modelos importantes $\hat{\Theta}_n - \theta$ es asintóticamente normal e imparcial. Con ello, queremos decir que la distribución de probabilidad acumulada de la variable aleatoria:</p>
+<p>$$\frac{\hat{\Theta}_n - \theta}{\sqrt{var_{\theta}(\hat{\Theta}_n)}}$$</p>
+<p>Se acerca a la distribución de probabilidad acumulada de una variable aleatoria normal estándar, a medida que $n$ aumenta, para cualquier valor de $\theta$. Ahora en casos en que la muestra no es de gran tamaño, para estimar la probabilidad, deberán usar la distribución del estudiante (la distribución t).</p>
+<h3 id="test-de-hiptesis-binario">Test de Hipótesis Binario</h3>
+<p>En esta sección, nos enfocamos en describir el problema de elegir dos hipótesis. En el lenguaje estadístico tradicional, se consideran hipótesis $H_0$ (<strong>hipótesis nula</strong>) y $H_1$ (hipótesis alternativa). En esta configuración, $H_0$ toma el rol de modelo por defecto, que se demuestra o no refuta en base a los datos disponibles. Básicamente, el espacio de observaciones del vector de observaciones $X = (X_1, X_2, \ldots, X_n)$, se particiona en dos subconjuntos: un conjunto $R$, llamado <strong>región de rechazo</strong>, y su complemento, $R^C$, llamado <strong>región de aceptación</strong>. La hipótesis $H_0$ se <strong>rechaza</strong> (se dice falsa) cuando los datos observados caen en la región de rechazo $R$ y se acepta (se dice verdadera) en caso contrario.</p>
+<div align="center">
+<p><img src="https://raw.githubusercontent.com/dpalmasan/homepage/master/public/imgs/hypothesis.png" alt="header"></p>
+<p><em>Fig 4: Test de Hipótesis Binario.</em></p>
+</div>
+<p>Dependiendo de la elección de la región de rechazo $R$, existen dos tipos posibles de error:</p>
+<ol>
+<li>Rechazar $H_0$ siendo esta verdadera. Esto se conoce como <strong>error tipo I</strong>, o falso positivo, y ocurre con probabilidad:</li>
+</ol>
+<p>$$\alpha(R) = P(X \in R; H_0)$$</p>
+<ol start="2">
+<li>Aceptar $H_0$ cuando es falsa. Esto se conoce como <strong>error tipo II</strong>, o falso negativo, y ocurre con probabilidad:</li>
+</ol>
+<p>$$\beta(R) = P(X \notin R; H_1)$$</p>
+<h3 id="test-de-significancia">Test de Significancia</h3>
+<p>En test de hipótesis en entornos encontrados en la práctica no involucran siempre dos alternativas bien definidas, de modo que lo explicado en el apartado anterior (que involucra tener definida la hipótesis) no puede aplicarse. El propósito de este último apartado es introducir un enfoque a esta clase más general problemas. Sin embargo, se debe tomar la precaución, que una metodología única o universal no existe, y que existe un elemento significativo de juicio y “arte” que entra en el juego.</p>
+<p>Consideremos el siguiente ejemplo: <strong>¿Es mi moneda equitativa?</strong></p>
+<p>Una moneda se lanza independientemente $n = 1000$ veces. Sea $\theta$ la probabilidad de que salga cara en cada lanzamiento (desconocida). El conjunto de todos los posibles parámetros es $M = [0, 1]$. La hipótesis nula es $H_0$ (“la moneda es equitativa”) es $\theta = 1/2$. La hipótesis alternativa $H_1$ es $\theta \neq 1/2$.</p>
+<p>En este caso, los datos observados son una secuencia $X_1, \ldots, X_n$, donde $X_i$ es 1 o 0 dependiendo si el lanzamiento $i$ fue cara o no. Supongamos que decidimos abordar el problema considerando el valor $S = X_1 + \ldots X_n$, el número de caras observadas y usando una regla de decisión de la forma:</p>
+<p>$$\text{rechazar } H_0 \text{ si } \left|S - \frac{n}{2}\right| &gt; \xi$$</p>
+<p>Donde $\xi$ es un <strong>valor crítico</strong> adecuado que deberá ser determinado. Hasta ahora hemos definido la forma de la región de rechazo $R$ (el conjunto de datos que llevará a rechazar la hipótesis nula). Finalmente, escogemos el valor crítico $\xi$ de manera de que la probabilidad de falsos positivos es igual a un cierto valor $\alpha$:</p>
+<p>$$P(\text{rechazar } H_0;H_0) = \alpha$$</p>
+<p>Típicamente este $\alpha$ llamado nivel de significancia, es un número pequeño; En este ejemplo consideraremos $\alpha = 0.05$.</p>
+<p>Ahora, para determinar el valor de $\xi$, necesitamos llevar a cabo algunos cálculos probabilísticos. Bajo la hipótesis nula, la variable  aleatoria $S$ es binomial con parámetros $n = 1000$ y $p = 1/2$. Usando una aproximación normal a la binomial, y considerando $\alpha = 0.05:$ $$\left|S - \frac{n}{2}\right| &gt; 1.96\cdot \sqrt{np(1 - p)}$$</p>
+<p>De donde obtenemos que $\xi = 31$ es una elección apropiada. Ahora, si por ejemplo observamos un valor de $S$, $s = 472$, tendríamos:</p>
+<p>$$|472 - 500| = 28 \leq 31$$</p>
+<p>y la hipótesis $H_0$ no se podría rechazar al nivel de significancia del 5%.</p>
+<p>Aquí se utiliza el vocabulario “no rechazada” en lugar de “aceptada” de forma deliberada. La razón es que no tenemos ninguna forma de  asegurar que el valor del parámetro es 1/2 en lugar de, por ejemplo, 0.51. Lo único que podemos asegurar es que los datos observados de $S$ no entregan evidencia sustancial en contra de la hipótesis $H_0$.</p>
+<p>Una metodología para realizar tests de significancia sobre una hipótesis $H_0$, basándose en observaciones $X_1, \ldots, X_n$:</p>
+<ul>
+<li>
+<p>Los siguientes pasos se realizan antes de observar los datos:</p>
+<ol>
+<li>Elegir una <strong>estadística</strong> $S$, esto es, una variable aleatoria (escalar) que resumirá los datos a obtener.</li>
+<li>Determinar la <strong>forma de la región de rechazo</strong> especificando el conjunto de valores de $S$ para el cual la hipótesis $H_0$ será rechazada en función de un valor crítico $\xi$ (aún a ser determinado).</li>
+<li>Escoger un <strong>nivel de significancia</strong>, es decir, la probabilidad $\alpha$ de rechazar $H_0$ cuando era verdadera.</li>
+<li>Elegir un valor de $\xi$ de manera que la probabilidad de un rechazo falso sea igual o aproximadamente igual a $\alpha$</li>
+</ol>
+</li>
+<li>
+<p>Una vez que los valores $x_1, \ldots, x_n$ de $X_1, \ldots, X_n$ se obtengan:</p>
+<ol>
+<li>Calcular el valor $s = h(x_1, \ldots, x_n)$ de la estadística $S$</li>
+<li>Rechazar la hipótesis $H_0$ si $s$ pertenece a la región de rechazo.</li>
+</ol>
+</li>
+</ul>
+<p>Para cerrar esta sección, realizaremos un ejemplo un poco más concreto sobre test de significancia, sólo para tener más clara la intuición respecto a qué es lo que se “prueba”, y cómo funciona la metodología a grandes rasgos.</p>
+<p>Cierto instructor del curso de <em>No hago cursos pero es un ejemplo</em> está interesado en conocer la diferencia de los puntajes finales
+del curso considerando dos generaciones diferentes. Los alumnos que se inscribieron en el curso fueron asignados a las generaciones de forma aleatoria, y el puntaje final se calculó en base a un conjunto de desafíos y pruebas estandarizadas para ambas generaciones. Se tomó una muestra de 8 estudiantes de la generación X y de 9 estudiantes de la generación 18. ¿Hay alguna diferencia entre las generaciones en los resultados logrados?</p>
+<table>
+<thead>
+<tr>
+<th align="left">Generación X</th>
+<th align="left">Generación 18</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">35</td>
+<td align="left">52</td>
+</tr>
+<tr>
+<td align="left">51</td>
+<td align="left">87</td>
+</tr>
+<tr>
+<td align="left">66</td>
+<td align="left">76</td>
+</tr>
+<tr>
+<td align="left">42</td>
+<td align="left">62</td>
+</tr>
+<tr>
+<td align="left">37</td>
+<td align="left">81</td>
+</tr>
+<tr>
+<td align="left">46</td>
+<td align="left">71</td>
+</tr>
+<tr>
+<td align="left">60</td>
+<td align="left">55</td>
+</tr>
+<tr>
+<td align="left">55</td>
+<td align="left">67</td>
+</tr>
+<tr>
+<td align="left">53</td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<p>Primer paso, se debe enunciar claramente cuáles van a ser las hipótesis (nula y alternativa). En este caso, la hipótesis nula será  que no hay diferencia entre promedios de puntajes entre las generaciones.</p>
+<p>$$H_0: \mu_1 = \mu_2$$</p>
+<p>$$H_1: \mu_1 \neq \mu_2$$</p>
+<p>El segundo paso identificar región de rechazo y el nivel de significancia. Ya que los alumnos fueron asignados aleatoriamente, y asumiremos que no se cambiaron de generación entre medio (independencia), asumiremos que los puntajes entre estudiantes son independientes (asumiremos que no se copiaron en la prueba jeje). Nos dicen que debemos considerar un nivel de significancia de $\alpha = 0.05$.</p>
+<p>Paso 3, analizar los datos y calcular las estadísticas. Como el tamaño de la muestra es pequeño, no conviene usar una distribución normal. En este caso, utilizaremos la distribución del estudiante.</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+
+
+<span class="c1"># Muestras de ejemplo
+</span><span class="n">gen_x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mi">35</span><span class="p">,</span> <span class="mi">51</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="mi">37</span><span class="p">,</span> <span class="mi">46</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">53</span><span class="p">])</span>
+<span class="n">gen_18</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mi">52</span><span class="p">,</span> <span class="mi">87</span><span class="p">,</span> <span class="mi">76</span><span class="p">,</span> <span class="mi">62</span><span class="p">,</span> <span class="mi">81</span><span class="p">,</span> <span class="mi">71</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">67</span><span class="p">])</span>
+
+<span class="c1"># test-t de muestras independientes
+</span><span class="n">stats</span><span class="p">.</span><span class="n">ttest_ind</span><span class="p">(</span><span class="n">gen_x</span><span class="p">,</span> <span class="n">gen_18</span><span class="p">)</span>
+</code></pre></div></div>
+<pre><code>Ttest_indResult(statistic=-3.5334419686768466, pvalue=0.0030097571416081836)
+</code></pre>
+<p>El paso final es concluir acerca de los resultados. Como el valor de p es menor que el nivel de significancia establecido, esto significa que nuestro valor calculado cae en la región de rechazo de la hipótesis nula, por lo tanto, en base a los datos, rechazamos la hipótesis nula. Finalmente, concluimos que los dos grupos de estudiantes difieren significativamente en sus puntajes finales. Por lo tanto, podemos concluir plausiblemente que la diferencia de los puntajes se podría deber a la asignación (si estudiante fue asignado a generación X o a la 18).</p>
+<p><strong>Observación relevante</strong>: Este test es un poco obsoleto, antiguamente se hacía con una tabla y con ella se calculaban los valores de probabilidad. Sin embargo, con el desarrollo computacional, hoy en día tenemos mejores alternativas (ej. Test de Wilcoxon.)</p>
+<h1 id="reflexiones-finales">Reflexiones Finales</h1>
+<ul>
+<li>Se explicaron los conceptos como covarianza y correlación para variables aleatorias</li>
+<li>Se explicó la estimación de parámetros en la visión clásica</li>
+<li>Se explicó en qué consisten los intervalos de confianza</li>
+<li>Se explicó lo que es un test de hipótesis binario</li>
+<li>Se trabajó un ejemplo de significancia estadística</li>
+</ul>
+<p>Finalmente, siento que teniendo estos conceptos claros, se puede abrir esta caja mágica que hoy en día es la IA. Si bien, no tengo una fórmula para digerir los conocimientos de forma instantánea, en mi opinión para entender los conceptos y cómo funciona el mundo en temas científicos, es importante <em>meter mano</em> y darse la lata de escribir/simular/digerir los conceptos. Este proceso de digestión es lento, y no puede saltarse. No se puede llegar a ser <em>experto</em> en un tema de la noche a la mañana, hay un camino que es difuso, que puede ser largo; por lo que sigo sin entender, cómo estos influencers se saltan todo el trabajo requerido y comienzan a divulgar información errónea y sin bases ni fundamentos. Si llegaste hasta aquí, te recomiendo desafiar tu visión del mundo y empezar a tener un pensamiento crítico y hacerte responsable de tus debilidades y trabajarlas. Yo estoy en constante trabajo y a veces no avanzo, incluso retrocedo y vuelvo a lo básico. Sin embargo, la consistencia lleva a entender mejor estos temas y desarrollar un pensamiento crítico.</p>
+
+  </div>
+<div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = '';
+      this.page.identifier = 'https://dpalmasan.github.io/website/probability/algorithms/ai/2024/02/28/hipotesis-correlacion.html';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://dpalmasan.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow noopener noreferrer" target="_blank">comments powered by Disqus.</a>
+</noscript>
+<a class="u-url" href="/website/probability/algorithms/ai/2024/02/28/hipotesis-correlacion.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/website/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="https://dpalmasan.github.io/website/feed.xml">
+            <svg class="svg-icon orange">
+              <path d="M12.8 16C12.8 8.978 7.022 3.2 0 3.2V0c8.777 0 16 7.223 16 16h-3.2zM2.194
+                11.61c1.21 0 2.195.985 2.195 2.196 0 1.21-.99 2.194-2.2 2.194C.98 16 0 15.017 0
+                13.806c0-1.21.983-2.195 2.194-2.195zM10.606
+                16h-3.11c0-4.113-3.383-7.497-7.496-7.497v-3.11c5.818 0 10.606 4.79 10.606 10.607z"></path>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">dpalmasan</li>
+          
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Este es un blog donde compartiré un poco sobre mí y mis experiencias en el mundo tecnológico...</p>
+      </div>
+    </div>
+
+    <div class="social-links">
+<ul class="social-media-list">
+<li>
+    <a rel="me noopener noreferrer" href="https://www.linkedin.com/in/dpalmasan/" target="_blank" title="Mi perfil en Linkedin">
+      <span class="grey fa-brands fa-linkedin fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://www.github.com/dpalmasan" target="_blank" title="Mi Github">
+      <span class="grey fa-brands fa-github fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://scholar.google.com/citations?user=Y5PN_1AAAAAJ&hl=en" target="_blank" title="Mi Google Scholar">
+      <span class="grey fa-brands fa-google-scholar fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://stackoverflow.com/users/4051219/dpalma" target="_blank" title="Mis preguntas en SO LOL!">
+      <span class="grey fa-brands fa-stack-overflow fa-lg"></span>
+    </a>
+  </li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+
+</body>
+
+</html>

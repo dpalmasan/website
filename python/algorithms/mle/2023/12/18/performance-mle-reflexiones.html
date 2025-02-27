@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Reflexiones, desempeño y MLE | Mr Dipalma’s Pub 🍺</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Reflexiones, desempeño y MLE">
+<meta name="author" content="dpalmasan">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="En esta entrada hago unas reflexiones sobre mi año en Meta como MLE, sobre cómo sobreviví otro año de evaluación de desempeño y además ganar buena fama dentro del área. También comentaré sobre algunas cosas prácticas en MLE y mi opinión sobre algunos aspectos de la resolución de problemas; y finalmente cómo rechazé una promoción al siguiente nivel (Staff). Y comentaré por qué me cambié de rol nuevamente.">
+<meta property="og:description" content="En esta entrada hago unas reflexiones sobre mi año en Meta como MLE, sobre cómo sobreviví otro año de evaluación de desempeño y además ganar buena fama dentro del área. También comentaré sobre algunas cosas prácticas en MLE y mi opinión sobre algunos aspectos de la resolución de problemas; y finalmente cómo rechazé una promoción al siguiente nivel (Staff). Y comentaré por qué me cambié de rol nuevamente.">
+<link rel="canonical" href="https://dpalmasan.github.io/website/python/algorithms/mle/2023/12/18/performance-mle-reflexiones.html">
+<meta property="og:url" content="https://dpalmasan.github.io/website/python/algorithms/mle/2023/12/18/performance-mle-reflexiones.html">
+<meta property="og:site_name" content="Mr Dipalma’s Pub 🍺">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2023-12-18T19:10:03+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Reflexiones, desempeño y MLE">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"dpalmasan"},"dateModified":"2023-12-18T19:10:03+00:00","datePublished":"2023-12-18T19:10:03+00:00","description":"En esta entrada hago unas reflexiones sobre mi año en Meta como MLE, sobre cómo sobreviví otro año de evaluación de desempeño y además ganar buena fama dentro del área. También comentaré sobre algunas cosas prácticas en MLE y mi opinión sobre algunos aspectos de la resolución de problemas; y finalmente cómo rechazé una promoción al siguiente nivel (Staff). Y comentaré por qué me cambié de rol nuevamente.","headline":"Reflexiones, desempeño y MLE","mainEntityOfPage":{"@type":"WebPage","@id":"https://dpalmasan.github.io/website/python/algorithms/mle/2023/12/18/performance-mle-reflexiones.html"},"url":"https://dpalmasan.github.io/website/python/algorithms/mle/2023/12/18/performance-mle-reflexiones.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css">
+    <link rel="stylesheet" href="/website/assets/css/style.css">
+    <style type="text/css">
+        div#disqus_thread iframe[sandbox] {
+                max-height: 0px !important;
+        }
+    </style>
+<link type="application/atom+xml" rel="alternate" href="https://dpalmasan.github.io/website/feed.xml" title="Mr Dipalma's Pub 🍺">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KHXBX5G1VP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KHXBX5G1VP');
+</script>
+
+<script>MathJax={"tex":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]},"svg":{"fontCache":"global"}}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<header class="site-header">
+
+  <div class="wrapper">
+<a class="site-title" rel="author" href="/website/">Mr Dipalma's Pub 🍺</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewbox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/website/about/">About</a></div>
+      </nav>
+</div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Reflexiones, desempeño y MLE</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2023-12-18T19:10:03+00:00" itemprop="datePublished">
+        Dec 18, 2023
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>En esta entrada hago unas reflexiones sobre mi año en Meta como MLE, sobre cómo sobreviví otro año de evaluación de desempeño y además ganar buena fama dentro del área. También comentaré sobre algunas cosas prácticas en MLE y mi opinión sobre algunos aspectos de la resolución de problemas; y finalmente cómo rechazé una promoción al siguiente nivel (Staff). Y comentaré por qué me cambié de rol nuevamente.</p>
+<h2 id="machine-learning-engineer-y-reflexiones">Machine Learning Engineer y reflexiones</h2>
+<p>A veces digo que algunos SWE (software engineers) resuelven todo con “fulestaahh javaescriihh”, el equivalente en ML es “exyiiboohhh y data pailainee”. Esta “mofa” no la hago por ser un aguafiestas o pesado, pero la hago porque he visto muchos SWE o desarrolladores que piensan que hacer un backend es una API rest, o generar <code>JSON</code> o conectarse a una <code>DB</code>. De la misma manera, por lo que he visto en algunas redes sociales, ocurre un fenómeno parecido en ML: Algun pipeline de datos (en su framework favorito, e.g. airflow), crear el conjunto de entrenamiento, tirar los datos a la juguera y entrenar un modelo XGBoost. O calcular distancias entre vectores; después despilfarrar plata en alguna infraestructura cloud sobredimensionando la solución.</p>
+<p>Digamos que vi algo parecido en mi más reciente experiencia. El status quo, era tener un conjunto gigantesco de señales (básicamente <em>features</em> en ML) y luego entrenar un modelo del tipo <em>Gradient Boosting Decision Tree</em> (GBDT). Posteriormente, para una muestra nueva, calcular la probabilidad de la clase objetivo y ejecutar una acción dependiendo de esta probabilidad. Esta arquitectura se muestra en la figura 1.</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/2c01fa51f82eecbea9b95a922b50bc2f2b665990/Screenshot%25202023-12-17%2520at%25209.16.38%25E2%2580%25AFAM.png" alt="postings"></p>
+<p><em>Fig 1: Arquitectura típica de un modelo de ML para problema de clasificación binaria.</em></p>
+</div>
+<p>Generalmente, este enfoque funciona bien en la mayoría de los problemas, diría que en el 80% de los problemas funciona. Sin embargo, el problema a resolver tenía una singularidad bastante interesante. Una entidad podía tener una clase en un punto $t=T_1$ pero una clase totalmente distinta en $t=T_2$. Más interesante aún, no se sabe en qué punto la entidad cambió de clase. Por lo tanto, si se intenta formar las muestras $(X_i(t), y_i(t))$, el solapamiento existente podría hacer que $(X_i(t), c_1)$ y $(X_i(t), c_2)$ al mismo tiempo. Una visualización de este problema se muestra en la figura 2.</p>
+<p>Qué problema ocurre aquí, es que no se puede saber a qué clase pertence la muestra con las señales $X_i(t)$. Por lo tanto, al entrenar un modelo y evaluar las métricas de desempeño (en este caso era <em>precision</em> y <em>recall</em>), siempre va a entregar resultados que parecen ser positivos (e.g. alta <em>precision</em> y <em>recall</em>) pero que al hacer la evaluación en las predicciones en producción, los resultados van a ser mucho menores.</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/2c01fa51f82eecbea9b95a922b50bc2f2b665990/Screenshot%25202023-12-17%2520at%25209.17.09%25E2%2580%25AFAM.png" alt="postings"></p>
+<p><em>Fig 2: Problema en que las muestras cambian de etiqueta en un ventana de tiempo.</em></p>
+</div>
+<p>Por otro lado, también puede ocurrir otro problema. Bajo el supuesto de que las entidades que cambian de etiqueta en un cierto punto, pueden cambiar de etiqueta en un futuro, los modelos se “congelan”. Es decir, predicen siempre la misma clase durante un período de tiempo. Esto es problemático si se considera que al predecir una clase $c_x$, hay un costo monetario en ejecutar alguna acción.</p>
+<p>Una posible solución para eliminar los falsos positivos (FP) es considerar el comportamiento previo de la entidad</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/2c01fa51f82eecbea9b95a922b50bc2f2b665990/Screenshot%25202023-12-17%2520at%25209.16.59%25E2%2580%25AFAM.png" alt="postings"></p>
+<p><em>Fig 3: Ejecución del sistema ML considerando comportamiento previo.</em></p>
+</div>
+<p>Sin embargo, esta entrada de blog no es para hablar de soluciones a problemas específicos. Es más que nada para compartir esta visión de romper el status quo en la resolución de problemas y además tener claro los pro y los contra de cada solución, además de considerar el impacto de la misma, por ejemplo a nivel de negocio.</p>
+<h2 id="tips-tiles-en-mi-experiencia">Tips útiles en mi experiencia</h2>
+<p>En las siguientes sub-secciones, describo 4 componentes que creo que me ayudaron a ganar buena reputación en mi área. Creo que la retroalimentación que mejor habla de uno, es la que entregan los pares y tiene más impacto que la evaluación que pueda darse uno mismo (esta es mi humilde opinión).</p>
+<h3 id="escoger-problemas-que-tengan-impacto">1. Escoger problemas que tengan impacto</h3>
+<p>Me considero una persona muy técnica en general, y previo a esta experiencia no estaba en mi visión el impacto a nivel de negocio (no digo que no tuviera impacto, digo que no estaba consciente de ello). Generalmente, seguía los requerimientos e implementaba “lo que me pedían”. Aunque mis soluciones técnicas eran destacables, no tenía una noción del impacto de estas soluciones a nivel de negocio. Mirando en perspectiva, imagino que no todos los trabajos que hice tuvieron el mismo nivel de impacto. Me atrevería a decir, que algunas tuvieron un impacto despreciable a nivel de negocio.</p>
+<p>Un mentor muy bueno que tuve a inicios de este año, me dijo que si bien yo era muy bueno a nivel técnico y teórico, mi mayor brecha era el resolver problemas que tuvieran impacto. Básicamente, no sólo entregar soluciones elegantes (e.g. con muchas ecuaciones y jerga técnica <img class="emoji" title=":sweat_smile:" alt=":sweat_smile:" raw="😅" src="https://github.githubassets.com/images/icons/emoji/unicode/1f605.png" style="vertical-align: middle; display: inline; max-width: 1em; visibility: hidden;" onload="this.style.visibility='visible'" onerror="this.replaceWith(this.getAttribute('raw'))">), si no que explorar problemas que tuviesen impacto significativo a nivel de negocio. En este contexto, impacto monetario. Al inicio se me hizo complicado y pasé por un periodo de estrés cuestionando mis capacidades, me costó digerir esta crítica, pero al final del día me ayudó bastante. Terminé no sólo creando soluciones “<em>elegantes</em>”, si no que también tuvieron un alto impacto dentro de la organización.</p>
+<p>En resumen, hay que tener una forma de medir impacto y cuantificarlo, me topé con varios tipos de problemas:</p>
+<ul>
+<li>Alto riesgo, alta recompensa: Podría tener alto impacto pero arriesgado porque también o podría no funcionar o no tener el impacto esperado</li>
+<li>Complejo técnicamente y no tanto impacto: Soluciones elegantes o crear sistemas complejos pero que al final del día mejoran de manera no significativa alguna métrica de desempeño</li>
+<li>
+<em>Low hanging fruit</em>: Problemas simples con buen impacto</li>
+</ul>
+<h3 id="implementar-rpidamente-prototipos-y-pruebas-de-concepto">2. Implementar rápidamente prototipos y pruebas de concepto</h3>
+<p>Una característica destacable que muchos pares quedaron impresionados, es la cantidad de innovación que realicé en el área. Por ejemplo, implementé una solución al status quo en 6 meses, mejorando en términos de precisión y recall; y consiguiendo habilitar ganancias en el orden de millones de dólares, donde antes, por temas de precisión de los modelos, habría sido inimaginable. El sistema previo había demorado 2 años, y tenía muchas brechas que causaban alto costo humano y fuga de ingresos.</p>
+<p>Aquí es donde conectar todo el conocimiento es importante. Esto lo entrega el tener entendimiento del estado del arte, haber sido expuesto a diferentes tipos de problema y la experiencia en ingeniería. Por ejemplo, para resolver el problema de las etiquetas y bajo desempeño, hubo que pensar una solución que consistió en transformar el sistema no lineal, a uno lineal en un punto de operación. Esto lo esbozo en la figura 4.</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/2c01fa51f82eecbea9b95a922b50bc2f2b665990/Screenshot%25202023-12-17%2520at%25209.17.20%25E2%2580%25AFAM.png" alt="postings"></p>
+<p><em>Fig 4: Ejemplo de simplificación de problema; transformar problema no lineal a uno lineal en un punto de operación cuya vecindad es lineal.</em></p>
+</div>
+<p>Al tener un punto de operación donde se puede estabilizar el sistema, el problema se pudo reducir a un problema binario donde las etiquetas no cambiaban respecto del tiempo.</p>
+<h3 id="realizar-experimentos-y-analizar-casos-en-los-que-la-intuicin-falla">3. Realizar experimentos y analizar casos en los que la intuición falla</h3>
+<p>Uno de los problemas que me topé tenía una componente de NLP (procesamiento de lenguage natural). Actualmente todos son “expertos” en NLP y hablan o de <em>embeddings</em> o sobre <em>Large Language Models</em>. Si bien, se ha democratizado bastante el uso de estos enfoques (APIs, y todos sabemos que usar APIs es bastante simple), hay casos en los que no funcionan. Se me hizo complicado explicarle a las personas de otras áreas y no de ingeniería, por qué usar estos enfoques no iba a funcionar.</p>
+<p>Si vamos a lo “teórico”, cada universo puede representarse como un conjunto de axiomas. Los modelos de inteligencia artificial no son diferentes. En esencia existen dos alternativas: Generalización y especialización (ver figura 5). En la generalización nos interesa que el modelo generalice a la mayor cantidad de entradas posible, por ejemplo optimizando el <em>recall</em>. La especialización, por otro lado, intenta remover los resultados incorrectos con el fin de mejorar la precisión al costo de no poder generalizar.</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/9e08e1f631f9d196ccc496921bb8cc9f6024758c/Screenshot%25202023-12-18%2520at%25202.30.25%25E2%2580%25AFPM.png" alt="postings"></p>
+<p><em>Fig 5: Generalización y especialización.</em></p>
+</div>
+<p>La solución a la componente de NLP del problema consistió en crear un modelo de lenguaje especializado. Consideré comenzar con una simple variación del modelo de NGramas (<a href="/website/entrevistas/ti/2023/01/08/nlp-intro.html">post en que explico lo básico de NLP</a>). Básicamente lo que nos interesa es que, dado un lenguaje, queremos predecir la probabilidad de que una cláusula pertenezca a dicho lenguaje. Por lo general, se piensa en el lenguaje que usamos a diario. Sin embargo, uno puede definir un propio lenguaje con sus propias reglas (e.g. un subconjunto del español).</p>
+<p>El modelo era simple y funcionaba relativamente bien, excepto que se caía en ciertos casos. Cada caso se analizó por separado, y un patrón que encontré es que el modelo no funcionaba bien en casos en que la diversidad léxica era muy alta. También hubo que analizar otro tipo de características en las entradas problemáticas, como coherencia y otras relaciones entre las componentes de la entrada.</p>
+<p>También se probó con modelos más complejos (e.g. embeddings y LLM), pero el costo computacional era demasiado alto y la ganancia en precisión no fue lo suficientemente significativa en comparación al incremento en costo.</p>
+<p>En resumen, experimentar, probar distintas soluciones y lograr explicar por qué un enfoque no funciona, son claves para lograr tener éxito en la resolución de problemas y para ganar puntos con el resto de la organización.</p>
+<h3 id="escribir-cdigo-correcto-e-iterar">4. Escribir código “correcto” e iterar</h3>
+<p>Tomando el mismo ejemplo de la sección anterior. El modelo de lenguaje implementado tenía algunas brechas, por ejemplo las secuencias textuales estaban muy retringidas y en algunos casos el orden de las palabras no interesaba tanto.</p>
+<p>Para solventar el problema anterior, implementé un servicio que basado en índice invertido, Tf-Idf y distancia coseno, calculaba también un puntaje que se utilizaría finalmente para ejecutar una acción. Los resultados de las evaluaciones “offline” eran prometedores, sin embargo cuando se puso en marcha, habían ciertos problemas de precisión;</p>
+<p>Para resolver estos problemas, hubo que implementar una componente de “memoria” en el cual se analizaban datos previos y estos se mantenían una caché diaria. Luego, en lugar de considerar un sólo puntaje, se consideró el puntaje del modelo y además el “delta” entre el puntaje nuevo y el máximo puntaje visto para la entidad en la que se realizaría la acción. Esta simple heurística logró un incremento significativo en la precisión sin afectar el <em>recall</em>.</p>
+<p>Para lograr derivar las soluciones y mejoras en el sistema, fue importante ser capaz de iterar rápido, descartar soluciones que no tuviesen explicación (e.g. modelos de caja oscura como GBDT o redes neuronales), y además la implementación correcta de estas componentes; es decir que cumplieran ciertos SLA, que no fallaran en producción, y que idealmente no tuviesen bugs. Para ello, escribir tests unitarios y de integración fue clave. También como el correcto análisis de datos y simulaciones del entorno productivo.</p>
+<h2 id="el-chisme-sabrososweatsmile">El chisme sabroso <img class="emoji" title=":sweat_smile:" alt=":sweat_smile:" raw="😅" src="https://github.githubassets.com/images/icons/emoji/unicode/1f605.png" style="vertical-align: middle; display: inline; max-width: 1em; visibility: hidden;" onload="this.style.visibility='visible'" onerror="this.replaceWith(this.getAttribute('raw'))">
+</h2>
+<p>Como comenté en la introducción, decidí cambiarme de equipo y desde el otro año estaré trabajando en <a href="https://pytorch.org/edge" target="_blank" rel="noopener noreferrer">Pytorch Edge</a>. Hay variadas razones por las cuales tomé esta decisión, pero principalmente es porque me aburrí un poco siendo MLE, y se me abrió una oportunidad de explorar otro problema bastante interesante: <a href="https://en.wikipedia.org/wiki/Federated_learning" target="_blank" rel="noopener noreferrer"><em>Federated Learning</em></a>. Lo curioso, es que gané tanta fama e implementé un sistema y comencé una visión de la problemática, que de alguna forma me hizo muy importante en el equipo actual. De hecho, me ofrecieron una promoción al siguiente nivel. Sin embargo, consideré que una promoción cada año era mucho y por otro lado, no me siento preparado para estar al siguiente nivel.</p>
+<p>Por otro lado, me interesa explorar nuevos problemas, y nuevos roles. Mi siguiente rol será más cercano a infraestructura y estaré implementando ML pero más a bajo nivel (<code>C++</code> y a nivel de bibliotecas y frameworks de ejecución en hardware).</p>
+<h2 id="conclusiones">Conclusiones</h2>
+<ul>
+<li>Es importante tener una variada caja de herramientas para la resolución de problemas</li>
+<li>Conectar conocimientos de distintas áreas es útil para encontrar soluciones que el status quo no podría encontrar</li>
+<li>La teoría, la experiencia y el lograr conectar ambos, es relevante desde el punto de vista técnico</li>
+<li>Conectar soluciones con impacto a nivel de negocio es importantísimo. Idealmente aliarse con alguien que tenga una muy clara visión del negocio</li>
+<li>Hacer experimentos para validar o refutar intuiciones debe hacerse con cuidado y siempre considerando los datos a disposición y el método científico</li>
+</ul>
+
+  </div>
+<div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = '';
+      this.page.identifier = 'https://dpalmasan.github.io/website/python/algorithms/mle/2023/12/18/performance-mle-reflexiones.html';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://dpalmasan.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow noopener noreferrer" target="_blank">comments powered by Disqus.</a>
+</noscript>
+<a class="u-url" href="/website/python/algorithms/mle/2023/12/18/performance-mle-reflexiones.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/website/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="https://dpalmasan.github.io/website/feed.xml">
+            <svg class="svg-icon orange">
+              <path d="M12.8 16C12.8 8.978 7.022 3.2 0 3.2V0c8.777 0 16 7.223 16 16h-3.2zM2.194
+                11.61c1.21 0 2.195.985 2.195 2.196 0 1.21-.99 2.194-2.2 2.194C.98 16 0 15.017 0
+                13.806c0-1.21.983-2.195 2.194-2.195zM10.606
+                16h-3.11c0-4.113-3.383-7.497-7.496-7.497v-3.11c5.818 0 10.606 4.79 10.606 10.607z"></path>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">dpalmasan</li>
+          
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Este es un blog donde compartiré un poco sobre mí y mis experiencias en el mundo tecnológico...</p>
+      </div>
+    </div>
+
+    <div class="social-links">
+<ul class="social-media-list">
+<li>
+    <a rel="me noopener noreferrer" href="https://www.linkedin.com/in/dpalmasan/" target="_blank" title="Mi perfil en Linkedin">
+      <span class="grey fa-brands fa-linkedin fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://www.github.com/dpalmasan" target="_blank" title="Mi Github">
+      <span class="grey fa-brands fa-github fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://scholar.google.com/citations?user=Y5PN_1AAAAAJ&hl=en" target="_blank" title="Mi Google Scholar">
+      <span class="grey fa-brands fa-google-scholar fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://stackoverflow.com/users/4051219/dpalma" target="_blank" title="Mis preguntas en SO LOL!">
+      <span class="grey fa-brands fa-stack-overflow fa-lg"></span>
+    </a>
+  </li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+
+</body>
+
+</html>

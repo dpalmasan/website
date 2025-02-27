@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>IA, Incertidumbre, razonamiento probabilístico | Mr Dipalma’s Pub 🍺</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="IA, Incertidumbre, razonamiento probabilístico">
+<meta name="author" content="dpalmasan">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="En un post previo, hablé sobre lógica, en especial lógica de primer orden ya que en otra entrada hablé sobre razonamiento lógico utilizando lógica proposicional. También, mencioné mi biblioteca open-source py-logic que soporta lógica proposicional y un subconjunto de lógica de primer orden (cláusulas de Horn).">
+<meta property="og:description" content="En un post previo, hablé sobre lógica, en especial lógica de primer orden ya que en otra entrada hablé sobre razonamiento lógico utilizando lógica proposicional. También, mencioné mi biblioteca open-source py-logic que soporta lógica proposicional y un subconjunto de lógica de primer orden (cláusulas de Horn).">
+<link rel="canonical" href="https://dpalmasan.github.io/website/python/algorithms/2023/01/21/sobre-probabilidades.html">
+<meta property="og:url" content="https://dpalmasan.github.io/website/python/algorithms/2023/01/21/sobre-probabilidades.html">
+<meta property="og:site_name" content="Mr Dipalma’s Pub 🍺">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2023-01-21T21:15:03+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="IA, Incertidumbre, razonamiento probabilístico">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"dpalmasan"},"dateModified":"2023-01-21T21:15:03+00:00","datePublished":"2023-01-21T21:15:03+00:00","description":"En un post previo, hablé sobre lógica, en especial lógica de primer orden ya que en otra entrada hablé sobre razonamiento lógico utilizando lógica proposicional. También, mencioné mi biblioteca open-source py-logic que soporta lógica proposicional y un subconjunto de lógica de primer orden (cláusulas de Horn).","headline":"IA, Incertidumbre, razonamiento probabilístico","mainEntityOfPage":{"@type":"WebPage","@id":"https://dpalmasan.github.io/website/python/algorithms/2023/01/21/sobre-probabilidades.html"},"url":"https://dpalmasan.github.io/website/python/algorithms/2023/01/21/sobre-probabilidades.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css">
+    <link rel="stylesheet" href="/website/assets/css/style.css">
+    <style type="text/css">
+        div#disqus_thread iframe[sandbox] {
+                max-height: 0px !important;
+        }
+    </style>
+<link type="application/atom+xml" rel="alternate" href="https://dpalmasan.github.io/website/feed.xml" title="Mr Dipalma's Pub 🍺">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KHXBX5G1VP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KHXBX5G1VP');
+</script>
+
+<script>MathJax={"tex":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]},"svg":{"fontCache":"global"}}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<header class="site-header">
+
+  <div class="wrapper">
+<a class="site-title" rel="author" href="/website/">Mr Dipalma's Pub 🍺</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewbox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/website/about/">About</a></div>
+      </nav>
+</div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">IA, Incertidumbre, razonamiento probabilístico</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2023-01-21T21:15:03+00:00" itemprop="datePublished">
+        Jan 21, 2023
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>En un <a href="/website/entrevistas/ti/2023/01/05/fallo-consistencia.html">post previo</a>, hablé sobre lógica, en especial lógica de primer orden ya que en <a href="/website/entrevistas/ti/2022/12/29/logic.html">otra entrada</a> hablé sobre razonamiento lógico utilizando lógica proposicional. También, mencioné mi biblioteca open-source <a href="https://github.com/dpalmasan/py-logic" target="_blank" rel="noopener noreferrer">py-logic</a> que soporta lógica proposicional y un subconjunto de lógica de primer orden (cláusulas de Horn).</p>
+<p>Sin embargo, hay escenarios como el mostrado en la figura 1, en que el razonamiento lógico sólo va a responder preguntas como: <em>“Es posible que haya un Wumpus en <code>(1, 2)</code>, <code>(2, 3)</code> y <code>(0, 1)</code>”</em>. Sin embargo, no podemos cuantificar que tan probable es que haya un Wumpus en cualquiera de las habitaciones a explorar. Por otro lado, intuitivamente la habitación más peligrosa es la <code>(1, 2)</code>, pues tiene adyacentes dos habitaciones con odor. Aquí es donde entra el razonamiento probabilístico.</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/9a570e812a9d055f1ca27beefafa7bb83a5652af/wumpus-evidence-example.png" alt="Uncertainity"></p>
+<p><em>Fig 1: Agente IA tomando una decisón.</em></p>
+</div>
+<h1 id="ia-probabilidades-y-probabilidad-condicional">IA, Probabilidades y Probabilidad Condicional</h1>
+<p>¿Por qué mencionar IA? Para refrescar la memoria, un problema de IA típico es dado un objetivo, buscar la secuencia de acciones que llevan a ese objetivo. Un caso típico es un problema de clasificación, donde se tiene una variable $y \in Y$, donde $Y$ es un conjunto finito de valores, y estamos interesados en dado un conjunto de hipótesis $\mathbb{H}$ una hipótesis $h \in \mathbb{H}$, que dada una evidencia $e$ entregue un valor $y \in Y$. Dicha hipótesis es arbitraria, pero idealmente estamos interesados en una hipótesis que cumpla con algún objetivo (generalmente minimizar la esperanza del error fuera de muestra). En algunos casos nos interesa encontrar $P(y|e)$, ya que nos interesa estimar la certeza del valor dada la evidencia.</p>
+<h2 id="distribucin-conjunta-y-probabilidad-condicional">Distribución conjunta y Probabilidad condicional</h2>
+<p>Como repaso de distribución conjunta, consideremos un mundo en el que tenemos 3 variables, $A: \{\text{perro, gato}\}$, $N: \{1, 3, 5\}$, $B: \{\text{True, False}\}$. La distribución conjunta, debiese asignar una probabilidad para todas las asignaciones de variables posibles en este mundo (posibles eventos):</p>
+<pre><code>{B: False, A: 'cat', N: 1}
+{B: False, A: 'cat', N: 2}
+{B: False, A: 'cat', N: 3}
+{B: False, A: 'dog', N: 1}
+{B: False, A: 'dog', N: 2}
+{B: False, A: 'dog', N: 3}
+{B: True, A: 'cat', N: 1}
+{B: True, A: 'cat', N: 2}
+{B: True, A: 'cat', N: 3}
+{B: True, A: 'dog', N: 1}
+{B: True, A: 'dog', N: 2}
+{B: True, A: 'dog', N: 3}
+</code></pre>
+<p>El caso con variables continuas requiere otra representación (funciones de densidad de probabilidad), pero en esencia es la misma intuición. En general, no siempre estamos interesados en enumerar todos los posibles mundos. Por ejemplo, supongamos que observamos que la variable $A = dog$. En este caso, tenemos sub-mundos, y podemos enumerar nuevamente los posibles eventos en este sub-mundo:</p>
+<pre><code>{A: 'dog', B: False, N: 1}
+{A: 'dog', B: False, N: 2}
+{A: 'dog', B: False, N: 3}
+{A: 'dog', B: True, N: 1}
+{A: 'dog', B: True, N: 2}
+{A: 'dog', B: True, N: 3}
+</code></pre>
+<p>En el segundo caso, tenemos la <em>evidencia</em> de que $A = dog$. Se puede definir la <em>probabilidad condicional</em> como la probabilidad de que un evento ocurra dada una evidencia. En este ejemplo, se escribiría como $P(B, N| A)$. Para dos eventos $A$, $B$, la probabilidad condicional se define como:</p>
+<p>$$P(A|B) = \displaystyle \frac{P(A, B)}{P(B)}$$</p>
+<p>De forma más general, supongamos que tenemos la variable $X$, las variables $E$ que representan la evidencia y $e$ los valores de estas variables, e $Y$ las variables restanets (o variables ocultas), entonces:</p>
+<p>$$P(X|e) = \alpha P(X, e) = \alpha \sum_y P(X, e, y)$$</p>
+<p>En este caso $P(X, e, y)$ es un subconjunto de probabilidades de la distribución conjunta.</p>
+<p>Podemos estimar o hacer inferencias sobre ciertas variables en un mundo, dada una evidencia. Sin embargo, este problema es intratable. Como se puede observar, si consideramos $n$ variables Booleanas, se requiere calcular $2^n$ eventos, lo que se vuelve impráctico.</p>
+<h2 id="agente-probabilstico-y-mundo-del-wumpus">Agente probabilístico y mundo del Wumpus</h2>
+<p>Volviendo al ejemplo de la figura 1, supongamos que queremos estimar la probabilidad de que la habitación en la coordenada <code>(0, 1)</code> tiene un Wumpus, dado que sabemos que hay odor en las habitaciones <code>(0, 2)</code> y <code>(1, 3)</code>. Sean:</p>
+<ul>
+<li>$s = \neg s_{03} \land s_{02} \land s_{13}$</li>
+<li>$conocido = \neg w_{03} \land \neg w_{02} \land \neg w_{13}$</li>
+<li>$desconocido = $ el resto de las variables (y sus asignaciones posibles)</li>
+</ul>
+<p>En este caso, lo que queremos calcular es:</p>
+<p>$$P(P_{13} | conocido, s) = \alpha \sum_{desconocido} P(P_{13}, desconocido, conocido, s)$$</p>
+<p>En esencia, necesitamos conocer todas las asignaciones posibles para $desconocido$. Si el mundo fuera de 12 habitaciones, tendríamos 12 variables, cada una con dos asignaciones, por lo tanto $2^{12} = 4096$ términos. El lector atento podrá observar que las habitaciones desconocidas no deberían incidir en el cálculo de la probabilidad, y además que los odores una vez conocidos, son independientes de todas las variables. Haciendo algunas simplificaciones, se puede llegar a una expresión simplificada y con menos términos.</p>
+<p>Supongamos que tenemos el mundo mostrado en la figura 2</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/9a570e812a9d055f1ca27beefafa7bb83a5652af/wumpus-prob-solvable.png" alt="wsolv"></p>
+<p><em>Fig 2: Configuración arbitraria para mundo del Wumpus.</em></p>
+</div>
+<p>El agente probabilístico tomaría el siguiente conjunto de acciones:</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/f8ddbb114528741199a24aa73302411029cba820/wumpus-succ.gif" alt="wsolv"></p>
+<p><em>Fig 3: Agente probabilístico completa el puzzle.</em></p>
+</div>
+<p>Se observa que el agente intenta buscar la habitación “más segura”, en este caso, la que tenga la mínima probabilidad de algún peligro (Wumpus o precipicio). El agente evita a toda costa visitar la habitación <code>(1, 2)</code>. Ahora veamos qué ocurre en el caso en que tenemos una configuración un poco más compleja:</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/f8ddbb114528741199a24aa73302411029cba820/wumpus-nonprob-solvable.png" alt="wsolv"></p>
+<p><em>Fig 4: Configuración en que la certeza no cuadra con la realidad.</em></p>
+</div>
+<p>Como se puede observar en la figura 5, el agente muere:</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/f8ddbb114528741199a24aa73302411029cba820/wumpus-fail.gif" alt="wsolv"></p>
+<p><em>Fig 5: Agente falla en resolver el laberinto.</em></p>
+</div>
+<p>En este caso el agente falla, debido a que desafortunadamente, la habitación segura era la que menos probabilidades tenía de contener alguna trampa. Básicamente se observó un <strong>falso negativo</strong>, en este caso un agente ficticio pierde en un juego, en la vida real, puede ser pérdida de mucho dinero.</p>
+<p>Esto nos prueba que no hay una solución que resuelva todos los escenarios.</p>
+<h1 id="notas-finales">Notas Finales</h1>
+<ul>
+<li>Pensé incluir redes Bayesianas, pero eso lo dejaré para otro post.</li>
+<li>El código del agente lo pueden encontrar en mi github, en particular <a href="https://github.com/dpalmasan/wumpus-ai/blob/main/player.py#L226" target="_blank" rel="noopener noreferrer">aquí</a> (Obs: No he documentado ni pulido el repo aún).</li>
+<li>Incluso en casos en que pareciera que el resultado es obvio, podrían darse escenarios/mundos en que no.</li>
+</ul>
+<h1 id="problema-de-cdigo">Problema de Código</h1>
+<p>El problema de código de esta entrada es: <a href="https://github.com/dpalmasan/code-challenges/issues/33" target="_blank" rel="noopener noreferrer">Llenado de Imagen</a>. La solución se encuentra en el mismo repositorio.</p>
+
+  </div>
+<div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = '';
+      this.page.identifier = 'https://dpalmasan.github.io/website/python/algorithms/2023/01/21/sobre-probabilidades.html';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://dpalmasan.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow noopener noreferrer" target="_blank">comments powered by Disqus.</a>
+</noscript>
+<a class="u-url" href="/website/python/algorithms/2023/01/21/sobre-probabilidades.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/website/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="https://dpalmasan.github.io/website/feed.xml">
+            <svg class="svg-icon orange">
+              <path d="M12.8 16C12.8 8.978 7.022 3.2 0 3.2V0c8.777 0 16 7.223 16 16h-3.2zM2.194
+                11.61c1.21 0 2.195.985 2.195 2.196 0 1.21-.99 2.194-2.2 2.194C.98 16 0 15.017 0
+                13.806c0-1.21.983-2.195 2.194-2.195zM10.606
+                16h-3.11c0-4.113-3.383-7.497-7.496-7.497v-3.11c5.818 0 10.606 4.79 10.606 10.607z"></path>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">dpalmasan</li>
+          
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Este es un blog donde compartiré un poco sobre mí y mis experiencias en el mundo tecnológico...</p>
+      </div>
+    </div>
+
+    <div class="social-links">
+<ul class="social-media-list">
+<li>
+    <a rel="me noopener noreferrer" href="https://www.linkedin.com/in/dpalmasan/" target="_blank" title="Mi perfil en Linkedin">
+      <span class="grey fa-brands fa-linkedin fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://www.github.com/dpalmasan" target="_blank" title="Mi Github">
+      <span class="grey fa-brands fa-github fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://scholar.google.com/citations?user=Y5PN_1AAAAAJ&hl=en" target="_blank" title="Mi Google Scholar">
+      <span class="grey fa-brands fa-google-scholar fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://stackoverflow.com/users/4051219/dpalma" target="_blank" title="Mis preguntas en SO LOL!">
+      <span class="grey fa-brands fa-stack-overflow fa-lg"></span>
+    </a>
+  </li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+
+</body>
+
+</html>

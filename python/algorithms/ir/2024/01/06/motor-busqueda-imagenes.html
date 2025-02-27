@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Motor de búsqueda de imágenes | Mr Dipalma’s Pub 🍺</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Motor de búsqueda de imágenes">
+<meta name="author" content="dpalmasan">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="En un post previo describí cómo funciona un motor de búsqueda textual clásico y mostré la implementación un índice invertido utilizando noticias de Chile. En mi vida laboral, en una ocasión, utilicé dicha técnica + esteroides (por ejemplo Tf-Idf y distancia coseno) para un problema en el que tenía que hacer calce eficiente entre un repositorio de textos dada una consulta (esto es una reducción del problema, pues era bastante más complejo 😅).">
+<meta property="og:description" content="En un post previo describí cómo funciona un motor de búsqueda textual clásico y mostré la implementación un índice invertido utilizando noticias de Chile. En mi vida laboral, en una ocasión, utilicé dicha técnica + esteroides (por ejemplo Tf-Idf y distancia coseno) para un problema en el que tenía que hacer calce eficiente entre un repositorio de textos dada una consulta (esto es una reducción del problema, pues era bastante más complejo 😅).">
+<link rel="canonical" href="https://dpalmasan.github.io/website/python/algorithms/ir/2024/01/06/motor-busqueda-imagenes.html">
+<meta property="og:url" content="https://dpalmasan.github.io/website/python/algorithms/ir/2024/01/06/motor-busqueda-imagenes.html">
+<meta property="og:site_name" content="Mr Dipalma’s Pub 🍺">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2024-01-06T22:00:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Motor de búsqueda de imágenes">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"dpalmasan"},"dateModified":"2024-01-06T22:00:00+00:00","datePublished":"2024-01-06T22:00:00+00:00","description":"En un post previo describí cómo funciona un motor de búsqueda textual clásico y mostré la implementación un índice invertido utilizando noticias de Chile. En mi vida laboral, en una ocasión, utilicé dicha técnica + esteroides (por ejemplo Tf-Idf y distancia coseno) para un problema en el que tenía que hacer calce eficiente entre un repositorio de textos dada una consulta (esto es una reducción del problema, pues era bastante más complejo 😅).","headline":"Motor de búsqueda de imágenes","mainEntityOfPage":{"@type":"WebPage","@id":"https://dpalmasan.github.io/website/python/algorithms/ir/2024/01/06/motor-busqueda-imagenes.html"},"url":"https://dpalmasan.github.io/website/python/algorithms/ir/2024/01/06/motor-busqueda-imagenes.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css">
+    <link rel="stylesheet" href="/website/assets/css/style.css">
+    <style type="text/css">
+        div#disqus_thread iframe[sandbox] {
+                max-height: 0px !important;
+        }
+    </style>
+<link type="application/atom+xml" rel="alternate" href="https://dpalmasan.github.io/website/feed.xml" title="Mr Dipalma's Pub 🍺">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KHXBX5G1VP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KHXBX5G1VP');
+</script>
+
+<script>MathJax={"tex":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]},"svg":{"fontCache":"global"}}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<header class="site-header">
+
+  <div class="wrapper">
+<a class="site-title" rel="author" href="/website/">Mr Dipalma's Pub 🍺</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewbox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/website/about/">About</a></div>
+      </nav>
+</div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Motor de búsqueda de imágenes</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2024-01-06T22:00:00+00:00" itemprop="datePublished">
+        Jan 6, 2024
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>En un post previo describí cómo funciona un motor de búsqueda textual clásico y <a href="/website/python/algorithms/ir/2023/01/21/intro-recuperacion-informacion.html">mostré la implementación un índice invertido</a> utilizando noticias de Chile. En mi vida laboral, en una ocasión, utilicé dicha técnica + esteroides (por ejemplo <code>Tf-Idf</code> y distancia coseno) para un problema en el que tenía que hacer calce eficiente entre un repositorio de textos dada una consulta (esto es una reducción del problema, pues era bastante más complejo 😅).</p>
+<p>Lo curioso, es que me tocó resolver un problema similar pero con imágenes. En este caso hice una integración de APIs y utilicé un modelo pre-entrenado para similitud de imágenes. Sin embargo, el tener una caja misteriosa que me resuelve el problema no me deja satisfecho. Estudiando un poco algunos libros que tenía en el estante (y nunca había mirado 😅), me inspiré e implemente mi propio motor de búsqueda de imágenes, y este es el tema de este post.</p>
+<h2 id="el-problema-de-recuperacin-de-imgenes">El Problema de Recuperación de Imágenes</h2>
+<p>El problema de recuperación de imágenes, se puede describir como sigue: <em>Dado un repositorio de imágenes, y una imagen como consulta, recuperar todas las imágenes relevantes a la consulta</em>. En este post, consideraremos “relevante” como imágenes que son <em>similares</em> a la imagen de la consulta.</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/d8d3eaf7886b931048df96ac88af4fd0626a33be/img-ret-11.png" alt="cifar-ex"></p>
+<p><em>Fig 1: Recuperación de imágenes relevantes de un repositorio dada una imagen como consulta</em></p>
+</div>
+<p>Algunas aplicaciones:</p>
+<ul>
+<li>Búsqueda de imágenes</li>
+<li>Clasificación de imágenes</li>
+<li>Calce de contenido (por ejemplo visión artificial)</li>
+<li>Detección de contenidos abusivos/ilegales en plataformas</li>
+<li>Etc.</li>
+</ul>
+<h3 id="representacin-de-imgenes">Representación de Imágenes</h3>
+<p>Una imagen puede pensarse como un conjunto de capas. Por lo general, se piensa en el conjunto de colores rojo, verde y azul. La idea es, que cualquier color puede representarse como una combinación de estos tres colores primarios. Por otro lado, una imagen es una grilla de pixeles (matriz), donde cada pixel tiene un color asignado.</p>
+<h3 id="similitud-de-imgenes">Similitud de Imágenes</h3>
+<p>Existen varios enfoques para definir una métrica de similitud de imágenes. Sin embargo, cada enfoque depende del caso de uso específico:</p>
+<ol>
+<li>Histograma de Colores: Por ejemplo, podemos calcular un histograma de cada conjunto de colores (con sus distintas tonalidades), y escoger una cantidad fija de intervalos (<em>bins</em>), por ejemplo 32. Si consideramos estos 3 colores, obtendríamos un vector de 96 dimensiones, como se muestra:</li>
+</ol>
+<p>$$x_i = (x_{i,rojo}^{32}, x_{i,verde}^{32}, x_{i,azul}^{32})$$</p>
+<p>Y podríamos recuperar las imágenes más relevantes mediante una medida de similitud, por ejemplo similitud coseno:</p>
+<p>$$sim(x_i, x_j) = cos(x_i, x_j) = \displaystyle \frac{x_i \cdot x_j}{||x_i||||x_j||}$$</p>
+<ol start="2">
+<li>
+<p>Vector de pixeles: Asumiendo que las imágenes serán de tamaño fijo, considerar un vector de dimension $N$ donde $N$ es la cantidad de píxeles de cada imagen. Luego cada componente del vector sería un pixel.</p>
+</li>
+<li>
+<p>Vector de componentes. Aplicar PCA (análisis de componentes principales) a la representación mencionada en el punto previo.</p>
+</li>
+<li>
+<p>Representación latente (ej. capas internas en una red neuronal)</p>
+</li>
+</ol>
+<p>En los primeros 3 enfoques, no se tiene la información contextual, ya que se consideran los pixeles como independientes entre sí. La ventaja del último enfoque, es que considera que ciertos pixeles pueden tener injerencia (si ya me quiere criticar, le aviso que <a href="https://dle.rae.es/injerencia" target="_blank" rel="noopener noreferrer">es con JOTA</a> 😊) sobre pixeles vecinos, lo que lograría hacer comparaciones a nivel de estructura y otras propiedades latentes.</p>
+<h3 id="implementacin-de-un-motor-de-bsqueda-de-imgenes">Implementación de un Motor de Búsqueda de Imágenes</h3>
+<p>Para este ejercicio, utilizaré el conjunto de datos <a href="https://www.cs.toronto.edu/~kriz/cifar.html" target="_blank" rel="noopener noreferrer">CIFAR</a>, que consiste en imágenes de colores y <code>32x32</code> pixeles. Todos los experimentos los ejecuté en un notebook en <a href="https://colab.research.google.com/" target="_blank" rel="noopener noreferrer">Colab</a>, y los datos los almacené en mi Google drive.</p>
+<h4 id="anlisis-exploratorio">Análisis Exploratorio</h4>
+<p>Primero cargamos las dependencias a utilizar. Para instalar FAISS, ejecutar: <code>!pip install faiss-cpu --no-cache</code></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">drive</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">faiss</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+</code></pre></div></div>
+<p>Para montar mi gdrive en la sesión de Colab:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">drive</span><span class="p">.</span><span class="n">mount</span><span class="p">(</span><span class="s">'/content/drive'</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Para cargar el conjunto de datos, sigo las instrucciones en la página de CIFAR:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">unpickle</span><span class="p">(</span><span class="nb">file</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="s">'rb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">fo</span><span class="p">:</span>
+        <span class="nb">dict</span> <span class="o">=</span> <span class="n">pickle</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">fo</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s">'bytes'</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">dict</span>
+
+<span class="n">IMAGE_FILE_PATH</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">"/content/drive/$DIRECTORIO/cifar-10-batches-py/data_batch_1"</span><span class="p">)</span>
+<span class="n">LABELS_FILE_PATH</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">"/content/drive/$DIRECTORIO/cifar-10-batches-py/batches.meta"</span><span class="p">)</span>
+<span class="n">label_data</span> <span class="o">=</span> <span class="n">unpickle</span><span class="p">(</span><span class="n">LABELS_FILE_PATH</span><span class="p">)</span>
+<span class="n">label_maping</span> <span class="o">=</span> <span class="n">label_data</span><span class="p">[</span><span class="sa">b</span><span class="s">"label_names"</span><span class="p">]</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">unpickle</span><span class="p">(</span><span class="n">IMAGE_FILE_PATH</span><span class="p">)</span>
+<span class="n">data</span><span class="p">.</span><span class="n">keys</span><span class="p">()</span>
+</code></pre></div></div>
+<p>Observamos que los datos están almacenados en un diccionario de <code>python</code> que tiene las siguientes propiedades:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dict_keys</span><span class="p">([</span><span class="sa">b</span><span class="s">'batch_label'</span><span class="p">,</span> <span class="sa">b</span><span class="s">'labels'</span><span class="p">,</span> <span class="sa">b</span><span class="s">'data'</span><span class="p">,</span> <span class="sa">b</span><span class="s">'filenames'</span><span class="p">])</span>
+</code></pre></div></div>
+<p>Miremos la distribución de las etiquetas:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dataset</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="sa">b</span><span class="s">"data"</span><span class="p">]</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">label_maping</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="sa">b</span><span class="s">"labels"</span><span class="p">]]</span>
+<span class="n">Counter</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+</code></pre></div></div>
+<p>En este podemos ver que el conjunto de datos está casi uniformemente distribuido.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Counter</span><span class="p">({</span><span class="sa">b</span><span class="s">'frog'</span><span class="p">:</span> <span class="mi">1030</span><span class="p">,</span>
+         <span class="sa">b</span><span class="s">'truck'</span><span class="p">:</span> <span class="mi">981</span><span class="p">,</span>
+         <span class="sa">b</span><span class="s">'deer'</span><span class="p">:</span> <span class="mi">999</span><span class="p">,</span>
+         <span class="sa">b</span><span class="s">'automobile'</span><span class="p">:</span> <span class="mi">974</span><span class="p">,</span>
+         <span class="sa">b</span><span class="s">'bird'</span><span class="p">:</span> <span class="mi">1032</span><span class="p">,</span>
+         <span class="sa">b</span><span class="s">'horse'</span><span class="p">:</span> <span class="mi">1001</span><span class="p">,</span>
+         <span class="sa">b</span><span class="s">'ship'</span><span class="p">:</span> <span class="mi">1025</span><span class="p">,</span>
+         <span class="sa">b</span><span class="s">'cat'</span><span class="p">:</span> <span class="mi">1016</span><span class="p">,</span>
+         <span class="sa">b</span><span class="s">'dog'</span><span class="p">:</span> <span class="mi">937</span><span class="p">,</span>
+         <span class="sa">b</span><span class="s">'airplane'</span><span class="p">:</span> <span class="mi">1005</span><span class="p">})</span>
+</code></pre></div></div>
+<p>Procesamos los datos para tener las imagenes en 3 canales y además las etiquetas de cada imagen:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">new_data</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">img</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+    <span class="n">new_data</span><span class="p">.</span><span class="n">append</span><span class="p">((</span><span class="n">img</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span> <span class="n">label</span><span class="p">))</span>
+</code></pre></div></div>
+<p>Echemos una mirada a alguna imagen arbitrariamente seleccionada:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">image_example</span> <span class="o">=</span> <span class="n">new_data</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="n">transpose</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">32</span><span class="o">/</span><span class="mi">50</span><span class="p">,</span> <span class="mi">32</span><span class="o">/</span><span class="mi">50</span><span class="p">))</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image_example</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">axis</span><span class="p">(</span><span class="s">'off'</span><span class="p">)</span>
+</code></pre></div></div>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/84520fc82c9db233d6b4d132f01028bbeee065ff/img-ret-1.png" alt="cifar-ex"></p>
+<p><em>Fig 2: Imagen del conjunto de datos CIFAR</em></p>
+</div>
+<h4 id="entrenando-un-modelo-codificador-decodificador">Entrenando un modelo Codificador-Decodificador</h4>
+<p>Un modelo codificador-decodificador en el caso de las imágenes sigue la siguiente intuición: <em>Una imagen está compuesta de características latentes (ej. formas, coloración, etc.). Con estas características, puedo reconstruir la imagen original</em>. En este caso, el codificador tiene la tarea de representar la imagen utilizando estas características latentes, y el decodificador tiene la tarea de, dada dicha representación, reconstruir la imagen. Esta arquitectura se muestra en la figura 3.</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/d8d3eaf7886b931048df96ac88af4fd0626a33be/img-ret-10.png" alt="cifar-ex"></p>
+<p><em>Fig 3: Arquitectura modelo codificador-decodificador</em></p>
+</div>
+<p>En esencia, el modelo debe ser optimizado, de tal forma, que la salida sea idealmente la misma imagen de entrada.</p>
+<p>Primero, dividimos el conjunto de datos en un conjunto de entrenamiento y uno de prueba:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">train_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">0.8</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_data</span><span class="p">))</span>
+<span class="n">test_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_data</span><span class="p">)</span> <span class="o">-</span> <span class="n">train_size</span>
+<span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">random_split</span><span class="p">(</span><span class="n">new_data</span><span class="p">,</span> <span class="p">[</span><span class="n">train_size</span><span class="p">,</span> <span class="n">test_size</span><span class="p">])</span>
+</code></pre></div></div>
+<p>Verificamos que tenemos los resultados esperados:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Training set size: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">train</span><span class="p">)</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Test set size: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">test</span><span class="p">)</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Definimos el autoencoder y los parámetros como función de costo, cantidad de epochs.</p>
+<p><strong>Spoiler</strong>: Utilizo capas convolucionales para considerar el contexto en la imagen de entrada (es decir, pixeles colindantes). Intenté hacerlo sólo con capas lineales, pero no logré una buena representación; me queda de tarea pendiente explorar múltiples arquitecturas para ver qué tan buenos resultados se pueden obtener.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">SimpleAutoencoder</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">().</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">encoder</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
+            <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">MaxPool2d</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span>
+            <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
+            <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">MaxPool2d</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="p">.</span><span class="n">decoder</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">ConvTranspose2d</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">stride</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span>
+            <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">ConvTranspose2d</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">stride</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span>
+            <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">ReLU</span><span class="p">(),</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">encoded</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">encoder</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">decoded</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">decoder</span><span class="p">(</span><span class="n">encoded</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">decoded</span>
+
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">SimpleAutoencoder</span><span class="p">()</span>
+<span class="n">criterion</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">MSELoss</span><span class="p">()</span>
+<span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">optim</span><span class="p">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Para cargar los datos en los modelos, <code>Torch</code> necesita que se defina un <code>DataLoader</code>:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">train_loader</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">train</span><span class="p">,</span>
+                                           <span class="n">batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                                           <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                                           <span class="n">num_workers</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Ahora comienza el entrenamiento del modelo:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Para almacenar los valores de función de pérdida
+</span><span class="n">train_loss</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_loader</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">):</span>
+    <span class="n">avg_loss</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">img</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">train_loader</span><span class="p">:</span>
+        <span class="c1"># Convertir tipo a float
+</span>        <span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="p">.</span><span class="nb">float</span><span class="p">()</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+
+        <span class="c1"># Comparar la salida del decodificador con la imagen
+</span>        <span class="c1"># original
+</span>        <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
+
+        <span class="c1"># Actualizar pesos
+</span>        <span class="n">optimizer</span><span class="p">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">loss</span><span class="p">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">optimizer</span><span class="p">.</span><span class="n">step</span><span class="p">()</span>
+
+        <span class="c1"># Actualizar promedio de pérdida
+</span>        <span class="n">avg_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="p">.</span><span class="n">item</span><span class="p">()</span>
+
+    <span class="n">avg_loss</span> <span class="o">/=</span> <span class="n">batch_size</span>
+    <span class="n">train_loss</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">avg_loss</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Epoch </span><span class="si">{</span><span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s">|</span><span class="si">{</span><span class="n">num_epochs</span><span class="si">}</span><span class="s">; Running loss </span><span class="si">{</span><span class="n">avg_loss</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Idealmente, la función de pérdida tiene que ir reduciéndose a medida que avanza el entrenamiento. Si no es así, el modelo no está aprendiendo, por lo que habría que revisar la arquitectura del modelo:</p>
+<pre><code>Epoch 1|30; Running loss 925.2084133262634
+Epoch 2|30; Running loss 225.9821763420105
+Epoch 3|30; Running loss 194.27336073112488
+Epoch 4|30; Running loss 178.33449586868286
+Epoch 5|30; Running loss 167.82453124427795
+Epoch 6|30; Running loss 160.89200536727904
+Epoch 7|30; Running loss 155.2542067222595
+Epoch 8|30; Running loss 150.87735285377502
+Epoch 9|30; Running loss 147.33312226867676
+Epoch 10|30; Running loss 144.14536425971986
+Epoch 11|30; Running loss 142.13272936439515
+Epoch 12|30; Running loss 139.8893744430542
+Epoch 13|30; Running loss 137.89374314308168
+Epoch 14|30; Running loss 136.1791773853302
+Epoch 15|30; Running loss 134.33099251937867
+Epoch 16|30; Running loss 133.34205507850646
+Epoch 17|30; Running loss 131.32471635627746
+Epoch 18|30; Running loss 130.05829406356813
+Epoch 19|30; Running loss 128.98449465942383
+Epoch 20|30; Running loss 127.10736661911011
+Epoch 21|30; Running loss 126.33275876045226
+Epoch 22|30; Running loss 125.31079289817811
+Epoch 23|30; Running loss 124.149567653656
+Epoch 24|30; Running loss 123.63063527297973
+Epoch 25|30; Running loss 122.39257022094726
+Epoch 26|30; Running loss 121.8142949180603
+Epoch 27|30; Running loss 120.99319108963013
+Epoch 28|30; Running loss 120.2384320640564
+Epoch 29|30; Running loss 119.61346651077271
+Epoch 30|30; Running loss 118.89974891853332
+</code></pre>
+<p>Graficamos la curva de aprendizaje:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_loss</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span><span class="n">train_loss</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">"Epochs"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">"Pérdida en entrenamiento"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">"Curva de aprendizaje del modelo"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/84520fc82c9db233d6b4d132f01028bbeee065ff/img-ret-2.png" alt="model"></p>
+<p><em>Fig 4: Curva de aprendizaje del modelo encoder-decoder</em></p>
+</div>
+<p>Ahora a ver qué ocurre con datos de prueba:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">test_loader</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">test</span><span class="p">,</span>
+                                          <span class="n">batch_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                                          <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                                          <span class="n">num_workers</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Tomamos un sólo ejemplo al azar:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">img</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">test_loader</span><span class="p">:</span>
+        <span class="n">img_proc</span> <span class="o">=</span> <span class="n">img</span><span class="p">.</span><span class="nb">float</span><span class="p">()</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">img_proc</span><span class="p">)</span>
+        <span class="k">break</span>
+</code></pre></div></div>
+<p>Mostramos la imagen original:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">image_example</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">img</span><span class="p">[</span><span class="mi">0</span><span class="p">]).</span><span class="n">transpose</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">32</span><span class="o">/</span><span class="mi">50</span><span class="p">,</span> <span class="mi">32</span><span class="o">/</span><span class="mi">50</span><span class="p">))</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image_example</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">axis</span><span class="p">(</span><span class="s">'off'</span><span class="p">)</span>
+</code></pre></div></div>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/84520fc82c9db233d6b4d132f01028bbeee065ff/img-ret-3.png" alt="model"></p>
+<p><em>Fig 5: Imagen original del conjunto de prueba</em></p>
+</div>
+<p>Mostramos la reconstrucción (en un mundo ideal, debería ser igual a la imagen original):</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">image_example</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">out_img</span><span class="p">).</span><span class="n">transpose</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">32</span><span class="o">/</span><span class="mi">50</span><span class="p">,</span> <span class="mi">32</span><span class="o">/</span><span class="mi">50</span><span class="p">))</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image_example</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">axis</span><span class="p">(</span><span class="s">'off'</span><span class="p">)</span>
+</code></pre></div></div>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/84520fc82c9db233d6b4d132f01028bbeee065ff/img-ret-4.png" alt="model"></p>
+<p><em>Fig 6: Imagen reconstruída del conjunto de entrenamiento</em></p>
+</div>
+<h4 id="extrayendo-representacin-latente-emembeddingsem">Extrayendo Representación Latente (<em>Embeddings</em>)</h4>
+<p>Extraemos representación latente luego de aplicar el codificador (<em>embeddings</em>):</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">embeddings</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">()</span>
+<span class="n">images</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">img</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">train_loader</span><span class="p">:</span>
+        <span class="n">img_proc</span> <span class="o">=</span> <span class="n">img</span><span class="p">.</span><span class="nb">float</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">im</span><span class="p">,</span> <span class="n">lbl</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
+            <span class="n">images</span><span class="p">.</span><span class="n">append</span><span class="p">((</span><span class="n">im</span><span class="p">,</span> <span class="n">lbl</span><span class="p">))</span>
+        <span class="n">enc_output</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">encoder</span><span class="p">(</span><span class="n">img_proc</span><span class="p">).</span><span class="n">cpu</span><span class="p">()</span>
+        <span class="n">embeddings</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">cat</span><span class="p">((</span><span class="n">embeddings</span><span class="p">,</span> <span class="n">enc_output</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Aplanamos los embeddings para tener vectores:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">embeddings_flattened</span> <span class="o">=</span> <span class="n">embeddings</span><span class="p">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">start_dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div></div>
+<p>En este punto ya tenemos todas las imágenes del conjunto de entrenamiento en una representación vectorial, basada en la salida del codificador en la red neuronal.</p>
+<h4 id="creando-un-ndice-para-recuperar-imgenes-relevantes">Creando un Índice para Recuperar Imágenes Relevantes</h4>
+<p>Ya tenemos una representación de la imágen que el computador puede “procesar” y realizar operaciones matemáticas. Sin embargo, queda la pregunta, ¿Cómo recuperamos las imágenes más relevantes de la base de datos dado un vector de consulta $x_q$?</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/d8d3eaf7886b931048df96ac88af4fd0626a33be/img-ret-7.png" alt="model"></p>
+<p><em>Fig 7: Problema de búsqueda de imágenes relevantes dada una consulta.</em></p>
+</div>
+<p>Un algoritmo ingenuo sería:</p>
+<ol>
+<li>Inicializar <code>resultado</code> como un conjunto vacío <code>[]</code>
+</li>
+<li>Para cada imagen del repositorio:
+<ul>
+<li>Calcular similitud con la consulta</li>
+<li>Guardar esta similitud y una referencia a la imagen en <code>resultado</code>
+</li>
+</ul>
+</li>
+<li>Ordenar <code>resultado</code> de acuerdo a la similitud</li>
+<li>Retornar <code>resultado</code>
+</li>
+</ol>
+<p>Sin embargo, este algoritmo es muy ineficiente. Asumiendo que la dimensionalidad $D$ de los vectores es fija, tendríamos que comparar la consulta con todos los vectores de la base de datos $O(n)$. Luego ordenar $O(n \log{n})$. Este enfoque no escala.</p>
+<p>Un enfoque más “inteligente” podría ser, agrupar las imágenes más similares (por ejemplo vía <em>K-Means</em>), y luego, determinar el centroide más cercano a la consulta, y obtener los resultados más relevantes sólo del subconjunto de imágenes que pertenecen a dicho grupo:</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/d8d3eaf7886b931048df96ac88af4fd0626a33be/img-ret-8.png" alt="model"></p>
+<p><em>Fig 8: Agrupando imágenes similares.</em></p>
+</div>
+<p>Finalmente, podemos también, considerando los centroides, hacer algo un poco más “inteligente” y particionar el espacio utilizando diagramas de Voronoi:</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/d8d3eaf7886b931048df96ac88af4fd0626a33be/img-ret-9.png" alt="model"></p>
+<p><em>Fig 8: Diagrama de Voronoi del espacio vectorial.</em></p>
+</div>
+<p>Las bases de datos basadas en vectores, utilizan principios similares para hacer la búsqueda de datos más eficiente. Por ejemplo un motor de búsqueda podría utilizar una representación semántica (<em>word embeddings</em>, <em>sentence embeddings</em>) para búsqueda textual. En este caso, se búsca el centroide más cercano y la búsqueda se limita a los vectores que se encuentren dentro de dicha partición.</p>
+<p>Para implementar la partición utilizando Voronoi, creamos un índice utilizando la biblioteca <code>FAISS</code> (<em>Facebook Artificial Intelligence Similarity Search</em>):</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">nlist</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">embeddings_flattened</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">quantizer</span> <span class="o">=</span> <span class="n">faiss</span><span class="p">.</span><span class="n">IndexFlatL2</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">faiss</span><span class="p">.</span><span class="n">IndexIVFFlat</span><span class="p">(</span><span class="n">quantizer</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">nlist</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Entrenamos el índice:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">index</span><span class="p">.</span><span class="n">train</span><span class="p">(</span><span class="n">embeddings_flattened</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Agregamos imágenes al índice:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">index</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">embeddings_flattened</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Obtenemos los embeddings de los datos de prueba:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">test_img</span><span class="p">,</span> <span class="n">test_label</span> <span class="ow">in</span> <span class="n">test_loader</span><span class="p">:</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">test_img</span><span class="p">.</span><span class="nb">float</span><span class="p">()</span>
+        <span class="n">enc_output</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">encoder</span><span class="p">(</span><span class="n">img</span><span class="p">).</span><span class="n">cpu</span><span class="p">()</span>
+        <span class="k">break</span>
+</code></pre></div></div>
+<p>Escogemos un dato de prueba arbitrariamente y lo consideramos como la consulta a buscar:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">query</span> <span class="o">=</span> <span class="n">enc_output</span><span class="p">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">start_dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Visualizamos la consulta:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">image_example</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">test_img</span><span class="p">[</span><span class="mi">0</span><span class="p">]).</span><span class="n">transpose</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">32</span><span class="o">/</span><span class="mi">50</span><span class="p">,</span> <span class="mi">32</span><span class="o">/</span><span class="mi">50</span><span class="p">))</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image_example</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="n">test_label</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">decode</span><span class="p">())</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">axis</span><span class="p">(</span><span class="s">'off'</span><span class="p">)</span>
+</code></pre></div></div>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/84520fc82c9db233d6b4d132f01028bbeee065ff/img-ret-5.png" alt="model"></p>
+<p><em>Fig 9: Ejemplo de consulta al motor de búsqueda de imágenes</em></p>
+</div>
+<p>Hacemos la búsqueda en el índice definido previamente:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dists</span><span class="p">,</span> <span class="n">result_indexes</span> <span class="o">=</span> <span class="n">index</span><span class="p">.</span><span class="n">search</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Mostramos los resultados:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">rows</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">columns</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">padding</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">fig_num</span><span class="p">,</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">result_indexes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">images</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">uint8</span><span class="p">).</span><span class="n">transpose</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">fig_num</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="n">images</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">1</span><span class="p">].</span><span class="n">decode</span><span class="p">())</span>
+    <span class="n">plt</span><span class="p">.</span><span class="n">axis</span><span class="p">(</span><span class="s">'off'</span><span class="p">)</span>
+</code></pre></div></div>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/84520fc82c9db233d6b4d132f01028bbeee065ff/img-ret-6.png" alt="model"></p>
+<p><em>Fig 10: Ejemplo de resultados a la consulta</em></p>
+</div>
+<p>En este caso, para la consulta, los resultados tienen sentido. Por ejemplo, la mayoría de los resultados son imágenes de aviones, lo cual es esperado dada la consulta. Sin embargo, también el motor recuperó imágenes de aves, porque en la representación latente, estas imágenes son similares a la consulta.</p>
+<p>Sin embargo, no hay garantías de que todas las consultas entregarán los resultados esperados. El conjunto de datos tiene sus particularidades, además de haber utilizado imágenes de baja resolución.</p>
+<h2 id="conclusiones">Conclusiones</h2>
+<ul>
+<li>Las imágenes pueden representarse utilizando diferentes enfoques. El mejor enfoque dependerá del caso de uso.</li>
+<li>Las arquitectura codificador-decodificador puede hacer una representación de las características latentes de una imagen. La dimensionalidad dependerá de la arquitectura de la red (cuidado que puede chupar mucha RAM 😅).</li>
+<li>Utilizando representaciones latentes, se pueden crear aplicaciones computacionales interesantes: Clasificador de imágenes, motor de búsqueda de imágenes, detección de objetos en imágenes, etc.</li>
+<li>Para encontrar los vectores más “cercanos” a un vector consulta, existen varios enfoques y algoritmos. El mejor y más eficiente dependerá del caso, del volumen de datos y de la precisión deseada.</li>
+</ul>
+<h2 id="ejercicios-interesantes">Ejercicios Interesantes</h2>
+<ul>
+<li>Hacer un motor de búsqueda utilizando
+<ul>
+<li>Representación basada en histogramas de colores</li>
+<li>Representación utilizando pixeles</li>
+<li>Aplicando PCA/ICA/inserte su algoritmo de componentes principales</li>
+<li>Utilizando otro tipo de capas (no convolucionales)</li>
+</ul>
+</li>
+<li>Utilizar la representación interna para implementar un clasificador de imágenes</li>
+</ul>
+
+  </div>
+<div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = '';
+      this.page.identifier = 'https://dpalmasan.github.io/website/python/algorithms/ir/2024/01/06/motor-busqueda-imagenes.html';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://dpalmasan.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow noopener noreferrer" target="_blank">comments powered by Disqus.</a>
+</noscript>
+<a class="u-url" href="/website/python/algorithms/ir/2024/01/06/motor-busqueda-imagenes.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/website/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="https://dpalmasan.github.io/website/feed.xml">
+            <svg class="svg-icon orange">
+              <path d="M12.8 16C12.8 8.978 7.022 3.2 0 3.2V0c8.777 0 16 7.223 16 16h-3.2zM2.194
+                11.61c1.21 0 2.195.985 2.195 2.196 0 1.21-.99 2.194-2.2 2.194C.98 16 0 15.017 0
+                13.806c0-1.21.983-2.195 2.194-2.195zM10.606
+                16h-3.11c0-4.113-3.383-7.497-7.496-7.497v-3.11c5.818 0 10.606 4.79 10.606 10.607z"></path>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">dpalmasan</li>
+          
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Este es un blog donde compartiré un poco sobre mí y mis experiencias en el mundo tecnológico...</p>
+      </div>
+    </div>
+
+    <div class="social-links">
+<ul class="social-media-list">
+<li>
+    <a rel="me noopener noreferrer" href="https://www.linkedin.com/in/dpalmasan/" target="_blank" title="Mi perfil en Linkedin">
+      <span class="grey fa-brands fa-linkedin fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://www.github.com/dpalmasan" target="_blank" title="Mi Github">
+      <span class="grey fa-brands fa-github fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://scholar.google.com/citations?user=Y5PN_1AAAAAJ&hl=en" target="_blank" title="Mi Google Scholar">
+      <span class="grey fa-brands fa-google-scholar fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://stackoverflow.com/users/4051219/dpalma" target="_blank" title="Mis preguntas en SO LOL!">
+      <span class="grey fa-brands fa-stack-overflow fa-lg"></span>
+    </a>
+  </li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+
+</body>
+
+</html>

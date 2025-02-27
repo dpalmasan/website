@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Introducción a la Clasificación de Textos | Mr Dipalma’s Pub 🍺</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Introducción a la Clasificación de Textos">
+<meta name="author" content="dpalmasan">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="En el último post hasta la fecha, hablé sobre el índice invertido y motores de búsqueda. En otro post previo hablé sobre probabilidad e inferencia, y cómo a partir de una evidencia (observación), se puede calcular la probabilidad condicionada a las observaciones. En esta entrada, mezclo ambos mundos, y explico cómo hacer un clasificador de textos, con un ejemplo de clasificación de reseñas de IMDB.">
+<meta property="og:description" content="En el último post hasta la fecha, hablé sobre el índice invertido y motores de búsqueda. En otro post previo hablé sobre probabilidad e inferencia, y cómo a partir de una evidencia (observación), se puede calcular la probabilidad condicionada a las observaciones. En esta entrada, mezclo ambos mundos, y explico cómo hacer un clasificador de textos, con un ejemplo de clasificación de reseñas de IMDB.">
+<link rel="canonical" href="https://dpalmasan.github.io/website/python/algorithms/classification/machine-learning/2023/01/27/intro-clasificacion-textos.html">
+<meta property="og:url" content="https://dpalmasan.github.io/website/python/algorithms/classification/machine-learning/2023/01/27/intro-clasificacion-textos.html">
+<meta property="og:site_name" content="Mr Dipalma’s Pub 🍺">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2023-01-27T15:10:03+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Introducción a la Clasificación de Textos">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"dpalmasan"},"dateModified":"2023-01-27T15:10:03+00:00","datePublished":"2023-01-27T15:10:03+00:00","description":"En el último post hasta la fecha, hablé sobre el índice invertido y motores de búsqueda. En otro post previo hablé sobre probabilidad e inferencia, y cómo a partir de una evidencia (observación), se puede calcular la probabilidad condicionada a las observaciones. En esta entrada, mezclo ambos mundos, y explico cómo hacer un clasificador de textos, con un ejemplo de clasificación de reseñas de IMDB.","headline":"Introducción a la Clasificación de Textos","mainEntityOfPage":{"@type":"WebPage","@id":"https://dpalmasan.github.io/website/python/algorithms/classification/machine-learning/2023/01/27/intro-clasificacion-textos.html"},"url":"https://dpalmasan.github.io/website/python/algorithms/classification/machine-learning/2023/01/27/intro-clasificacion-textos.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css">
+    <link rel="stylesheet" href="/website/assets/css/style.css">
+    <style type="text/css">
+        div#disqus_thread iframe[sandbox] {
+                max-height: 0px !important;
+        }
+    </style>
+<link type="application/atom+xml" rel="alternate" href="https://dpalmasan.github.io/website/feed.xml" title="Mr Dipalma's Pub 🍺">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KHXBX5G1VP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KHXBX5G1VP');
+</script>
+
+<script>MathJax={"tex":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]},"svg":{"fontCache":"global"}}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<header class="site-header">
+
+  <div class="wrapper">
+<a class="site-title" rel="author" href="/website/">Mr Dipalma's Pub 🍺</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewbox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/website/about/">About</a></div>
+      </nav>
+</div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Introducción a la Clasificación de Textos</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2023-01-27T15:10:03+00:00" itemprop="datePublished">
+        Jan 27, 2023
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>En el <a href="/website/python/algorithms/ir/2023/01/21/intro-recuperacion-informacion.html">último post hasta la fecha</a>, hablé sobre el índice invertido y motores de búsqueda. En otro post previo hablé sobre <a href="/website/python/algorithms/2023/01/21/sobre-probabilidades.html">probabilidad e inferencia</a>, y cómo a partir de una evidencia (observación), se puede calcular la probabilidad condicionada a las observaciones. En esta entrada, mezclo ambos mundos, y explico cómo hacer un clasificador de textos, con un ejemplo de clasificación de reseñas de <a href="https://www.imdb.com/" target="_blank" rel="noopener noreferrer">IMDB</a>.</p>
+<h2 id="por-qu-clasificar-textos">¿Por qué clasificar textos?</h2>
+<p>Existen varias razones para clasificar textos:</p>
+<ul>
+<li>Clasificar reseñas sobre productos (positivas, negativas, neutrales), para ver puntos débiles y mejorarlos</li>
+<li>Hacer búsquedas específicas en un motor de búsqueda, por ejemplo si buscamos el término “Ciencias de la Computación” y queremos sólo los textos de Chile, necesitamos antes clasificar qué textos son chilenos.</li>
+<li>Detección de spam, por ejemplo en correos electrónicos.</li>
+<li>etc.</li>
+</ul>
+<h2 id="modelado-de-clasificacin-de-textos-como-un-problema-probabilstico">Modelado de Clasificación de Textos como un Problema Probabilístico</h2>
+<p>Un texto (documento) es en esencia una secuencia de $n$ términos $d = &lt;t_1, t_2, \ldots, t_n&gt;$. El problema de clasificación de textos, es encontrar una función $f:d \longrightarrow c$, donde $c$ es una variable discreta que representa la categoría del texto (ej. deportes, ciencia, política, etc). La probabilidad de generar un documento, dada una categoría es $P(d|c)$.</p>
+<h3 id="regla-de-bayes">Regla de Bayes</h3>
+<p>La regla de bayes se puede inferir utilizando la <em>probabilidad condicional</em>. Por ejemplo, sabemos:</p>
+<p>$$P(A|B) = \displaystyle \frac {P(A, B)}{P(B)} \Rightarrow P(A, B) = P(A|B)P(B)$$</p>
+<p>También, por definición:</p>
+<p>$$P(B|A) = \displaystyle \frac {P(A, B)}{P(A)} \Rightarrow P(A, B) = P(B|A)P(A)$$</p>
+<p>Finalmente, utilizando $P(A, B)$:</p>
+<p>$$P(B|A)P(A) = P(A|B)P(B) \Rightarrow P(B|A) = \displaystyle \frac{P(A|B)P(B)}{P(A)}$$</p>
+<p>Esto se conoce como regla de Bayes, y a pesar de que es un concepto simple, es la base de muchos modelos probabilísticos de Machine Learning.</p>
+<h3 id="estimando-la-probabilidad-de-una-categora-dado-un-documento">Estimando la Probabilidad de una Categoría dado un Documento</h3>
+<p>Volviendo a la ecuación anterior, podemos calcular la probabilidad de una categoría dado un documento, como:</p>
+<p>$$P(c|d) =  \displaystyle \frac{P(c)P(d|c)}{P(d)} \  \alpha \  P(c)P(d|c)$$</p>
+<p>La probabilidad del documento no cambia, por lo que podemos eliminarla y considerarla un factor de normalización (para cumplir con el axioma de que las probabilidades se encuentran entre <code>[0, 1]</code>). $P(c)$ es la probabilidad a priori de una clase $c$, esta se puede estimar utilizando estimación de máxima verosimilitud:</p>
+<p>$$P(c) = \displaystyle \frac{N_c}{N}$$</p>
+<p>Donde, si observamos $N$ documentos, $N_c$ son los documentos que pertenecen a la clase $c$. Ahora es cuando podemos construir un clasificador de Bayes ingenuo (Naïve Bayes). En este clasificador, asumimos que los términos del documento son independientes entre sí, por lo que podemos calcular $P(c|d)$:</p>
+<p>$$P(c|d) \ \alpha \  \displaystyle P(c)\prod_{t_i \in V} P(t_i|c)$$</p>
+<p>Donde V es el vocabulario de términos a considerar, y $P(t_i, c)$ representa cuánto contribuye $t_i$ en que el documento sea de la clase $c$. Si utilizamos una estimación de máxima probabilidad aposteriori (MAP), entonces podemos determinar la clase del documento:</p>
+<p>$$c_{map} = \underset{c \in \mathbb{C}}{\mathrm{argmax}} \hat{P}(c|d) = \underset{c \in \mathbb{C}}{\mathrm{argmax}} \ \hat{P}(c) \prod_{t_i \in V} \hat{P}(t_i|c)$$</p>
+<p>Para estimar $\hat{P}(t|c)$ podemos utilizar la frecuencia relativa de $t$ dado un documento de clase $c$:</p>
+<p>$$\hat{P}(t|c) = \displaystyle \frac {Count_c(t)}{\sum_{t’ \in V} Count_c(t’)}$$</p>
+<p>El lector que esté atento, se hará la pregunta ¿Qué ocurre si al momento de la predicción se encuentra un término $t \notin V$? En este caso podemos utilizar alguna técnica de suavizado (<em>smoothing</em>), una forma simple es utilizar <em>Laplace smoothing</em>:</p>
+<p>$$\hat{P}(t|c) = \displaystyle  \frac {Count_c(t) + 1}{\sum_{t’ \in V} Count_c(t’) + 1} = \frac {Count_c(t) + 1}{\left(\sum_{t’ \in V} Count_c(t’)\right) + |V|}$$</p>
+<h3 id="predecir-sentimientos-de-reseas-en-imdb">Predecir Sentimientos de Reseñas en IMDB</h3>
+<p>Utilizaremos el dataset de <a href="https://archive.ics.uci.edu/ml/datasets/Sentiment+Labelled+Sentences" target="_blank" rel="noopener noreferrer">reseñas del repositorio de ML de UCI</a>. Por otro lado, eliminaremos la palabras funcionales (<em>stopwords</em>) y también aplicaremos lematización como describí en el post del índice invertido:</p>
+<ul>
+<li><a href="https://github.com/michmech/lemmatization-lists" target="_blank" rel="noopener noreferrer">Lexicon de lemas</a></li>
+<li><a href="https://countwordsfree.com/stopwords" target="_blank" rel="noopener noreferrer">Lista de stopwords</a></li>
+</ul>
+<p>Creamos un tokenizador:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+
+<span class="k">class</span> <span class="nc">LemmaTokenizer</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lemmas</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_lemmas</span> <span class="o">=</span> <span class="n">lemmas</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_re</span> <span class="o">=</span> <span class="n">re</span><span class="p">.</span><span class="nb">compile</span><span class="p">(</span><span class="s">"[^0-9a-zA-Z']+"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_threshold</span> <span class="o">=</span> <span class="n">threshold</span>
+
+    <span class="k">def</span> <span class="nf">tokenize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">_lemmas</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">word</span><span class="p">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">word</span><span class="p">.</span><span class="n">lower</span><span class="p">())</span>
+            <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">_re</span><span class="p">.</span><span class="n">sub</span><span class="p">(</span><span class="s">" "</span><span class="p">,</span> <span class="n">text</span><span class="p">).</span><span class="n">split</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="p">.</span><span class="n">_threshold</span>
+        <span class="p">]</span>
+
+    <span class="o">@</span><span class="nb">classmethod</span>
+    <span class="k">def</span> <span class="nf">load_from_file</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="n">Path</span><span class="p">):</span>
+        <span class="n">lexicon</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fp</span><span class="p">:</span>
+                <span class="n">lemma</span><span class="p">,</span> <span class="n">word</span> <span class="o">=</span> <span class="n">line</span><span class="p">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="n">lexicon</span><span class="p">[</span><span class="n">word</span><span class="p">.</span><span class="n">strip</span><span class="p">()]</span> <span class="o">=</span> <span class="n">lemma</span><span class="p">.</span><span class="n">strip</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">cls</span><span class="p">(</span><span class="n">lexicon</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Lo cargamos con la lista de lemas:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">RESOURCE_PATH</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">"./resources"</span><span class="p">)</span>
+
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">LemmaTokenizer</span><span class="p">.</span><span class="n">load_from_file</span><span class="p">(</span><span class="n">RESOURCE_PATH</span> <span class="o">/</span> <span class="s">"lemmatization-en.txt"</span><span class="p">)</span>
+</code></pre></div></div>
+<p>El formato del conjunto de datos es <code>texto \t etiqueta</code>, para cargar el conjunto de datos:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">reviews</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">RESOURCE_PATH</span> <span class="o">/</span> <span class="s">"imdb_labelled.txt"</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fp</span><span class="p">:</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="p">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">line</span><span class="p">:</span>
+            <span class="n">review</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">line</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s">"</span><span class="se">\t</span><span class="s">"</span><span class="p">)</span>
+            <span class="n">reviews</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">review</span><span class="p">)</span>
+            <span class="n">labels</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Dividimos el conjunto en dos subconjuntos, uno de entrenamiento y uno de prueba:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">shuffle</span>
+
+<span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">reviews</span><span class="p">)</span>
+<span class="n">idx</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+<span class="n">shuffle</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+<span class="n">train_reviews</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">train_labels</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">idx</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="mf">0.8</span> <span class="o">*</span> <span class="n">n</span><span class="p">)]:</span>
+    <span class="n">train_reviews</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">reviews</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">train_labels</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+<span class="n">test_reviews</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">test_labels</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">idx</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="mf">0.8</span> <span class="o">*</span> <span class="n">n</span><span class="p">):]:</span>
+    <span class="n">test_reviews</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">reviews</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">test_labels</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+</code></pre></div></div>
+<p>Calculamos las probabilidades a priori en el conjunto de entrenamiento:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
+
+<span class="n">stopwords</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">RESOURCE_PATH</span> <span class="o">/</span> <span class="s">"stop_words_english.txt"</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fp</span><span class="p">:</span>
+        <span class="n">stopwords</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">line</span><span class="p">.</span><span class="n">strip</span><span class="p">().</span><span class="n">lower</span><span class="p">())</span>
+
+
+<span class="n">label_count</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">train_labels</span><span class="p">)</span>
+<span class="n">label_priors</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">label</span><span class="p">:</span> <span class="n">count</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">label_count</span><span class="p">.</span><span class="n">values</span><span class="p">())</span> <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">label_count</span><span class="p">.</span><span class="n">items</span><span class="p">()</span>
+<span class="p">}</span>
+<span class="k">print</span><span class="p">(</span><span class="n">label_priors</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Cuya salida es:</p>
+<pre><code>{'1': 0.50875, '0': 0.49125}
+</code></pre>
+<p>Se espera que estén cerca de <code>0.5</code> ya que el conjunto original contiene mitad clase positiva y mitad clase negativa. Calculamos la frecuencia de ocurrencia de términos en el conjunto de entrenamiento y añadimos un término <code>UNK</code> para palabras no vistas en el conjunto de entrenamiento:</p>
+<pre><code>cond_count = {
+    label: Counter(
+    filter(lambda word: word not in stopwords,
+           chain(*[tokenizer.tokenize(review)
+                   for i, review in enumerate(train_reviews) if train_labels[i] == label])))
+       for label in train_labels
+}
+
+for label in label_priors:
+    cond_count[label]["UNK"] = 0
+</code></pre>
+<p>Luego calculamos las probabilidades $P(t|c)$:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cond_dist</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">label</span><span class="p">:</span> <span class="p">{</span>
+        <span class="n">word</span><span class="p">:</span> <span class="p">(</span><span class="n">count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">cond_count</span><span class="p">[</span><span class="n">label</span><span class="p">].</span><span class="n">values</span><span class="p">())</span>
+                             <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">cond_count</span><span class="p">[</span><span class="n">label</span><span class="p">]))</span>
+        <span class="k">for</span> <span class="n">word</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">cond_count</span><span class="p">[</span><span class="n">label</span><span class="p">].</span><span class="n">items</span><span class="p">()</span>
+    <span class="p">}</span>
+    <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">train_labels</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>Por ejemplo:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">sample</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">sample</span><span class="p">(</span><span class="n">cond_dist</span><span class="p">[</span><span class="s">'0'</span><span class="p">].</span><span class="n">items</span><span class="p">(),</span> <span class="mi">4</span><span class="p">))</span>
+</code></pre></div></div>
+<p>Da como salida:</p>
+<pre><code>[('hill', 0.0006985679357317499),
+ ('impact', 0.0006985679357317499),
+ ('speak', 0.0013971358714634998),
+ ('lead', 0.001047851903597625)]
+</code></pre>
+<p>La probabilidad de <code>P(UNK|c)</code>:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="n">cond_dist</span><span class="p">[</span><span class="s">'0'</span><span class="p">][</span><span class="s">'UNK'</span><span class="p">])</span>
+</code></pre></div></div>
+<pre><code>0.00034928396786587494
+</code></pre>
+<p>Se observa que las probabilidades son valores cercanos a 0, por lo tanto su multiplicación puede producir <em>underflow</em> (quedar en 0). Para solucionar esto, en lugar de multiplicar, aplicamos logarithmo:</p>
+<p>$$$$</p>
+<p>$$c_{map} = \underset{c \in \mathbb{C}}{\mathrm{argmax}} \left(\ log \ \hat{P}(c) + \sum_{t_i \in V} log \ \hat{P}(t_i|c)\right)$$</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">log</span>
+
+
+<span class="n">predictions</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">review</span> <span class="ow">in</span> <span class="n">test_reviews</span><span class="p">:</span>
+    <span class="n">probs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">prior</span> <span class="ow">in</span> <span class="n">label_priors</span><span class="p">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">prob</span> <span class="o">=</span> <span class="n">log</span><span class="p">(</span><span class="n">prior</span><span class="p">)</span> <span class="o">+</span> <span class="nb">sum</span><span class="p">(</span>
+            <span class="n">log</span><span class="p">(</span><span class="n">cond_dist</span><span class="p">[</span><span class="n">label</span><span class="p">][</span>
+                <span class="n">word</span> <span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">cond_dist</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="k">else</span> <span class="s">"UNK"</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">tokenizer</span><span class="p">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">review</span><span class="p">)</span> <span class="k">if</span> <span class="n">word</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">stopwords</span><span class="p">)</span>
+        <span class="n">probs</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">prob</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">probs</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span> <span class="k">lambda</span> <span class="n">label</span><span class="p">:</span> <span class="n">probs</span><span class="p">[</span><span class="n">label</span><span class="p">])</span>
+    <span class="n">predictions</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Finalmente, calculamos la métrica <em>accuracy</em> del modelo y lo comparamos con una línea base que sería predecir siempre la clase con mayor probabilidad a priori:</p>
+<pre><code>most_common = max(label_priors, key=lambda label: label_priors[label])
+baseline = sum(most_common == label for label in test_labels) / len(test_labels)
+accuracy = sum(pred == label for pred, label in zip(predictions, test_labels)) / len(test_labels)
+print(f"Baseline {baseline} | Accuracy: {accuracy}")
+</code></pre>
+<pre><code>Baseline 0.465 | Accuracy: 0.77
+</code></pre>
+<p>El resultado es bastante decente considerando la simplicidad del modelo. Se pueden aplicar mejoras, pero eso prefiero dejarlo para otro artículo. Dado que este modelo es de tipo generativo, también podemos generar textos dada la categoría.</p>
+<h2 id="problema-del-da">Problema del día</h2>
+<p>Para ir con la temática, el problema de hoy estará relacionado con <a href="https://github.com/dpalmasan/code-challenges/issues/16" target="_blank" rel="noopener noreferrer">búsqueda de palabras</a>.</p>
+<h2 id="conclusiones">Conclusiones</h2>
+<ul>
+<li>En algunos casos se puede clasificar textos dado su contenido, se pueden hacer simples estimaciones como utilizar la frecuencia de ocurrencia de cada término.</li>
+<li>El vocabulario a utilizar se define en el conjunto de entrenamiento, por lo que se debe tener algún mecanismo para lidiar con palabras fuera del vocabulario.</li>
+<li>Muchos problemas de clasificación se pueden modelar como una estimación MAP de $P(c|X)$, donde luego el problema es definir las probabilidades apriori $P(c)$ y la distribución condicional $P(X|c)$</li>
+</ul>
+
+  </div>
+<div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = '';
+      this.page.identifier = 'https://dpalmasan.github.io/website/python/algorithms/classification/machine-learning/2023/01/27/intro-clasificacion-textos.html';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://dpalmasan.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow noopener noreferrer" target="_blank">comments powered by Disqus.</a>
+</noscript>
+<a class="u-url" href="/website/python/algorithms/classification/machine-learning/2023/01/27/intro-clasificacion-textos.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/website/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="https://dpalmasan.github.io/website/feed.xml">
+            <svg class="svg-icon orange">
+              <path d="M12.8 16C12.8 8.978 7.022 3.2 0 3.2V0c8.777 0 16 7.223 16 16h-3.2zM2.194
+                11.61c1.21 0 2.195.985 2.195 2.196 0 1.21-.99 2.194-2.2 2.194C.98 16 0 15.017 0
+                13.806c0-1.21.983-2.195 2.194-2.195zM10.606
+                16h-3.11c0-4.113-3.383-7.497-7.496-7.497v-3.11c5.818 0 10.606 4.79 10.606 10.607z"></path>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">dpalmasan</li>
+          
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Este es un blog donde compartiré un poco sobre mí y mis experiencias en el mundo tecnológico...</p>
+      </div>
+    </div>
+
+    <div class="social-links">
+<ul class="social-media-list">
+<li>
+    <a rel="me noopener noreferrer" href="https://www.linkedin.com/in/dpalmasan/" target="_blank" title="Mi perfil en Linkedin">
+      <span class="grey fa-brands fa-linkedin fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://www.github.com/dpalmasan" target="_blank" title="Mi Github">
+      <span class="grey fa-brands fa-github fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://scholar.google.com/citations?user=Y5PN_1AAAAAJ&hl=en" target="_blank" title="Mi Google Scholar">
+      <span class="grey fa-brands fa-google-scholar fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://stackoverflow.com/users/4051219/dpalma" target="_blank" title="Mis preguntas en SO LOL!">
+      <span class="grey fa-brands fa-stack-overflow fa-lg"></span>
+    </a>
+  </li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+
+</body>
+
+</html>

@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Árboles de Decisión, lo que probablemente no sabías | Mr Dipalma’s Pub 🍺</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Árboles de Decisión, lo que probablemente no sabías">
+<meta name="author" content="dpalmasan">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Probablemente, si trabajas con Machine Learning, has notado que uno de los modelos más usados es Extreme Gradient Boosting Decision Trees o XGBoost, o algún modelo similar. La práctica que funciona en general, es tomar los datos, insertarlos en la juguera y probablemente obtener un resultado. Las API y frameworks disponibles hacen que la tarea no sea complicada. Si bien, en general en la práctica, el problema generalmente se resuelve teniendo los datos correctos, existen algunos casos en que incluso teniendo una gran disponibilidad de datos a mano, los modelos no tengan buen desempeño. En este caso, el problema puede deberse a múltiples fuentes, sin embargo cuando hay que “entrar a picar”, a veces el problema real está en no entender los modelos ni sus fundamentos.">
+<meta property="og:description" content="Probablemente, si trabajas con Machine Learning, has notado que uno de los modelos más usados es Extreme Gradient Boosting Decision Trees o XGBoost, o algún modelo similar. La práctica que funciona en general, es tomar los datos, insertarlos en la juguera y probablemente obtener un resultado. Las API y frameworks disponibles hacen que la tarea no sea complicada. Si bien, en general en la práctica, el problema generalmente se resuelve teniendo los datos correctos, existen algunos casos en que incluso teniendo una gran disponibilidad de datos a mano, los modelos no tengan buen desempeño. En este caso, el problema puede deberse a múltiples fuentes, sin embargo cuando hay que “entrar a picar”, a veces el problema real está en no entender los modelos ni sus fundamentos.">
+<link rel="canonical" href="https://dpalmasan.github.io/website/python/algorithms/classification/machine-learning/2023/02/18/decision-trees-explained.html">
+<meta property="og:url" content="https://dpalmasan.github.io/website/python/algorithms/classification/machine-learning/2023/02/18/decision-trees-explained.html">
+<meta property="og:site_name" content="Mr Dipalma’s Pub 🍺">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2023-02-18T15:10:03+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Árboles de Decisión, lo que probablemente no sabías">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"dpalmasan"},"dateModified":"2023-02-18T15:10:03+00:00","datePublished":"2023-02-18T15:10:03+00:00","description":"Probablemente, si trabajas con Machine Learning, has notado que uno de los modelos más usados es Extreme Gradient Boosting Decision Trees o XGBoost, o algún modelo similar. La práctica que funciona en general, es tomar los datos, insertarlos en la juguera y probablemente obtener un resultado. Las API y frameworks disponibles hacen que la tarea no sea complicada. Si bien, en general en la práctica, el problema generalmente se resuelve teniendo los datos correctos, existen algunos casos en que incluso teniendo una gran disponibilidad de datos a mano, los modelos no tengan buen desempeño. En este caso, el problema puede deberse a múltiples fuentes, sin embargo cuando hay que “entrar a picar”, a veces el problema real está en no entender los modelos ni sus fundamentos.","headline":"Árboles de Decisión, lo que probablemente no sabías","mainEntityOfPage":{"@type":"WebPage","@id":"https://dpalmasan.github.io/website/python/algorithms/classification/machine-learning/2023/02/18/decision-trees-explained.html"},"url":"https://dpalmasan.github.io/website/python/algorithms/classification/machine-learning/2023/02/18/decision-trees-explained.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css">
+    <link rel="stylesheet" href="/website/assets/css/style.css">
+    <style type="text/css">
+        div#disqus_thread iframe[sandbox] {
+                max-height: 0px !important;
+        }
+    </style>
+<link type="application/atom+xml" rel="alternate" href="https://dpalmasan.github.io/website/feed.xml" title="Mr Dipalma's Pub 🍺">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KHXBX5G1VP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KHXBX5G1VP');
+</script>
+
+<script>MathJax={"tex":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]},"svg":{"fontCache":"global"}}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<header class="site-header">
+
+  <div class="wrapper">
+<a class="site-title" rel="author" href="/website/">Mr Dipalma's Pub 🍺</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewbox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/website/about/">About</a></div>
+      </nav>
+</div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Árboles de Decisión, lo que probablemente no sabías</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2023-02-18T15:10:03+00:00" itemprop="datePublished">
+        Feb 18, 2023
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>Probablemente, si trabajas con <em>Machine Learning</em>, has notado que uno de los modelos más usados es <em>Extreme Gradient Boosting Decision Trees</em> o <em>XGBoost</em>, o algún modelo similar. La práctica que funciona en general, es tomar los datos, insertarlos en la juguera y probablemente obtener un resultado. Las <em>API</em> y frameworks disponibles hacen que la tarea no sea complicada. Si bien, en general en la práctica, el problema generalmente se resuelve teniendo los datos correctos, existen algunos casos en que incluso teniendo una gran disponibilidad de datos a mano, los modelos no tengan buen desempeño. En este caso, el problema puede deberse a múltiples fuentes, sin embargo cuando hay que <em>“entrar a picar”</em>, a veces el problema real está en no entender los modelos ni sus fundamentos.</p>
+<p>En esta entrada, como dice el título, explicaré uno de los modelos de ML más utilizados en la práctica, e incluso, con toda humildad pienso que voy a sorprender al lector promedio y espero aportar mi granito de arena explicando en detalle cómo funciona este modelo y algunas intuiciones.</p>
+<h2 id="aprendizaje-supervisado-e-intuiciones">Aprendizaje Supervisado e Intuiciones</h2>
+<p>Hace un tiempo escribí un artículo en detalle sobre como funcionan las <a href="/website/python/algorithms/classification/machine-learning/2023/01/30/svm-con-manzanas.html">máquinas de soporte vectorial (SVM)</a>. En dicha entrada también hablé sobre aprendizaje automático en general y el problema de aprendizaje. En esta sección daré algunas intuiciones sobre este tema y el por qué se requieren heurísticas para resolver este problema.</p>
+<p>El aprendizaje supervisado consiste en, dada un <strong>conjunto de entrenamiento</strong> de $N$ pares entrada-salida:</p>
+<p>$$(x_1, y_1), (x_2, y_2), \ldots, (x_N, y_N)$$</p>
+<p>Donde cada $y_j$ se generó desde una función desconocida $y = f(x)$, descubrir una función $h$ tal que se aproxima a la función $f$.</p>
+<p>En este caso la función $h$ es una <strong>hipótesis</strong>. El problema de aprendizaje es básicamente encontrar, en un espacio de hipótesis $\mathbb{H}$, la hipótesis que tenga el mejor desempeño, incluso en datos fuera del conjunto de entrenamiento. Cuando la variable dependiente tiene un conjunto de valores finito, se dice que el problema es un problema de <strong>clasificación</strong> (por ejemplo valores como soleado, nublado o lluvia). Por otro lado, si la variable es numérica, se dice que el problema es un problema de <strong>regresión</strong> (por ejemplo la temperatura en los próximos días).</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/1f32e483b23335f5ea1c409dab8126cc67fca1d0/noisy-pol.png" alt="noisy-pol"></p>
+<p><em>Fig. 1: Ajuste de datos con ruido.</em></p>
+</div>
+<p>En el caso de la figura 1, tenemos dos hipótesis, una es un polinomio de grado 2, que no ajusta perfectamente los datos y un polinomio de grado 14 que ajusta perfectamente los datos. Como dato <em>freak</em>, el polinomio de grado 14 ajusta todos los datos porque se tienen 15 puntos, y por teorema de existencia y unicidad del polinomio de ajuste, existe un único polinomio $gr(p) \leq N - 1$, tal que el polinomio ajusta perfectamente los puntos. Sin embargo, se observan peaks (<em>Fenómeno de Runge</em>), por lo que la intuición dice que en muestras fuera del conjunto de entrenamiento, el rendimiento estará lejos de ser perfecto.</p>
+<p>En general, la mejor hipótesis $h^*$ se puede definir como:</p>
+<p>$$h^* = \underset{h \in \mathbb{H}}{\mathrm{argmax}} \ P(h|datos)$$</p>
+<p>O por ley de Bayes:</p>
+<p>$$h^* = \underset{h \in \mathbb{H}}{\mathrm{argmax}} \ P(datos|h)P(h)$$</p>
+<p>Considerando las hipóetsis del ejemplo anterior, ¿cuál intuitivamente tendría una mayor probabilidad $P(h)$?</p>
+<h2 id="rboles-de-decisin">Árboles de Decisión</h2>
+<p>Un árbol de decisión representa una función que toma como entrada un vector de valores (para distintos atributos) y retorna como “decisión” un valor de salida. Los valores de entrada y salida pueden ser discretos o continuos, para propósitos de este artículo nos concentraremos en valores discretos.</p>
+<p>Para llegar a una decisión, se debe recorrer el árbol y se llevan a cabo una secuencia de pruebas. Cada prueba, toma un valor de un atributo dado, y se sigue una ramificación dado este valor. En la figura 2 se muestra un ejemplo de árbol de decisión.</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/6931c42a7ca027082b122bebb64443b1a8efd39f/arbol-ejemplo.svg" alt="noisy-pol"></p>
+<p><em>Fig. 2: Ejemplos de hipótesis para ajustar datos.</em></p>
+</div>
+<p>En este caso las variables son:</p>
+<ol>
+<li>
+<em>Alternate</em>: Si es que hay un restorán alternativo en las cercanías</li>
+<li>
+<em>Bar</em>: Si es que el restorán tiene un área cómoda para esperar (bar)</li>
+<li>
+<em>Fri / Sat</em>: Verdadero si es Viernes o Sábado</li>
+<li>
+<em>Hungry</em>: ¿Estamos hambrientos?</li>
+<li>
+<em>Patrons</em>: ¿Cuánta gente hay en el restorán? (Nadie <em>None</em>, Poca gente <em>Some</em>, Lleno <em>Full</em>)</li>
+<li>
+<em>Price</em>: Rango de precios del restorán (\$, \$\$, \$\$\$)</li>
+<li>
+<em>Raining</em>: Si es que está lloviendo afuera</li>
+<li>
+<em>Reservation</em>: ¿Tenemos reserva?</li>
+<li>
+<em>Type</em>: Tipo de restorán (Francés, Italiano, Thai, Hamburguesas)</li>
+<li>
+<em>WaitEstimate</em>: Tiempo estimado de espera (0-10 minutos, 10-30, 30-60, <code>&gt;60</code>)</li>
+</ol>
+<p>El <strong>predicado objetivo</strong> en este caso es <em>WillWait</em>, que representa la decisión de esperar o no.</p>
+<h3 id="expresividad-en-los-rboles-de-decisin">Expresividad en los árboles de decisión</h3>
+<p>En entradas previas hablé sobre <a href="/website/entrevistas/ti/2022/12/29/logic.html">lógica proposicional</a> y <a href="/website/entrevistas/ti/2023/01/05/fallo-consistencia.html">lógica de primer orden</a>. Resulta que un árbol de decisión Booleano es equivalente a decir que el atributo objetivo es verdadero sí y sólo sí los atributos de entrada satisfacen un camino que llegue a una hoja cuyo valor sea <em>verdadero</em>. En este caso, escrito de forma proposicional, tenemos:</p>
+<p>$$Objetivo \iff  \left( Camino_1 \lor Camino_2 \lor \ldots \right)$$</p>
+<p>En el ejemplo de la figura 2, tenemos que el siguiente camino lleva al objetivo <em>true</em>:</p>
+<p>$$Camino = \left( Patrons=Full \land WaitEstimate=0-10\right)$$</p>
+<p>Para una gran gamma de problemas, el formato de árbol de decisión lleva a un resultado conciso y fácil de interpretar. Sin embargo, algunas funciones no se pueden representar de forma concisa. Por ejemplo, si tenemos una función que retorne <em>verdadero</em> cuando la mitad de los atributos son verdaderos, se requiere un árbol exponencialmente grande. En otras palabras, los árboles de decisión son una buena representación para algunas funciones y mala para otras. El lector puede hacerse la pregunta ¿Existe una representación que sea eficienet para todos los tipos de funciones? Lamentablemente la respuesta es no. Esto se puede demostrar de forma general. Consideremos el conjunto de funciones Booleanas de $n$ atributos. En este conjunto, las funciones son el número de distintas tablas de verdad que podemos escribir. Una tabla de verdad de $n$ atributos tiene $2^n$ filas. Podemos considerar la columna de “respuesta” como un número de $2^n$ bits que define a la función. Esto significa que existen $2^{2^n}$ diferentes funciones (y probablemente hay muchos más árboles, ya que una función se puede describir con múltiples árboles distintos). Esto es un número elevado, por ejemplo en el caso del problema del restorán tenemos 10 atributos, por lo tanto $2^{1024}$ o aproximadamente $10^{308}$ funciones diferentes que escoger. Por lo tanto, para buscar una solución en este espacio de hipótesis, se requieren algoritmos ingenosos.</p>
+<h3 id="inducir-rbol-de-decisin-a-partir-de-ejemplos">Inducir Árbol de Decisión a partir de ejemplos</h3>
+<p>Supongamos que recolectamos los ejemplos mostrados en la tabla 1. La pregunta es cómo inducir un árbol de decisión a partir de los datos, el árbol idealmente debe ser lo más pequeño posible y debe ser consistente. Como mencionamos anteriormente, no hay forma eficiente de encontrar dicho árbol, pues existen $2^{2^N}$ posibles modelos, lo que hace que este problema sea intratable.</p>
+<div><center>Tabla 1. Conjunto de Entrenamiento problema del restorán</center></div>
+<table>
+<thead>
+<tr>
+<th>Example</th>
+<th>Alt</th>
+<th>Bar</th>
+<th>Fri</th>
+<th>Hun</th>
+<th>Pat</th>
+<th>Price</th>
+<th>Rain</th>
+<th>Res</th>
+<th>Type</th>
+<th>Est</th>
+<th>WillWait</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$x_1$</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Some</td>
+<td>$$$</td>
+<td>No</td>
+<td>Yes</td>
+<td>French</td>
+<td>0-10</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>$x_2$</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Full</td>
+<td>$</td>
+<td>No</td>
+<td>No</td>
+<td>Thai</td>
+<td>30-60</td>
+<td>No</td>
+</tr>
+<tr>
+<td>$x_3$</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>Some</td>
+<td>$</td>
+<td>No</td>
+<td>No</td>
+<td>Burger</td>
+<td>0-10</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>$x_4$</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Full</td>
+<td>$</td>
+<td>Yes</td>
+<td>No</td>
+<td>Thai</td>
+<td>10-30</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>$x_5$</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>Full</td>
+<td>$$$</td>
+<td>No</td>
+<td>Yes</td>
+<td>French</td>
+<td><code>&gt;60</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td>$x_6$</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+<td>Some</td>
+<td>$$</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Italian</td>
+<td>0-10</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>$x_7$</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>None</td>
+<td>$</td>
+<td>Yes</td>
+<td>No</td>
+<td>Burger</td>
+<td>0-10</td>
+<td>No</td>
+</tr>
+<tr>
+<td>$x_8$</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Some</td>
+<td>$$</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Thai</td>
+<td>0-10</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>$x_9$</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+<td>Full</td>
+<td>$</td>
+<td>Yes</td>
+<td>No</td>
+<td>Burger</td>
+<td><code>&gt;60</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td>$x_{10}$</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Full</td>
+<td>$$$</td>
+<td>No</td>
+<td>Yes</td>
+<td>Italian</td>
+<td>10-30</td>
+<td>No</td>
+</tr>
+<tr>
+<td>$x_{11}$</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>None</td>
+<td>$</td>
+<td>No</td>
+<td>No</td>
+<td>Thai</td>
+<td>0-10</td>
+<td>No</td>
+</tr>
+<tr>
+<td>$x_{12}$</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Full</td>
+<td>$</td>
+<td>No</td>
+<td>No</td>
+<td>Burger</td>
+<td>30-60</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<p>Sin embargo, con algunas heurísticas simples, podemos encontrar un árbol simple (no el más pequeño) que sea consistente. Para esto se utiliza un <em>algoritmo voraz</em> (<em>greedy</em>) y un enfoque “<em>divide y vencerás</em>” (<em>divide and conquer</em>), de tal forma que dividimos el problema en subproblemas y resolvemos de forma recursiva. El algoritmo sigue los siguientes pasos:</p>
+<ol>
+<li>Si todos los ejemplos son de una misma clase, el algoritmo termina ya que podemos contestar a la pregunta ¿a qué clase pertenece esta muestra?</li>
+<li>Si hay muestras positivas y negativas, escogemos el “mejor” atributo y dividimos las muestras.</li>
+<li>Si no hay ejemplos disponibles, entonces significa que no se han observado muestras que tengan esta combinación atributo-valor, por lo que retornamos un valor por defecto (la clase más común)</li>
+<li>Si no quedan atributos, pero existen ejemplos de ambas clases, significa que estos ejemplos tienen la misma descripción pero una clasificación distinta. Esto quiere decir que puede haber un error o <strong>ruido</strong> en los datos; ya sea porque el dominio es no deterministico o porque no podemos observar un atributo que permita dividir estas muestras en diferentes clases.</li>
+</ol>
+<h4 id="el-mejor-atributo">¿El mejor atributo?</h4>
+<p>El algoritmo descrito anteriormente, está diseñado para reducir la profundidad del árbol de decisión. Un componente importante en este algoritmo es tener una medida de <em>importancia</em> de atributos, de manera de separar lo antes posible las clases y de esta forma minimizar la profundidad del árbol. Utilizaremos la noción de ganancia de información, la cual es definida en términos de <strong>entropía</strong>.</p>
+<p>La entropía es una medida de la incertidumbre de una variable aleatoria. La adquisición de información corresponde a una reducción en la entropía. Por ejemplo, supongamos que tenemos una moneda que al lanzarla, siempre termina en cara. La entropía de esta moneda es 0, pues la variable aleatoria sólo tiene un valor. Por otro lado, si tuviesemos una moneda cuya probabilidad de salir cara o sello sea la misma (0 o 1) se tendrá 1 bit de entropía. En general, la entropía de una variable aleatoria $V$ con valores $v_k$ con probabilidades $P(v_k)$ se define como:</p>
+<p>$$H(V) = \displaystyle \sum_k P(v_k) \text{log}_2 \ \frac{1}{P(v_k)} = - \sum_k P(v_k)\text{log}_2 \ P(v_k)$$</p>
+<p>Por ejemplo, la entropía del lanzamiento de una moneda (cuya probabilidad de salir cara es igual a salir sello):</p>
+<p>$$H(moneda) = -(0.5 \ \text{log}_2 \ 0.5 + 0.5\ \text{log}_2 \ 0.5) = 1$$</p>
+<p>Si consideramos una variable Booleana con probabilidad $q = P(v = \text{verdadero})$:</p>
+<p>$$B(q) = - (q\ \text{log}_2 \ q + (1 - q)\ \text{log}_2 \ (1 - q))$$</p>
+<p>Si un conjunto de entrenamiento consiste en $p$ ejemplos de la clase positiva y $n$ ejemplos de la negativa, entonces la entropía del objetivo del conjunto completo es:</p>
+<p>$$H(\text{Objetivo}) = \displaystyle B\left(\frac{p}{p + n}\right)$$</p>
+<p>Un atributo $A$ con $d$ valores distintos divide el conjunto de datos $E$ en los subconjuntos $E_1, E_2, \ldots E_d$. Cada subconjunto $E_k$ tiene $p_k$ ejemplos de la clase positiva y $n_k$ ejemplos de la clase negativa. Por lo que, si tomamos dicha rama en el árbol de decisión, necesitaremos $B(p_k/(p_k + n_k))$ bits de información para responder a la pregunta (objetivo). Un ejemplo del conjunto de entrenamiento escogido de forma aleatoria que tenga el valor $k$ del atributo, tiene una probabilidad $(p_k + n_k) / (p + n)$, por lo tanto la entropía remanente luego de probar el atributo $A$ es:</p>
+<p>$$\text{Remanente}(A) = \sum_{k=1}^{d} \frac{p_k + n_k}{p + n} B\left(\frac{p_k}{p_k + n_k}\right)$$</p>
+<p>La <strong>Ganancia de información</strong> del atributo $A$ es la reducción de entropía esperada:</p>
+<p>$$Ganancia(A) = B\left( \frac{p}{p + n}\right) - Remanente(A)$$</p>
+<p>Podemos utilizar esta función para implementar la importancia de un atributo. Por ejemplo, en los datos de la tabla 1, podemos calcular las siguientes ganancias:</p>
+<p>$$Ganancia(Patrons) = 1 - \left[\frac{2}{12}B\left(\frac{0}{2}\right) + \frac{4}{12}B\left(\frac{4}{4}\right) + \frac{6}{12}B\left(\frac{2}{6}\right)\right] \approx 0.541 \ \text{bits}$$</p>
+<p>$$Ganancia(Type) = 1 - \left[\frac{2}{12}B\left(\frac{1}{2}\right) + \frac{2}{12}B\left(\frac{1}{2}\right) + \frac{4}{12}B\left(\frac{2}{4}\right) + \frac{4}{12}B\left(\frac{2}{4}\right)\right] = 0 \ \text{bits}$$</p>
+<p>En este caso, la intuición dice que $Patrons$ es un mejor atributo para dividir las muestras que $Type$.</p>
+<p>El código en <code>python</code> para implementar estas funciones:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="k">def</span> <span class="nf">boolean_entropy</span><span class="p">(</span><span class="n">q</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">q</span> <span class="ow">in</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">}</span> <span class="k">else</span> <span class="o">-</span><span class="p">(</span><span class="n">q</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">log2</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">q</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">log2</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">q</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">gain</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="s">"Yes"</span><span class="p">):</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="n">yk</span> <span class="o">==</span> <span class="n">pos</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">yk</span> <span class="ow">in</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">boolean_entropy</span><span class="p">(</span><span class="n">p</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">vk</span> <span class="ow">in</span> <span class="n">counts</span><span class="p">:</span>
+        <span class="n">pk</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">pos</span> <span class="ow">and</span> <span class="n">v</span> <span class="o">==</span> <span class="n">vk</span> <span class="k">for</span> <span class="n">v</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+        <span class="n">r</span> <span class="o">+=</span> <span class="n">counts</span><span class="p">[</span><span class="n">vk</span><span class="p">]</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="n">boolean_entropy</span><span class="p">(</span><span class="n">pk</span> <span class="o">/</span> <span class="n">counts</span><span class="p">[</span><span class="n">vk</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">b</span> <span class="o">-</span> <span class="n">r</span>
+</code></pre></div></div>
+<h4 id="implementacin-rbol-de-decisin">Implementación árbol de decisión</h4>
+<p>Ahora tenemos las herramientas para implementar un árbol de decisión, primero necesitamos algunas funciones:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+
+
+<span class="k">def</span> <span class="nf">plurality_value</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">Counter</span><span class="p">(</span><span class="n">y</span><span class="p">).</span><span class="n">most_common</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">all_same_class</span><span class="p">(</span><span class="n">examples</span><span class="p">,</span> <span class="n">out</span><span class="p">):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">examples</span><span class="p">[</span><span class="n">out</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">y_</span> <span class="ow">in</span> <span class="n">examples</span><span class="p">[</span><span class="n">out</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">y_</span> <span class="o">!=</span> <span class="n">y</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+    <span class="k">return</span> <span class="bp">True</span>
+
+
+<span class="k">assert</span> <span class="n">all_same_class</span><span class="p">({</span><span class="s">"x"</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="s">"y"</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]},</span> <span class="s">"y"</span><span class="p">)</span>
+<span class="k">assert</span> <span class="ow">not</span> <span class="n">all_same_class</span><span class="p">({</span><span class="s">"x"</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="s">"y"</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]},</span> <span class="s">"y"</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Por otro lado también necesitamos representar el árbol de decisión:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">DecisionTree</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_label</span> <span class="o">=</span> <span class="n">label</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_children</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="nf">add_children</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edge</span><span class="p">,</span> <span class="n">children</span><span class="p">:</span> <span class="s">"DecisionTree"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_children</span><span class="p">[</span><span class="n">edge</span><span class="p">]</span> <span class="o">=</span> <span class="n">children</span>
+
+    <span class="k">def</span> <span class="nf">add_childrens</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">children</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s">"DecisionTree"</span><span class="p">]]):</span>
+        <span class="k">for</span> <span class="n">edge</span><span class="p">,</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">children</span><span class="p">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">add_children</span><span class="p">(</span><span class="n">edge</span><span class="p">,</span> <span class="n">child</span><span class="p">)</span>
+
+
+    <span class="c1"># Hack para hacernos la vida más simple
+</span>    <span class="k">def</span> <span class="nf">is_terminal_node</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">DecisionTree</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+</code></pre></div></div>
+<p>Finalmente podemos implementar la clase <code>DecisionTreeClassifier</code> que tendrá los métodos <code>fit</code> y <code>predict</code> para entrenar y predecir respectivamente. El método que implementa el algoritmo descrito previamente es <code>_decision_tree_learning</code>, en donde seguimos un algoritmo voraz, escogiendo en cada paso el atributo con ganancia máxima y diviendo el conjunto de datos en base a los valores de este atributo.</p>
+<p>Para implementar el método <code>predict</code>, necesitamos tener el árbol de decisión y recorrer las ramas hasta llegar a un nodo terminal que tendrá la clase correspondiente a la nueva muestra.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">DecisionTreeClassifier</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_is_trained</span> <span class="o">=</span> <span class="bp">False</span>
+
+    <span class="k">def</span> <span class="nf">_decision_tree_learning</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">examples</span><span class="p">,</span> <span class="n">attributes</span><span class="p">,</span> <span class="n">parent_examples</span><span class="p">,</span> <span class="n">out</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DecisionTree</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">examples</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">plurality_value</span><span class="p">(</span><span class="n">parent_examples</span><span class="p">[</span><span class="n">out</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="n">all_same_class</span><span class="p">(</span><span class="n">examples</span><span class="p">,</span> <span class="n">out</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">examples</span><span class="p">[</span><span class="n">out</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">attributes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">plurality_value</span><span class="p">(</span><span class="n">examples</span><span class="p">[</span><span class="n">out</span><span class="p">])</span>
+
+        <span class="n">a</span> <span class="o">=</span> <span class="n">attributes</span><span class="p">[</span>
+            <span class="n">np</span><span class="p">.</span><span class="n">argmax</span><span class="p">([</span><span class="n">gain</span><span class="p">(</span><span class="n">examples</span><span class="p">[</span><span class="n">a</span><span class="p">],</span> <span class="n">examples</span><span class="p">[</span><span class="n">out</span><span class="p">])</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">attributes</span><span class="p">])</span>
+        <span class="p">]</span>
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">DecisionTree</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">vk</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">parent_examples</span><span class="p">[</span><span class="n">a</span><span class="p">]):</span>
+            <span class="n">exs</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">examples</span><span class="p">[</span><span class="n">a</span><span class="p">])</span> <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="n">vk</span><span class="p">]</span>
+            <span class="n">new_attributes</span> <span class="o">=</span> <span class="p">[</span><span class="n">attribute</span> <span class="k">for</span> <span class="n">attribute</span> <span class="ow">in</span> <span class="n">attributes</span> <span class="k">if</span> <span class="n">attribute</span> <span class="o">!=</span> <span class="n">a</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">attribute</span> <span class="ow">in</span> <span class="n">new_attributes</span> <span class="o">+</span> <span class="p">[</span><span class="n">out</span><span class="p">]:</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">idx</span><span class="p">:</span>
+                    <span class="n">exs</span><span class="p">[</span><span class="n">attribute</span><span class="p">].</span><span class="n">append</span><span class="p">(</span><span class="n">examples</span><span class="p">[</span><span class="n">attribute</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">subtree</span> <span class="o">=</span> <span class="n">decision_tree_learning</span><span class="p">(</span><span class="n">exs</span><span class="p">,</span> <span class="n">new_attributes</span><span class="p">,</span> <span class="n">examples</span><span class="p">,</span> <span class="n">out</span><span class="p">)</span>
+            <span class="n">tree</span><span class="p">.</span><span class="n">add_children</span><span class="p">(</span><span class="n">vk</span><span class="p">,</span> <span class="n">subtree</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tree</span>
+
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">attributes</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">x_train</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="nb">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s">"y_train should be a class list </span><span class="si">{</span><span class="n">y_train</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+        <span class="n">out_name</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">y_train</span><span class="p">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">examples</span> <span class="o">=</span> <span class="n">x_train</span><span class="p">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">examples</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="p">.</span><span class="n">_y_default</span> <span class="o">=</span> <span class="n">plurality_value</span><span class="p">(</span><span class="n">y_train</span><span class="p">[</span><span class="n">out_name</span><span class="p">])</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_dt</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">_decision_tree_learning</span><span class="p">(</span>
+            <span class="n">examples</span><span class="p">,</span> <span class="n">attributes</span><span class="p">,</span> <span class="n">examples</span><span class="p">,</span> <span class="n">out_name</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_is_trained</span> <span class="o">=</span> <span class="bp">True</span>
+
+    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_test</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">tree</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">_dt</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">DecisionTree</span><span class="p">)):</span>
+                <span class="k">return</span> <span class="n">tree</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">x_test</span><span class="p">[</span><span class="n">tree</span><span class="p">.</span><span class="n">_label</span><span class="p">]</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">tree</span><span class="p">.</span><span class="n">_children</span><span class="p">[</span><span class="n">val</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">output</span> <span class="k">if</span> <span class="n">is_terminal_node</span><span class="p">(</span><span class="n">output</span><span class="p">)</span> <span class="k">else</span> <span class="n">predict</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">x_test</span><span class="p">)</span>
+        <span class="c1"># Caso en que observamos un valor no visto en entrenamiento
+</span>        <span class="k">except</span> <span class="nb">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">_y_default</span>
+
+    <span class="o">@</span><span class="nb">classmethod</span>
+    <span class="k">def</span> <span class="nf">load_from_tree</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">tree</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s">"DecisionTreeClassifier"</span><span class="p">:</span>
+        <span class="n">new_clf</span> <span class="o">=</span> <span class="n">cls</span><span class="p">()</span>
+        <span class="n">clf</span><span class="p">.</span><span class="n">_is_trained</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="n">clf</span><span class="p">.</span><span class="n">_dt</span> <span class="o">=</span> <span class="n">tree</span>
+        <span class="k">return</span> <span class="n">clf</span>
+</code></pre></div></div>
+<p>Si entrenamos el modelo con los datos de la tabla 1, los cuales pondré a continuación en el formato en que los recibe la implementación:</p>
+<details><summary>Click para ver conjunto de datos</summary>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">"Alternate"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s">"Bar"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s">"FriSat"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s">"Hungry"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s">"Patrons"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s">"Some"</span><span class="p">,</span>
+        <span class="s">"Full"</span><span class="p">,</span>
+        <span class="s">"Some"</span><span class="p">,</span>
+        <span class="s">"Full"</span><span class="p">,</span>
+        <span class="s">"Full"</span><span class="p">,</span>
+        <span class="s">"Some"</span><span class="p">,</span>
+        <span class="s">"None"</span><span class="p">,</span>
+        <span class="s">"Some"</span><span class="p">,</span>
+        <span class="s">"Full"</span><span class="p">,</span>
+        <span class="s">"Full"</span><span class="p">,</span>
+        <span class="s">"None"</span><span class="p">,</span>
+        <span class="s">"Full"</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s">"Price"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s">"$$$"</span><span class="p">,</span>
+        <span class="s">"$"</span><span class="p">,</span>
+        <span class="s">"$"</span><span class="p">,</span>
+        <span class="s">"$"</span><span class="p">,</span>
+        <span class="s">"$$$"</span><span class="p">,</span>
+        <span class="s">"$$"</span><span class="p">,</span>
+        <span class="s">"$"</span><span class="p">,</span>
+        <span class="s">"$$"</span><span class="p">,</span>
+        <span class="s">"$"</span><span class="p">,</span>
+        <span class="s">"$$$"</span><span class="p">,</span>
+        <span class="s">"$"</span><span class="p">,</span>
+        <span class="s">"$"</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s">"Rain"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s">"Reservation"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s">"Type"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s">"French"</span><span class="p">,</span>
+        <span class="s">"Thai"</span><span class="p">,</span>
+        <span class="s">"Burger"</span><span class="p">,</span>
+        <span class="s">"Thai"</span><span class="p">,</span>
+        <span class="s">"French"</span><span class="p">,</span>
+        <span class="s">"Italian"</span><span class="p">,</span>
+        <span class="s">"Burger"</span><span class="p">,</span>
+        <span class="s">"Thai"</span><span class="p">,</span>
+        <span class="s">"Burger"</span><span class="p">,</span>
+        <span class="s">"Italian"</span><span class="p">,</span>
+        <span class="s">"Thai"</span><span class="p">,</span>
+        <span class="s">"Burger"</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s">"WaitEstimate"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s">"0-10"</span><span class="p">,</span>
+        <span class="s">"30-60"</span><span class="p">,</span>
+        <span class="s">"0-10"</span><span class="p">,</span>
+        <span class="s">"10-30"</span><span class="p">,</span>
+        <span class="s">"&gt;60"</span><span class="p">,</span>
+        <span class="s">"0-10"</span><span class="p">,</span>
+        <span class="s">"0-10"</span><span class="p">,</span>
+        <span class="s">"0-10"</span><span class="p">,</span>
+        <span class="s">"&gt;60"</span><span class="p">,</span>
+        <span class="s">"10-30"</span><span class="p">,</span>
+        <span class="s">"0-10"</span><span class="p">,</span>
+        <span class="s">"30-60"</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s">"WillWait"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"No"</span><span class="p">,</span>
+        <span class="s">"Yes"</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">}</span>
+</code></pre></div></div>
+</details>
+<p>Obtenemos el siguiente árbol de decisión:</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/d4fecb0cc148416b9be244a3c55c63b595bccd14/arbol-entrenado.svg" alt="fit-tree"></p>
+<p><em>Fig. 3: Árbol de decisión inducido de los ejemplos de la tabla 1.</em></p>
+</div>
+<p>Se observa un comportamiento curioso, el algoritmo encontró un patrón utilizando la variable $Type$, siendo que sabemos que el árbol generador de los datos no tiene una rama utilizando este atributo. Por ello, se debe tener cuidado al interpretar un árbol de decisión, pues la estructura del mismo dependerá totalmente del conjunto de datos utilizado para generarlo.</p>
+<p>Para evaluar el desempeño de un algoritmo de aprendizaje, podemos utilizar una <strong>curva de aprendizaje</strong>. En la figura 4, se muestra la curva de aprendizaje teniendo 100 muestras y variando el tamaño del conjunto de entrenamiento desde 1 a 99:</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/a0b4ea1aab6f702dfa2ce6a15078297c53440908/learning-curve.png" alt="learning-curve"></p>
+<p><em>Fig. 4: Curva de aprendizaje en 100 muestras generadas aleatoriamente. Cada punto se obtuvo del promedio de 20 experimentos.</em></p>
+</div>
+<p>Para los curiosos, el código para generar la curva se muestra a continuación:</p>
+<details><summary>Click para ver código generador de curva de aprendizaje</summary>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">generate_random_sample</span><span class="p">():</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">x</span><span class="p">[</span><span class="s">"Alternate"</span><span class="p">]</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">choice</span><span class="p">([</span><span class="s">"Yes"</span><span class="p">,</span> <span class="s">"No"</span><span class="p">])</span>
+    <span class="n">x</span><span class="p">[</span><span class="s">"Hungry"</span><span class="p">]</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">choice</span><span class="p">([</span><span class="s">"Yes"</span><span class="p">,</span> <span class="s">"No"</span><span class="p">])</span>
+    <span class="n">x</span><span class="p">[</span><span class="s">"Bar"</span><span class="p">]</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">choice</span><span class="p">([</span><span class="s">"Yes"</span><span class="p">,</span> <span class="s">"No"</span><span class="p">])</span>
+    <span class="n">x</span><span class="p">[</span><span class="s">"FriSat"</span><span class="p">]</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">choice</span><span class="p">([</span><span class="s">"Yes"</span><span class="p">,</span> <span class="s">"No"</span><span class="p">])</span>
+    <span class="n">x</span><span class="p">[</span><span class="s">"Patrons"</span><span class="p">]</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">choice</span><span class="p">([</span><span class="s">"None"</span><span class="p">,</span> <span class="s">"Some"</span><span class="p">,</span> <span class="s">"Full"</span><span class="p">])</span>
+    <span class="n">x</span><span class="p">[</span><span class="s">"Price"</span><span class="p">]</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">choice</span><span class="p">([</span><span class="s">"$"</span><span class="p">,</span> <span class="s">"$$"</span><span class="p">,</span> <span class="s">"$$$"</span><span class="p">])</span>
+    <span class="n">x</span><span class="p">[</span><span class="s">"Rain"</span><span class="p">]</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">choice</span><span class="p">([</span><span class="s">"Yes"</span><span class="p">,</span> <span class="s">"No"</span><span class="p">])</span>
+    <span class="n">x</span><span class="p">[</span><span class="s">"Reservation"</span><span class="p">]</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">choice</span><span class="p">([</span><span class="s">"Yes"</span><span class="p">,</span> <span class="s">"No"</span><span class="p">])</span>
+    <span class="n">x</span><span class="p">[</span><span class="s">"Type"</span><span class="p">]</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">choice</span><span class="p">([</span><span class="s">"French"</span><span class="p">,</span> <span class="s">"Italian"</span><span class="p">,</span> <span class="s">"Thai"</span><span class="p">,</span> <span class="s">"Burger"</span><span class="p">])</span>
+    <span class="n">x</span><span class="p">[</span><span class="s">"WaitEstimate"</span><span class="p">]</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">choice</span><span class="p">([</span><span class="s">"0-10"</span><span class="p">,</span> <span class="s">"10-30"</span><span class="p">,</span> <span class="s">"30-60"</span><span class="p">,</span> <span class="s">"&gt;60"</span><span class="p">])</span>
+    <span class="c1"># Bottom Up
+</span>    <span class="n">bar</span> <span class="o">=</span> <span class="n">DecisionTree</span><span class="p">(</span><span class="s">"Bar"</span><span class="p">)</span>
+    <span class="n">bar</span><span class="p">.</span><span class="n">add_childrens</span><span class="p">({</span><span class="s">"No"</span><span class="p">:</span> <span class="s">"No"</span><span class="p">,</span> <span class="s">"Yes"</span><span class="p">:</span> <span class="s">"Yes"</span><span class="p">})</span>
+
+    <span class="n">reservation</span> <span class="o">=</span> <span class="n">DecisionTree</span><span class="p">(</span><span class="s">"Reservation"</span><span class="p">)</span>
+    <span class="n">reservation</span><span class="p">.</span><span class="n">add_childrens</span><span class="p">({</span><span class="s">"No"</span><span class="p">:</span> <span class="n">bar</span><span class="p">,</span> <span class="s">"Yes"</span><span class="p">:</span> <span class="s">"Yes"</span><span class="p">})</span>
+
+    <span class="n">fri_sat</span> <span class="o">=</span> <span class="n">DecisionTree</span><span class="p">(</span><span class="s">"FriSat"</span><span class="p">)</span>
+    <span class="n">fri_sat</span><span class="p">.</span><span class="n">add_childrens</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s">"No"</span><span class="p">:</span> <span class="s">"No"</span><span class="p">,</span>
+            <span class="s">"Yes"</span><span class="p">:</span> <span class="s">"Yes"</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+
+    <span class="n">alternate</span> <span class="o">=</span> <span class="n">DecisionTree</span><span class="p">(</span><span class="s">"Alternate"</span><span class="p">)</span>
+    <span class="n">alternate</span><span class="p">.</span><span class="n">add_childrens</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s">"No"</span><span class="p">:</span> <span class="n">reservation</span><span class="p">,</span>
+            <span class="s">"Yes"</span><span class="p">:</span> <span class="n">fri_sat</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+
+    <span class="n">raining</span> <span class="o">=</span> <span class="n">DecisionTree</span><span class="p">(</span><span class="s">"Rain"</span><span class="p">)</span>
+    <span class="n">raining</span><span class="p">.</span><span class="n">add_childrens</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s">"No"</span><span class="p">:</span> <span class="s">"No"</span><span class="p">,</span>
+            <span class="s">"Yes"</span><span class="p">:</span> <span class="s">"Yes"</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+
+    <span class="n">alternate_2</span> <span class="o">=</span> <span class="n">DecisionTree</span><span class="p">(</span><span class="s">"Alternate"</span><span class="p">)</span>
+    <span class="n">alternate_2</span><span class="p">.</span><span class="n">add_childrens</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s">"No"</span><span class="p">:</span> <span class="s">"Yes"</span><span class="p">,</span>
+            <span class="s">"Yes"</span><span class="p">:</span> <span class="n">raining</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+
+    <span class="n">hungry</span> <span class="o">=</span> <span class="n">DecisionTree</span><span class="p">(</span><span class="s">"Hungry"</span><span class="p">)</span>
+    <span class="n">hungry</span><span class="p">.</span><span class="n">add_childrens</span><span class="p">({</span><span class="s">"No"</span><span class="p">:</span> <span class="s">"Yes"</span><span class="p">,</span> <span class="s">"Yes"</span><span class="p">:</span> <span class="n">alternate_2</span><span class="p">})</span>
+
+    <span class="n">wait_estimate</span> <span class="o">=</span> <span class="n">DecisionTree</span><span class="p">(</span><span class="s">"WaitEstimate"</span><span class="p">)</span>
+    <span class="n">wait_estimate</span><span class="p">.</span><span class="n">add_childrens</span><span class="p">(</span>
+        <span class="p">{</span><span class="s">"&gt;60"</span><span class="p">:</span> <span class="s">"No"</span><span class="p">,</span> <span class="s">"30-60"</span><span class="p">:</span> <span class="n">alternate</span><span class="p">,</span> <span class="s">"10-30"</span><span class="p">:</span> <span class="n">hungry</span><span class="p">,</span> <span class="s">"0-10"</span><span class="p">:</span> <span class="s">"Yes"</span><span class="p">}</span>
+    <span class="p">)</span>
+
+    <span class="n">patrons</span> <span class="o">=</span> <span class="n">DecisionTree</span><span class="p">(</span><span class="s">"Patrons"</span><span class="p">)</span>
+    <span class="n">patrons</span><span class="p">.</span><span class="n">add_childrens</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s">"None"</span><span class="p">:</span> <span class="s">"No"</span><span class="p">,</span>
+            <span class="s">"Some"</span><span class="p">:</span> <span class="s">"Yes"</span><span class="p">,</span>
+            <span class="s">"Full"</span><span class="p">:</span> <span class="n">wait_estimate</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+    <span class="n">clf</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">.</span><span class="n">load_from_tree</span><span class="p">(</span><span class="n">patrons</span><span class="p">)</span>
+    <span class="n">x</span><span class="p">[</span><span class="s">"WillWait"</span><span class="p">]</span> <span class="o">=</span> <span class="n">clf</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span>
+
+
+<span class="k">def</span> <span class="nf">generate_samples</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">xs</span> <span class="o">=</span> <span class="n">generate_random_sample</span><span class="p">()</span>
+        <span class="n">x</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span>
+
+
+<span class="k">def</span> <span class="nf">generate_accuracy_data</span><span class="p">(</span><span class="n">n_trials</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
+    <span class="n">training_size</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">accuracies</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">train_size</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">99</span><span class="p">):</span>
+        <span class="n">training_size</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">train_size</span><span class="p">)</span>
+        <span class="n">avg_accuracy</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_trials</span><span class="p">):</span>
+            <span class="n">dataset</span> <span class="o">=</span> <span class="n">generate_samples</span><span class="p">()</span>
+            <span class="n">train</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">train_size</span><span class="p">]</span>
+            <span class="n">test</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="n">train_size</span><span class="p">:]</span>
+            <span class="n">x_train</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+            <span class="n">y_train</span> <span class="o">=</span> <span class="p">{</span><span class="s">"WillWait"</span><span class="p">:</span> <span class="p">[]}</span>
+            <span class="k">for</span> <span class="n">sample</span> <span class="ow">in</span> <span class="n">train</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">sample</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">col</span> <span class="o">!=</span> <span class="s">"WillWait"</span><span class="p">:</span>
+                        <span class="n">x_train</span><span class="p">[</span><span class="n">col</span><span class="p">].</span><span class="n">append</span><span class="p">(</span><span class="n">sample</span><span class="p">[</span><span class="n">col</span><span class="p">])</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">y_train</span><span class="p">[</span><span class="n">col</span><span class="p">].</span><span class="n">append</span><span class="p">(</span><span class="n">sample</span><span class="p">[</span><span class="n">col</span><span class="p">])</span>
+            <span class="n">clf</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">()</span>
+            <span class="n">clf</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+            <span class="n">hits</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">test</span><span class="p">:</span>
+                <span class="n">y_test</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="n">pop</span><span class="p">(</span><span class="s">"WillWait"</span><span class="p">)</span>
+                <span class="n">hits</span> <span class="o">+=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">y_test</span> <span class="o">==</span> <span class="n">clf</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="k">else</span> <span class="mi">0</span>
+            <span class="n">avg_accuracy</span> <span class="o">+=</span> <span class="n">hits</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
+        <span class="n">accuracies</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">avg_accuracy</span> <span class="o">/</span> <span class="n">n_trials</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">training_size</span><span class="p">,</span> <span class="n">accuracies</span>
+
+
+<span class="n">train_size</span><span class="p">,</span> <span class="n">accuracies</span> <span class="o">=</span> <span class="n">generate_accuracy_data</span><span class="p">()</span>
+</code></pre></div></div>
+<p>Para graficar:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">train_size</span><span class="p">,</span> <span class="n">accuracies</span><span class="p">,</span> <span class="s">"-b"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">"Training size"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">"Avg Accuracy"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">"Curva de aprendizaje 100 muestras y 20 ejecuciones"</span><span class="p">)</span>
+</code></pre></div></div>
+</details>
+<h4 id="generalizacin-y-sobreajuste">Generalización y sobreajuste</h4>
+<p>Como se observó anteriormente, el algoritmo de aprendizaje puede aprender patrones inexistentes en los datos, dependiendo de las muestras que se entreguen en la fase de entrenamiento. Esto puede generar caminos que no tienen sentido para predecir valores. Este problema se conoce como <strong>sobreajuste</strong>.</p>
+<p>Para evitar esto, se deben aplicar técnicas como <strong>podado del árbol</strong>, en la cual eliminamos nodos que no son relevantes. Esto se hace luego de armar completamente el árbol.</p>
+<p>La pregunta es ¿cómo determinar qué nodos son relevantes? Para este caso se pueden hacer <strong>pruebas de significancia estadística</strong>. Un método común para podar árboles de decisión es el <a href="https://web.cs.ucdavis.edu/~vemuri/classes/ecs271/Decision%20Tree%20Rules%20&amp;%20Pruning.htm" target="_blank" rel="noopener noreferrer">podado $\chi^2$</a>. En este caso, como el lector podrá deducir, se utiliza un test $\chi^2$ para determinar la relevancia de un nodo.</p>
+<h2 id="ejemplo-prctico-predecir-lluvia-en-seattle">Ejemplo práctico: Predecir lluvia en Seattle</h2>
+<p>Como al momento de escribir esta entrrada, me encuentro viviendo en Seattle, qué mejor que probar nuestro algoritmo en el conjunto <a href="https://www.kaggle.com/datasets/rtatman/did-it-rain-in-seattle-19482017" target="_blank" rel="noopener noreferrer"><em>Did it rain in Seattle?</em> de Kaggle</a>.</p>
+<p>Este conjunto de datos tiene variables continuas, pero para transformarlas en variables discretas, debemos generar particiones del atributo (por ejemplo <code>Temperatura &lt;= 90</code>). Para encontrar de forma eficiente estas particiones, lo que hacemos es:</p>
+<ul>
+<li>Ordenamos los datos respecto al atributo de interés</li>
+<li>Mantenemos un conteo de las clases positivas y negativas en cada lado de la partición</li>
+<li>Si encontramos un punto a particionar, calculamos la ganancia de información</li>
+<li>Escogemos el punto de máxima ganancia</li>
+</ul>
+<p>Para cargar el conjunto de datos:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">csv</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="n">RESOURCES_PATH</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">"./resources"</span><span class="p">)</span>
+
+<span class="n">dataset</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">RESOURCES_PATH</span> <span class="o">/</span> <span class="s">"seattleWeather_1948-2017.csv"</span><span class="p">)</span> <span class="k">as</span> <span class="n">csvfile</span><span class="p">:</span>
+    <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="p">.</span><span class="n">DictReader</span><span class="p">(</span><span class="n">csvfile</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
+        <span class="n">some_na</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">row</span><span class="p">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">val</span> <span class="o">==</span> <span class="s">"NA"</span><span class="p">:</span>
+                <span class="n">some_na</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">some_na</span><span class="p">:</span>
+            <span class="n">dataset</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Dividir en conjunto de entrenamiento y de prueba. Por ahora “asumiremos” la mentira de que la lluvia no depende de la estacionalidad (sólo por simplicidad):</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">random</span>
+
+<span class="n">random</span><span class="p">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+
+<span class="n">train_idx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.8</span><span class="p">)</span>
+<span class="n">train</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">train_idx</span><span class="p">]</span>
+<span class="n">test</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="n">train_idx</span><span class="p">:]</span>
+</code></pre></div></div>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">"Training set size:"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">train</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"Test set size:"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">test</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</code></pre></div></div>
+<pre><code>Training set size: 20438
+Test set size: 5110
+{'DATE': '1955-11-30', 'PRCP': '0.38', 'TMAX': '47', 'TMIN': '40', 'RAIN': 'TRUE'}
+</code></pre>
+<p>Encontramos las particiones y calculamos los nuevos atributos para el conjunto de entrenamiento:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">get_train_split_point</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">col</span><span class="p">):</span>
+    <span class="n">total_pos</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">total_neg</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">train</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s">"RAIN"</span><span class="p">]</span> <span class="o">==</span> <span class="s">"TRUE"</span><span class="p">:</span>
+            <span class="n">total_pos</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">total_neg</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">boolean_entropy</span><span class="p">(</span><span class="n">total_pos</span> <span class="o">/</span> <span class="p">(</span><span class="n">total_pos</span> <span class="o">+</span> <span class="n">total_neg</span><span class="p">))</span>
+    <span class="n">pos_running_sum</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">neg_running_sum</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">sorted_train</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">col</span><span class="p">]))</span>
+    <span class="n">split_points</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sorted_train</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">train</span><span class="p">):</span>
+            <span class="k">break</span>
+        <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s">"RAIN"</span><span class="p">]</span> <span class="o">==</span> <span class="s">"TRUE"</span><span class="p">:</span>
+            <span class="n">pos_running_sum</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">neg_running_sum</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">lo</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">])</span>
+        <span class="n">hi</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">sorted_train</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">col</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">lo</span> <span class="o">&lt;</span> <span class="n">hi</span><span class="p">:</span>
+            <span class="n">split_point</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="n">lo</span> <span class="o">+</span> <span class="n">hi</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">right_pos</span> <span class="o">=</span> <span class="n">total_pos</span> <span class="o">-</span> <span class="n">pos_running_sum</span>
+            <span class="n">right_neg</span> <span class="o">=</span> <span class="n">total_neg</span> <span class="o">-</span> <span class="n">neg_running_sum</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="p">(</span><span class="n">pos_running_sum</span> <span class="o">+</span> <span class="n">neg_running_sum</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">train</span><span class="p">)</span> <span class="o">*</span> <span class="n">boolean_entropy</span><span class="p">(</span>
+                <span class="n">pos_running_sum</span> <span class="o">/</span> <span class="p">(</span><span class="n">pos_running_sum</span> <span class="o">+</span> <span class="n">neg_running_sum</span><span class="p">)</span>
+            <span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">right_pos</span> <span class="o">+</span> <span class="n">right_neg</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">train</span><span class="p">)</span> <span class="o">*</span> <span class="n">boolean_entropy</span><span class="p">(</span>
+                <span class="n">right_pos</span> <span class="o">/</span> <span class="p">(</span><span class="n">right_pos</span> <span class="o">+</span> <span class="n">right_neg</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">split_points</span><span class="p">[</span><span class="n">split_point</span><span class="p">]</span> <span class="o">=</span> <span class="n">b</span> <span class="o">-</span> <span class="n">r</span>
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">split_points</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">split_points</span><span class="p">.</span><span class="n">get</span><span class="p">)</span>
+
+
+<span class="n">split_points</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">[</span><span class="s">"PRCP"</span><span class="p">,</span> <span class="s">"TMAX"</span><span class="p">,</span> <span class="s">"TMIN"</span><span class="p">]:</span>
+    <span class="n">split_points</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_train_split_point</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">col</span><span class="p">)</span>
+
+<span class="n">x_train</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="p">{</span><span class="s">"RAIN"</span><span class="p">:</span> <span class="p">[]}</span>
+<span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">train</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">split_points</span><span class="p">:</span>
+        <span class="n">x_train</span><span class="p">[</span><span class="sa">f</span><span class="s">"</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s"> &lt;= </span><span class="si">{</span><span class="n">split_points</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="si">}</span><span class="s">"</span><span class="p">].</span><span class="n">append</span><span class="p">(</span>
+            <span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="n">split_points</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
+        <span class="p">)</span>
+    <span class="n">y_train</span><span class="p">[</span><span class="s">"RAIN"</span><span class="p">].</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">"RAIN"</span><span class="p">])</span>
+</code></pre></div></div>
+<p>Entrenamos un clasificador:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">clf_seattle</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">()</span>
+<span class="n">clf_seattle</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Calculamos <em>accuracy</em>:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">hits</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">test</span><span class="p">:</span>
+    <span class="n">y_test</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">"RAIN"</span><span class="p">]</span>
+    <span class="n">x_test</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">split_points</span><span class="p">:</span>
+        <span class="n">x_test</span><span class="p">[</span><span class="sa">f</span><span class="s">"</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s"> &lt;= </span><span class="si">{</span><span class="n">split_points</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="si">}</span><span class="s">"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="n">split_points</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
+
+    <span class="n">hits</span> <span class="o">+=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">y_test</span> <span class="o">==</span> <span class="n">clf_seattle</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span> <span class="k">else</span> <span class="mi">0</span>
+</code></pre></div></div>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span>
+    <span class="s">"Baseline Acc:"</span><span class="p">,</span>
+    <span class="n">Counter</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s">"RAIN"</span><span class="p">],</span> <span class="n">test</span><span class="p">))).</span><span class="n">most_common</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">test</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"Decision Tree Acc:"</span><span class="p">,</span> <span class="n">hits</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">test</span><span class="p">))</span>
+</code></pre></div></div>
+<pre><code>Baseline Acc: 0.5720156555772994
+Decision Tree Acc: 0.9655577299412916
+</code></pre>
+<p>Se observa que el modelo es simple pero obtiene un mejor resultado de accuracy, significativamente mayor que la línea base. Sólo de curiosidad, graficamos el árbol:</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/d4fecb0cc148416b9be244a3c55c63b595bccd14/arbol-ejemplo-seattle.svg" alt="seattle-ejemplo"></p>
+<p><em>Fig. 5: Árbol de decisión para ejemplo de predecir lluvia en Seattle.</em></p>
+</div>
+<p>Notar que si utilizamos la regla obtenida por el árbol de decisión:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">hits</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">test</span><span class="p">:</span>
+    <span class="n">y_test</span> <span class="o">=</span> <span class="s">"TRUE"</span> <span class="k">if</span> <span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">"PRCP"</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mf">0.01</span> <span class="k">else</span> <span class="s">"FALSE"</span>
+    <span class="n">hits</span> <span class="o">+=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">y_test</span> <span class="o">==</span> <span class="n">data</span><span class="p">[</span><span class="s">"RAIN"</span><span class="p">]</span> <span class="k">else</span> <span class="mi">0</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"Accuracy PRCP &gt; 0.01:"</span><span class="p">,</span> <span class="n">hits</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">test</span><span class="p">))</span>
+</code></pre></div></div>
+<pre><code>Accuracy PRCP &gt; 0.01: 0.9655577299412916
+</code></pre>
+<p>Lo que tiene sentido dentro de los cálculos y la intuición. Finalmente, destacar que la parte más costosa en entrenar árboles de decisión, es el procesamiento de variables numéricas y encontrar los puntos de corte.</p>
+<p>Un punto gracioso, es que en el conjunto de datos, si <code>PRCP &gt;= 0.01</code> obtenemos la clasificación perfecta:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">hits</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">test</span><span class="p">:</span>
+    <span class="n">y_test</span> <span class="o">=</span> <span class="s">"TRUE"</span> <span class="k">if</span> <span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">"PRCP"</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="mf">0.01</span> <span class="k">else</span> <span class="s">"FALSE"</span>
+    <span class="n">hits</span> <span class="o">+=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">y_test</span> <span class="o">==</span> <span class="n">data</span><span class="p">[</span><span class="s">"RAIN"</span><span class="p">]</span> <span class="k">else</span> <span class="mi">0</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"Accuracy PRCP &gt;= 0.01:"</span><span class="p">,</span> <span class="n">hits</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">test</span><span class="p">))</span>
+</code></pre></div></div>
+<pre><code>Accuracy PRCP &gt;= 0.01: 1.0
+</code></pre>
+<p>Finalmente, para los curiosos que quieran saber cómo grafiqué los árboles, creé un método que recorre los árboles de forma recursiva y los pasa a formato <code>dot</code> para graficarlos con <code>graphviz</code>:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">to_dot</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">internal_tree</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">is_terminal_node</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s">""</span>
+
+        <span class="n">color</span> <span class="o">=</span> <span class="s">"black:white"</span>
+        <span class="n">node_name</span> <span class="o">=</span> <span class="n">tree</span><span class="p">.</span><span class="n">_label</span><span class="p">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">node_name</span><span class="si">}</span><span class="s">_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s"> [shape=square, color="</span><span class="si">{</span><span class="n">color</span><span class="si">}</span><span class="s">", peripheries=1 label="</span><span class="si">{</span><span class="n">tree</span><span class="p">.</span><span class="n">_label</span><span class="si">}</span><span class="s">"];</span><span class="se">\n</span><span class="s">'</span>
+        <span class="n">non_terminal_child_val</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">for</span> <span class="n">val</span><span class="p">,</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">tree</span><span class="p">.</span><span class="n">_children</span><span class="p">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">is_terminal_node</span><span class="p">(</span><span class="n">child</span><span class="p">):</span>
+                <span class="n">child_name</span> <span class="o">=</span> <span class="n">child</span><span class="p">.</span><span class="n">_label</span><span class="p">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">s</span> <span class="o">+=</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">node_name</span><span class="si">}</span><span class="s">_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s"> -&gt; </span><span class="si">{</span><span class="n">child_name</span><span class="si">}</span><span class="s">_</span><span class="si">{</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s"> [label="</span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s">"];</span><span class="se">\n</span><span class="s">'</span>
+                <span class="n">s</span> <span class="o">+=</span> <span class="n">internal_tree</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">child_name</span> <span class="o">=</span> <span class="n">child</span><span class="p">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">s</span> <span class="o">+=</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">child_name</span><span class="si">}</span><span class="s">_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s"> [style=filled, peripheries=1, label="</span><span class="si">{</span><span class="n">child</span><span class="si">}</span><span class="s">"];</span><span class="se">\n</span><span class="s">'</span>
+                <span class="n">s</span> <span class="o">+=</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">node_name</span><span class="si">}</span><span class="s">_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s"> -&gt; </span><span class="si">{</span><span class="n">child_name</span><span class="si">}</span><span class="s">_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s"> [label="</span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s">"];</span><span class="se">\n</span><span class="s">'</span>
+
+        <span class="k">return</span> <span class="n">s</span>
+
+    <span class="c1"># Se puede hacer con f-strings pero no se renderiza bien en el artículo
+</span>    <span class="c1"># Si lo hago así
+</span>    <span class="k">return</span> <span class="sa">r</span><span class="s">"digraph G {"</span> <span class="o">+</span> <span class="n">internal_tree</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span> <span class="o">+</span> <span class="sa">r</span><span class="s">"}"</span>
+</code></pre></div></div>
+<h2 id="conclusiones">Conclusiones</h2>
+<ul>
+<li>Los árboles de decisión pueden verse como la búsqueda de un objetivo dado un conjunto de caminos posibles.</li>
+<li>Encontrar el árbol perfecto (consistente y más pequeño) es un problema intratable, por lo que se requieren heurísticas.</li>
+<li>Los árboles de decisión pueden aprender patrones que no necesariamente corresponden a la realidad en la generación de los datos.</li>
+<li>Se debe tener un mecanismo de “podado” o reducción de profunidad/anchura del árbol para evitar sobre-ajuste</li>
+<li>La operación más costosa en la inducción un árbol de decisión es procesar datos numéricos, por lo que se deben encontrar formas eficientes de lograr esta partición</li>
+</ul>
+<p>El ejercicio del día, para seguir con la temática, será <a href="https://github.com/dpalmasan/code-challenges/issues/50" target="_blank" rel="noopener noreferrer">Crear punteros hacia la derecha en un árbol binario</a>.</p>
+
+  </div>
+<div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = '';
+      this.page.identifier = 'https://dpalmasan.github.io/website/python/algorithms/classification/machine-learning/2023/02/18/decision-trees-explained.html';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://dpalmasan.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow noopener noreferrer" target="_blank">comments powered by Disqus.</a>
+</noscript>
+<a class="u-url" href="/website/python/algorithms/classification/machine-learning/2023/02/18/decision-trees-explained.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/website/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="https://dpalmasan.github.io/website/feed.xml">
+            <svg class="svg-icon orange">
+              <path d="M12.8 16C12.8 8.978 7.022 3.2 0 3.2V0c8.777 0 16 7.223 16 16h-3.2zM2.194
+                11.61c1.21 0 2.195.985 2.195 2.196 0 1.21-.99 2.194-2.2 2.194C.98 16 0 15.017 0
+                13.806c0-1.21.983-2.195 2.194-2.195zM10.606
+                16h-3.11c0-4.113-3.383-7.497-7.496-7.497v-3.11c5.818 0 10.606 4.79 10.606 10.607z"></path>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">dpalmasan</li>
+          
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Este es un blog donde compartiré un poco sobre mí y mis experiencias en el mundo tecnológico...</p>
+      </div>
+    </div>
+
+    <div class="social-links">
+<ul class="social-media-list">
+<li>
+    <a rel="me noopener noreferrer" href="https://www.linkedin.com/in/dpalmasan/" target="_blank" title="Mi perfil en Linkedin">
+      <span class="grey fa-brands fa-linkedin fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://www.github.com/dpalmasan" target="_blank" title="Mi Github">
+      <span class="grey fa-brands fa-github fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://scholar.google.com/citations?user=Y5PN_1AAAAAJ&hl=en" target="_blank" title="Mi Google Scholar">
+      <span class="grey fa-brands fa-google-scholar fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://stackoverflow.com/users/4051219/dpalma" target="_blank" title="Mis preguntas en SO LOL!">
+      <span class="grey fa-brands fa-stack-overflow fa-lg"></span>
+    </a>
+  </li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+
+</body>
+
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Entendiendo los Modelos del Lenguaje (Parte 2) | Mr Dipalma’s Pub 🍺</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Entendiendo los Modelos del Lenguaje (Parte 2)">
+<meta name="author" content="dpalmasan">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Introducción">
+<meta property="og:description" content="Introducción">
+<link rel="canonical" href="https://dpalmasan.github.io/website/probability/algorithms/ai/2024/03/05/modelos-lenguaje-parte2.html">
+<meta property="og:url" content="https://dpalmasan.github.io/website/probability/algorithms/ai/2024/03/05/modelos-lenguaje-parte2.html">
+<meta property="og:site_name" content="Mr Dipalma’s Pub 🍺">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2024-03-05T00:00:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Entendiendo los Modelos del Lenguaje (Parte 2)">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"dpalmasan"},"dateModified":"2024-03-05T00:00:00+00:00","datePublished":"2024-03-05T00:00:00+00:00","description":"Introducción","headline":"Entendiendo los Modelos del Lenguaje (Parte 2)","mainEntityOfPage":{"@type":"WebPage","@id":"https://dpalmasan.github.io/website/probability/algorithms/ai/2024/03/05/modelos-lenguaje-parte2.html"},"url":"https://dpalmasan.github.io/website/probability/algorithms/ai/2024/03/05/modelos-lenguaje-parte2.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css">
+    <link rel="stylesheet" href="/website/assets/css/style.css">
+    <style type="text/css">
+        div#disqus_thread iframe[sandbox] {
+                max-height: 0px !important;
+        }
+    </style>
+<link type="application/atom+xml" rel="alternate" href="https://dpalmasan.github.io/website/feed.xml" title="Mr Dipalma's Pub 🍺">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KHXBX5G1VP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KHXBX5G1VP');
+</script>
+
+<script>MathJax={"tex":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]},"svg":{"fontCache":"global"}}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<header class="site-header">
+
+  <div class="wrapper">
+<a class="site-title" rel="author" href="/website/">Mr Dipalma's Pub 🍺</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewbox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/website/about/">About</a></div>
+      </nav>
+</div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Entendiendo los Modelos del Lenguaje (Parte 2)</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2024-03-05T00:00:00+00:00" itemprop="datePublished">
+        Mar 5, 2024
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h1 id="introduccin">Introducción</h1>
+<p>Este es el segundo artículo de la serie que estoy escribiendo sobre modelos de lenguaje. En mi artículo previo:</p>
+<ul>
+<li><a href="/website/probability/algorithms/ai/2024/03/03/modelos-lenguaje-parte1.html"><em>Entendiendo los Modelos del Lenguaje (Parte 1)</em></a></li>
+</ul>
+<p>expliqué en qué consiste un modelo de lenguaje y cómo el problema a resolver es encontrar una distribución conjunta $p(w_1, w_2, \ldots w_N)$ donde $N$ es el largo del contexto a considerar y $w_i$ es la i-ésima palabra de un texto en esta distribución.</p>
+<p>En este artículo, describiré en términos básicos, la solución del estado del arte en este problema y además contaré la historia de ChatGPT y los fundamentos de este sistema de IA.</p>
+<h1 id="cmo-se-ementrenaem-chatgpt">¿Cómo se “<em>entrena</em>” ChatGPT?</h1>
+<p>Cuando hablamos de “<em>entrenamiento</em>”, nos referimos al proceso de encontrar $p(w_1, w_2, \ldots w_N)$. En general esto se hace construyendo un <strong>conjunto de datos</strong>. Como se describió en el artículo previo, una forma de encontrar esta distribución es mediante la <em>predicción de la siguiente palabra</em>, estrategia que consiste en encadenar múltiples probabilidades condicionales. Sin embargo, ChatGPT es un sistema que tiene otros ingredientes que permiten que funcione bien para diferentes tareas, como por ejemplo, tener una conversación <em>coherente</em> con un ser humano (en algunos casos, puede no ser coherente). En la figura 1. se muestra la evolución de ChatGPT.</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/23af0a877eb19a022e0682f565d7c9a9d6475a82/chat-gpt-history.png" alt="chat-gpt"></p>
+<p><em>Fig 1: ChatGPT y su evolución en el tiempo.</em></p>
+</div>
+<p>El conjunto de datos para entrenar los modelos que utiliza el sistema, consisten en un repositorio de textos extraídos desde múltiples fuentes en internet, como artículos de Wikipedia, libros, y otras páginas web. Finalmente, chatGPT es un sistema de IA que debe ejecutar las siguientes tareas:</p>
+<ol>
+<li>Predecir la palabra siguiente.</li>
+<li>Aprender a seguir instrucciones.</li>
+<li>Aprender a conversar.</li>
+</ol>
+<h2 id="predecir-la-siguiente-palabra">Predecir la siguiente palabra</h2>
+<p>Como mencioné en la parte 1 de esta serie, la tarea de aprender a predecir la siguiente palabra es una forma de estimar la distribución de probabilidad que representa el modelo de lenguaje. Tomemos el siguiente ejemplo:</p>
+<ul>
+<li><em>El gato estaba sentado en el _____</em></li>
+</ul>
+<p>En este caso existen varias formas de completar el texto. Por ejemplo las palabras <em>sofá</em>, <em>mat</em>, <em>techo</em>, <em>mesón</em>, llevarían a tener un texto coherente. Esto quiere decir, que el modelo podría <strong>entregar respuestas diferentes cuando se le consulta el mismo texto en múltiples ocasiones</strong>, pero cada una de estas respuestas tendrá sentido en el contexto de la oración. Si se provee mayor contexto, el modelo podrá ser más determinista/consistente en completar la oración:</p>
+<ul>
+<li><em>Pedro buscó por todos lados a su gato que estaba perdido. Buscó en su casa, en el armario, incluso en el patio. Pedro decidió ir salir a la calle a buscar al felino, hasta que escuchó un maullido que venía desde arriba. El gato estaba sentado en el techo.</em></li>
+</ul>
+<p>En este caso, el modelo eliminó las palabras mat, sofá y mesón, ya que el contexto dado sugería que dichas palabras no mantendrían la coherencia del texto. Cabe destacar, que para lograr considerar el contexto, se requiere un modelo sofisticado, que sea capaz tener cierta noción semántica de las palabras y poner <strong>atención</strong> a las palabras relevantes que entregan la información necesaria para hacer la mejor predicción. Métodos tradicionales utilizando cadenas de Markov y N-Gramas en general no tienen estas características y consideraban a todas las palabras con igual importancia (hubo intentos de mejora, pero nada que pudiese considerar un contexto <em>largo</em>).</p>
+<p>En el 2018 investigadores de OpenAI entrenaron un modelo que era capaz de realizar la tarea de predecir la siguiente palabra utilizando una arquitectura de <em>transformers</em>: <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener noreferrer"><em>Attention Is All You Need</em></a>. El modelo utilizó una gran cantidad de datos extraídos de distintas fuentes (ej. wikipedia, sitios web públicos, libros, etc). El modelo también tenía una gran cantidad de parámetros, lo que le permitió aprender patrones que era imposible aprender con modelos menos complejos. Este modelo lo llamaron <strong>GPT</strong>, y era capaz de completar oraciones y párrafos. En los siguientes dos años, mejoraron este modelo agregando incluso más parámetros y datos de entrenamiento. Finalmente, lograron el modelo <strong>GPT-3</strong> que tiene 175 billones de parámetros.</p>
+<p>Cabe destacar que <strong>GPT-3</strong> no fue entrenado para alguna tarea específica, otra que no sea predecir la siguiente palabra. Sin embargo, el tamaño del conjunto de datos era masivamente grande que contenía texto con varios ejemplos de tareas específicas (sistemas pregunta-respuesta, resumir textos, traducción, etc.), lo que si se utilizaba una consulta/contexto apropiado, el modelo iba a ser capaz de resolver dicha tarea.</p>
+<h2 id="aprendiendo-a-seguir-instrucciones">Aprendiendo a seguir instrucciones</h2>
+<p>En la siguiente fase, el modelo GPT-3 fue entrenado para seguir instrucciones. Para lograr esto, se creó un conjunto de datos que contiene respuestas “deseables” generadas por humanos para una variada cantidad de instrucciones. Primeramente, el modelo fue entrenado de manera que aprendiera qué respuestas son deseables. Además, el modelo se fue ajustando con retroalimentación humana para mejorar su entendimiento  sobre contenido deseable. Cada vez que el modelo generaba una respuesta satisfactoria, se le recompensaba con un puntaje positivo, en caso contrario había una penalización. El modelo intentaba aprender cómo generar contenido, de manera de maximizar los puntajes entregados por la retroalimentación, aprendiendo lentamente a generar contenido de acuerdo a esta escala de deseabilidad. Este proceso de enseñarle al modelo vía retroalimentación humana se conoce como <em>Aprendizaje por Refuerzo con Retroalimentación Humana</em> (<em>RHLF: Reinforcement Learning with Human Feedback</em>). A este sistema le pusieron <strong>InstructGPT</strong>, y fue lanzado el 2022: <a href="https://arxiv.org/abs/2203.02155" target="_blank" rel="noopener noreferrer"><em>Training language models to follow instructions with human feedback</em></a>.</p>
+<h2 id="aprendiendo-a-conversar">Aprendiendo a Conversar</h2>
+<p>En la siguiente fase, que culminó en ChatGPT, OpenAI entrenó al modelo para que pudiese conversar de manera efectiva. El conjunto de datos inicial consistió en conversaciones donde los humanos actuaban en ambos roles: El usuario del <em>chatbot</em> con IA, y el chatbot (un humano “actuaba” de ChatGPT). Este modelo también fue mejorado vía RLHF. El formato de diálogo permitió al modelo a responder preguntas de seguimiento, admitir errores, y desafiar premisas incorrectas.</p>
+<h2 id="emprompt-engineeringem-y-reflexiones">“<em>Prompt Engineering</em> y Reflexiones”</h2>
+<p>Del uso masivo de ChatGPT, nació la ingeniería de consultas “<em>Prompt Engineering</em>”, la que consiste en realizar una interacción <em>adecuada</em> con el sistema de IA, de manera de obtener respuestas que satisfagan mejor o tengan la mejor “deseabilidad” posible. De aquí nacen super-usuarios del sistema, que logran optimizar al máximo esta herramienta de IA. El gran problema, es el sensacionalismo que algunos creadores de contenido generan, sobre-estimando y exagerando las capacidades del modelo. Mi opinión personal, no tengo nada en contra de que la gente utilice estas herramientas y comparta contenido que permita optimizar la experiencia de usuario. Es más, yo también utilizo algún modelo GPT para ayudarme a ser más eficiente para escribir código. Sin embargo, lo que me molesta es que existan creadores de contenido que divulgan información falsa/engañosa. Hay que ser responsables con el uso de la tecnología.</p>
+<p>Finalmente, recordar que ChatGPT (y cualquier otro modelo similar), es simplemente un modelo que intenta estimar la distribución $p(w_1, w_2, \ldots w_N)$ y que gracias a tener un gran repositorio de textos para <em>“aprender”</em>, se logró re-ajustar para que pudiese resolver más tareas que predecir la siguiente palabra. Pero no debemos olvidar que es un simple muestreo de una distribución de probabilidad. Por el momento, estamos lejos de <em>ser reemplazados</em> por IA. Es más, puede darse que algunos trabajos queden obsoletos, sin embargo pueden nacer nuevos empleos. Lo mismo ha ocurrido con varias revoluciones tecnológicas.</p>
+<h2 id="bonus-qu-es-el-significado">Bonus: ¿Qué es el significado?</h2>
+<p>Al ver el lenguaje en términos de lógica se vislumbra el significado de ciertos tipos de expresiones justificándolas en la validez de los argumentos. Un argumento válido es un argumento donde si las premisas son verdaderas, entonces las conclusiones también son verdaderas. El significado de ciertas expresiones en el lengaje natural juegan un rol crucial en contribuir a la validez de los argumentos y así, uno puede representar su significado modelando dicha validez.</p>
+<p>Por ejemplo, consideremos el siguiente argumento, que es un silogismo (Aristóteles) clásico:</p>
+<p>$$
+\begin{array} {c}
+\text{Todo hombre es mortal} \\
+\text{Sócrates es hombre} \\
+\hline
+\text{Sócrates es mortal}
+\end{array}
+$$</p>
+<p>Cabe destacar que matemáticamente, estos axiomas se pueden fórmular con <strong>Lógica de Primer Orden</strong>:</p>
+<p>$$
+\begin{array} {c}
+\forall x (Hombre(x) \rightarrow Mortal(x)) \\
+Hombre(s) \\
+\hline
+Mortal(s)
+\end{array}
+$$</p>
+<p>En este caso $\forall$ es un cuantificador <em>universal</em>, $x$ es una entidad (u objeto), y $Hombre$ y $Mortal$ son predicados lógicos. En este caso se lee que cualquier objeto $x$ que tenga el predicado $Hombre(x)$ implica que tendrá también el predicado $Mortal(x)$. Consideremos los siguientes axiomas:</p>
+<ol>
+<li>Todos los niños aman al Viejo Pascuero</li>
+<li>Todos los niños que aman al Viejo Pascuero, aman a cualquier reno</li>
+<li>Rodolfo es un reno y Rodolfo tiene la nariz Roja</li>
+<li>Cualquiera que tenga la nariz roja es extraño o es un payaso</li>
+<li>Ningún reno es un payaso</li>
+<li>Juan no ama cualquier cosa que sea extraña</li>
+</ol>
+<p>¿Podemos concluir que Juan no es un niño?</p>
+<p>Una posible respuesta de ChatGPT:</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/874f82dc54fdb39bcca26fd04c9a4e6c99702059/logic-gpt.png" alt="logic-on-chatgpt"></p>
+<p><em>Fig 2: ChatGPT y su respuesta a los axiomas de navidad.</em></p>
+</div>
+<p>Sin embargo, si transformamos los axiomas a lógica de primer órden:</p>
+<ol>
+<li>$\forall x \text{ niño}(x) \rightarrow ama(x, vp)$</li>
+<li>$\forall x, y (\text{niño}(x) \land reno(y) \land ama(x, vp) \rightarrow ama(x, y))$</li>
+<li>$reno(r) \land nariz\ roja(r)$</li>
+<li>$\forall x (nariz\ roja(x) \rightarrow \text{extraño}(x) \lor payaso(x))$</li>
+<li>$\neg \exists x(reno(x) \land payaso(x))$</li>
+<li>$\forall x (\text{extraño}(x) \rightarrow \neg ama(j, x))$</li>
+<li>Conclusión: $\neg \text{niño}(j)$</li>
+</ol>
+<p>Supongamos que Juan fuese niño:</p>
+<ul>
+<li>Si juan fuera un niño, amaría al Viejo pascuero por axioma <code>1.</code>
+</li>
+<li>Si Juan fuera un niño, entonces juan amaría al reno Rodolfo, por axioma <code>2.</code>, ya que juan ama al Viejo Pascuero</li>
+<li>Rodolfo tiene la nariz roja, por lo tanto o es extraño o es un payaso, por axioma <code>4.</code>
+</li>
+<li>Rodolfo no es un payaso ya que no existe una entidad que sea reno y payaso a la vez por axioma <code>5.</code>
+</li>
+<li>Rodolfo es extraño por axioma <code>4.</code>
+</li>
+<li>Juan no ama a nada que sea extraño, pero rodolfo es extraño, por lo que juan no amaría a rodolfo, axioma <code>6.</code>
+</li>
+<li>Por lo tanto hay una contradicción y Juan no puede ser un niño.</li>
+</ul>
+<p>Recordemos que ChatGPT no es determinista, por lo que en algunos casos podría dar la respuesta correcta (ya que este es un ejemplo conocido). Sin embargo, en este caso podemos notar que ChatGPT llega a una conclusión errónea, por lo que no está realmente razonando.</p>
+<h1 id="conclusiones">Conclusiones</h1>
+<ul>
+<li>ChatGPT comenzó con un modelo GPT entrenado para predicción de la siguiente palabra.</li>
+<li>El modelo fue entrenado con una cantidad masiva de datos, por lo que indirectamente podía resolver algunas tareas dándole una consulta/contexto indicado.</li>
+<li>ChatGPT utiliza RLHF para aprender a interactuar con humanos.</li>
+<li>ChatGPT no está razonando lógicamente y no entiende el significado de los textos.</li>
+<li>Estamos lejos de ser reemplazados por IA, sin embargo, existen Super-usuarios o <em>power users</em> que le pueden sacar máximo provecho a este tipo de sistemas con IA.</li>
+</ul>
+
+  </div>
+<div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = '';
+      this.page.identifier = 'https://dpalmasan.github.io/website/probability/algorithms/ai/2024/03/05/modelos-lenguaje-parte2.html';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://dpalmasan.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow noopener noreferrer" target="_blank">comments powered by Disqus.</a>
+</noscript>
+<a class="u-url" href="/website/probability/algorithms/ai/2024/03/05/modelos-lenguaje-parte2.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/website/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="https://dpalmasan.github.io/website/feed.xml">
+            <svg class="svg-icon orange">
+              <path d="M12.8 16C12.8 8.978 7.022 3.2 0 3.2V0c8.777 0 16 7.223 16 16h-3.2zM2.194
+                11.61c1.21 0 2.195.985 2.195 2.196 0 1.21-.99 2.194-2.2 2.194C.98 16 0 15.017 0
+                13.806c0-1.21.983-2.195 2.194-2.195zM10.606
+                16h-3.11c0-4.113-3.383-7.497-7.496-7.497v-3.11c5.818 0 10.606 4.79 10.606 10.607z"></path>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">dpalmasan</li>
+          
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Este es un blog donde compartiré un poco sobre mí y mis experiencias en el mundo tecnológico...</p>
+      </div>
+    </div>
+
+    <div class="social-links">
+<ul class="social-media-list">
+<li>
+    <a rel="me noopener noreferrer" href="https://www.linkedin.com/in/dpalmasan/" target="_blank" title="Mi perfil en Linkedin">
+      <span class="grey fa-brands fa-linkedin fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://www.github.com/dpalmasan" target="_blank" title="Mi Github">
+      <span class="grey fa-brands fa-github fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://scholar.google.com/citations?user=Y5PN_1AAAAAJ&hl=en" target="_blank" title="Mi Google Scholar">
+      <span class="grey fa-brands fa-google-scholar fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://stackoverflow.com/users/4051219/dpalma" target="_blank" title="Mis preguntas en SO LOL!">
+      <span class="grey fa-brands fa-stack-overflow fa-lg"></span>
+    </a>
+  </li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+
+</body>
+
+</html>

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Reinforcement Learning: Multi-Armed Bandits | Mr Dipalma’s Pub 🍺</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Reinforcement Learning: Multi-Armed Bandits">
+<meta name="author" content="dpalmasan">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Introducción">
+<meta property="og:description" content="Introducción">
+<link rel="canonical" href="https://dpalmasan.github.io/website/algorithms/ai/2024/07/05/multi-armed-bandits.html">
+<meta property="og:url" content="https://dpalmasan.github.io/website/algorithms/ai/2024/07/05/multi-armed-bandits.html">
+<meta property="og:site_name" content="Mr Dipalma’s Pub 🍺">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2024-07-05T00:37:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Reinforcement Learning: Multi-Armed Bandits">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"dpalmasan"},"dateModified":"2024-07-05T00:37:00+00:00","datePublished":"2024-07-05T00:37:00+00:00","description":"Introducción","headline":"Reinforcement Learning: Multi-Armed Bandits","mainEntityOfPage":{"@type":"WebPage","@id":"https://dpalmasan.github.io/website/algorithms/ai/2024/07/05/multi-armed-bandits.html"},"url":"https://dpalmasan.github.io/website/algorithms/ai/2024/07/05/multi-armed-bandits.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css">
+    <link rel="stylesheet" href="/website/assets/css/style.css">
+    <style type="text/css">
+        div#disqus_thread iframe[sandbox] {
+                max-height: 0px !important;
+        }
+    </style>
+<link type="application/atom+xml" rel="alternate" href="https://dpalmasan.github.io/website/feed.xml" title="Mr Dipalma's Pub 🍺">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KHXBX5G1VP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KHXBX5G1VP');
+</script>
+
+<script>MathJax={"tex":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]},"svg":{"fontCache":"global"}}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<header class="site-header">
+
+  <div class="wrapper">
+<a class="site-title" rel="author" href="/website/">Mr Dipalma's Pub 🍺</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewbox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/website/about/">About</a></div>
+      </nav>
+</div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Reinforcement Learning: Multi-Armed Bandits</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2024-07-05T00:37:00+00:00" itemprop="datePublished">
+        Jul 5, 2024
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h1 id="introduccin">Introducción</h1>
+<p>En este post hablo sobre un algoritmo clásico de aprendizaje por refuerzo (o en inglés <em>Reinforcement Learning</em>), y el que más he visto en la práctica (experiencia personal). El algoritmo al cual hago referencia es el <strong>bandido multibrazo</strong>, o su nombre en inglés <em>Multi-Armed bandits</em> (al cuál nos referiremos como MAB).</p>
+<h1 id="multi-armed-bandits-mab">Multi-Armed Bandits (MAB)</h1>
+<p>Tengamos la siguiente situación en la que estamos en un casino jugando la máquina traga-monedas y tenemos $k$ palancas para mover. Cada acción a tomar es mover una palanca y esta tendrá alguna probabilidad de ganar el premio. Idealmente queremos mover más la “mejor” palanca, es decir, la que más frecuentemente nos permita ganar (recompensa). Otra posible situación similar es tener una suite de pruebas (integración continua en software) y un conjunto de máquinas para ejecutar dichas pruebas. Queremos distribuir los tests de manera que la suite termine de ejecutarse en la menor cantidad de tiempo.</p>
+<p>En un MAB tenemos $k$ acciones, y cada una de dichas acciones tiene una recompensa esperada, dada la acción a ejecutar. Llamemos a esta recompensa esperada el “valor” de una acción. Denotamos la acción escogida en el tiempo $t$ como $A_t$, y su recompensa correspondiente como $R_t$. El valor de una acción arbitraria $a$, se denota como $q_*(a)$, y la recompensa esperada si se elige dicha acción:</p>
+<p>$$q_*(a) = \mathop{\mathbb{E}}\left[R_t|A_t=a\right]$$</p>
+<p>Si supieramos el valor de cada acción, el problema sería trivial. Simplemente, elegiriamos siempre la acción con la mejor recompensa. Asumiremos que no conocemos los valores de cada acción, aunque podemos tener un valor estimado para la acción, $a$ en el tiempo $t$ que llamaremos $Q_t(a)$. Queremos que $Q_t(a)$ esté lo más cerca posible de $q_*(a)$.</p>
+<p>Dado que tenemos un estimado del valor de cada acción en un momento dado, podríamos preguntarnos ¿Qué estrategia seguir para elegir la siguiente acción? Lo más <em>codicioso</em> sería elegir la acción que estimamos, tendrá la mayor recompensa. En este caso, estamos <strong>explotando</strong> el conocimiento que tenemos, ya que escogemos la acción que con la información que tenemos, parece ser la mejor; a esta estrategia le llamaremos <em>greedy</em>. Por otro lado, si escogemos una acción de forma arbitraria, estaríamos <strong>explorando</strong>, ya que esto nos permitiría mejorar nuestra estimación del valor de dicha acción. Cuando queremos maximizar la recompensa esperada en un momento $t$, explotar la información es una buena estrategia. Sin embargo, esta es una estrategia corto-placista, ya que permitiéndonos escoger una acción no tan buena a primera vista, podríamos incluso mejorar nuestra recompensa en el largo plazo. Esto es en esencia el conflicto que existe entre exploración y explotación.</p>
+<h2 id="mtodos-de-accin-valor">Métodos de Acción-Valor</h2>
+<p>Supongamos por el momento que estamos frente a un problema <em>estacionario</em>, esto quiere decir que los valores $q_*(a)$ se mantienen en el tiempo. ¿Cómo podemos tener una buena estimación del valor de cada acción? Una forma natural de obtener esta estimación, es promediando las recompensas obtenidas en el tiempo:</p>
+<p>$$Q_t(a) = \frac{\text{Suma de recompensas para la acción } a \text{ previo al paso } t}{\text{Número de veces que tomamos } a \text{ previo al paso } t}$$</p>
+<p>$$
+Q_t(a) = \frac{\sum_{i=1}^{t-1}{R_i\cdot\mathbb{1}_{A_i=a}}}{\sum_{i=1}^{t-1}\mathbb{1}_{A_i=a}}
+$$</p>
+<p>Donde $\mathbb{1}$ denota una variable aleatoria que es 1 si la condición se cumple y 0 en caso contrario. Si el denominador es cero, entonces definimos $Q_t(a)$ a algún valor constante. Cuando el denominador tiende al infinito, debido a la ley de los grandes números, $Q_t(a)$ converge a $q_*(a)$. Llamamos a este método <em>muestreo-promedio</em> porque cada estimado es un promedio de una muestra de recompensas. Claro que esta es sólo una forma de calcular este valor estimado y no necesariamente la mejor.</p>
+<p>La regla más simple para escoger una acción es elegir la que tenga el mayor valor estimado, es decir:</p>
+<p>$$A_t = \underset{a}{\mathrm{argmax}} \ Q_t(a)$$</p>
+<p>Esta estrategia siempre aplicará explotación, ya que no intentará tomar acciones que tengan menos recompensa. Sin embargo, como mencionamos anteriormente, en algunos casos la acción que parece ser la mejor no es la que en el largo plazo nos dará la mejor recompensa. Una alternativa es definir un valor de probabilidad $\varepsilon$ pequeño de tal forma que con dicha probabilidad escogemos un valor aleatorio.</p>
+<h1 id="arm-bandit">10-Arm Bandit</h1>
+<p>Consideremos el caso de un MAB de 10 “brazos”. Supongamos que conocemos la funcion de valores para cada acción, cuya media fue obtenida muestreando una distribución Gaussiana y que $q_*(a)$ sigue una distribución Gaussiana, tal como se muestra en la figura 1. El código para generar el bandido:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">"figure.figsize"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">"figure.dpi"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">200</span>
+
+<span class="n">n_actions</span> <span class="o">=</span> <span class="mi">10</span>
+
+
+<span class="k">def</span> <span class="nf">create_multiarmed_bandit</span><span class="p">(</span><span class="n">n_actions</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">]:</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">actions</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_actions</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+    <span class="n">q_a</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">normal</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">n_actions</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">actions</span><span class="p">,</span> <span class="n">q_a</span>
+</code></pre></div></div>
+<p>Para crear el gráfico de la figura 1:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">actions</span><span class="p">,</span> <span class="n">q_a</span> <span class="o">=</span> <span class="n">create_multiarmed_bandit</span><span class="p">(</span><span class="n">n_actions</span><span class="p">)</span>
+
+<span class="n">rewards</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">normal</span><span class="p">(</span><span class="n">q_a</span><span class="p">[</span><span class="n">a</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">actions</span>
+<span class="p">]</span>
+
+
+<span class="n">plt</span><span class="p">.</span><span class="n">violinplot</span><span class="p">(</span><span class="n">rewards</span><span class="p">,</span> <span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">"Acción"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">"Recompensa"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">"10-armed bandit"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">actions</span><span class="p">)</span>
+</code></pre></div></div>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/22b2f34c8fd05586ff71bde0437d74522e71feb2/mab1.png" alt="qa_mab"></p>
+<p><em>Fig 1: Función de valor para cada acción del 10-arm bandit.</em></p>
+</div>
+<p>Ejecutemos un experimento en el cual tomamos 2000 ejecuciones de distintos MAB, considerando algoritmo descrito anteriormente para estimar $Q_t(a)$, y realizar esto para 1000 pasos de tiempo $t$. Consideremos también utilizar distintos valores de probabilidad de exploración $\varepsilon$.</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">stationary_experiment</span><span class="p">(</span>
+    <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">steps</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n_actions</span><span class="p">:</span> <span class="nb">int</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">]:</span>
+    <span class="n">average_rewards</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">steps</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">actions</span><span class="p">,</span> <span class="n">q_a</span> <span class="o">=</span> <span class="n">create_multiarmed_bandit</span><span class="p">(</span><span class="n">n_actions</span><span class="p">)</span>
+    <span class="n">optimal_action</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">q_a</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">count_optimal_action</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">optimal_action_perc</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">steps</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Q_t(a): Estimated expected reward. Initial estimate is 0
+</span>    <span class="n">q_t_a</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_actions</span><span class="p">,</span> <span class="n">steps</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="c1"># Cumulative sum of rewards
+</span>    <span class="n">reward_cum_sum</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_actions</span><span class="p">)</span>
+
+    <span class="c1"># Number of steps the action a was taken
+</span>    <span class="n">n_steps_a</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n_actions</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">steps</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="n">epsilon</span><span class="p">:</span>
+            <span class="n">action</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_actions</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Take greedy action
+</span>            <span class="n">action</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">q_t_a</span><span class="p">[:,</span> <span class="n">t</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="n">reward_cum_sum</span><span class="p">[</span><span class="n">action</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">normal</span><span class="p">(</span><span class="n">q_a</span><span class="p">[</span><span class="n">action</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Estimating expected reward
+</span>        <span class="n">q_t_a</span><span class="p">[:,</span> <span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">reward_cum_sum</span> <span class="o">/</span> <span class="n">n_steps_a</span>
+
+        <span class="c1"># The reward from the action taken
+</span>        <span class="n">average_rewards</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">q_t_a</span><span class="p">[</span><span class="n">action</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">t</span><span class="p">]</span>
+        <span class="n">count_optimal_action</span> <span class="o">+=</span> <span class="nb">int</span><span class="p">(</span><span class="n">action</span> <span class="o">==</span> <span class="n">optimal_action</span><span class="p">)</span>
+        <span class="n">optimal_action_perc</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">count_optimal_action</span> <span class="o">/</span> <span class="n">t</span>
+        <span class="n">n_steps_a</span><span class="p">[</span><span class="n">action</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">average_rewards</span><span class="p">,</span> <span class="n">optimal_action_perc</span>
+
+
+<span class="k">def</span> <span class="nf">mab_run_experiment</span><span class="p">(</span>
+    <span class="n">n_experiments</span><span class="p">,</span> <span class="n">experiment_func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">]],</span> <span class="o">*</span><span class="n">args</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">]:</span>
+    <span class="n">average_rewards</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">steps</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">optimal_action_perc</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">steps</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_experiments</span><span class="p">):</span>
+        <span class="n">average_rewards_</span><span class="p">,</span> <span class="n">optimal_action_perc_</span> <span class="o">=</span> <span class="n">experiment_func</span><span class="p">(</span>
+            <span class="o">*</span><span class="n">args</span>
+        <span class="p">)</span>
+        <span class="n">average_rewards</span> <span class="o">+=</span> <span class="n">average_rewards_</span>
+        <span class="n">optimal_action_perc</span> <span class="o">+=</span> <span class="n">optimal_action_perc_</span>
+
+    <span class="k">return</span> <span class="n">average_rewards</span> <span class="o">/</span> <span class="n">n_experiments</span><span class="p">,</span> <span class="n">optimal_action_perc</span> <span class="o">/</span> <span class="n">n_experiments</span>
+
+
+<span class="n">n_experiments</span> <span class="o">=</span> <span class="mi">2000</span>
+<span class="n">steps</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">rewards_e0</span><span class="p">,</span> <span class="n">optimal_action_perc_e0</span> <span class="o">=</span> <span class="n">mab_run_experiment</span><span class="p">(</span>
+    <span class="n">n_experiments</span><span class="p">,</span> <span class="n">stationary_experiment</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">steps</span><span class="p">,</span> <span class="n">n_actions</span>
+<span class="p">)</span>
+<span class="n">rewards_e0_01</span><span class="p">,</span> <span class="n">optimal_action_perc_e0_01</span> <span class="o">=</span> <span class="n">mab_run_experiment</span><span class="p">(</span>
+    <span class="n">n_experiments</span><span class="p">,</span> <span class="n">stationary_experiment</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">steps</span><span class="p">,</span> <span class="n">n_actions</span>
+<span class="p">)</span>
+<span class="n">rewards_e0_1</span><span class="p">,</span> <span class="n">optimal_action_perc_e0_1</span> <span class="o">=</span> <span class="n">mab_run_experiment</span><span class="p">(</span>
+    <span class="n">n_experiments</span><span class="p">,</span> <span class="n">stationary_experiment</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">steps</span><span class="p">,</span> <span class="n">n_actions</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div></div>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/22b2f34c8fd05586ff71bde0437d74522e71feb2/mab2.png" alt="r_mab"></p>
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/22b2f34c8fd05586ff71bde0437d74522e71feb2/mab3.png" alt="opt_mab"></p>
+<p><em>Fig 2: Medidas de desempeño para experimento de 10-arm bandit..</em></p>
+</div>
+<p>Podemos observar que siguiendo la estrategia <em>greedy</em>, sin exploración, el algoritmo converge rápido, pero en el largo plazo la recompensa esperada es menor que en el caso donde permitimos la exploración. Para $\varepsilon = 0.1$ observamos que su convergencia es más rápida que el caso de $\varepsilon = 0.01$, pero pareciera ser que en este último caso se podrá llegar a una recompensa esperada mayor. En fin, en ambos casos con exploración, tomando a veces acciones que no se veían prometedoras, se mejoró la recompensa en el largo plazo. Algo similar ocurre con la cantidad de veces que el agente (MAB) toma la acción óptima. En el caso sin exploración, el agente se queda estancado en un óptimo local tomando sólo ~1/3 de las veces la mejor acción. En los otros casos, con exploración el agente es capaz de encontrar la acción óptima un mayor porcentaje de las veces. Esto es porque a medida que obtenemos más información de las otras acciones, podemos elegir la que es realmente mejor en el largo plazo.</p>
+<h2 id="funcin-de-valor-no-estacionaria">¿Función de valor no estacionaria?</h2>
+<p>En la simulación de la sección previa, asumimos que la función de valor para cada acción $q_*(a)$ se mantiene estacionaria a lo largo del tiempo. Sin embargo, la mayoría de los problemas en aprendizaje por refuerzo tienen una función de valor no estacionaria. Por completitud, simplifiquemos la ecuación para estimar $Q_t(a)$. Para el análisis, consideraremos una sóla acción:</p>
+<p>Tenemos:</p>
+<p>$$Q_n = \frac{R_1 + R_2 + \ldots + R_{n-1}}{n - 1}$$</p>
+<p>Luego:</p>
+<p>$$
+\begin{align}
+Q_{n + 1} &amp; = \frac{1}{n} \sum_{i=1}^n R_i \\
+&amp; = \frac{1}{n} \left(R_n + \sum_{i=1}^n R_i\right) \\
+&amp; = \frac{1}{n} \left(R_n + (n - 1)\frac{1}{n-1} \sum_{i=1}^n R_i\right) \\
+&amp; = \frac{1}{n} \left(R_n + (n - 1)Q_n\right) \\
+&amp; = Q_n + \frac{1}{n} \left[R_n - Q_n \right] \\
+\end{align}
+$$</p>
+<p>Podemos observar en la ecuación, que estamos siempre ponderando todas las recompensas desde el inicio hasta el paso de tiempo $n$, via $\alpha(n) = \frac{1}{n}$. El problema, es que si $q_*(a)$ cambia con el tiempo, entonces las recompensas observadas por ejemplo inicialmente, dejarían de ser relevantes ya que la función de valores para las acciones cambió. Una forma de manejar esto es por ejemplo considerar un valor de $\alpha$ constante tal que $\alpha \in [0, 1)$.</p>
+<p>La ecuación quedaría como:</p>
+<p>$$
+\begin{align}
+Q_{n + 1} &amp; = \alpha \sum_{i=1}^n R_i \\
+&amp; = \alpha R_n + (1 - \alpha) Q_n \\
+&amp; = \alpha R_n + (1 - \alpha)[\alpha R_{n - 1} + (1 - \alpha) Q_{n - 1}] \\
+&amp; = \alpha R_n + (1 - \alpha)\alpha R_{n - 1} + (1 - \alpha)^2 Q_{n - 1} \\
+&amp; = \alpha R_n + (1 - \alpha)\alpha R_{n - 1} + (1 - \alpha)^2\alpha R_{n - 2} \\
+&amp; \ldots + (1 - \alpha)^{n - 1}\alpha R_1 + (1 - \alpha)^n Q_1 \\
+&amp; = (1 - \alpha)^n Q_1 + \sum_{i = 1}^{n} \alpha (1 - \alpha) ^ {n - i} R_i
+\end{align}
+$$</p>
+<p>Se puede observar que hay un desconteo que aumenta con $n$, haciendo que la contribución, por ejemplo, de acciones pasadas como $Q_1$ sean menores a medida que avanza $n$.</p>
+<p>Consideremos ahora dos experimentos, uno en que consideramos la estrategia de muestra-media para estimar $Q_n$, es decir, considerando las contribuciones de todas las acciones pasadas pero en el caso en que $q_*(a)$ es no estacionaria. También consideraremos un experimento en el que utilizamos un peso $\alpha = 0.1$ que se mantendrá constante. El código para este experimento:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">non_stationary_experiment</span><span class="p">(</span>
+    <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">steps</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n_actions</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">]:</span>
+    <span class="n">average_rewards</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">steps</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">actions</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_actions</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+
+    <span class="c1"># Create the bandit with all q_a* equal
+</span>    <span class="n">q_a_0</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">q_a</span> <span class="o">=</span> <span class="p">[</span><span class="n">q_a_0</span><span class="p">]</span> <span class="o">*</span> <span class="n">n_actions</span>
+
+    <span class="n">count_optimal_action</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">optimal_action_perc</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">steps</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Q_n(a): Estimated expected reward. Initial estimate is 0
+</span>    <span class="n">q_n</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_actions</span><span class="p">)</span>
+    <span class="n">n_actions_step</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n_actions</span><span class="p">)</span>
+
+    <span class="n">rewards</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_actions</span><span class="p">)</span>
+
+
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">steps</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="c1"># Update the real action values
+</span>        <span class="n">q_a</span> <span class="o">=</span> <span class="p">[</span><span class="n">q</span> <span class="o">+</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">q_a</span><span class="p">]</span>
+        <span class="n">optimal_action</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">q_a</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="n">epsilon</span><span class="p">:</span>
+            <span class="n">action</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_actions</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Take greedy action
+</span>            <span class="n">action</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">q_n</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="n">rewards</span><span class="p">[</span><span class="n">action</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">normal</span><span class="p">(</span><span class="n">q_a</span><span class="p">[</span><span class="n">action</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">alpha</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">q_n</span> <span class="o">=</span> <span class="n">q_n</span> <span class="o">+</span> <span class="p">(</span><span class="n">rewards</span> <span class="o">-</span> <span class="n">q_n</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_actions_step</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">q_n</span> <span class="o">=</span> <span class="n">q_n</span> <span class="o">+</span> <span class="n">alpha</span><span class="o">*</span><span class="p">(</span><span class="n">rewards</span> <span class="o">-</span> <span class="n">q_n</span><span class="p">)</span>
+
+        <span class="c1"># The reward from the action taken
+</span>        <span class="n">average_rewards</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">q_n</span><span class="p">[</span><span class="n">action</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">count_optimal_action</span> <span class="o">+=</span> <span class="nb">int</span><span class="p">(</span><span class="n">action</span> <span class="o">==</span> <span class="n">optimal_action</span><span class="p">)</span>
+        <span class="n">optimal_action_perc</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">count_optimal_action</span> <span class="o">/</span> <span class="n">t</span>
+        <span class="n">n_actions_step</span><span class="p">[</span><span class="n">action</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">average_rewards</span><span class="p">,</span> <span class="n">optimal_action_perc</span>
+</code></pre></div></div>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/2ed125da3e01259ce109bab7d577a759b45d0ffd/mab4.png" alt="r_mab"></p>
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/2ed125da3e01259ce109bab7d577a759b45d0ffd/mab5.png" alt="opt_mab"></p>
+<p><em>Fig 3: Medidas de desempeño para experimento de 10-arm bandit, caso no estacionario y estrategia de muestreo-media</em></p>
+</div>
+<p>En este caso se observa que el agente tomó muchos más pasos de tiempo para lograr una recompensa esperada similar a la del caso estacionario; tomó alrededor de <code>10x</code> más de tiempo e incluso inicialmente tomó peores acciones. Para el caso <em>greedy</em> se observa que la recompensa esperada quedó estancada en alrededor de <code>0.1</code> en los otros casos fue mayor teniendo recompensas hasta <code>10x</code> mejores que el caso sin exploración. Se observa que para $\varepsilon = 0.01$ se obtuvo una mejor recompensa esperada. En este caso es porque toma mayor cantidad de veces la acción óptima debido a que explora con menor probabilidad. Por otro lado, para el caso de $\varepsilon = 0.1$, nuevamente encontró las acciones óptimas antes que los otros casos, pues explora más frecuentemente el espacio de búsqueda de acciones.</p>
+<p>En la figura 4 se muestran los resultados para la ponderación $\alpha = 0.1$.</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/884f0b501bb7a1456ed54c853d75d778ce16d7f1/mab6.png" alt="r_mab"></p>
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/884f0b501bb7a1456ed54c853d75d778ce16d7f1/mab7.png" alt="opt_mab"></p>
+<p><em>Fig 4: Medidas de desempeño para experimento de 10-arm bandit, caso no estacionario y estrategia de ponderación con $\alpha = 0.1$</em></p>
+</div>
+<p>Para este caso se puede observar que la explotación de información es más efectiva, pues para el caso <em>greedy</em> con $\varepsilon = 0$, observamos que puede obtener mejores casos en el largo plazo que su contraparte con la estrategia muestreo-medio. Por otro lado, la recompensa al largo plazo es mayor para todos los agentes con respecto al caso previo.</p>
+<h1 id="conclusiones">Conclusiones</h1>
+<p>En este artículo vimos una pincelada de <em>Reinforcement Learning</em>, discutimos sobre <em>Multi-Armed Bandits</em> y revisamos algunas simulaciones. Algunas conclusiones:</p>
+<ul>
+<li>Existe un conflicto entre exploración y explotación. Explotando la información podemos escoger la mejor acción en el momento de manera de maximizar la recompensa en el corto plazo. Sin embargo, si se explora, puede encontrarse que existen acciones que inicialmente no se ven prometedoras pero en el largo plazo obtienen una mejor recompensa.</li>
+<li>Cómo se estima $q_*(a)$ es crucial para el desempeño del agente que aplique esta estrategia de <em>greedy</em>. Observamos que la convergencia es lenta en el caso no estacionario, respecto del estacionario y además que dependiendo de la estimación la explotación puede dar buenos resultados o converger en un óptimo local.</li>
+</ul>
+<p>Algunas aplicaciones de MAB:</p>
+<ol>
+<li>Sistemas de recomendación: MAB se pueden utilizar para hacer recomendaciones a los usuarios basándose en sus preferencias pasadas.</li>
+<li>Anuncios Online: Optimización de anuncios a mostrar a los usuarios, eligiendo los más relevantes para cada usuario.</li>
+<li>Administración de portafolios: MAB pueden usarse para optimizar la distribución de activos en un portafolio, eligiendo las inversiones más rentables.</li>
+<li>Distribución de recursos: MAB pueden usarse para optimizar la distribución de recursos, por ejemplo recursos computacionales o ancho de banda, entre diferentes tareas/usuarios.</li>
+<li>Precios dinámicos: MAB pueden utilizarse para optimizar el precio de productos o servicios en tiempo real, basándose en la demanda y otros factores.</li>
+</ol>
+<p>Existen otras aplicaciones. Yo personalmente, lo he visto en dos casos de uso de los que menciono: anuncios y distribución de recursos computacionales.</p>
+<p>Espero lector, que te haya gustado el artículo. Un saludo…</p>
+
+  </div>
+<div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = '';
+      this.page.identifier = 'https://dpalmasan.github.io/website/algorithms/ai/2024/07/05/multi-armed-bandits.html';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://dpalmasan.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow noopener noreferrer" target="_blank">comments powered by Disqus.</a>
+</noscript>
+<a class="u-url" href="/website/algorithms/ai/2024/07/05/multi-armed-bandits.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/website/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="https://dpalmasan.github.io/website/feed.xml">
+            <svg class="svg-icon orange">
+              <path d="M12.8 16C12.8 8.978 7.022 3.2 0 3.2V0c8.777 0 16 7.223 16 16h-3.2zM2.194
+                11.61c1.21 0 2.195.985 2.195 2.196 0 1.21-.99 2.194-2.2 2.194C.98 16 0 15.017 0
+                13.806c0-1.21.983-2.195 2.194-2.195zM10.606
+                16h-3.11c0-4.113-3.383-7.497-7.496-7.497v-3.11c5.818 0 10.606 4.79 10.606 10.607z"></path>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">dpalmasan</li>
+          
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Este es un blog donde compartiré un poco sobre mí y mis experiencias en el mundo tecnológico...</p>
+      </div>
+    </div>
+
+    <div class="social-links">
+<ul class="social-media-list">
+<li>
+    <a rel="me noopener noreferrer" href="https://www.linkedin.com/in/dpalmasan/" target="_blank" title="Mi perfil en Linkedin">
+      <span class="grey fa-brands fa-linkedin fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://www.github.com/dpalmasan" target="_blank" title="Mi Github">
+      <span class="grey fa-brands fa-github fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://scholar.google.com/citations?user=Y5PN_1AAAAAJ&hl=en" target="_blank" title="Mi Google Scholar">
+      <span class="grey fa-brands fa-google-scholar fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://stackoverflow.com/users/4051219/dpalma" target="_blank" title="Mis preguntas en SO LOL!">
+      <span class="grey fa-brands fa-stack-overflow fa-lg"></span>
+    </a>
+  </li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+
+</body>
+
+</html>

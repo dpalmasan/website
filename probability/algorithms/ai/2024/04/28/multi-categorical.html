@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Redes Neuronales y Variables Multi-Categóricas | Mr Dipalma’s Pub 🍺</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Redes Neuronales y Variables Multi-Categóricas">
+<meta name="author" content="dpalmasan">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Introducción">
+<meta property="og:description" content="Introducción">
+<link rel="canonical" href="https://dpalmasan.github.io/website/probability/algorithms/ai/2024/04/28/multi-categorical.html">
+<meta property="og:url" content="https://dpalmasan.github.io/website/probability/algorithms/ai/2024/04/28/multi-categorical.html">
+<meta property="og:site_name" content="Mr Dipalma’s Pub 🍺">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2024-04-28T21:22:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Redes Neuronales y Variables Multi-Categóricas">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"dpalmasan"},"dateModified":"2024-04-28T21:22:00+00:00","datePublished":"2024-04-28T21:22:00+00:00","description":"Introducción","headline":"Redes Neuronales y Variables Multi-Categóricas","mainEntityOfPage":{"@type":"WebPage","@id":"https://dpalmasan.github.io/website/probability/algorithms/ai/2024/04/28/multi-categorical.html"},"url":"https://dpalmasan.github.io/website/probability/algorithms/ai/2024/04/28/multi-categorical.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css">
+    <link rel="stylesheet" href="/website/assets/css/style.css">
+    <style type="text/css">
+        div#disqus_thread iframe[sandbox] {
+                max-height: 0px !important;
+        }
+    </style>
+<link type="application/atom+xml" rel="alternate" href="https://dpalmasan.github.io/website/feed.xml" title="Mr Dipalma's Pub 🍺">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KHXBX5G1VP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KHXBX5G1VP');
+</script>
+
+<script>MathJax={"tex":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]},"svg":{"fontCache":"global"}}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<header class="site-header">
+
+  <div class="wrapper">
+<a class="site-title" rel="author" href="/website/">Mr Dipalma's Pub 🍺</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewbox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/website/about/">About</a></div>
+      </nav>
+</div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Redes Neuronales y Variables Multi-Categóricas</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2024-04-28T21:22:00+00:00" itemprop="datePublished">
+        Apr 28, 2024
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h1 id="introduccin">Introducción</h1>
+<p>En algunos problemas donde nos interesa poder “predecir” una cierta clase para una entrada dada (por ejemplo usuario, negocio, entidad genérica), podemos tener diversos tipos de variables, entre ellas variables categóricas. Una variable categórica es una variable discreta que puede tomar ciertos valores, que no necesariamente consideran un orden específico (no hay noción de desigualdad). Generalmente los modelos basados en árboles de decisión no tienen problemas para lidiar con este tipo de variables, sin embargo los modelos numéricos necesitan un tratamiento especial para poder manipularlas.</p>
+<p>Por otro lado, las variables categóricas por lo general pueden tomar un sólo valor (categoría). Sin embargo, existen problemas más interesantes. Por ejemplo, supongamos que tenemos IDs de páginas visitadas como una variable. El lector podrá notar, que esta no es una variable ordinal, y que este tipo de variables es <em>Multi-Categrórica</em> ya que una entrada puede tener más de una cateogoría a la vez.</p>
+<p>En este artículo, comentaré cómo lidiar con este tipo de variables, en particular, utilizando un modelo basado en redes neuronales. También mencionaré representaciones eficientes de variables multi-categóricas y cómo en la práctica se procesan este tipo de variables.</p>
+<h1 id="variables-categricas">Variables Categóricas</h1>
+<p>Por lo general, los enfoques clásicos para procesar este tipo de variables, consisten en seguir un esquema de <em>One Hot Encoding</em>, que consiste en codificar la variable como una máscara (vector de <code>0s</code> y <code>1s</code>), donde la dimensión de este vector será <code>N_categorias - 1</code>. Por ejemplo, si tuvieramos la variable <code>color</code> que pudiese tomar los valores <code>[celeste, gris, café]</code>, se necesitaría un vector binario de dimensión 2:</p>
+<ul>
+<li>$\text{celeste} = \left(1, 0\right)$</li>
+<li>$\text{gris} = \left(0, 1\right)$</li>
+<li>$\text{café} = \left(0, 0\right)$</li>
+</ul>
+<p>Se asume que un registro puede pertenecer a una sola categoría, por lo que los vectores posibles consideran todas las combinaciones para dicha dimensión vectorial. El vector $\left(1, 1\right)$ no representa algún dato, debido al supuesto mencionado.</p>
+<p>Sin embargo, en la naturaleza y en la práctica existen otro tipo de variables. Estas son variables <em>Multi-Categóricas</em>, que consisten también en variables discretas, pero que pueden tomar múltiples valores a la vez. Un ejemplo simple es un sistema de recomendación de películas. Por ejemplo, una persona puede haber visto ciertas películas, las cuales al considerarlas como un todo, permiten aproximar, por ejemplo, los gustos de dicha persona. En este caso, la variable podrían ser los títulos de las películas vistas (ej. una lista de películas).</p>
+<h1 id="problema-de-juguete">Problema de Juguete</h1>
+<p>Supongamos que estamos en un universo, en el cual un usuario puede haber visitado una serie de páginas webs, y nos interesa, a partir de dichas visitas, estimar las preferencias del usuario, para por ejemplo, recomendar productos/servicios basados en el contexto actual de dicho usuario. En este universo, cada usuario $u$ se representa como un vector de páginas visitadas (por simplicidad, IDs enteras). Supongamos que tenemos las siguientes definiciones:</p>
+<ul>
+<li>Si $u$ visitó $\left(1, 5, 11, 19\right)$ entonces $u$ tiene preferencias de contenido acerca de comida.</li>
+<li>Si $u$ visitó $\left(2, 4, 8, 16\right)$ entonces $u$ tiene preferencias de contenido acerca de películas.</li>
+<li>En cualquier otro caso, no sabemos con certeza las preferencias de $u$.</li>
+</ul>
+<p>Supongamos que existen un total de 200 posibles páginas web a visitar. ¿Cómo podríamos representar a cada usuario $u$ para poder definir un modelo predictivo?</p>
+<p>Una forma ingenua de hacerlo, es utilizando un vector máscara, similar a lo que se hace para variables categóricas simples. Por ejemplo, si un usuario $u_i$ visitó las páginas <code>[1, 3, 5]</code> entonces su representación sería:</p>
+<ul>
+<li>$u_i = \left(0, 1, 0, 1, 0, 1, 0, 0\ldots 0 \right)$</li>
+</ul>
+<p>El lector atento ya puede ver cuál es el problema, pero para hacerlo más claro, se obtiene un vector muy disperso (gran porcentaje de ceros), lo que por lo general trae problemas de estabilidad numérica (arrastre de error), además de uso ineficiente de memoria. ¿Qué tal si representaramos cada categoría en un espacio vectorial de dimensión $K$ y además tuviésemos una lista $N$ donde $N$ es el número de <code>IDs</code> posibles para las páginas visitadas? Este tipo de representación se conoce como <em>embeddings</em>.</p>
+<p>Por otro lado, el problema no es una simple reducción de dimensionalidad, tenemos que encontrar una forma más inteligente de representar a los usuarios. Supongamos que tenemos el siguiente <em>batch</em> de usuarios:</p>
+<ul>
+<li><code>u1 = [1, 4, 9]</code></li>
+<li><code>u2 = [3, 2]</code></li>
+<li><code>u3 = [11, 17, 12, 19]</code></li>
+</ul>
+<p>No necesitamos utilizar todas las categorías posibles para representar un usuario, en especial si posteriormente queremos agregar (aplicar <em>pooling</em>) la representación vectorial de las páginas. En este caso, podríamos representar el <em>batch</em> como dos tensores, uno de <em>offsets</em> y otro de valores:</p>
+<ul>
+<li><code>values = [1, 4, 9, 3, 2, 11, 17, 12, 19]</code></li>
+<li><code>offsets = [0, 3, 5]</code></li>
+</ul>
+<p>Los valores, son simplemente todos los valores de los usuarios en el <em>batch</em> concatenados, y los <em>offsets</em> representan la posición donde comienza cada registro (en este caso usuario). Esta es una representación más eficiente que sólo requiere la información a procesar. Finalmente, aplicando algún mecanismo de <em>pooling</em> podemos calcular el centro de masa, la suma vectorial, etc. del conjunto de vectores que representa al usuario, tal y como se muestra en la figura 1.</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/4f2bc2edf17bd2522ba7ccd21b08ed92e108feb9/pooling.png" alt="user_emb"></p>
+<p><em>Fig 1: Representación de usuario y páginas en espacio vectorial.</em></p>
+</div>
+<h2 id="implementando-un-clasificador-de-usuarios-basado-en-sus-pginas-visitadas">Implementando un Clasificador de Usuarios basado en sus páginas visitadas</h2>
+<p>La red neuronal a ajustar será una simple red neuronal de dos capas, y tendrá una Bolsa de Embeddings (<em>Embedding bag</em>) para transformar la representación del usuario un una representación vectorial. Esta arquitectura se muestra en la figura 2.</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/5c93d818a78602489880bec56eff1567bb430d34/categorical_classifier.png" alt="user_emb"></p>
+<p><em>Fig 2: Arquitectura de Clasificador para universo de problema multi-categórico.</em></p>
+</div>
+<p>Este universo lo simularemos en <code>Python</code> con <code>Pytorch</code>. Comencemos importando las bibliotecas a utilizar:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span><span class="p">,</span> <span class="n">Dataset</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+</code></pre></div></div>
+<p>Definamos un conjunto de constantes:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">SAMPLES</span> <span class="o">=</span> <span class="mi">50000</span>
+<span class="n">NUM_OF_CATEGORIES</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="n">TRAINING_SAMPLES</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">SAMPLES</span> <span class="o">*</span> <span class="mf">0.8</span><span class="p">)</span>
+<span class="n">TEST_SAMPLES</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">SAMPLES</span> <span class="o">*</span> <span class="mf">0.2</span><span class="p">)</span>
+<span class="n">LEARNING_RATE</span> <span class="o">=</span> <span class="mf">1e-3</span>
+<span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">32</span>
+<span class="n">EPOCHS</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">EMB_DIM</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">HIDDEN_DIM</span> <span class="o">=</span> <span class="mi">16</span>
+</code></pre></div></div>
+<p>Muestreo de datos en este universo:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">generate_sparse_features</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">max_categories</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="n">max_categories</span> <span class="o">&gt;</span> <span class="mi">4</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">universe</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">max_categories</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">samples</span><span class="p">):</span>
+        <span class="n">offset</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">randint</span><span class="p">(</span><span class="n">max_categories</span> <span class="o">//</span> <span class="mi">4</span><span class="p">,</span> <span class="n">max_categories</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">random</span><span class="p">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">universe</span><span class="p">)</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">universe</span><span class="p">[:</span><span class="n">offset</span><span class="p">]:</span>
+            <span class="n">row</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">rows</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">rows</span>
+
+<span class="n">training_sparse_features</span> <span class="o">=</span> <span class="n">generate_sparse_features</span><span class="p">(</span><span class="n">TRAINING_SAMPLES</span><span class="p">,</span> <span class="n">NUM_OF_CATEGORIES</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Definamos las clases a las que el usuario podría pertenecer:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Preferences</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">NEUTRAL</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">LIKES_MOVIE_CONTENT</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">LIKES_FOOD_CONTENT</span> <span class="o">=</span> <span class="mi">2</span>
+</code></pre></div></div>
+<p>Definamos la función oculta a aproximar:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">exact_function_to_approximate</span><span class="p">(</span><span class="n">x_set</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">set</span><span class="p">({</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">19</span><span class="p">}).</span><span class="n">issubset</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">x_set</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="n">Preferences</span><span class="p">.</span><span class="n">LIKES_FOOD_CONTENT</span>
+
+    <span class="k">if</span> <span class="nb">set</span><span class="p">({</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">16</span><span class="p">}).</span><span class="n">issubset</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">x_set</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="n">Preferences</span><span class="p">.</span><span class="n">LIKES_MOVIE_CONTENT</span>
+
+    <span class="k">return</span> <span class="n">Preferences</span><span class="p">.</span><span class="n">NEUTRAL</span>
+</code></pre></div></div>
+<p>Estadísticas:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">training_labels_sparse</span> <span class="o">=</span> <span class="p">[</span><span class="n">exact_function_to_approximate</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">training_sparse_features</span><span class="p">]</span>
+<span class="n">Counter</span><span class="p">(</span><span class="n">training_labels_sparse</span><span class="p">)</span>
+</code></pre></div></div>
+<pre><code>Counter({&lt;Preferences.NEUTRAL: 0&gt;: 38167,
+         &lt;Preferences.LIKES_FOOD_CONTENT: 2&gt;: 941,
+         &lt;Preferences.LIKES_MOVIE_CONTENT: 1&gt;: 892})
+</code></pre>
+<p>Convertir etiquetas a enteros (para luego transformar a tensores).</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">training_labels_sparse</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">training_labels_sparse</span><span class="p">]</span>
+</code></pre></div></div>
+<p>Definamos el modelo en <code>Pytorch</code>:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">SimpleMultiCategoricalClassifier</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_embeddings</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">embed_dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">hidden_dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">().</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">embedding</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">EmbeddingBag</span><span class="p">(</span><span class="n">num_embeddings</span><span class="p">,</span>
+                                         <span class="n">embed_dim</span><span class="p">,</span>
+                                         <span class="n">mode</span><span class="o">=</span><span class="s">"sum"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">net</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">embed_dim</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">LeakyReLU</span><span class="p">(</span><span class="mf">0.2</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_dim</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">offsets</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">values</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">:</span>
+        <span class="n">embed</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">embedding</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">offsets</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">net</span><span class="p">(</span><span class="n">embed</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">train_batch</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">offsets</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">values</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">labels</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">forward</span><span class="p">(</span><span class="n">offsets</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">criterion</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+        <span class="n">loss</span><span class="p">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">loss</span><span class="p">.</span><span class="n">item</span><span class="p">()</span>
+</code></pre></div></div>
+<p>Prueba inicial de funcionamiento:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span> <span class="o">=</span> <span class="n">SimpleMultiCategoricalClassifier</span><span class="p">(</span><span class="n">num_embeddings</span><span class="o">=</span><span class="n">NUM_OF_CATEGORIES</span><span class="p">,</span>
+                                         <span class="n">embed_dim</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+                                         <span class="n">hidden_dim</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">example_values</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">training_sparse_features</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">example_offsets</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">model</span><span class="p">(</span><span class="n">example_offsets</span><span class="p">,</span> <span class="n">example_offsets</span><span class="p">)</span>
+</code></pre></div></div>
+<pre><code>tensor([[ 0.1533, -0.3507, -0.0683],
+        [ 0.2590, -0.4411, -0.1981]], grad_fn=&lt;AddmmBackward0&gt;)
+</code></pre>
+<p>Definamos el <em>Dataloader</em>:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">SimpleSparseDenseDataLoader</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sparse_features</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">sparse_features</span> <span class="o">=</span> <span class="n">sparse_features</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">labels</span> <span class="o">=</span> <span class="n">labels</span>
+
+    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">sparse_features</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">sparse_features</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="bp">self</span><span class="p">.</span><span class="n">labels</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+</code></pre></div></div>
+<p>Debemos transformar los datos de manera de obtener los tensores de <em>offset</em> y <em>values</em>, por lo que definimos una función personalizada para procesar los <em>batches</em> de datos:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">collate_batch</span><span class="p">(</span><span class="n">batch</span><span class="p">):</span>
+    <span class="n">label_list</span><span class="p">,</span> <span class="n">data_list</span><span class="p">,</span> <span class="n">offsets</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">data</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">:</span>
+        <span class="n">label_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+        <span class="n">data_list</span><span class="p">.</span><span class="n">extend</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">offsets</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+    <span class="n">label_list</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">label_list</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="n">int64</span><span class="p">)</span>
+    <span class="n">values_list</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">data_list</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="n">int64</span><span class="p">)</span>
+    <span class="n">offsets</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">offsets</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]).</span><span class="n">cumsum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">offsets</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">label_list</span><span class="p">),</span>\
+        <span class="sa">f</span><span class="s">"Offsets numel </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">offsets</span><span class="p">)</span><span class="si">}</span><span class="s"> != labels numel </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">label_list</span><span class="p">)</span><span class="si">}</span><span class="s">"</span>
+    <span class="k">return</span> <span class="n">label_list</span><span class="p">,</span> <span class="n">offsets</span><span class="p">,</span> <span class="n">values_list</span>
+</code></pre></div></div>
+<p>Para evitar tener problemas con los pesos de la red, definimos funciones para inicializar los pesos de la red:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">weights_init_uniform_rule</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="n">classname</span> <span class="o">=</span> <span class="n">m</span><span class="p">.</span><span class="n">__class__</span><span class="p">.</span><span class="n">__name__</span>
+    <span class="k">if</span> <span class="n">classname</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="s">"Linear"</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">m</span><span class="p">.</span><span class="n">in_features</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="n">np</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="n">m</span><span class="p">.</span><span class="n">weight</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">uniform_</span><span class="p">(</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">m</span><span class="p">.</span><span class="n">bias</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">fill_</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">classname</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="s">"EmbeddingBag"</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">initrange</span> <span class="o">=</span> <span class="mf">0.5</span>
+        <span class="n">m</span><span class="p">.</span><span class="n">weight</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">uniform_</span><span class="p">(</span><span class="o">-</span><span class="n">initrange</span><span class="p">,</span> <span class="n">initrange</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Definimos el modelo:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">SimpleMultiCategoricalClassifier</span><span class="p">(</span><span class="n">num_embeddings</span><span class="o">=</span><span class="n">NUM_OF_CATEGORIES</span><span class="p">,</span>
+                                         <span class="n">embed_dim</span><span class="o">=</span><span class="n">EMB_DIM</span><span class="p">,</span>
+                                         <span class="n">hidden_dim</span><span class="o">=</span><span class="n">HIDDEN_DIM</span><span class="p">)</span>
+<span class="n">model</span><span class="p">.</span><span class="nb">apply</span><span class="p">(</span><span class="n">weights_init_uniform_rule</span><span class="p">)</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">optim</span><span class="p">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">LEARNING_RATE</span><span class="p">)</span>
+<span class="n">train_data</span> <span class="o">=</span> <span class="n">SimpleSparseDenseDataLoader</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">training_sparse_features</span><span class="p">),</span>
+                                         <span class="nb">list</span><span class="p">(</span><span class="n">training_labels_sparse</span><span class="p">))</span>
+<span class="n">dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span>
+    <span class="n">train_data</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">collate_fn</span><span class="o">=</span><span class="n">collate_batch</span>
+<span class="p">)</span>
+</code></pre></div></div>
+<p>Creamos datos nuevos para validar la precisión del modelo:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">test_sparse_features</span> <span class="o">=</span> <span class="n">generate_sparse_features</span><span class="p">(</span><span class="n">TEST_SAMPLES</span><span class="p">,</span> <span class="n">NUM_OF_CATEGORIES</span><span class="p">)</span>
+<span class="n">test_labels_sparse</span> <span class="o">=</span> <span class="p">[</span><span class="n">exact_function_to_approximate</span><span class="p">(</span><span class="n">row</span><span class="p">).</span><span class="n">value</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">test_sparse_features</span><span class="p">]</span>
+<span class="n">test_data</span> <span class="o">=</span> <span class="n">SimpleSparseDenseDataLoader</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">test_sparse_features</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="n">test_labels_sparse</span><span class="p">))</span>
+<span class="n">test_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span>
+    <span class="n">test_data</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">TEST_SAMPLES</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">collate_fn</span><span class="o">=</span><span class="n">collate_batch</span>
+<span class="p">)</span>
+</code></pre></div></div>
+<p>Creamos una función para evaluar la precisión del modelo y evaluamos la precisión previa al entrenamiento:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="n">dataloader</span><span class="p">):</span>
+    <span class="n">model</span><span class="p">.</span><span class="nb">eval</span><span class="p">()</span>
+    <span class="n">total_acc</span><span class="p">,</span> <span class="n">total_count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+
+    <span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">offsets</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dataloader</span><span class="p">):</span>
+            <span class="n">predicted_label</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">offsets</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+            <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">predicted_label</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+            <span class="n">total_acc</span> <span class="o">+=</span> <span class="p">(</span><span class="n">predicted_label</span><span class="p">.</span><span class="n">argmax</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">label</span><span class="p">).</span><span class="nb">sum</span><span class="p">().</span><span class="n">item</span><span class="p">()</span>
+            <span class="n">total_count</span> <span class="o">+=</span> <span class="n">label</span><span class="p">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">total_acc</span> <span class="o">/</span> <span class="n">total_count</span>
+
+<span class="n">evaluate</span><span class="p">(</span><span class="n">test_dataloader</span><span class="p">)</span>
+</code></pre></div></div>
+<pre><code>0.2313
+</code></pre>
+<p>Entrenamos la red neuronal:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">train_loss</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">model</span><span class="p">.</span><span class="n">train</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">EPOCHS</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">avg_loss</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">offsets</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dataloader</span><span class="p">):</span>
+        <span class="n">optimizer</span><span class="p">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">loss_item</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">train_batch</span><span class="p">(</span><span class="n">offsets</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+        <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">clip_grad_norm_</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="mf">0.1</span><span class="p">)</span>
+        <span class="n">optimizer</span><span class="p">.</span><span class="n">step</span><span class="p">()</span>
+        <span class="n">avg_loss</span> <span class="o">+=</span> <span class="n">loss_item</span>
+
+    <span class="n">avg_loss</span> <span class="o">=</span> <span class="n">avg_loss</span> <span class="o">/</span> <span class="n">BATCH_SIZE</span>
+    <span class="n">train_loss</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">avg_loss</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">epoch</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s">|</span><span class="si">{</span><span class="n">EPOCHS</span><span class="si">}</span><span class="s"> Avg Loss: </span><span class="si">{</span><span class="n">avg_loss</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Graficamos la función de pérdida en cada epoch:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_loss</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">train_loss</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">"Epochs"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">"Loss"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">"Learning Curve"</span><span class="p">)</span>
+</code></pre></div></div>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/82535439ed579a98a62c825c9448aaf98835fd01/multicat-learning-curve.png" alt="multicat_lc"></p>
+<p><em>Fig 3: Curva de aprendizaje de modelo para universo de usuario-páginas.</em></p>
+</div>
+<p>Finalmente evaluamos el modelo ya entrenado:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">evaluate</span><span class="p">(</span><span class="n">test_dataloader</span><span class="p">)</span>
+</code></pre></div></div>
+<pre><code>0.9999
+</code></pre>
+<p>Observamos que la precisión aumentó de <code>~0.2</code> a <code>~0.99</code>. Estos números pueden variar de ejecución en ejecución (debido a la aleatoriedad de la inicialización de los pesos y de las pasadas por los <em>batches</em>).</p>
+<h1 id="conclusiones-y-reflexiones">Conclusiones y Reflexiones</h1>
+<ul>
+<li>Existen problemas en los que tenemos variables discretas donde cada variable puede tomar 0 o más valores (ejemplo: Lista de <code>IDs</code>).</li>
+<li>Representar variables como máscaras de vectores se vuelve intratable con el aumento de categorías, por lo que se necesitan representaciones más eficientes para evitar procesar datos dispersos.</li>
+<li>Una estrategia para representar multi-categorías es utilizar dos tensores, uno para posiciones de cada registro y otro para los valores. Las categorías pueden tener una representación latente en forma de vectores (<em>embeddings</em>).</li>
+<li>Se puede representar un registro como una combinación interna de pesos de una red neuronal y con ello se puede crear un modelo para un problema de clasificación dado.</li>
+</ul>
+<p>El notebook jupyter se encuentra disponible en Colab: <a href="https://colab.research.google.com/drive/1JdIDklTFa_82BS7d_hxLxt20ldwRc8zB?usp=sharing" target="_blank" rel="noopener noreferrer">Ejemplo de problema multi-categórico</a></p>
+
+  </div>
+<div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = '';
+      this.page.identifier = 'https://dpalmasan.github.io/website/probability/algorithms/ai/2024/04/28/multi-categorical.html';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://dpalmasan.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow noopener noreferrer" target="_blank">comments powered by Disqus.</a>
+</noscript>
+<a class="u-url" href="/website/probability/algorithms/ai/2024/04/28/multi-categorical.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/website/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="https://dpalmasan.github.io/website/feed.xml">
+            <svg class="svg-icon orange">
+              <path d="M12.8 16C12.8 8.978 7.022 3.2 0 3.2V0c8.777 0 16 7.223 16 16h-3.2zM2.194
+                11.61c1.21 0 2.195.985 2.195 2.196 0 1.21-.99 2.194-2.2 2.194C.98 16 0 15.017 0
+                13.806c0-1.21.983-2.195 2.194-2.195zM10.606
+                16h-3.11c0-4.113-3.383-7.497-7.496-7.497v-3.11c5.818 0 10.606 4.79 10.606 10.607z"></path>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">dpalmasan</li>
+          
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Este es un blog donde compartiré un poco sobre mí y mis experiencias en el mundo tecnológico...</p>
+      </div>
+    </div>
+
+    <div class="social-links">
+<ul class="social-media-list">
+<li>
+    <a rel="me noopener noreferrer" href="https://www.linkedin.com/in/dpalmasan/" target="_blank" title="Mi perfil en Linkedin">
+      <span class="grey fa-brands fa-linkedin fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://www.github.com/dpalmasan" target="_blank" title="Mi Github">
+      <span class="grey fa-brands fa-github fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://scholar.google.com/citations?user=Y5PN_1AAAAAJ&hl=en" target="_blank" title="Mi Google Scholar">
+      <span class="grey fa-brands fa-google-scholar fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://stackoverflow.com/users/4051219/dpalma" target="_blank" title="Mis preguntas en SO LOL!">
+      <span class="grey fa-brands fa-stack-overflow fa-lg"></span>
+    </a>
+  </li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+
+</body>
+
+</html>

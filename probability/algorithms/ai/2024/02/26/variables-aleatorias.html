@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>De vuelta a lo básico (Parte 2) | Mr Dipalma’s Pub 🍺</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="De vuelta a lo básico (Parte 2)">
+<meta name="author" content="dpalmasan">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Introducción">
+<meta property="og:description" content="Introducción">
+<link rel="canonical" href="https://dpalmasan.github.io/website/probability/algorithms/ai/2024/02/26/variables-aleatorias.html">
+<meta property="og:url" content="https://dpalmasan.github.io/website/probability/algorithms/ai/2024/02/26/variables-aleatorias.html">
+<meta property="og:site_name" content="Mr Dipalma’s Pub 🍺">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2024-02-26T15:45:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="De vuelta a lo básico (Parte 2)">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"dpalmasan"},"dateModified":"2024-02-26T15:45:00+00:00","datePublished":"2024-02-26T15:45:00+00:00","description":"Introducción","headline":"De vuelta a lo básico (Parte 2)","mainEntityOfPage":{"@type":"WebPage","@id":"https://dpalmasan.github.io/website/probability/algorithms/ai/2024/02/26/variables-aleatorias.html"},"url":"https://dpalmasan.github.io/website/probability/algorithms/ai/2024/02/26/variables-aleatorias.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css">
+    <link rel="stylesheet" href="/website/assets/css/style.css">
+    <style type="text/css">
+        div#disqus_thread iframe[sandbox] {
+                max-height: 0px !important;
+        }
+    </style>
+<link type="application/atom+xml" rel="alternate" href="https://dpalmasan.github.io/website/feed.xml" title="Mr Dipalma's Pub 🍺">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KHXBX5G1VP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KHXBX5G1VP');
+</script>
+
+<script>MathJax={"tex":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]},"svg":{"fontCache":"global"}}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<header class="site-header">
+
+  <div class="wrapper">
+<a class="site-title" rel="author" href="/website/">Mr Dipalma's Pub 🍺</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewbox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/website/about/">About</a></div>
+      </nav>
+</div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">De vuelta a lo básico (Parte 2)</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2024-02-26T15:45:00+00:00" itemprop="datePublished">
+        Feb 26, 2024
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h1 id="introduccin">Introducción</h1>
+<p>En mi artículo anterior, comenté que comenzaría una “serie” de artículos explicando conceptos básicos, para democratizar y clarificar el conocimiento respecto a temas recientes, en particular la IA, que está causando revuelo y hay mucho sensacionalismo en los medios y redes sociales. Algunos ejemplos:</p>
+<ul>
+<li><a href="https://www.eleconomista.net/tendencias/Facebook-tuvo-que-apagar-inteligencia-artificial-que-desarrollo-su-idioma-20200512-0017.html" target="_blank" rel="noopener noreferrer">Inteligencia Artificial Desarrolló su Propio Idioma</a></li>
+<li><a href="https://www.bbc.com/mundo/noticias-62280846" target="_blank" rel="noopener noreferrer">Inteligencia Artificial Cobró Conciencia Propia</a></li>
+</ul>
+<p>Otros ejemplos hay muchos y no puedo ponerlos por espacio; hay variados posts en <code>LinkedIn</code> también sembrando desinformación y hasta miedos en algunas personas.</p>
+<p>Como expliqué en mi artículo <a href="/website/python/algorithms/ai/2024/02/23/generando-imagenes-vqvae.html"><em>Generando Imágenes con VQ-VAE</em></a>, la generación de imágenes es el simple proceso de encontrar una distribución de probabilidad $p(x)$, tal que al muestrear de dicha distribución podemos generar una imagen nueva, que no fue vista por el modelo en su fase de entrenamiento (este entrenamiento consiste en proveer al modelo un conjunto de imágenes para estimar $p(x)$).</p>
+<p>Si quieres entender lo básico de probabilidad, te invito a leer mi artículo <a href="/website/probability/algorithms/ai/2024/02/25/de-vuelta-a-lo-basico.html"><em>De Vuelta a lo Básico</em></a>, donde explico de manera muy sencilla y resumida algunos índices estadísticos y una breve introducción a qué es la probabilidad.</p>
+<p>Cuando mencioné $p(x)$, $x$ es una <em>variable aleatoria</em> que representa una imagen en el caso de VQ-VAE. En este artículo, explico en qué consisten las variables aleatorias y una que otra curiosidad sobre estadística y probabilidad.</p>
+<h1 id="variables-aleatorias">Variables Aleatorias</h1>
+<p>Dado un experimento y su correspondiente conjunto de resultados posibles (espacio muestral), una variable aleatoria asoocia un número particular a cada resultado, el cual llamamos <strong>valor</strong> de la variable aleatoria. Matemáticamente, <strong>una variable aleatoria es una función que mapea el resultado de un experimento a un valor real</strong>.</p>
+<div align="center">
+<p><img src="https://raw.githubusercontent.com/dpalmasan/homepage/master/public/imgs/discrete_random_variable.png" alt="header"></p>
+<p><em>Fig 1: Variable aleatoria discreta.</em></p>
+</div>
+<p>En la figura se muestra un ejemplo de variable aleatoria. Por ejemplo si se tiene el experimento de lanzar dos dados de 4 caras, donde los lanzamientos los representamos como los pares $(x, y)$, entonces se podría definir como variable aleatoria $X = max(x, y)$, por ejemplo en el caso en que el resultado del experimento sea $(4, 1)$, entonces la variable $X$ tomaría el valor 4.</p>
+<p>Otro ejemplo, en un experimento que involucre una secuencia de 5 lanzamientos de una moneda, el número de caras en la secuencia podría ser una variable aleatoria. La secuencia en sí (ej. <code>HHTHT</code>) no es una variable aleatoria, ya que no tiene un valor numérico explícito.</p>
+<h2 id="conceptos-principales-relacionados-a-variables-aleatorias">Conceptos principales relacionados a Variables Aleatorias</h2>
+<p>Considerando un modelo probabilístico de un experimento:</p>
+<ul>
+<li>Una <strong>variable aleatoria</strong> es una función con valores reales de los resultados de un experimento.</li>
+<li>Una <strong>función de una variable aleatoria</strong> define otra variable aleatoria.</li>
+<li>Podemos asociar a cada variable aleatoria ciertas “tendencias” de interés, por ejemplo el <strong>promedio</strong> y la <strong>varianza</strong>.</li>
+<li>Una variable aleatoria puede estar <strong>condicionada</strong> por un evento o por otra variable aleatoria.</li>
+<li>Existe una noción de <strong>independencia</strong> de una variable aleatoria con respecto a un evento u otra variable aleatoria.</li>
+</ul>
+<p>Una variable aleatoria, se dice que es <strong>discreta</strong>, si su rango (el conjunto de valores que puede tomar) es finito o infinito contable (por ejemplo, los números naturales son contables, pues puedo enumerarlos, sin embargo los números realos no porque ¿qué número viene después del 0?). En los ejemplos anteriores, los valores que pueden tomar las variables definidas son limitados: en el caso de la secuencia de 5 lanzamientos de moneda, la variable cantidad de caras, puede tomar los valores <code>0, 1, 2, 3, 4, 5</code>. En el caso del lanzamiento de los dos dados y la variable <code>max(x, y)</code>, esta puede tomar los valores <code>1, 2, 3, 4, 5, 6</code>.</p>
+<p>La forma más importante de caracterizar una variable aleatoria, es a través de las probabilidades de los valores que puede tomar. Para una  variable discreta $X$, estos valores se capturan con la <strong>función masa de probabilidad</strong> de $X$, denotada como $p_X$. En particular, si $x$ es un número real, la probabilidad de masa de $x$, denotada como $p_X(x)$, es la probabilidad del evento $\left\{X = x\right\}$ que consiste en todos los resultados llevan a la variable $X$ tomar el valor $x$:</p>
+<p>$$p_X(x) = P\left(\left\{X = x\right\}\right)$$</p>
+<p>Consideremos el ejemplo de lanzar dos monedas, y consideremos $X$ como la cantidad de caras obtenidas. Observamos que la variable puede  tomar los valores $0, 1, 2$, luego la distribución de masa de probabilidad de $X$ es:</p>
+<p>$$
+p_X(x)=
+\left\{
+\begin{array}{ll}
+1/4  &amp; \mbox{si } x = 0 \text{ o } x = 2 \\
+1/2 &amp; \mbox{si } x = 1 \\
+0 &amp; \mbox{en cualquier otro caso }
+\end{array}
+\right.$$</p>
+<p>Como ejercicio para el lector, pueden calcular la función de masa de probabilidad para el experimento del lanzamiento de dos dados con $X = max(x, y)$.</p>
+<p>Se debe notar que se cumple:</p>
+<p>$$\sum_{x} p_X(x) = 1$$</p>
+<p>Donde en la suma anterior, $x$ puede tomar todos los posibles valores de $X$. Esto es una consecuencia de los axiomas de aditividad y  normalización.</p>
+<p>Un ejemplo importante de variable aleatoria, es la <strong>variable aleatoria de Bernoulli</strong>. Esta variable considera el lanzamiento de una moneda, cuya probabilidad de cara es $p$, y cruz $1 - p$. Esta variable toma dos valores, 1 o 0, dependiendo del resultado del lanzamiento. La distribución de probabilidad de masa es:</p>
+<p>$$
+p_X(x)=
+\left\{
+\begin{array}{ll}
+p  &amp; \mbox{si } x = 1 \\
+1 - p &amp; \mbox{si } x = 0 \\
+\end{array}
+\right.
+$$</p>
+<p>Pese a su simplicidad, la variable de Bernoulli es muy importante. En la práctica, se utiliza para modelar situaciones probabilísticas con dos posibles resultados, por ejemplo:</p>
+<ul>
+<li>Cliente compra o no compra producto o servicio.</li>
+<li>El estado de un teléfono en un tiempo dado es disponible u ocupado.</li>
+<li>La preferencia de una persona puede ser a favor o en contra de un candidato político.</li>
+</ul>
+<p>Otros ejemplos de variables aleatorias típicas usadas son: Binomial, Geométrica y de Poisson.</p>
+<h2 id="esperanza-y-varianza-de-una-variable-aleatoria">Esperanza y varianza de una variable aleatoria</h2>
+<p>Usualmente es deseable, resumir la información de una variable aleatoria en una sola magnitud, en lugar de varios números asociados a las probabilidades de los valores posibles de la variable. Esto se logra mediante la <strong>esperanza</strong> de $X$, que es un promedio ponderado (a través de probabilidades) de los posibles valores de $X$.</p>
+<p>$$E[X] = \sum_x {xp_X(x)} $$</p>
+<p>Una intuición de esta medida es pensar en la esperanza de una variable aleatoria como el centro de gravedad o centro de masa de la función de probabilidad de masa.</p>
+<p>Otra medida importante asociada a una variable aleatoria $X$ es la <strong>varianza</strong> de $X$, que se define como la esperanza de la variable aleatoria $(X - E[X])^2$, es decir:</p>
+<p>$$var(X) = E\left[(X - E[X])^2\right]$$</p>
+<p>La interpretación es la misma que vimos en la semana 1, a diferencia que ahora conocemos el modelo probabilístico de la variable aleatoria.</p>
+<p>Es bastante común que existan variables aleatorias con un rango continuo de posibles valores, algunos ejemplos: velocidad de un vehículo en una carretera, estatura de un grupo de interés, etc. Además, las variables continuas permiten usar un conjunto de herramientas de cálculo que usualmente permiten análisis que no son posibles de realizar en un modelo discreto. Finalmente, todos los conceptos y métodos vistos sobre variables aleatorias discretas tienen una contraparte continua.</p>
+<p>Una variable $X$ se dice que es <b>continua</b> si existe una función no negativa $f_X$, llamada <strong>función de densidad de probabilidad</strong> de $X$, tal que:</p>
+<p>$$P(X \in B) = \int_B {f_X(x)dx}$$</p>
+<p>y que puede ser interpretada como el área bajo la curva del gráfico de la función de densidad de probabilidad. Por otro lado, la función
+$f_X(x) \geq 0$ para todo $x$ y $\int_{-\infty}^{\infty} {f_X(x)dx} = 1$ (axioma de normalización). También se pueden definir las medidas
+de esperanza y varianza en una variable continua $X$:</p>
+<p>$$E[X] = \int_{-\infty}^{\infty} {xf_X(x)dx}$$</p>
+<p>$$var(X) = E\left[(X - E[X])^2\right] = \int_{-\infty}^{\infty} {\left(x - E[x]\right)^2f_X(x)dx}$$</p>
+<div align="center">
+<p><img src="https://raw.githubusercontent.com/dpalmasan/homepage/master/public/imgs/variable_continua.png" alt="header"></p>
+<p><em>Fig 2: Variable aleatoria continua.</em></p>
+</div>
+<p><strong>Observación</strong>: No es necesario saberse de memoria las fórmulas o saber resolver integrales, etc. Lo importante es tener la intuición de qué significa una variable aleatoria continua y su función de densidad de probabilidad. En particular, es importante entender que el área bajo la curva de esta función debe ser 1 (axioma de normalización), y que una porción de esa área, representa la probabilidad de que un determinado evento ocurra. Por ejemplo, si se modela la estatura, como una variable aleatoria continua, no tendría sentido intentar calcular la probabilidad de que una persona tenga estatura <code>1.653...</code> (sería 0), lo que interesa es cuál es la probabilidad de encontrar personas entre un determinado rango de estaturas, y en este segundo caso, la noción de área bajo la curva sirve para tener una idea más clara del problema.</p>
+<p>Un ejemplo bastante usado de variable aleatoria continua son las variables aleatorias normales. Una variable aleatoria $X$ se dice que es <b>normal</b> o <b>Gaussiana</b> si tiene una función de densidad de probabilidad de la forma:</p>
+<p>$$f_X(x) = \frac{1}{\sqrt{2 \pi \sigma}} e^{-(x - \mu)^2/2\sigma^2}$$</p>
+<p>La esperanza y la varianza de X se pueden calcular, encontrándose que: $E[X] = \mu$ y $var(X) = \sigma^2$. En general, se dice que la  distribución normal está parametrizada por $\mu$ y por $\sigma^2$. Un caso particular de la variable aleatoria normal es la variable aleatoria normal estandarizada, en el que $\mu = 0$ y $var(X) = 1$. Este tipo de variable se usa frecuente mente en procesamiento de señales, u en otros fenómenos donde se quiere modelar el ruido de una señal.</p>
+<h1 id="visualizacin-de-variables">Visualización de variables</h1>
+<h2 id="histogramas">Histogramas</h2>
+<p>Un histograma nos entrega una interpretación visual de datos numéricos, indicando el número de observaciones que poseen valores en un determinado rango. Estos rangos de valores se conocen como clases o bins. La frecuencia de datos que caen en cada bin se ilustra mediante una barra vertical. Mientras más alta sea la barra, mayor es la cantidad de datos de un bin. Una aplicación bastante usada es determinar si una variable “se parece” o puede aproximarse a una variable normal, para ello lo que se hace es normalizar el histograma (axioma de normalización)dividiendo por <code>total_obs*ancho_bin</code>. A continuación se muestran algunos ejemplos.</p>
+<p>El conjunto de datos que utilizaré es <a href="https://www.gu.se/en/quality-government/qog-data/data-downloads/standard-dataset" target="_blank" rel="noopener noreferrer">Quality of Gobernment</a>, ya que este material es viejo, tengo una versión menos actualizada, pero puede observarse que el <code>.csv</code> es descargable:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">"qog_std_cs_jan18.csv"</span><span class="p">)</span>
+<span class="n">df</span><span class="p">.</span><span class="n">head</span><span class="p">()</span>
+</code></pre></div></div>
+<p>Graficamos histograma, hay varias formas de hacerlo, por ahora lo haremos con la biblioteca <strong>seaborn</strong>:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+
+<span class="c1"># United nations development program (Human development index)
+</span><span class="n">undp_hdi_notna</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">"undp_hdi"</span><span class="p">].</span><span class="n">dropna</span><span class="p">()</span>
+
+<span class="n">sns</span><span class="p">.</span><span class="n">distplot</span><span class="p">(</span><span class="n">undp_hdi_notna</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div></div>
+<div align="center">
+<p><img src="https://raw.githubusercontent.com/dpalmasan/homepage/master/public/imgs/hist.png" alt="header"></p>
+<p><em>Fig 3: Ejemplo de histograma.</em></p>
+</div>
+<p>Veamos qué tanto se acerca la distribución de los datos a una distribución normal. Para ello normalizamos el histograma, y graficamos la función de densidad de probabilidad de una variable aleatoria normal. Podemos usar como aproximación el promedio y la desviación estándar de la muestra. La función de densidad de probabilidad normal viene implementada en la biblioteca <strong>scipy</strong>.</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">norm</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="p">.</span><span class="n">distplot</span><span class="p">(</span><span class="n">undp_hdi_notna</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">norm_hist</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># Graficar histograma normalizado (como función de densidad de probabilidad)
+# Se normaliza para cumplir el axioma de normalización, esto se logra
+# Dividiendo el conteo de cada bin por la cantidad de muestras*largo_bin
+</span><span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">norm</span><span class="p">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">undp_hdi_notna</span><span class="p">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">undp_hdi_notna</span><span class="p">.</span><span class="n">std</span><span class="p">()),</span> <span class="s">"r"</span><span class="p">)</span>
+</code></pre></div></div>
+<div align="center">
+<p><img src="https://raw.githubusercontent.com/dpalmasan/homepage/master/public/imgs/hist_dist.png" alt="header"></p>
+<p><em>Fig 3: Ejemplo de histograma con gaussiana superpuesta.</em></p>
+</div>
+<p>Es interesante también explorar un poco más la variable aleatoria normal. Veamos qué ocurre al variar los parámetros de la media y la desviación estándar. También grafiquemos la función acumulada de densidad (que en el infinito debe ser igual a 1, ya que es el área bajo la curva de la función de densidad de probabilidad):</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+
+<span class="c1"># Gráficos
+</span><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">r</span><span class="s">"Distribuciones normales para distintos valores de $\mu$ y $\sigma$"</span><span class="p">)</span>
+<span class="n">ax1</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">norm</span><span class="p">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s">"r"</span><span class="p">)</span>
+<span class="n">ax1</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">norm</span><span class="p">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="s">"g"</span><span class="p">)</span>
+<span class="n">ax1</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">norm</span><span class="p">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="s">"b"</span><span class="p">)</span>
+<span class="n">ax1</span><span class="p">.</span><span class="n">legend</span><span class="p">((</span><span class="sa">r</span><span class="s">"$\mu = 0, \sigma = 1$"</span><span class="p">,</span> <span class="sa">r</span><span class="s">"$\mu = -1, \sigma = 2$"</span><span class="p">,</span> <span class="sa">r</span><span class="s">"$\mu = 2, \sigma = 5$"</span><span class="p">))</span>
+<span class="n">ax2</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">norm</span><span class="p">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s">"r"</span><span class="p">)</span>
+<span class="n">ax2</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">norm</span><span class="p">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="s">"g"</span><span class="p">)</span>
+<span class="n">ax2</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">norm</span><span class="p">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="s">"b"</span><span class="p">)</span>
+<span class="n">ax2</span><span class="p">.</span><span class="n">legend</span><span class="p">((</span><span class="sa">r</span><span class="s">"$\mu = 0, \sigma = 1$"</span><span class="p">,</span> <span class="sa">r</span><span class="s">"$\mu = -1, \sigma = 2$"</span><span class="p">,</span> <span class="sa">r</span><span class="s">"$\mu = 2, \sigma = 5$"</span><span class="p">))</span>
+</code></pre></div></div>
+<div align="center">
+<p><img src="https://raw.githubusercontent.com/dpalmasan/homepage/master/public/imgs/pdf_cdf.png" alt="header"></p>
+<p><em>Fig 4: Ejemplo de distribución Gaussiana con diferentes parámetros para $\mu$ y $\sigma$.</em></p>
+</div>
+<h1 id="teoremas-de-lmites">Teoremas de Límites</h1>
+<p>No iremos con la matemática dura de esto, sólo con la intuición, pero notando que de todas formas, una vez digerida la intuición es bueno  intentar entender la matemática detrás de los teoremas. Supongamos que tenemos una secuencia $X_1, X_2, \ldots$ de variables aleatorias independientes e idénticamente distribuidas (i.i.d) con promedio $\mu$ y varianza $\sigma^2$. Consideremos la variable $S_n$:</p>
+<p>$$S_n = X_1 + X_2 + \ldots + X_n$$</p>
+<p>como la suma de las primeras $n$ variables. Los teoremas de límites se enfocan en establecer propiedades para $S_n$ y variables aleatorias  relacionadas a medida que $n$ aumenta. Como establecimos que las variables eran independientes, se tiene:</p>
+<p>$$var(S_n) = var(X_1) + var(X_2) + \ldots + var(X_n) = n\sigma^2$$</p>
+<p>Por lo tanto, la dispersión de la distribución $S_n$ aumenta a medida que $n$ aumenta, y no puede tener un límite que signifique algo. Por otro lado, la situación es diferente si consideramos el $promedio de la muestra$:</p>
+<p>$$M_n = \frac{X_1 + \ldots + X_n}{n} = \frac{S_n}{n}$$</p>
+<p>Si calculamos las propiedades de $M_n$, llegamos a:</p>
+<p>$$E[M_n] = \mu, \quad var(M_n) = \frac{\sigma^2}{n}$$</p>
+<p>En particular, la varianza de $M_n$ tiende a 0 a medida que $n$ aumenta, y la esperanza de la distribución de $M_n$ debe ser muy cercana  al promedio $\mu$. Estos hechos, nos entregan una intuición para la interpretación de que la esperanza $E[X] = \mu$ es equivalente al promedio de una larga cantidad de muestras independientes sacadas de la distribución de $X$.</p>
+<p>Por otro lado, también podemos considerar una cantidad que es un punto medio entre $M_n$ y $S_n$. Podemos restar $n\mu$ de $S_n$, para
+obtener una variable aleatoria con promedio 0 ($S_n - n\mu$) y dividir por $\sigma\sqrt{n}$, para formar la siguiente variable aleatoria:</p>
+<p>$$Z_n = \frac{S_n - n\mu}{\sigma\sqrt{n}}$$</p>
+<p>Puede observarse que:</p>
+<p>$$E[Z_n] = 0, \quad var(Z_n) = 1$$</p>
+<p>Ya que la varianza y la esperanza de $Z_n$ se mantienen constantes a medida que $n$ aumenta, la distribución de $Z_n$ no se agranda ni se
+achica. El <strong>teorema del límite central</strong> está relacionado con la forma asintótica de la distribución de $Z_n$ y asegura que dicha
+distribución se convierte en la distribución norma estándar.</p>
+<p>Para probar empíricamente las intuiciones entregadas hasta ahora, podemos usar el mismo conjunto de datos previo. En este ejemplo exploraremos la columna <code>gle_cgdpc</code> (PIB per cápita):</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+
+
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">norm</span>
+
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">"semana3/apoyo/qog_std_cs_jan18.csv"</span><span class="p">)</span>
+
+<span class="c1"># Calcular valores "verdaderos" de promedio y desv estándar
+</span><span class="n">true_mean</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">"gle_cgdpc"</span><span class="p">].</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">true_std</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">"gle_cgdpc"</span><span class="p">].</span><span class="n">std</span><span class="p">()</span>
+
+<span class="c1"># Probar distintos tamaños de muestra
+</span><span class="n">sample_size</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">50</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s">"Distribución de media de muestras $\mu = </span><span class="si">{</span><span class="n">true_mean</span><span class="si">}</span><span class="s">$ y $\sigma = </span><span class="si">{</span><span class="n">true_std</span><span class="si">}</span><span class="s">$"</span><span class="p">)</span>
+
+<span class="n">experiments</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">N</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sample_size</span><span class="p">):</span>
+    <span class="n">sample_means</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">experiments</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">experiments</span><span class="p">):</span>
+        <span class="n">sample_means</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="n">N</span><span class="p">)[</span><span class="s">"gle_cgdpc"</span><span class="p">].</span><span class="n">mean</span><span class="p">()</span>
+
+    <span class="n">ax</span><span class="p">[</span><span class="n">k</span><span class="p">].</span><span class="n">hist</span><span class="p">(</span><span class="n">sample_means</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nb">min</span><span class="p">(</span><span class="n">sample_means</span><span class="p">),</span> <span class="n">np</span><span class="p">.</span><span class="nb">max</span><span class="p">(</span><span class="n">sample_means</span><span class="p">),</span> <span class="n">num</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">k</span><span class="p">].</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">norm</span><span class="p">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">true_mean</span><span class="p">,</span> <span class="n">true_std</span><span class="o">/</span><span class="n">np</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">)),</span> <span class="s">"r"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">k</span><span class="p">].</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">true_mean</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">"black"</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s">"--"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">k</span><span class="p">].</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s">"$\overline = </span><span class="si">{</span><span class="n">np</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">sample_means</span><span class="p">)</span><span class="si">}</span><span class="s">$ $\sigma_ = </span><span class="si">{</span><span class="n">np</span><span class="p">.</span><span class="n">std</span><span class="p">(</span><span class="n">sample_means</span><span class="p">)</span><span class="si">}</span><span class="s">$"</span><span class="p">)</span>
+</code></pre></div></div>
+<div align="center">
+<p><img src="https://raw.githubusercontent.com/dpalmasan/homepage/master/public/imgs/intuicion.png" alt="header"></p>
+<p><em>Fig 5: Intuición teorema del límite central.</em></p>
+</div>
+<p>Básicamente lo que debe observarse, es que a medida que la cantidad de muestras aumenta, el promedio de la distribución comienza a tender al promedio verdadero, y por otro lado, la varianza, disminuye en proporción al tamaño de la muestra.</p>
+<h1 id="reflexiones-y-datos-curiosos">Reflexiones y datos curiosos</h1>
+<p>Quiero aclarar que yo no me declaro experto en ninguno de estos temas, consideren esto como mis apuntes y la forma en que yo entiendo la teoría. Puede haber personas que no estén de acuerdo con lo que expongo y supongo que está bien.</p>
+<p>Como repaso vimos los contenidos de:</p>
+<ul>
+<li>Variables aleatorias</li>
+<li>Variables discretas</li>
+<li>Variables continuas</li>
+<li>Descriptores de las variables aleatorias (Esperanza y Varianza)</li>
+<li>Teorema del límite central</li>
+</ul>
+<p>Con esto, espero que entender mis artículos sea más claro, por ejemplo mi artículo <a href="/website/python/algorithms/ai/2024/02/18/reflexiones-y-jugando-con-pixeles.html"><em>Reflexiones y Jugando con Pixeles</em></a>.</p>
+<p>Como datos curiosos:</p>
+<ul>
+<li>La razón por la que por lo general comienzo con aseveraciones polémicas, es para que el artículo sea más llamativo. Me hicieron notar que mi forma de escribir quizás se percibe como muy negativa o tóxica, intentaré trabajar en ello.</li>
+<li>Nunca apliqué realmente a un doctorado (PhD), intenté algunos, pero no estaba listo en ese tiempo. Por otro lado, cuando terminé mi MSc. tenía una deuda muy grande con el banco (para financiar mis estudios de pre-grado), así que prioricé pagar esa deuda y vivir tranquilo. Quizás en un tiempo más intentaré postular nuevamente</li>
+<li>Espero que la gente logre comprender que GenAI y AI no es magia, y que todo tiene una explicación. Creo que el problema abierto e interesante es entender por qué la arquitectura de <em>Transformers</em> funciona tan bien.</li>
+<li>Probablemente en algún artículo más adelante clarifique cómo funciona GPT (aunque primero tengo que estudiarlo bien jaja)</li>
+</ul>
+
+  </div>
+<div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = '';
+      this.page.identifier = 'https://dpalmasan.github.io/website/probability/algorithms/ai/2024/02/26/variables-aleatorias.html';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://dpalmasan.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow noopener noreferrer" target="_blank">comments powered by Disqus.</a>
+</noscript>
+<a class="u-url" href="/website/probability/algorithms/ai/2024/02/26/variables-aleatorias.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/website/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="https://dpalmasan.github.io/website/feed.xml">
+            <svg class="svg-icon orange">
+              <path d="M12.8 16C12.8 8.978 7.022 3.2 0 3.2V0c8.777 0 16 7.223 16 16h-3.2zM2.194
+                11.61c1.21 0 2.195.985 2.195 2.196 0 1.21-.99 2.194-2.2 2.194C.98 16 0 15.017 0
+                13.806c0-1.21.983-2.195 2.194-2.195zM10.606
+                16h-3.11c0-4.113-3.383-7.497-7.496-7.497v-3.11c5.818 0 10.606 4.79 10.606 10.607z"></path>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">dpalmasan</li>
+          
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Este es un blog donde compartiré un poco sobre mí y mis experiencias en el mundo tecnológico...</p>
+      </div>
+    </div>
+
+    <div class="social-links">
+<ul class="social-media-list">
+<li>
+    <a rel="me noopener noreferrer" href="https://www.linkedin.com/in/dpalmasan/" target="_blank" title="Mi perfil en Linkedin">
+      <span class="grey fa-brands fa-linkedin fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://www.github.com/dpalmasan" target="_blank" title="Mi Github">
+      <span class="grey fa-brands fa-github fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://scholar.google.com/citations?user=Y5PN_1AAAAAJ&hl=en" target="_blank" title="Mi Google Scholar">
+      <span class="grey fa-brands fa-google-scholar fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://stackoverflow.com/users/4051219/dpalma" target="_blank" title="Mis preguntas en SO LOL!">
+      <span class="grey fa-brands fa-stack-overflow fa-lg"></span>
+    </a>
+  </li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+
+</body>
+
+</html>

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Reflexiones y Jugando con Pixeles | Mr Dipalma’s Pub 🍺</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Reflexiones y Jugando con Pixeles">
+<meta name="author" content="dpalmasan">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Este es un blog donde compartiré un poco sobre mí y mis experiencias en el mundo tecnológico…">
+<meta property="og:description" content="Este es un blog donde compartiré un poco sobre mí y mis experiencias en el mundo tecnológico…">
+<link rel="canonical" href="https://dpalmasan.github.io/website/python/algorithms/ai/2024/02/18/reflexiones-y-jugando-con-pixeles.html">
+<meta property="og:url" content="https://dpalmasan.github.io/website/python/algorithms/ai/2024/02/18/reflexiones-y-jugando-con-pixeles.html">
+<meta property="og:site_name" content="Mr Dipalma’s Pub 🍺">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2024-02-18T14:00:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Reflexiones y Jugando con Pixeles">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"dpalmasan"},"dateModified":"2024-02-18T14:00:00+00:00","datePublished":"2024-02-18T14:00:00+00:00","description":"Este es un blog donde compartiré un poco sobre mí y mis experiencias en el mundo tecnológico…","headline":"Reflexiones y Jugando con Pixeles","mainEntityOfPage":{"@type":"WebPage","@id":"https://dpalmasan.github.io/website/python/algorithms/ai/2024/02/18/reflexiones-y-jugando-con-pixeles.html"},"url":"https://dpalmasan.github.io/website/python/algorithms/ai/2024/02/18/reflexiones-y-jugando-con-pixeles.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css">
+    <link rel="stylesheet" href="/website/assets/css/style.css">
+    <style type="text/css">
+        div#disqus_thread iframe[sandbox] {
+                max-height: 0px !important;
+        }
+    </style>
+<link type="application/atom+xml" rel="alternate" href="https://dpalmasan.github.io/website/feed.xml" title="Mr Dipalma's Pub 🍺">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KHXBX5G1VP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KHXBX5G1VP');
+</script>
+
+<script>MathJax={"tex":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]},"svg":{"fontCache":"global"}}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<header class="site-header">
+
+  <div class="wrapper">
+<a class="site-title" rel="author" href="/website/">Mr Dipalma's Pub 🍺</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewbox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/website/about/">About</a></div>
+      </nav>
+</div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Reflexiones y Jugando con Pixeles</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2024-02-18T14:00:00+00:00" itemprop="datePublished">
+        Feb 18, 2024
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/2e37ee86e8987e3392682f65c3a9670061737b13/art.jpg" alt="art"></p>
+</div>
+<h1 id="introduccin">Introducción</h1>
+<p>En mi post más reciente, me puse a jugar un poco con redes neuronales convolucionales y en particular con arquitecturas Codificador-Decodificador (Autocodificadores) para crear un simple motor de búsqueda de imágenes. Debo decir que, existen muchas razones por las cuales empecé estos proyectos personales, algunas por ejemplo:</p>
+<ul>
+<li>Familiarizarme más con <code>Pytorch</code> ya que ahora trabajaré en lado de infraestructura de este <em>framework</em>, por lo que necesito conocer sus usos y familiarizarme con la <code>API</code>.</li>
+<li>Curiosidad, ya que en la práctica utilicé un modelo de calce de imágenes, y quise entender los fundamentos de fondo para este tipo de modelos.</li>
+<li>Aprender más sobre el estado del arte y los fundamentos que mueven la inteligencia artificial actualmente.</li>
+</ul>
+<h1 id="jugando-con-pixeles-y-modelos-generativos">Jugando con Pixeles y Modelos Generativos</h1>
+<p>En esta sección simplente describiré algunos experimentos que hice para generar pixel-art (en particular <em>sprites</em>) de un estilo definido, a partir de un conjunto de datos de pixel art. Este mini-proyecto apareció por dos motivos:</p>
+<ol>
+<li>Un amigo me hizo volver al vicio de los video-juegos y como decimos en Conce (mi ciudad natal) <em>me camellé</em> 😅</li>
+<li>Tenía ganas de aprender un poco sobre lo reciente en redes neuronales</li>
+</ol>
+<h2 id="inteligencia-artificial-generativa-aplicada-a-imgenes">Inteligencia Artificial Generativa aplicada a imágenes</h2>
+<p>En un artículo anterior, hablé sobre cómo implementar un <a href="/website/python/algorithms/ir/2024/01/06/motor-busqueda-imagenes.html">motor de búsqueda de imágenes</a>. En esta sección, hablaré sobre un modelo de inteligencia artificial generativa (GenAI) que es una versión probabilística del modelo que explique previamente, y también intentaré resolver el problema de generar pixel-art a partir de un estilo definido en un conjunto de datos dado.</p>
+<h3 id="autocodificador-variacional-vae-emvariational-auto-encoderem">Autocodificador Variacional (VAE: <em>Variational Auto-Encoder</em>)</h3>
+<p>Asumimos que la variable $x$ que representa nuestros datos se genera a partir de una variable latente $z$ (representación codificada), la cual no es observable. Por lo tanto, el proceso generativo que cada dato sigue puede describirse como:</p>
+<ol>
+<li>Se hace un muestreo de la representación latente $z$ desde la distribución apriori $p(z)$</li>
+<li>Los datos originales, son muestrados de la distribución de probabilidad condicional $p(x|z)$</li>
+</ol>
+<p>Con esta noción de modelo probabilistico, podemos definir una versión probabilística de los codificadores y decodificadores. El decodificador “probabilístico” está dado por $p(x|z)$ (obtenemos la reconstrucción de nuestros datos, dada su versión codificada), mientras que el “codificador probabilístico” está definido por $p(z|x)$, la cual describe la distribución de la variable codificada dada su versión decodificada.</p>
+<p>Utilizando el <em>Teorema de Bayes</em>, podemos encontrar una relación entre estas distribuciones:</p>
+<p>$$p(z|x) = \displaystyle \frac{p(x|z)p(z)}{p(x)} = \frac{p(x|z)p(z)}{\int p(x|u)p(u)du}$$</p>
+<p>Ahora asumamos que $p(z)$ es una distribución Gaussiana y que $p(x|z)$ es también una distribución Gaussiana cuya media está definida por una función $f$ de la variable $z$ y cuya matriz de covarianza tiene la forma $cI$ donde $I$ es la matriz identidad y $c$ es una constante. Esta función $f$ pertenece a una familia de funciones $F$ que se deja sin especificar de momento y se escogerá más adelante. Hasta ahora, tenemos:</p>
+<p>$$
+\begin{array}{lll}
+p(z) \equiv \cal{N(0, I)} &amp;  &amp;   \\
+p(x|z) \equiv \cal{N(f(z), cI)} &amp; \quad f \in F &amp; \quad c &gt; 0
+\end{array}
+$$</p>
+<p>Consideremos que $f$ es fija y bien definida. Como mencionamos anteriormente, conocemos $p(z)$ y $p(x|z)$, por lo que podríamos utilizar el teorema de Bayes para calcular $p(z|x)$. Este es un problema de inferencia Bayesiana, que usualmente es intratable (integral en el denominador), y se requiere utilizar técnicas de aproximación.</p>
+<p>En este caso, el problema puede ser visto como un problema de inferencia variacional, en el cual queremos aproximar $p(z|x)$ a una distribución Gaussiana $q_x(z)$, tal que su media y covarianza están definidas por dos funciones, $g$ y $h$, cuyo parámetro es $x$:</p>
+<p>$$
+\begin{array}{lll}
+q_x(z) \equiv \cal{N(g(x), h(x))} &amp; \quad g \in G &amp; \quad h \in H
+\end{array}
+$$</p>
+<p>En simples términos, queremos minimizar la <em>distancia</em> entre estas dos distribuciones. Para ello podemos utilizar la <em>divergencia de Kullback-Leibler</em> entre la aproximación y la distribución $p(z|x)$ objetivo:</p>
+<p>$$
+\begin{align}
+(g^*, h^*) &amp; = \underset{(g, h) \in G\times H}{\mathrm{argmin}} D_{KL}(q_x(z), p(z|x)) \\
+&amp; = \underset{(g, h) \in G\times H}{\mathrm{argmin}} \left(\mathop{\mathbb{E}_{z\sim q_x}}(\log q_x(z)) - \mathop{\mathbb{E}_{z\sim q_x}}\left(\log \displaystyle \frac{p(x|z)p(z)}{p(x)}\right) \right) \\
+&amp; = \underset{(g, h) \in G\times H}{\mathrm{argmin}} \left(\mathop{\mathbb{E}_{z\sim q_x}}(\log q_x(z)) - \mathop{\mathbb{E}_{z\sim q_x}}(\log p(z)) - \mathop{\mathbb{E}_{z\sim q_x}}(\log p(x|z)) + \mathop{\mathbb{E}_{z\sim q_x}}(\log p(x)) \right) \\
+&amp; = \underset{(g, h) \in G\times H}{\mathrm{argmax}} \left(\mathop{\mathbb{E}_{z\sim q_x}} (\log p(x|z)) - D_{KL}(q_x(z), p(z)) \right) \\
+&amp; = \underset{(g, h) \in G\times H}{\mathrm{argmax}} \left(\mathop{\mathbb{E}_{z\sim q_x}} \left(\displaystyle -\frac{||x - f(z)||}{2c}^2\right) - D_{KL}(q_x(z), p(z)) \right)
+\end{align}
+$$</p>
+<p>Podemos identificar que existen dos términos, el error de reconstruccion entre $x$ y $f(z)$ y el término de regularización dado por la divergencia de Kullback-Leibler entre $q_x(z)$ y $p(z)$. Podemos también identificar la constante $c$ que balancea los dos términos. A mayor $c$ asumimos mayor varianza alrededor de $f(z)$.</p>
+<p>Ahora si llevamos el modelo a redes neuronales, tendríamos una arquitectura como la mostrada en la figura 1.</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/2f72cc5476a22b888e00ab78ca11a29d1ff0c738/vae-arch.png" alt="vae"></p>
+<p><em>Fig 1: Arquitectura codificador-decodificador variacional</em></p>
+</div>
+<p>Notar que el espacio latente no son puntos fijos, si no que cada componente mapea a una distribución de probabilidad. Notar que en medio de la red hay un proceso de muestreo. Este muestreo, debe hacerse tal que permita que el error se propague en la red neuronal (para actualizar los parámetros de la red).</p>
+<p>Si simplemente muestreamos en medio de la red, va a ocurrir que agregamos aleatoriedad al proceso y el gradiente no va a poder fluir ya que será aleatorio en cada paso del algoritmo de retro-propagación. Un truco para evitar esto, es <strong>el truco de la re-parametrización</strong>. En este caso, dado que $z$ es una variable aleatoria que sigue una distribución Gaussiana, con media $g(x)$ y covarianza $H(x) = h(x) \cdot h^T(x)$, $z$ se puede expresar como:</p>
+<p>$$z = h(x) \zeta + g(x) \quad \quad \zeta \sim \cal{N(0, I)}$$</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/2f72cc5476a22b888e00ab78ca11a29d1ff0c738/reparametrisation.png" alt="repar"></p>
+<p><em>Fig 2: Truco de la reparametrización</em></p>
+</div>
+<p>Finalmente, dada una imagen $x$ y su reconstrucción $\hat{x}$, entonces la función de costo que debe minimizarse para entrenar el codificador-decodificador variacional, puede escribirse como:</p>
+<p>$$Loss = C ||x - \hat{x}||^2 + D_{KL}(\cal{N(\mu_x, \sigma_x)}, \cal{N(0, I)})$$</p>
+<h3 id="generando-sprites-pokemones">Generando Sprites (¡Pokemones!)</h3>
+<p>Por diversión, y para revivir años de vicio, quise intentar generar sprites de videojuegos. El conjunto de datos que utilicé es una lista de sprites de Pokémon.</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/d8d410828cf4816ae6e00daf17724c0b1a0849ed/pkmn-icons.png" alt="dataset"></p>
+<p><em>Fig 4: Conjunto de datos utilizado.</em></p>
+</div>
+<h4 id="modelo-vae">Modelo VAE</h4>
+<p>En <code>pytorch</code> el codificador se vería como el siguiente código:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Encoder</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z_dim</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">().</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">z_dim</span> <span class="o">=</span> <span class="n">z_dim</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">n_channels</span><span class="p">,</span>
+                            <span class="n">n_encoder_features</span><span class="p">,</span>
+                            <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+                            <span class="n">stride</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">BatchNorm2d</span><span class="p">(</span><span class="n">n_encoder_features</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">ReLU</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+            <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">n_encoder_features</span><span class="p">,</span>
+                            <span class="n">n_encoder_features</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span>
+                            <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+                            <span class="n">stride</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">BatchNorm2d</span><span class="p">(</span><span class="n">n_encoder_features</span> <span class="o">*</span> <span class="mi">2</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">ReLU</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+            <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">n_encoder_features</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span>
+                            <span class="n">n_encoder_features</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span>
+                            <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                            <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">BatchNorm2d</span><span class="p">(</span><span class="n">n_encoder_features</span> <span class="o">*</span> <span class="mi">4</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">ReLU</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+            <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">n_encoder_features</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span>
+                            <span class="n">n_encoder_features</span> <span class="o">*</span> <span class="mi">8</span><span class="p">,</span>
+                            <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                            <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">BatchNorm2d</span><span class="p">(</span><span class="n">n_encoder_features</span> <span class="o">*</span> <span class="mi">8</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">ReLU</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="c1"># After all the convolutions we end up with a tensor of size 3x6
+</span>        <span class="c1"># Al finalizar las convoluciones con los parámetros definidos:
+</span>        <span class="c1"># (batch, n_encoder_features * 8, 3, 6)
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">flatten</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">Flatten</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">dense</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">8</span> <span class="o">*</span> <span class="n">n_encoder_features</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">*</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">z_dim</span><span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_reparametrize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">log_var</span><span class="p">):</span>
+        <span class="n">zeta</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="o">*</span><span class="n">mu</span><span class="p">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">mu</span> <span class="o">+</span> <span class="n">torch</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">log_var</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">zeta</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">dense</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="c1"># De una capa obtenemos mu y log_var
+</span>        <span class="n">mu</span><span class="p">,</span> <span class="n">log_var</span> <span class="o">=</span> <span class="n">z</span><span class="p">[:,:</span><span class="bp">self</span><span class="p">.</span><span class="n">z_dim</span><span class="p">],</span> <span class="n">z</span><span class="p">[:,</span><span class="bp">self</span><span class="p">.</span><span class="n">z_dim</span><span class="p">:]</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">_reparametrize</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">log_var</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">z</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">log_var</span>
+</code></pre></div></div>
+<p>Notar que al reparametrizar retorno el vector <code>z</code> muestreado, y los vectores de reparametrización $\mu$ y $\log \sigma^2$. La razón para trabajar con el logaritmo, es simplemente para la estabilidad del modelo. Si queremos convertir a la ecuación anterior, entonces tenemos que $\log \sigma^2 = 2 \log \sigma$, entonces <code>torch.exp(log_var / 2)</code> simplemente es $\sigma$.</p>
+<p>El decodificador, simplemente toma este vector latente, y a partir de transformaciones (ej. convoluciones transpuestas), reconstruye la imagen original. Mi decodificador se ve algo así:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Decoder</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z_dim</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">().</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">z_dim</span><span class="p">,</span> <span class="mi">8</span> <span class="o">*</span> <span class="n">n_encoder_features</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">*</span> <span class="mi">6</span><span class="p">),</span>
+            <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">Unflatten</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">8</span> <span class="o">*</span> <span class="n">n_encoder_features</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">)),</span>
+            <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">ConvTranspose2d</span><span class="p">(</span><span class="mi">8</span> <span class="o">*</span> <span class="n">n_encoder_features</span><span class="p">,</span>
+                                     <span class="n">n_decoder_features</span> <span class="o">*</span> <span class="mi">8</span><span class="p">,</span>
+                                     <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                                     <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">BatchNorm2d</span><span class="p">(</span><span class="n">n_decoder_features</span> <span class="o">*</span> <span class="mi">8</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">ReLU</span><span class="p">(</span><span class="bp">True</span><span class="p">),</span>
+            <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">ConvTranspose2d</span><span class="p">(</span><span class="mi">8</span> <span class="o">*</span> <span class="n">n_encoder_features</span><span class="p">,</span>
+                                     <span class="n">n_decoder_features</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span>
+                                     <span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                                     <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">BatchNorm2d</span><span class="p">(</span><span class="n">n_decoder_features</span> <span class="o">*</span> <span class="mi">4</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">ReLU</span><span class="p">(</span><span class="bp">True</span><span class="p">),</span>
+            <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">ConvTranspose2d</span><span class="p">(</span><span class="n">n_decoder_features</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span>
+                                     <span class="n">n_decoder_features</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span>
+                                     <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span>
+                                     <span class="n">stride</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">BatchNorm2d</span><span class="p">(</span><span class="n">n_decoder_features</span> <span class="o">*</span> <span class="mi">2</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">ReLU</span><span class="p">(</span><span class="bp">True</span><span class="p">),</span>
+            <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">ConvTranspose2d</span><span class="p">(</span><span class="n">n_decoder_features</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span>
+                                     <span class="n">n_decoder_features</span><span class="p">,</span>
+                                     <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+                                     <span class="n">stride</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">BatchNorm2d</span><span class="p">(</span><span class="n">n_decoder_features</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">ReLU</span><span class="p">(</span><span class="bp">True</span><span class="p">),</span>
+            <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">ConvTranspose2d</span><span class="p">(</span><span class="n">n_decoder_features</span><span class="p">,</span> <span class="n">n_channels</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+            <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">Tanh</span><span class="p">()</span>
+        <span class="p">)</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Utilicé la función de activación $Tanh$, para que todos los elementos se encuentren entre -1 y 1 (mejor estabilidad y convergencia); Aunque podría haber utilizado una función sigmoide. Lo siguiente es definir la función de costo:</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">reconstruction_loss</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">MSELoss</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">vae_reconstruction_loss</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">reconstruction_loss_factor</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">reconstruction_loss_factor</span> <span class="o">*</span> <span class="n">reconstruction_loss</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">vae_kullback_leibler_loss</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">log_var</span><span class="p">):</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="n">torch</span><span class="p">.</span><span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">log_var</span> <span class="o">-</span> <span class="n">mu</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">torch</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">log_var</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">vae_loss</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">log_var</span><span class="p">,</span> <span class="n">reconstruction_loss_factor</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="n">recon_loss</span> <span class="o">=</span> <span class="n">vae_reconstruction_loss</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">reconstruction_loss_factor</span><span class="p">)</span>
+    <span class="n">kld_loss</span> <span class="o">=</span> <span class="n">vae_kullback_leibler_loss</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">log_var</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">recon_loss</span> <span class="o">+</span> <span class="n">kld_loss</span>
+</code></pre></div></div>
+<p>En el caso de la componente de reconstrucción, para hacer más claro el código la variable <code>reconstruction_loss_factor</code> representa la constante $C$ de la función de pérdida mostrada anteriormente. La función <code>vae_kullback_leibler_loss</code> calcula $D_{KL}(\cal{N(\mu_x, \sigma_x)}, \cal{N(0, I)})$:</p>
+<p>$$
+\begin{align}
+D_{KL}(\cal{N(\mu_x, \sigma_x)}, \cal{N(0, I)}) &amp; = \mathop{\mathbb{E}} \left[\log \cal{N(\mu_x, \sigma_x)} - \log \cal{N(0, I)}\right] \\
+&amp; = \frac{1}{2} \left[\mu_x^2 + \sigma_x^2 - 1 - \log \sigma_x^2\right] \\\\
+&amp; = -\frac{1}{2} \left[1 + \log \sigma_x^2 - \mu_x^2 - \sigma_x^2 \right]
+\end{align}
+$$</p>
+<p>Tuve que probar varios valores para el factor de error reconstrucción, al final los mejores resultados los obtuve con $C = 5000$. Para verificar el aprendizaje del modelo, fui monitoreando la función de costo en cada <em>epoch</em>. Entrené el modelo en <code>500</code> epochs.</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/419061e6eacb5a988f1f0d34c08bffe05dd3e82f/vae-loss-training.png" alt="vae-train"></p>
+<p><em>Fig 4: Entrenamiento VAE en conjunto de datos.</em></p>
+</div>
+<p>Luego, tomé una muestra al azar, y inspeccioné las reconstrucciones que hace el modelo:</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/419061e6eacb5a988f1f0d34c08bffe05dd3e82f/original.png" alt="sample"></p>
+<p><em>Fig 5: Ejemplo de datos en su versión original.</em></p>
+</div>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/d8d410828cf4816ae6e00daf17724c0b1a0849ed/vae-recons.png" alt="sample-recons"></p>
+<p><em>Fig 6: Ejemplo de datos reconstruidos por el VAE.</em></p>
+</div>
+<p>Finalmente, la parte divertida, generar Pokémones a partir de ruido:</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/d8d410828cf4816ae6e00daf17724c0b1a0849ed/generated-sprites.png" alt="vae-gen"></p>
+<p><em>Fig 7: Sprites de Pokémones generados a partir de muestreo en espacio latente y decodificador.</em></p>
+</div>
+<p>La verdad, para mi sigue siendo mágico que a partir de ruido se puedan generar nuevos sprites (pixel art). Cuando probé con el conjunto de datos de las caras de celebridades o el MNIST, también, en el espacio latente podía hacer operaciones lineales, y generar datos nuevos, similares a los datos de entrenamiento.</p>
+<h4 id="es-suficiente-pixel-art-es-ms-complejo-que-imgenes-convencionales">¿Es suficiente? Pixel-art es más complejo que imágenes convencionales</h4>
+<p>Podemos observar en los Pokémon generados anteriormente, que si bien tienen forma y coloreado similar a los datos vistos en el entrenamiento, estos siguen siendo borrosos y la representación considera un espacio continuo. Sin embargo, el pixel art y las imágenes en general, tienen un conjunto de colores limitados y en un espacio discreto.</p>
+<p>Otro problema es que <strong>estamos intentando predecir todos los pixeles considerándolos como independientes</strong>, lo que es un supuesto demasiado simplista.</p>
+<p>El pixel-art en general, utiliza una paleta de colores limitada, donde existen técnicas para coloreado, iluminación, aliasing que es diferente a la de una foto convencional (por ejemplo una fotografía “real”). Después de leer varios papers en el tema de pixel art, no encontré ninguna solución a mi problema. Sin embargo, investigando un poco más a fondo y expandiendo llegué a dos papers interesantes, que tratan los problemas con los que me topé:</p>
+<ol>
+<li><a href="https://arxiv.org/abs/1601.06759" target="_blank" rel="noopener noreferrer">Pixel Recurrent Neural Networks</a></li>
+<li><a href="https://arxiv.org/abs/1606.05328" target="_blank" rel="noopener noreferrer">Conditional Image Generation with PixelCNN Decoders</a></li>
+<li><a href="https://arxiv.org/abs/1611.05013" target="_blank" rel="noopener noreferrer">PixelVAE: A Latent Variable Model for Natural Image</a></li>
+</ol>
+<p>No quiero alargar el artículo más de la cuenta, así que no explicaré los modelos o los papers. En esencia, lo que intentan hacer estos modelos es, modelar el problema como un problema de predicción del siguiente pxiel (¿suena a algo parecido a lo que hacemos en NLP? 😊). Básicamente, queremos encontrar una distribución de probabilidad tal que:</p>
+<p>$$p(x) = p(x_1, \ldots, x_n) = \displaystyle \prod_{i=1}^{n} p(x_i|x_1, \ldots, x_{i - 1})$$</p>
+<p>Para lograr esto, se hace un modelamiento de imágenes <em>autorregresivo</em>, en este caso, el siguiente pixel, depende de los pixeles anteriores. Para ver detalles y un ejemplo de implementación simple, el siguiente tutorial es bastante completo:</p>
+<ul>
+<li><a href="https://uvadlc-notebooks.readthedocs.io/en/latest/tutorial_notebooks/tutorial12/Autoregressive_Image_Modeling.html" target="_blank" rel="noopener noreferrer">Tutorial 12: Autoregressive Image Modeling</a></li>
+</ul>
+<p>La verdad, yo utilicé una pequeña variación del tutorial que acabo de mencionar.</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/d0faec7873d6d4aa30a64d25204c5cbaeab12e51/pixelcnn-loss.png" alt="pixelcnn-loss"></p>
+<p><em>Fig 8: Curva de aprendizaje de modelo PixelCNN con datos de sprites de Pokémon.</em></p>
+</div>
+<p>Intenté generar nuevos sprites con el modelo entrenado:</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/d0faec7873d6d4aa30a64d25204c5cbaeab12e51/pixel-cnn-gen.png" alt="gen-pixelcnn"></p>
+<p><em>Fig 9: Pokémones generados con PixelCNN.</em></p>
+</div>
+<p>También intenté hacer <em>autocompletado</em> dada una parte de una imagen:</p>
+<div align="center">
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/d0faec7873d6d4aa30a64d25204c5cbaeab12e51/sample-masked.png" alt="autocomplete1"></p>
+<p><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/d0faec7873d6d4aa30a64d25204c5cbaeab12e51/sample-autocompleted.png" alt="autocomplete2"></p>
+<p><em>Fig 10: Autocompletado de Pokémones.</em></p>
+</div>
+<p>Para el muestreo, utilicé imágenes RGB, es decir 3 canales de color, y en este ejemplo se consideran los canales como independientes a la hora de muestrear. Esto en la práctica no es así, ya que el pixel-art utiliza una paleta de colores definida y limitada. La pregunta que me hago es ¿Existe alguna forma de considerar la paleta de colores en la entrada, para no tener que calcular <code>256 * n_canales</code> de intensidades de pixeles posible?</p>
+<p>La verdad sigo pensando e investigando cómo lograr esto, pero hasta ahora no he tenido buenos resultados 😔.</p>
+<h4 id="observaciones-sobre-implementacin-y-parmetros">Observaciones sobre implementación y parámetros</h4>
+<p>Algunas observaciones que recalco y que me causaron curiosidad:</p>
+<ul>
+<li>La tasa de aprendizaje y el tamaño de los lotes (<em>batches</em>) influyen en la convergencia de la red
+<ul>
+<li>Tuve explosión de gradiente cuando cualquiera de estos parámetros superaba ciertos umbrales.</li>
+<li>Óptimos locales dependiendo del parámetro de momentum.</li>
+</ul>
+</li>
+<li>Normalización en la retro-propagación. Interesante, ya que sin normalizar también tuve problemas de explosión de gradiente y divergencia</li>
+<li>En la deconvolución repetir pixeles (<em>Upsampling</em>) o jugar con el kernel y distintos tamaño de saltos (<em>Stride</em>), también son muy dependientes del problema.</li>
+<li>Repetir las arquitecturas de los tutoriales, siempre resulta para ese caso específico y para los conjuntos de datos en las evaluaciones comparativas (<em>Benchmark</em>); ejemplo: <em>CIFAR</em>, <em>MNIST</em>, <em>Celeb Faces</em>, etc.</li>
+<li>Probé otras múltiples arquitecturas: <code>StyleGAN</code>, <code>StyleGAN2</code>, <code>Pix2Pix</code>, <code>CycleGAN</code>. En el caso de las GAN tuve múltiples problemas como explosión de gradiente y desvanecimiento del mismo. Este tipo de redes son muy inestables al parecer. Por otro lado, las imágenes generadas no parecían pixel-art (manchas peores que las mostradas en este artículo 😂)</li>
+<li>La cantidad de epochs es básicamente lo más importante, de ahí que el tener disponibilidad de GPU y poder de cómputo es un factor diferenciador.</li>
+</ul>
+<h1 id="conclusiones">Conclusiones</h1>
+<ul>
+<li>VAE es un modelo generativo que intenta ajustar una distribución a cada punto en un espacio latente, lo que permite generar nuevos datos a partir de muestreo en dicho espacio.</li>
+<li>Generar pixel art es una tarea mucho más compleja que generar imágenes, debido a la naturaleza del pixel art: Paleta de colores limitada</li>
+</ul>
+
+  </div>
+<div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = '';
+      this.page.identifier = 'https://dpalmasan.github.io/website/python/algorithms/ai/2024/02/18/reflexiones-y-jugando-con-pixeles.html';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://dpalmasan.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow noopener noreferrer" target="_blank">comments powered by Disqus.</a>
+</noscript>
+<a class="u-url" href="/website/python/algorithms/ai/2024/02/18/reflexiones-y-jugando-con-pixeles.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/website/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="https://dpalmasan.github.io/website/feed.xml">
+            <svg class="svg-icon orange">
+              <path d="M12.8 16C12.8 8.978 7.022 3.2 0 3.2V0c8.777 0 16 7.223 16 16h-3.2zM2.194
+                11.61c1.21 0 2.195.985 2.195 2.196 0 1.21-.99 2.194-2.2 2.194C.98 16 0 15.017 0
+                13.806c0-1.21.983-2.195 2.194-2.195zM10.606
+                16h-3.11c0-4.113-3.383-7.497-7.496-7.497v-3.11c5.818 0 10.606 4.79 10.606 10.607z"></path>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">dpalmasan</li>
+          
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Este es un blog donde compartiré un poco sobre mí y mis experiencias en el mundo tecnológico...</p>
+      </div>
+    </div>
+
+    <div class="social-links">
+<ul class="social-media-list">
+<li>
+    <a rel="me noopener noreferrer" href="https://www.linkedin.com/in/dpalmasan/" target="_blank" title="Mi perfil en Linkedin">
+      <span class="grey fa-brands fa-linkedin fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://www.github.com/dpalmasan" target="_blank" title="Mi Github">
+      <span class="grey fa-brands fa-github fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://scholar.google.com/citations?user=Y5PN_1AAAAAJ&hl=en" target="_blank" title="Mi Google Scholar">
+      <span class="grey fa-brands fa-google-scholar fa-lg"></span>
+    </a>
+  </li>
+<li>
+    <a rel="me noopener noreferrer" href="https://stackoverflow.com/users/4051219/dpalma" target="_blank" title="Mis preguntas en SO LOL!">
+      <span class="grey fa-brands fa-stack-overflow fa-lg"></span>
+    </a>
+  </li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+
+</body>
+
+</html>
