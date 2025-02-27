@@ -28,6 +28,7 @@ baseurl: "/website" # the subpath of your site, e.g. /blog
 url: "https://dpalmasan.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: dpalmasan
 github_username:  dpalmasan
+linkedin_username: dpalmasan
 
 # Build settings
 remote_theme: jekyll/minima
@@ -67,17 +68,17 @@ google_analytics: G-KHXBX5G1VP
 minima:
   skin: classic
   social_links:
-    - platform: linkedin
-      user_url: "https://www.linkedin.com/in/dpalmasan/"
+    - icon: linkedin
+      url: "https://www.linkedin.com/in/dpalmasan/"
       title:  Mi perfil en Linkedin
-    - platform: github
-      user_url: "https://www.github.com/dpalmasan"
+    - icon: github
+      url: "https://www.github.com/dpalmasan"
       title:  Mi Github
-    - platform: google_scholar
-      user_url: "https://scholar.google.com/citations?user=Y5PN_1AAAAAJ&hl=en"
+    - icon: google-scholar
+      url: "https://scholar.google.com/citations?user=Y5PN_1AAAAAJ&hl=en"
       title:  Mi Google Scholar
-    - platform: stackoverflow
-      user_url: "https://stackoverflow.com/users/4051219/dpalma"
+    - icon: stack-overflow
+      url: "https://stackoverflow.com/users/4051219/dpalma"
       title:  Mis preguntas en SO LOL!
 
 disqus:
