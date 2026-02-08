@@ -1,0 +1,182 @@
+---
+layout: post
+title:  "Otro año más y cuarto ciclo"
+date:   2026-02-06 14:30:00 -0400
+categories: swe dev machine learning
+---
+
+# Introducción
+
+Un año desde mi último post, la verdad es que no me ha dado el tiempo para postear frecuentemente, por lo que este sitio está casi muerto. Quizás debería cambiarme a `substack`, pero no me interesa mucho la visibilidad de este sitio, en realidad sólo comparto su contenido en LinkedIn y me doy por pagado si al menos una persona lo lee.
+
+En este post hablaré de mi experiencia "otro año más en Big Tech", de cómo fui promovido de **E5 a E6** (siendo E5 un nivel terminal) y de mi experiencia como _Tech Lead_ oficial en Big Tech. Por otro lado, también daré algunas opiniones sobre el estado actual en el mundo tech, y de algunos progresos personales durante este año.
+
+# Un año de _Tech Lead_
+
+Luego de un año trabajando en `pytorch edge`, y algo de éxito, como por ejemplo mi trabajo siendo mencionado en la [pytorch conference 2024](https://youtu.be/45yNTi7c1Q0?t=983), decidí cambiarme de equipo nuevamente y volver a la org en la que estaba inicialmente. Las razones me las reservo, pero puedo decir que me divertí mucho en `pytorch`, especialmente aprendí mucho de código a mas bajo nivel (`C++`), y nunca entendí por completo el código de server en nuestro stack de _federated learning_ 😅, pero si entendí el mobile y compilación de libs `jni` para luego usarlas en `kotlin` (una por otra).
+
+El contexto de mi equipo previo estaba desafiante, ya que practicamente se re-estructuró, terminando en mi siendo el único ingeniero "Senior" del equipo, y un equipo de gente nueva en la empresa. Esto fue un desafío, pero también una oportunidad, donde decidí darle dirección al equipo y armar la "Northstar" en el largo plazo, habiendo otros desafíos técnicos y no técnicos de por medio. Ser líder técnico "no oficial" fue bastante complicado, ya que las expectativas son más de dirección y orquestación, pero aún tenía que cumplir mis labores como ML Eng: manejo y solución de incidentes, proyectos e impacto. 
+
+Estaba acostumbrado a ser el que subía la mayor cantidad de PRs del equipo, y lo seguí haciendo, pero además tuve que dar apoyo y hacer _ramp up_ básicamente a todo el equipo. No fue fácil la verdad y cometí muchos errores, como tratar de "mantener el brillo", hasta que un día hice click: mi tarea en este rol no es brillar más que el resto, sino que hacer que el resto brille. Por lo que cambié mi enfoque e intenté que el equipo tuviera más ownership, dando apoyo únicamente si había mucha incertidumbre y las cosas se pusieran feas. Cuento corto, dejé de subir tanto código, únicamente lo hice en casos que hubiese que salvar algún proyecto.
+
+Para mi sorpresa, este año en el "mid checkpoint" fue la primera vez que obtuve "SAE" (Significantly Above Expectations), que es una excelente señal para la evaluación de desempeño al final del año. Finalmente, tengo actualmente los resultados de dicha evaluación y obtuve _Greatly Exceeded Expectations_ y una promoción de `E5` a `E6` (dejo al lector que busque qué significan los niveles 😂). Hasta ahora en Meta mi historia de _performance_:
+
+<table>
+  <thead>
+    <tr>
+      <th>Año</th>
+      <th>Rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2022</td>
+      <td>`RE`: Redefined Expectations + promo `E4` a `E5` (máximo rating, 1%)</td>
+    </tr>
+    <tr>
+      <td>2023</td>
+      <td>`GE`: Greatly Exceeded Expectations (segundo máximo rating, ~10%)</td>
+    </tr>
+    <tr>
+      <td>2024</td>
+      <td>`EE`: Exceeded Expectations (buen rating, pero más cerca de la media, ~30%)</td>
+    </tr>
+    <tr>
+      <td>2025</td>
+      <td>`GE`: Greatly Exceeded Expectations + promo `E5` a `E6`</td>
+    </tr>
+  </tbody>
+</table>
+
+¿Qué creo que me lleva a estos ratings? La verdad esto es sólo mi opinión:
+
+1. **Consistencia**: Mantenerme activo en las discusiones técnicas, pendiente de las revisiones de código, y hacer cambios que promuevan la excelencia en ingeniería (mejores prácticas, cerrar gaps, etc.)
+2. **Consciencia sobre estar equivocado**: Todos tenemos errores, pocos los aceptamos. Aceptar equivocarse es crecer. En redes sociales es común ver discusiones donde, incluso frente a observaciones técnicas válidas, algunas personas sienten la necesidad de tener siempre la razón.
+3. **Curiosidad**: Estudiar constantemente, repasar fundamentos teóricos, pensar y conectar ideas.
+4. **Admitir ignorancia**: _La enfermedad del ignorante es ignorar su propia ignorancia_. En redes sociales se ve con frecuencia gente intentando posicionarse como visionarios u expertos en temas que no dominan del todo. Tener siempre una respuesta para todo no es necesariamente una buena señal; estar consciente de lo que uno no sabe deja espacio real para crecer.
+5. **Tomar feedback y escuchar**: Escuchar en reuniones, no sólo hablar. Tomar nota, procesar el feedback y, si es accionable, trabajar en ello.
+
+¿Qué construí? (créditos a mi gran equipo)
+
+* Primer sistema utilizando _reinforcement learning_ y teniendo impacto positivo en revenue (en millones de USD)
+* Migración de un sistema legacy a una plataforma unificada con otras orgs, para mejora de observabilidad, logging y confiabilidad (reliability)
+* Manejo de incidencias críticas, previniendo millones en revenue leakage en USD
+* Sistema de LLM para revisión automática de incidentes y rollback en el contexto de advertising (impacto de millones de USD en revenue)
+* Arquitectura y visión de sistemas multi-agente para el área
+* Visión a largo plazo (2-3 años para el área)
+
+#  Mi Proyecto Personal (Game Dev), y off-topic
+
+Curiosamente, inició como una exploración de _vibe coding_, y terminó siendo el despertar de mi molestia frente al _AI slop_. Empecé a desarrollar un juego desde cero en `C++` y `SDL 2.0`. Mi experiencia en `C++` no es extensa: algo de universidad y mi año previo en `pytorch edge`, donde me tocó hacer cambios en una base de código real. 
+
+A raíz de esto, he notado que en redes sociales a veces se listan tecnologías como skills sin haber tenido mucho contacto con sistemas reales. Desde mi experiencia reciente, la diferencia entre proyectos pequeños y código de producción es grande, por lo que creo que es sano ser cuidadoso con cómo uno presenta sus conocimientos, y ojalá complementarlos con contribuciones reales, por ejemplo en proyectos open source.
+
+Volviendo al tema del juego, inicialmente la música la compuse yo, pero los assets gráficos los generé utilizando IA. Si bien pude progresar, en algún momento subí un vídeo de mis composiciones, utilizando de fondo la imagen de la pantalla de título (generada con IA), y recibí el comentario de "AI slop". Empecé a buscar en internet, ya que no tenía claro el significado, y luego de participar activamente en una comunidad de "solo dev" de juegos en reddit, mi percepción del uso de IA cambió.
+
+Me di cuenta que internet ahora está plagado de AI slop: posts claramente generados con LLMs, discusiones donde se usan respuestas automáticas sin verificación, y “arte” que presenta deficiencias evidentes (paleta de colores, composición, etc.). Esto no es exclusivo de un lugar en particular, pero sí es un fenómeno cada vez más visible.
+
+Como me gustan los video juegos, pensé, ¿por qué no aprender yo pixel art y generar mis propios assets? Dejo un poco de mi "portafolio" (aún llevo poco tiempo en esto)
+
+Mi sitio en itch io: [The Ghost of The North](https://dpalmasan.itch.io/). Publicaré avances y `devlogs` del juego constantemente. Una demo para jugar online vendrá más adelante (tuve una demo con assets generados por IA, compilada WASM para jugar online, pero la borré), y tengo otros planes para el juego.
+
+## Un poco de arte para el juego
+En esta sección simplemente comparto un poco de arte de mi juego, pixel art y composiciones musicales.
+
+### Pixel Art
+
+Pantalla de título:
+
+<div align="center">
+
+![title-screen](https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/d94c1edb2065d1729e41813ee7385ab61f4233f8/title-screen.png)
+
+</div>
+
+Pantallazo del juego:
+
+<div align="center">
+
+![game-ss](https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/07331a4f8930d628e5dddcc589e97a299da5304f/game-ss.png)
+
+</div>
+
+Algunos de mis sprites:
+
+<table>
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Animación</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Arachnoid</td>
+      <td><span style="background-color: black; display: inline-block; padding: 5px;"><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/f6ab354210f817cb5f84c17974125b664f7c5940/arachnoid-walk.gif" alt="Arachnoid" style="display: block;"></span></td>
+    </tr>
+    <tr>
+      <td>Robot</td>
+      <td><span style="background-color: black; display: inline-block; padding: 5px;"><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/f6ab354210f817cb5f84c17974125b664f7c5940/robot-attack.gif" alt="Robot" style="display: block;"></span></td>
+    </tr>
+    <tr>
+      <td>Polar Bear Walking</td>
+      <td><span style="background-color: black; display: inline-block; padding: 5px;"><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/5bb67f9218c6a65be5943dce4cabcbc378669c94/polar-bear-mc.gif" alt="Polar Bear Walking" style="display: block;"></span></td>
+    </tr>
+    <tr>
+      <td>Polar Bear Death</td>
+      <td><span style="background-color: black; display: inline-block; padding: 5px;"><img src="https://gist.githubusercontent.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/d94c1edb2065d1729e41813ee7385ab61f4233f8/polar-bear-death.gif" alt="Polar Bear Death" style="display: block;"></span></td>
+    </tr>
+  </tbody>
+</table>
+
+### Composiciones musicales
+
+![](https://www.youtube.com/watch?v=rB4GGMpPEWc)
+
+
+## Off Topic
+
+Este año también tuve un estilo de vida saludable, con dos grandes hitos:
+
+1. Bajé 9% de grasa y gané músculo
+2. Logré mi primer muscle up con 10lbs de peso extra (falta trabajar la técnica pero la fuerza está 😅)
+
+<div align="center">
+
+![title-screen](https://gist.github.com/dpalmasan/103d61ae06cfd3e7dee7888b391c1792/raw/dad2a325003ef229a5f2d26e4eca33f4b6fa215d/muscle-up.gif)
+
+</div>
+
+Aún trabajando en mi press de banca, pero me falta... no llevo mucho de levantamiento de pesas.
+
+# Cierre
+
+No mucho que decir, por ahora siento que ya logré lo que quería lograr profesionalmente, y ahora estoy en la búsqueda de algo más espiritual. Obviamente, seguiré persiguiendo la excelencia, seguiré entrenando, idealmente monetizar el conocimiento mientras se pueda (mientras no me reemplace la IA aún), y seguiré intentando educar a la gente que comete errores técnicos, con la finalidad de que aprendan; aunque sé que por temas de ego la mayoría nunca va a aceptar que están en lo incorrecto. Por otro lado, seguiré revisando los fundamentos y cuestionando algún conocimiento que no tenga solución cerrada, y veré a qué me lleva el destino. Quizás este sea el año en que "me va mal", aunque considero que siempre hay aprendizajes.
+
+Finalmente al lector, si te molestó algo de este post, eso no es mi problema, creo que es saludable visitar otras perspectivas, y cuestionarse la línea de base que cada uno tiene, eso permite crecer. Si no estás dispuesto a escuchar, entonces puedes mantenerte en el status quo, o peor, en la mediocridad (pero esto no se lo deseo a nadie).
+
+Saludos!
+
+<details>
+<summary>Premio para los que leyeron hasta el final (click para ver)</summary>
+
+# AI-Slop
+
+Luego de utilizar activamente sistemas con IA, en particular IA generativa, se vuelve cada vez más fácil reconocer contenido generado automáticamente. También se hace evidente la cantidad de discursos que buscan posicionar expertise o visión sin un sustento técnico sólido, muchas veces con fines comerciales.
+
+No soy anti-IA. De hecho, trabajo con ella. Pero sí creo que su uso masivo puede amplificar una tendencia previa: delegar el pensamiento crítico. A veces siento que avanzamos rápido tecnológicamente, pero no siempre al mismo ritmo en profundidad o reflexión.
+
+No discuto en redes sociales por esto. Prefiero observar y aprender. Me resulta difícil tomar en serio discursos extremadamente ambiciosos sobre "revoluciones" o "cambios de paradigma" cuando no vienen acompañados de experiencia práctica, revisión de código o comprensión de fundamentos.
+
+En general, en LinkedIn suelo limitarme a comentar algunos posts, y por otro lado mostrar apoyo a hitos reales, como encontrar trabajo, especialmente en el contexto actual.
+
+</details>
+
+<details>
+<summary>Advertencia: No apto para mentes sensibles (click para ver)</summary>
+
+<p>Hace unos días alguien cuestionó mi experiencia desde un perfil con múltiples títulos rimbombantes relacionados con IA. Frente a ese tipo de discursos, siempre me pregunto cuánta experiencia práctica hay detrás: implementar sistemas desde cero, entender los fundamentos matemáticos, contribuir a open source, o simplemente enfrentarse a problemas reales fuera del "happy path".</p>
+
+<p>Muchos de estos conceptos aparecen de forma natural cuando uno trabaja en sistemas reales. Cuando no se ven las relaciones, muchas veces es porque se intentó saltar etapas. Repetir un blog o completar un curso puede ser un buen inicio, pero no reemplaza la experiencia profunda ni el trabajo sostenido.</p>
+
+</details>
