@@ -9,6 +9,63 @@
         div#disqus_thread iframe[sandbox] {
                 max-height: 0px !important;
         }
+        .info-box {
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+            color: #1a1a1a;
+            border-left: 4px solid;
+        }
+        .info-box p {
+            margin: 0;
+        }
+        .info-box__label {
+            display: inline-block;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 3px;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+        .info-box__label i {
+            margin-right: 4px;
+        }
+        .info-box--green {
+            background-color: #e8f5e9;
+            border-left-color: #4caf50;
+        }
+        .info-box--green .info-box__label {
+            background-color: #4caf50;
+            color: #fff;
+        }
+        .info-box--amber {
+            background-color: #fff3e0;
+            border-left-color: #ff9800;
+        }
+        .info-box--amber .info-box__label {
+            background-color: #ff9800;
+            color: #fff;
+        }
+        .info-box--blue {
+            background-color: #e7f3fe;
+            border-left-color: #2196F3;
+        }
+        .info-box--blue .info-box__label {
+            background-color: #2196F3;
+            color: #fff;
+        }
+        .poetry-box {
+            background-color: #e7f3fe;
+            border-left: 4px solid #2196F3;
+            padding: 24px 28px;
+            margin: 28px auto;
+            border-radius: 4px;
+            max-width: 600px;
+            text-align: center;
+            font-style: italic;
+            line-height: 1.9;
+            color: #1a1a1a;
+        }
     </style>
 
     {%- feed_meta -%}
