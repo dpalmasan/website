@@ -1,0 +1,132 @@
+---
+layout: post
+title:  "Mi Salida de Meta"
+date:   2026-08-29 08:45:00 -0400
+categories: swe dev machine learning
+---
+
+# Introducción
+
+Después de más de cuatro años, llegó el momento de cerrar mi etapa en Meta.
+
+Entré a la empresa en 2022 como E4 y hoy me voy como E6. En estos años trabajé en áreas bastante distintas: desde PyTorch y machine learning on-device (y *Federated Learning*) hasta Integrity, LLMs y sistemas agénticos. Lideré equipos, hice investigación y, fuera del trabajo, continué con algunos proyectos personales que terminaron siendo tan importantes para mí como mi carrera (y aumenté bastante mis citas en Google Scholar sin dedicarme *full time* a la academia jeje).
+
+Esta es una retrospectiva de esos cuatro años: lo que hice, lo que aprendí, algunos de los proyectos de los que estoy más orgulloso y, finalmente, por qué decidí irme.
+
+# Mi Aventura en Meta
+
+## Logros Técnicos
+
+Se fueron volando estos cuatro años y algo, pero fueron bastante intensos. En especial con *layoffs*, el PSC (*Performance Summary Cycle*; tienes que haber trabajado en Meta para entender el trauma jeje), entre otras cosas.
+
+| Año  | PSC Rating | Significado                     | Distribución | Nivel           |
+| ---- | ---------- | ------------------------------- | ------------ | --------------- |
+| 2022 | RE         | Redefined Expectations          | 1%           | E4 y promo a E5 |
+| 2023 | GE         | Greatly Exceeded Expectations   | 10%          | E5              |
+| 2024 | EE         | Exceeded Expectations           | 40%          | E5              |
+| 2025 | GE         | Greatly Exceeded Expectations   | 10%          | E5 y promo a E6 |
+| 2026 | Excellent  | Cambió el sistema de evaluación | 60%          | E6              |
+
+Debo aclarar que **esto no es un camino particularmente convencional**. Pasar de E4 a E5, en general, toma alrededor de dos años. Los ratings RE y GE corresponden a los niveles más altos de desempeño, y llegar a E6 tampoco es algo que ocurra con demasiada frecuencia. De hecho, E5 (equivalente a Senior) suele ser un nivel terminal para muchos ingenieros.
+
+Si me preguntan qué hice distinto, y haciendo un análisis cualitativo de lo que he observado en la industria, probablemente la respuesta sea bastante poco espectacular: **no me quise saltar ningún paso.**
+
+Hice muchas de esas cosas que a veces se consideran "aburridas", "innecesarias" o que supuestamente "no sirven". Aprendí los fundamentos, estudié por mi cuenta, leí libros, hice investigación, escribí código que nadie iba a aplaudir y traté de entender los problemas antes de buscar la solución rápida.
+
+Y, paradójicamente, muchas de esas cosas terminaron siendo bastante útiles.
+
+### Algunos otros logros
+
+Sin convertir esto en un currículum, hay algunos proyectos que vale la pena mencionar:
+
+* Publiqué un trabajo que posteriormente fue presentado en PEPR 2025 (*USENIX Conference on Privacy Engineering Practice and Respect*).
+
+* Contribuí a proyectos *open source*, en particular al ecosistema de PyTorch.
+
+* Trabajé en desarrollos de machine learning on-device y en prototipos que terminaron siendo ejemplos dentro del repositorio de ExecuTorch. Entre otras cosas, contribuí con fine-tuning de LLMs, y parte de este trabajo fue mencionado durante la conferencia PyTorch 2024.
+
+* Resolví algunos de los problemas más complejos que encontré en el área de Integrity.
+
+* Implementé el primer flujo agéntico *multi-turn* dentro del área de Integrity.
+
+* Lideré un equipo de más de cinco ingenieros, entregando visión de largo plazo para AI aplicada, proyectos con horizonte de 2–3 años y mentoría a ingenieros de otras organizaciones y equipos.
+
+* Y quizás el proyecto que más me marcó: una idea que tuve hace años sobre aplicar Lógica Inductiva, mediante *Inductive Logic Programming*, terminó convirtiéndose en un paper aceptado en EMNLP 2026.
+
+Hay mucho más, pero creo que la lista empieza a parecer un currículum bastante rápido, así que mejor paro aquí.
+
+Y esto es sólo considerando mi trabajo en Meta. Paralelamente seguí con mis *side quests*: investigación, publicaciones, revisión de papers para journals y otros proyectos que probablemente merezcan su propio post.
+
+
+## Por qué me voy de Meta
+
+El lector podrá comprender que no me voy por un problema de desempeño ni porque me hayan despedido. Simplemente llegó un momento en que, por razones personales y logísticas, tenía sentido cerrar esta etapa.
+
+De hecho, creo que una de las cosas que más me deja satisfecho es el equipo que dejé atrás en mi último rol como Tech Lead. Llegué a una situación bastante complicada, en la que varios miembros del equipo estaban de salida por distintos motivos, y tocó reconstruir el equipo prácticamente desde cero.
+
+Eso significó incorporar y acompañar a ingenieros nuevos en Meta, definir proyectos adecuados para distintos niveles de seniority, establecer una dirección técnica y, en general, tratar de darle cierta estructura a un equipo que estaba pasando por un período de transición.
+
+¿Hubo errores? Probablemente muchos. Mi experiencia como Tech Lead era prácticamente nula, así que buena parte de esto consistió en aprender sobre la marcha. Creo que ahí también aprendí algo importante: liderar técnicamente no significa tener siempre la respuesta, sino ser capaz de darle dirección a un grupo de personas cuando la respuesta todavía no existe.
+
+El resultado fue un equipo sólido y, para mí, una de las experiencias de mayor crecimiento profesional que tuve en Meta. Como pequeño detalle adicional, terminé ese período pasando de E5 a E6, algo que ciertamente no me quejo 😄.
+
+Las puertas quedaron abiertas para volver en el futuro. Pero por ahora, era simplemente el momento de cerrar este capítulo.
+
+Y sí: **me fui voluntariamente, en mis propios términos.**
+
+
+## ¿Fue todo rosas, arcoíris y unicornios?
+
+Basándome en muchos mensajes que me llegan en LinkedIn, creo que existe cierta percepción de que trabajar en Big Tech es una maravilla: buenos sueldos, problemas interesantes, oficinas bonitas y, aparentemente, todos los días son una especie de *tech conference* con café gratis. La realidad es un poco más complicada. Hubo muchas cosas buenas en Meta, pero también hubo cosas que no lo fueron tanto. Y, como decimos en Chile, hay que tener bastante **cuero de chancho**.
+
+Las evaluaciones de desempeño fueron, sin duda, las más estresantes que he vivido en mi carrera. Vi ingenieros (incluso algunos que venían de otras Big Tech) que no lograron sobrevivir ni siquiera un año. No necesariamente porque fueran malos ingenieros, sino porque el entorno tiene expectativas altas y una dinámica que puede ser difícil de navegar.
+
+Simplificando bastante, el desempeño se evalúa en cuatro dimensiones: *Impact*, *Direction*, *Better Engineering* y *People*. Pero no basta con ser bueno técnicamente. Las expectativas cambian mucho dependiendo del nivel de seniority; por ejemplo, no se espera lo mismo en *Direction* de un E4 que de un E5, y mucho menos de un E6.
+
+Además, están los *reorgs*, las reestructuraciones, los cambios de dirección y, por supuesto, los *layoffs*. Hay períodos en que parece que todo está funcionando perfectamente y otros en que uno empieza a preguntarse qué demonios está pasando.
+
+Creo que esa fue una de las cosas que más aprendí durante estos años: **ser técnicamente bueno es sólo una parte de trabajar en una organización de este tamaño**. También hay que aprender a navegar la organización, comunicar, priorizar, entender qué importa realmente y, algunas veces, simplemente aguantar. Y eso último no siempre es malo. Hay situaciones difíciles que, mirando hacia atrás, terminaron enseñándome bastante.
+
+En resumen, fueron cuatro años de aprendizaje. Conocí gente maravillosa (y gente no tanto), trabajé en problemas que difícilmente habría encontrado en otro lugar, tuve momentos muy buenos y otros bastante menos buenos. No todo fueron rosas, arcoíris y unicornios. Pero tampoco esperaba que lo fueran.
+
+## Mi salida legendaria
+
+Como E6, una de mis expectativas es precisamente trabajar en los problemas más difíciles del área. Y durante la primera mitad de 2026, digamos que **me sudó el culo** intentando hacerlo 😅.
+
+El problema consistía, a grandes rasgos, en automatizar un proceso que se consideraba muy difícil (prácticamente imposible) de automatizar de manera confiable. Los LLMs habían avanzado muchísimo, pero simplemente poner un LLM ahí no era suficiente. Y agregar agentes tampoco hacía que el problema desapareciera mágicamente.
+
+Había una razón importante: las alucinaciones eran un *deal-breaker*. Un error en este proceso podía significar pérdidas del orden de millones de dólares, así que un sistema que ocasionalmente "se inventa" una respuesta no era particularmente atractivo.
+
+Decidí seguir una intuición que llevaba años dando vueltas en mi cabeza: **Inductive Logic Programming (ILP)**.
+
+Había empezado a estudiar ILP por curiosidad alrededor de 2022. En ese momento no tenía un problema concreto donde aplicarlo; simplemente me parecía una idea fascinante. Durante los siguientes años seguí aprendiendo y esperando encontrar el problema adecuado.
+
+Y finalmente apareció.
+
+La idea fue utilizar ILP para construir un flujo agéntico dirigido por lógica inductiva. En vez de pedirle al modelo que simplemente "pensara" y esperara que llegara a la respuesta correcta, construimos un sistema donde la lógica inductiva ayudara a guiar el proceso y restringir el espacio de soluciones. Funcionó lo suficientemente bien como para que quisiéramos publicarlo: Nuestro primer intento fue KDD (*Knowledge Discovery and Data Mining*)... fallamos. El paper fue rechazado, con un resultado bastante *borderline*. En fin. Puede pasar 😅... tomamos el feedback de los revisores, reframeamos el trabajo y lo enviamos a EMNLP, esta vez al *Industry Track*. Nuevamente recibimos feedback de todo tipo: comentarios muy buenos, otros bastante duros y, en general, una discusión bastante interesante sobre el trabajo. El paper volvió a quedar en una situación donde no estaba precisamente garantizado que fuera aceptado. Llegó entonces la fase de *rebuttals*, en la que tocó responder a los revisores, defender algunas decisiones y aclarar otras. Después de eso, sólo quedaba esperar...
+
+...y finalmente llegó la noticia: **el paper fue aceptado en EMNLP 2026.** No estuvo mal para una idea que había empezado como una curiosidad personal cuatro años antes 😄. Y aquí es donde la historia se vuelve particularmente especial para mí. Hasta donde sé, fui el primero en mi área (considerando tanto mi equipo como los equipos paralelos dentro de la organización) en publicar un paper desde un rol cuyo foco principal no era la investigación. Y no sólo terminó siendo publicado: terminó en una de las conferencias más importantes de NLP, con una tasa de aceptación cercana al 20%.
+
+Sin embargo, honestamente, creo que lo que más me gusta de esta historia no es el paper... es que **esperé cuatro años por el problema correcto**. Podría haber intentado aplicar ILP mucho antes, simplemente porque era algo que me interesaba. Pero no tenía sentido. Cuando finalmente apareció un problema donde tenía una razón concreta para intentarlo, la curiosidad acumulada durante esos años se convirtió en una herramienta.
+
+En mi opinión personal, fue probablemente la cúspide de mi etapa en Meta. Entré en 2022 como E4, aprendí muchísimo, pasé por varias áreas, llegué a E6 y terminé utilizando una idea que había estado estudiando desde prácticamente el comienzo de mi aventura. No podía haber pedido una mejor forma de cerrar el capítulo. Una lástima haber dado mi renuncia antes de que todo esto terminara. Me perdí un viaje gratis a Budapest jajaja.
+
+Finalmente, los que vieron mi despedida en los sistemas internos de Meta probablemente notaron que fue algo bastante poco convencional. No puedo compartir esa versión acá, pero fue deliberadamente distinta a lo que publiqué en LinkedIn, donde el foco es necesariamente más profesional. Supongo que eso también es bastante representativo de mí. Nunca he sido demasiado amigo del *status quo*. No por llevar la contra porque sí, sino porque muchas veces me he encontrado con sistemas incompletos, procesos que podrían funcionar mejor o problemas que nadie estaba cuestionando; y cuando encuentro uno, generalmente me cuesta bastante dejarlo tranquilo.
+
+## Logros Personales
+
+No todo ocurrió dentro de Meta. Uno de los proyectos personales más importantes de estos últimos años fue, curiosamente, tratar de mejorar mi condición física y mi físico. Después de haber tenido sobrepeso durante más de la mitad de mi vida, decidí tomarme esto un poco más en serio.
+
+Llegué a aproximadamente un 15% de grasa corporal (por fin aparecieron los abdominales jeje), conseguí varios PRs en el gimnasio y conseguí algunos logros que hace unos años me habrían parecido bastante lejanos: 7 muscle-ups, pull-ups con 50 kg extra, mejorar mi press de banca y, finalmente, bajar de los 20 minutos en los 5K.
+
+No es que ahora sea particularmente *fit* ni esté cerca del nivel de un atleta. Simplemente me hace bastante gracia mirar hacia atrás y pensar que la persona que alguna vez tuvo sobrepeso durante buena parte de su vida terminó haciendo cosas que nunca pensó que iba a poder hacer. Supongo que aplica la misma idea de siempre: **tampoco me quise saltar ningún paso acá.** Fueron años de pequeñas mejoras, de aprender, equivocarme, volver a intentar y, eventualmente, ver resultados. Y sí, después de todo este esfuerzo, conseguir abdominales era claramente una prioridad estratégica 😄. 
+
+# Cierre
+
+¿Y ahora qué? No tengo una gran moraleja para cerrar esta historia. Simplemente estoy agradecido por estos cuatro años.
+
+Meta fue una parte enorme de mi carrera y probablemente siempre lo será. Conocí personas extraordinarias, trabajé en problemas que nunca habría podido imaginar al comienzo de mi carrera y tuve la oportunidad de crecer mucho más allá de lo que esperaba cuando entré como E4. También me voy habiendo aprendido que una carrera no necesariamente tiene que seguir una línea perfectamente definida. A veces uno simplemente sigue una curiosidad, aprende algo que parece no tener aplicación inmediata y, varios años después, aparece el problema donde todo eso finalmente encaja.
+
+Ahora toca empezar otra etapa. ¿Compartiré por lo pronto hacia dónde me voy? Creo que no. Tuve varias ofertas muy buenas y terminé decantándome por la que me pareció más interesante. Como pequeño spoiler, voy a trabajar en infraestructura y sistemas resilientes utilizando IA, *Agentic Workflows*, Reinforcement Learning, Machine Learning, entre otras cosas. Por ahora, prefiero dejar un poco de misterio. Después de todo, no todo tiene que ser anunciado inmediatamente en LinkedIn 😉.
+
+Y sí, también toca descubrir qué demonios hago después de finalmente conseguir abdominales 😄...
