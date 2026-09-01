@@ -126,7 +126,7 @@ Este *clipping* es lo que hace que PPO sea relativamente estable: en vez de que 
 
 ## El curriculum
 
-Como mencioné anteriormente, aprender un nivel completo desde cero es demasiado difícil. El agente moriría de mil maneras distintas antes de tener siquiera la suerte de completar una partida.Así que construí una serie de mapas simples, cada uno con una sola idea:
+Como mencioné anteriormente, aprender un nivel completo desde cero es demasiado difícil. El agente moriría de mil maneras distintas antes de tener siquiera la suerte de completar una partida. Así que construí una serie de mapas simples, cada uno con una sola idea:
 
 **caminar, saltar un pozo, esquivar una bola de fuego, enemigo que embiste, saltar un bloque de hielo, las cuatro cosas juntas en un nivel pequeño, un nivel real**
 
